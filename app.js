@@ -12805,6 +12805,8 @@ window.SPECIES.push({
         ['山谷里的一片雪松林', 2, {}],
         ['牧场边缘的灌木丛', 2, { food: +5, risk: 1.2 }],
         ['靠近公路的山坡', 1, { risk: 1.3 }],
+        ['北极苔原上的一个沙土洞穴', 1, {}],
+        ['蒙古草原上的一处岩丘', 2, {}],
       ]},
       { label: '狼群的状况', options: [
         ['一个稳定的狼群，主导的雌雄狼都还活着', 3, { food: +10 }],
@@ -13435,6 +13437,9 @@ window.SPECIES.push({
         ['马赛马拉河边的一片灌木林', 2, { safety: +5 }],
         ['博茨瓦纳奥卡万戈三角洲的沼泽边缘', 2, { food: +10 }],
         ['国家公园外、靠近牧场的草地', 1, { food: +5, risk: 1.3 }],
+        ['南非克鲁格国家公园的灌木林', 2, {}],
+        ['印度吉尔森林的干燥林地', 1, {}],
+        ['一座围栏保护区里的草地', 1, {}],
       ]},
       { label: '狮群的状况', options: [
         ['一个稳定的狮群，雄狮还在守着领地', 3, { food: +10 }],
@@ -13720,23 +13725,22 @@ window.SPECIES.push({
 
 ;
 // UI strings for every language. Species text lives in i18n/<lang>/<id>.json (bundled into i18n/<lang>.js).
-// To add a language: add a block here and in ../fun.js, translate i18n/zh/*.json into i18n/<lang>/, run `node i18n/build.js <lang>`.
 window.UI = {
  "zh": {
-  "title": "轮回 · 投胎管理局",
+  "title": "轮回 · Next Life",
   "langName": "中文",
   "heroSub": "",
   "navBook": "轮回簿",
   "navHome": "首页",
-  "heroEyebrow": "投胎管理局 · 按地球存活数量公平摇号 · 概不退换",
+  "heroEyebrow": "按此刻地球上活着的个体数量，投一次胎",
   "bignum": "你是其中的 <b>1</b> / {digits}",
-  "lede": "此刻地球上大约有 <b class=\"mono\">{total}</b> 只动物活着。你的下一世从它们中间摇号。九成九的号是桡足类和线虫，人类名额约等于没有。请保持冷静，取号入座。",
-  "ifNow": "今日号源分布",
+  "lede": "此刻地球上大约有 <b class=\"mono\">{total}</b> 只动物活着。下一世，你会随机成为其中一只，从出生活到死亡。投成人类的机会微乎其微。",
+  "ifNow": "如果你此刻投胎",
   "other": "其他",
-  "oddsNote": "其余 {n} 个物种合计只占 {rest}。摇中人类的概率是 {human}，建议别请假等。",
+  "oddsNote": "其余 {n} 个物种合计只占 {rest}。投成人类的概率是 {human}。",
   "pickLabel": "指定物种",
-  "go": "取号投胎",
-  "allSpecies": "全部号源",
+  "go": "投胎",
+  "allSpecies": "全部物种",
   "legend": "按此刻活着的个体数排序。<span class=\"conf low\">粗估</span> 表示只有数量级估计，可能差十倍以上；<span class=\"conf\">估计</span> 表示有同行评审研究；<span class=\"conf\">统计</span> 表示有普查或官方统计。",
   "conf": {
    "high": "统计",
@@ -13747,31 +13751,31 @@ window.UI = {
   "modes": [
    [
     "real",
-    "听天由命",
-    "真实概率，按此刻活着的数量摇号。大概率是桡足类或线虫，请做好心理准备。"
+    "按数量抽取",
+    "按此刻活着的数量抽取。绝大多数时候，你会是桡足类或线虫。"
    ],
    [
     "vert",
-    "至少有脊椎",
-    "在鱼、鸟、两栖、爬行和哺乳动物之间按真实数量摇号。"
+    "只限脊椎动物",
+    "在鱼、鸟、两栖、爬行和哺乳动物之间按数量抽取。"
    ],
    [
     "mammal",
-    "至少有奶喝",
-    "只在哺乳动物之间按真实数量摇号，人类也在里面。"
+    "只限哺乳动物",
+    "只在哺乳动物之间按数量抽取，人类也在里面。"
    ],
    [
     "even",
-    "雨露均沾",
-    "不看数量，每个物种机会一样，适合集图鉴。"
+    "每个物种机会均等",
+    "不看数量，每个物种机会相同。"
    ],
    [
     "pick",
-    "走后门",
-    "自己挑。投胎办当没看见。"
+    "指定物种",
+    "直接选一个物种。"
    ]
   ],
-  "odds": "中签率 {p}",
+  "odds": "概率 {p}",
   "kind": {
    "wild": "野生",
    "farmed": "养殖",
@@ -13785,24 +13789,24 @@ window.UI = {
    "month": "个月",
    "year": "年"
   },
-  "birthHead": "投胎通知书",
+  "birthHead": "出生",
   "fSex": "性别",
   "fKind": "类别",
   "fAlive": "此刻活着的同类",
-  "fOdds": "真实投胎概率",
-  "fMature": "活到能繁殖的概率",
+  "fOdds": "投成它的概率",
+  "fMature": "活到能繁殖的概率（估算）",
   "fMax": "最长寿命",
   "fSize": "体型",
   "fTick": "一格时间",
   "human": "人类",
   "cmpAlive": "此刻活着的数量",
-  "sources": "数量来源：{src}。生存曲线：{note}",
-  "begin": "行吧，开始",
-  "reroll": "申诉（换一个）",
-  "openingEyebrow": "投胎办最后一个问题",
+  "sources": "数量来源：{src}。",
+  "begin": "开始这一世",
+  "reroll": "换一个",
+  "openingEyebrow": "出生前的选择",
   "decision": "抉择",
-  "crisis": "大事不妙",
-  "enterStage": "你升级了，现在是「{s}」。",
+  "crisis": "生死关头",
+  "enterStage": "你进入了「{s}」阶段。",
   "starve": {
    "short": "饿死",
    "text": "你很久没有吃到东西了。身体一点点停了下来。"
@@ -13816,14 +13820,14 @@ window.UI = {
    "text": "你死了。"
   },
   "quiet": [
-   "{d} 过去了。没人找你，也没人吃你，算赢。",
-   "之后的 {d} 没什么可写的，书记员去泡了杯茶。",
-   "{d} 就这样过去了，连你自己都没注意。",
-   "又是 {d}。岁月静好，主要是没被发现。",
-   "接下来 {d}，剧情组放假。",
-   "{d} 里你只是活着，这已经很不容易了。",
-   "平静的 {d}。编剧说他尽力了。",
-   "{d} 过去，你还在，同行少了几个。"
+   "之后的 {d} 里，没有什么特别的事。",
+   "{d} 过去了。",
+   "又过了 {d}，日子和之前差不多。",
+   "接下来的 {d}，一切如常。",
+   "这 {d} 里，你只是活着。",
+   "很长一段时间，{d}，没有值得记下的事。",
+   "{d} 过去，你还在。",
+   "又是平静的 {d}。"
   ],
   "actions": {
    "instinct": [
@@ -13855,43 +13859,43 @@ window.UI = {
   "mateFemale": "你繁殖了，留下了 {n} 个后代。",
   "nthBrood": "第 {k} 次繁殖：{line}",
   "crisisTitle": [
-   "大事不妙：{c}",
-   "又来了：{c}",
-   "阎王敲门：{c}",
-   "熟悉的配方：{c}"
+   "危险：{c}",
+   "又一次：{c}",
+   "差一点：{c}",
+   "再次面对：{c}"
   ],
   "crisisNth": "（第 {n} 次）",
   "crisisBody": [
-   "只有一瞬间，来不及写遗嘱。",
-   "没时间发朋友圈了，快选。",
-   "身体比脑子快，前提是有脑子。",
-   "这题你做过，别又错。"
+   "你只有一瞬间做出反应。",
+   "没有时间多想。",
+   "身体比念头更快。",
+   "这一次，也只有一瞬间。"
   ],
   "flee": [
-   "溜！",
-   "先跑再说",
-   "跑出残影",
-   "往没想过的方向跑"
+   "逃",
+   "转身就逃",
+   "全力冲出去",
+   "往反方向逃"
   ],
   "fleeHint": "体力越好越有希望 · 约 {p}% 能活",
   "fleeOk": [
-   "你跑掉了，场面不太体面，但活着。",
-   "你跑得太快，把危险和尊严都甩在后面。",
-   "你跑出很远才想起来自己在怕什么。",
-   "又跑掉了。对方已经开始怀疑自己。"
+   "你逃开了，过了很久才平静下来。",
+   "你逃了出去，没有什么追上来。",
+   "你冲了出去，很远才停下。",
+   "你又逃掉了，比上次更累。"
   ],
   "freeze": [
-   "装死",
-   "假装是背景",
-   "演一块石头",
-   "屏住呼吸装没看见"
+   "一动不动",
+   "僵在原地",
+   "贴紧不动",
+   "屏住不动"
   ],
   "freezeHint": "看运气 · 约 {p}% 能活",
   "freezeOk": [
-   "它看了看你，觉得没胃口，走了。",
-   "你和背景融为一体，影帝级别。",
-   "石头演得太好，差点长苔藓。",
-   "它没看见你。你也假装没看见它。大家都有台阶下。"
+   "你一动不动，危险从旁边过去了。",
+   "它没有发现你。",
+   "你等了很久，四周才重新安静。",
+   "这次它也没有看见你。"
   ],
   "autoChose": "{d}：（自动）{o}",
   "youChose": "{d}：你选择了「{o}」",
@@ -13922,44 +13926,44 @@ window.UI = {
    "stamina": "体力↑",
    "events": "遭遇↑"
   },
-  "cantAct": "你现在是{s}，没有手，没有脚，也没有发言权。快进中。",
+  "cantAct": "你现在是{s}，还什么都做不了。时间会快一点过去。",
   "stepBtn": "走一格（1 {u}）▸",
   "toInstinct": [
-   "你决定什么都不管，交给本能。",
-   "你把方向盘还给了本能。",
-   "你回到出厂设置。"
+   "你不再刻意做什么，随本能活着。",
+   "你放下打算，像往常一样活着。",
+   "你回到了本能的节奏。"
   ],
   "toAction": [
-   "你决定：{a}。没有人反对。",
-   "人生新方向：{a}。",
-   "从现在起，{a}。开会通过，全票（一票）。",
-   "你换了个活法：{a}。"
+   "你开始{a}。",
+   "你把时间花在{a}上。",
+   "接下来，你{a}。",
+   "你换了一种活法：{a}。"
   ],
   "bioAge": " · 生理年龄 {d}",
   "sub": "{sp} · {st} · 每格 1 {u} · 公元 {y} 年{bio}",
   "fStage": "阶段",
   "fKids": "后代",
-  "sibsLeft": "{label}，群里还剩",
+  "sibsLeft": "{label}，还活着",
   "sibsDefault": "同批出生的个体",
-  "sibsOnly": "按生存曲线，同批的应该都不在了。群聊里只剩你，还在发“在吗”。",
+  "sibsOnly": "按这条生存曲线估算，同批的其他个体大概都已经死了。",
   "sibsPct": "按生存曲线估算：同批个体此刻约有 {p} 还活着。",
-  "onlyChild": "独生，没有群聊。",
+  "onlyChild": "你是独生的。",
   "deadTag": " · 已死亡",
-  "ended": "投胎体验结束",
+  "ended": "这一世结束了",
   "lived": "你活了 {d}",
-  "toRecord": "领取销号证明",
+  "toRecord": "看看这一生",
   "curveAria": "同一物种的生存曲线",
   "you": "你",
   "dormantCell": "休眠",
   "deathCell": "死亡",
-  "spent": "你把这辈子花在了哪",
+  "spent": "这一生的时间花在哪里",
   "byTicks": "按时间格计算",
-  "share": "我上辈子是一{mw}{sp}（{nick}），活了 {d}，{c}。\n{strip}\n🏆 {award}\n{stars}「{review}」\n你会投成什么？{url}",
-  "humanSame": "同一秒出生的人类婴儿，活过 {d} 的概率约 <b class=\"mono\">{p}</b>。",
-  "deathHead": "销号证明",
+  "share": "这一世，我是一{mw}{sp}，活了 {d}。死因：{c}。\n{strip}\n{data}\n你会是什么？{url}",
+  "humanSame": "同一时刻出生的人类婴儿，活过 {d} 的概率约 <b class=\"mono\">{p}</b>。",
+  "deathHead": "一生记录",
   "deathLine": "公元 {y0} – {y1} · 活了 {d}{bio} · 死于「{st}」阶段",
   "deathBio": "（生理年龄 {d}）",
-  "fCause": "销号原因",
+  "fCause": "死因",
   "fChoices": "做过的抉择",
   "fEscapes": "死里逃生",
   "times": "{n} 次",
@@ -13968,29 +13972,29 @@ window.UI = {
   "matureLine": "这个物种能活到繁殖年龄的约有 <span class=\"mono\">{p}</span>。你{r}。",
   "madeIt": "做到了",
   "didnt": "没有活到那一天",
-  "thisLife": "这辈子的体检报告",
+  "thisLife": "一生的健康状况",
   "mapLegend": "一格 = 一个时间单位 · 颜色 = 健康",
   "curveTitle": "生存曲线",
-  "curveLegend": "同一物种出生的个体中仍活着的比例",
-  "yourChoices": "你做过的决定（不许撤回）",
-  "sameSecond": "和你同一秒开机的",
-  "byRealOdds": "按真实概率抽取",
+  "curveLegend": "出生的个体中仍活着的比例",
+  "yourChoices": "你做过的抉择",
+  "sameSecond": "同一时刻出生的其他动物",
+  "byRealOdds": "按数量抽取",
   "companion": "一{mw}{sp}：活了 <span class=\"mono\">{d}</span>，{c}。",
-  "shareTitle": "晒一下这辈子",
-  "copy": "复制战报",
-  "copied": "复制好了，去群里发疯吧",
+  "shareTitle": "分享这一世",
+  "copy": "复制文字",
+  "copied": "已复制",
   "selected": "已选中，按 ⌘C / Ctrl+C 复制",
-  "nextLife": "下辈子",
-  "invertNote": "按真实概率，{p} 的号会摇到无脊椎动物。想见见世面，可以换个窗口排队。",
-  "again": "再摇一次",
+  "nextLife": "下一世",
+  "invertNote": "按数量算，约 {p} 的投胎会落在无脊椎动物身上。想看看别的生命，可以换个范围。",
+  "again": "再投一次胎",
   "home": "回到首页",
   "bookIntro": "你已经活过 <span class=\"mono\">{n}</span> 世，见过 <span class=\"mono\">{got} / {all}</span> 个物种。记录只保存在这个浏览器里。",
   "livedN": "活过 {n} 次",
-  "notYet": "还没摇到",
-  "pastLives": "历史订单",
+  "notYet": "尚未投胎",
+  "pastLives": "过往的生命",
   "livedFor": "活了 {d}",
   "kidsN": "后代 {n}",
-  "noLives": "还没有订单。去首页摇一个。",
+  "noLives": "还没有。回到首页投一次胎吧。",
   "fCon": "体质",
   "fTem": "性格",
   "trait": {
@@ -14002,106 +14006,77 @@ window.UI = {
    "curious": "好奇（探索时遇到更多事）",
    "steady": "平稳"
   },
-  "status": "生命体征",
-  "record": "人生流水账",
+  "status": "状态",
+  "record": "生命记录",
   "newest": "最新在上",
-  "doingNow": "现在打算怎么活",
+  "doingNow": "你现在做什么",
   "anyTime": "随时可换 · 按数字键",
-  "whatTitle": "等等，{sp}是啥？",
-  "protectNote": "新手保护：做满 5 个抉择之前，阎王不许收你。",
+  "whatTitle": "什么是{sp}？",
+  "protectNote": "为了让每一世都有得选，前 5 个抉择之内不会死（这是游戏设定）。",
   "revealLines": [
-   "正在摇号…",
-   "系统繁忙，人类名额已满…",
-   "正在核对你上辈子的功德（查无记录）…",
-   "请勿拍打摇号机…",
-   "概不退换，请坐稳…",
-   "正在打印你的命…"
+   "正在决定你的物种"
   ],
-  "whatIs": "{sp}是啥",
-  "hurtInstead": "你没躲开，受了伤。按新手保护条例，这次先不收你。",
+  "whatIs": "什么是{sp}",
+  "hurtInstead": "你没有躲开，受了重伤，但活了下来。",
   "saved": [
-   "旁边那位没挺过来。本来是你，投胎办给你续了一次费。",
-   "有东西从你身边带走了一个同伴，差一点点就是你。",
-   "按概率你刚才应该没了。系统抖了一下，你还在。",
-   "你隔壁空了。你装作不知道。"
+   "你身边的一个同伴死了。差一点就是你。",
+   "危险从你旁边擦过，带走了另一个。",
+   "你险些死去，又缓了过来。",
+   "离你最近的那个不见了。"
   ],
   "firstMove": "你能动了",
-  "firstMoveBody": "恭喜开机。先定个小目标：现在打算怎么活？之后随时可以换。",
-  "firstMoveDone": "行。大自然已读。",
-  "encounter": "路上遇到点事",
-  "savesLine": "说实话：按真实生存曲线，活得比你短的同类占 {p}。新手保护替你挡了 {n} 次。",
-  "shareCardMade": "这辈子的证件照",
-  "review": "投胎体验评价",
-  "award": "本世称号",
+  "firstMoveBody": "现在你打算怎么活？之后随时可以换。",
+  "firstMoveDone": "你照着这个想法活了下去。",
+  "encounter": "遇到一件事",
+  "savesLine": "按这条生存曲线，活得比你短的同类约占 {p}。前 5 个抉择的保护替你挡下了 {n} 次死亡。",
+  "shareCardMade": "这一世的分享图",
   "saveImg": "存图片",
   "copyLink": "复制链接",
-  "linkCopied": "链接复制好了",
-  "sysShare": "发给朋友",
+  "linkCopied": "链接已复制",
+  "sysShare": "分享给朋友",
   "toX": "发 X",
   "toWeibo": "发微博",
   "imgSaved": "已保存",
-  "imgHold": "长按或右键图片就能保存",
-  "friendHead": "有人给你看了 TA 的上辈子",
-  "cardLead": "我上辈子是",
-  "shareGentle": "我上辈子是一{mw}{sp}，活了 {d}。\n🕯 来过。\n{url}",
-  "friendGo": "我也摇一个，比比谁惨",
-  "friendHome": "去首页",
-  "myLife": "这是你的某一世",
-  "vsTitle": "比惨结果",
+  "imgHold": "长按或右键图片即可保存",
+  "friendHead": "一位朋友分享的一世",
+  "cardLead": "这一世，我是",
+  "friendGo": "我也投一次胎",
+  "friendHome": "首页",
+  "myLife": "你的某一世",
+  "vsTitle": "你们的两世",
   "vsYou": "你",
-  "vsThem": "TA",
+  "vsThem": "朋友",
   "vsLived": "活了",
   "vsKids": "后代",
-  "vsRare": "稀有度",
-  "vsWin": "你赢了：你比 TA 更惨。",
-  "vsLose": "TA 赢了：TA 比你更惨。",
-  "vsTie": "一样惨。建议组队投胎。",
-  "bookShare": "晒",
-  "quips": {
-   "hungry": "旁白：肚子叫得比你还大声。",
-   "full": "旁白：吃撑了。整个食物链都注意到了你的体重。",
-   "hurt": "旁白：身体发来通知，余额不足。",
-   "fit": "旁白：状态好得可疑。",
-   "firstKid": "旁白：恭喜，你的基因完成了一次备份。",
-   "half": "旁白：同批少了一半。群聊安静了不少。",
-   "tenth": "旁白：同批只剩一成，你现在算人脉广的。",
-   "mature": "旁白：你成年了。没有典礼，也没有身份证。",
-   "halflife": "旁白：你已经活过极限寿命的一半。膝盖（如果有）开始有意见。",
-   "hide": "旁白：你躲得太久，连你自己都快找不到你了。",
-   "rest": "旁白：又歇了一格。躺平界对你寄予厚望。",
-   "forage": "旁白：吃，吃，吃，吃，吃。",
-   "explore": "旁白：还在逛。没有地图，也没有路费。",
-   "mate": "旁白：满脑子只有一件事。大自然表示理解。",
-   "instinct": "旁白：你什么都没管，本能替你上了一整天班。",
-   "escape": "旁白：阎王在名单上划了一下，又擦掉了。"
-  },
+  "vsRare": "投成的概率",
+  "bookShare": "分享",
   "enc": [
    [
-    "一股没闻过的味道",
-    "闻起来像饭，也像陷阱。",
+    "陌生的气味",
+    "前面飘来一股没闻过的气味，可能是食物。",
     [
-     "凑近看看",
-     "饱食？风险↑",
+     "靠近看看",
+     "饱食↑ 风险↑",
      {
       "food": 18
      },
      1.25,
-     "是饭。你今天运气不错。"
+     "是能吃的东西。"
     ],
     [
      "绕开",
-     "安全↑",
+     "安全↑ 饱食↓",
      {
       "safety": 10,
       "food": -4
      },
      0.85,
-     "你绕开了。永远不会知道那是什么。"
+     "你绕开了。"
     ]
    ],
    [
-    "同类挡路",
-    "它不动，你也不动，气氛有点僵。",
+    "同类挡在前面",
+    "一个同类占着路，没有让开的意思。",
     [
      "挤过去",
      "饱食↑ 体力↓",
@@ -14110,7 +14085,7 @@ window.UI = {
       "health": -6
      },
      1.1,
-     "挤过去了，双方都假装没事。"
+     "你挤了过去。"
     ],
     [
      "让它先走",
@@ -14119,103 +14094,103 @@ window.UI = {
       "safety": 8
      },
      0.9,
-     "它走了，没说谢谢。"
+     "它走了，你再往前。"
     ]
    ],
    [
-    "最后一口",
-    "眼前只剩一口吃的。",
+    "最后一点食物",
+    "这里只剩下一点能吃的了。",
     [
-     "现在就吃",
+     "马上吃掉",
      "饱食↑",
      {
       "food": 14
      },
      1,
-     "吃了。未来的事未来再饿。"
+     "你吃完了它。"
     ],
     [
-     "慢慢来",
-     "体力↑",
+     "慢慢吃",
+     "体力↑ 饱食↑",
      {
       "health": 5,
       "food": 4
      },
      0.95,
-     "你吃得很慢，像在品鉴。"
+     "你吃得很慢，也歇了一会儿。"
     ]
    ],
    [
-    "两条路",
-    "左边看起来和右边一模一样。",
+    "两个方向",
+    "往哪边走都说得过去。",
     [
-     "走左边",
-     "随缘",
+     "去开阔的一边",
+     "饱食↑ 风险↑",
      {
       "food": 8
      },
      1.05,
-     "左边。和你想的一样，没什么不一样。"
+     "那边食物多一些。"
     ],
     [
-     "走右边",
-     "随缘",
+     "去隐蔽的一边",
+     "安全↑",
      {
       "safety": 6
      },
      1,
-     "右边。人生从此不同（大概）。"
+     "那边更安静。"
     ]
    ],
    [
-    "安静得不对劲",
-    "周围突然没了动静。",
+    "忽然安静",
+    "周围一下子没有了动静。",
     [
-     "赶紧挪窝",
-     "体力↓ 安全↑",
+     "马上离开",
+     "安全↑ 体力↓",
      {
       "health": -4,
       "safety": 14
      },
      0.8,
-     "你刚走，原来的位置就有东西落下来。"
+     "你离开后，那里有东西经过。"
     ],
     [
-     "再等等",
+     "继续待着",
      "饱食↑ 风险↑",
      {
       "food": 10
      },
      1.25,
-     "原来只是大家都在吃饭。"
+     "什么也没发生，你接着吃。"
     ]
    ],
    [
     "被碰了一下",
-    "有什么东西轻轻碰了你。",
+    "有什么轻轻碰到你。",
     [
-     "回头看",
-     "风险↑ 见识↑",
+     "查看",
+     "饱食↑ 风险↑",
      {
       "safety": -6,
       "food": 12
      },
      1.2,
-     "是一片会动的碎屑。味道还行。"
+     "是一小块能吃的碎屑。"
     ],
     [
-     "头也不回",
+     "立刻离开",
      "安全↑",
      {
       "safety": 10
      },
      0.85,
-     "你没回头，这是你今天最明智的决定。"
+     "你没有停留。"
     ]
    ],
    [
-    "要变天",
-    "空气里（或者水里）有点不一样。",
+    "环境在变",
+    "周围的温度和气息和刚才不同。",
     [
      "提前躲好",
      "安全↑ 饱食↓",
@@ -14224,149 +14199,201 @@ window.UI = {
       "food": -8
      },
      0.75,
-     "你躲得很早，显得很有经验。"
+     "你躲到情况稳定下来。"
     ],
     [
-     "再吃一会儿",
+     "再待一会儿",
      "饱食↑ 风险↑",
      {
       "food": 16
      },
      1.25,
-     "你吃到了最后一刻，身上湿了，肚子满了。"
+     "你多吃了一阵，才离开。"
     ]
    ],
    [
-    "好位置有主了",
-    "这地方真不错，可惜已经有谁在。",
+    "一处好位置",
+    "这里安全，但已经被占了。",
     [
-     "赖着不走",
+     "留下来争",
      "安全↑ 体力↓",
      {
       "safety": 12,
       "health": -6
      },
      1.05,
-     "僵持很久，你们成了沉默的室友。"
+     "僵持之后，你留在了边上。"
     ],
     [
-     "算了",
+     "离开",
      "体力↑",
      {
       "health": 5
      },
      0.95,
-     "你走了，姿态很高。"
+     "你省下了力气。"
     ]
    ],
    [
-    "身体不太舒服",
-    "说不上来哪里不对。",
+    "身体不适",
+    "你感到没有力气。",
     [
-     "歇一歇",
+     "休息",
      "体力↑ 饱食↓",
      {
       "health": 12,
       "food": -6
      },
      0.85,
-     "歇好了。没有挂号费。"
+     "休息之后好了一些。"
     ],
     [
-     "硬撑",
+     "照常活动",
      "饱食↑ 体力↓",
      {
       "food": 10,
       "health": -8
      },
      1.2,
-     "你撑住了，身体记了一笔账。"
+     "你撑了过去，但更累了。"
     ]
    ],
    [
-    "好像有谁在盯着你",
-    "也可能是你想多了。",
+    "附近有动静",
+    "像是有什么在靠近。",
     [
-     "盯回去",
-     "风险↑ 安全↑",
+     "停下观察",
+     "安全↑ 风险↑",
      {
       "safety": 8
      },
      1.2,
-     "对方先移开了目光。你赢了一场不存在的比赛。"
+     "它没有过来。"
     ],
     [
-     "假装没看见",
+     "悄悄走开",
      "安全↑",
      {
       "safety": 6
      },
      0.9,
-     "你装得很自然。"
+     "你走远了。"
     ]
    ],
    [
-    "吃撑了",
-    "还剩一些。",
+    "已经吃饱",
+    "食物还剩一些。",
     [
-     "再来一口",
+     "继续吃",
      "饱食↑ 风险↑",
      {
       "food": 20,
       "health": -4
      },
      1.15,
-     "你后悔了，但不多。"
+     "你吃到很沉才停。"
     ],
     [
-     "见好就收",
+     "停下",
      "体力↑",
      {
       "health": 6
      },
      0.9,
-     "克制，你今天的人设。"
+     "你离开了食物。"
     ]
    ],
    [
-    "无聊",
-    "今天什么也没发生。",
+    "平静的一段",
+    "没有需要马上做的事。",
     [
-     "发呆",
+     "歇着",
      "体力↑",
      {
       "health": 8
      },
      0.9,
-     "你发了一会儿呆。这可能是你一生中最好的时光。"
+     "你安静地待了一阵。"
     ],
     [
-     "找点事做",
+     "四处走走",
      "饱食↑ 风险↑",
      {
       "food": 10
      },
      1.15,
-     "你找到了事，事也找到了你。"
+     "你找到了一点吃的。"
     ]
    ]
-  ]
+  ],
+  "outlived": "比 {p} 的同类活得久",
+  "outlivedNote": "按游戏采用的生存曲线估算",
+  "evData": "依据",
+  "basis": {
+   "measured": "实测",
+   "official": "官方统计",
+   "related": "近缘或实验室",
+   "est": "估计",
+   "rule": "游戏设定"
+  },
+  "why": {
+   "title": "为什么会这样",
+   "when": "为什么是这个时候",
+   "base": "在「{s}」阶段，这一{u}的基础死亡率是 {p}。",
+   "noCurve": "没有找到这个年龄段的可靠实测数据，用的是估计曲线。",
+   "factors": "再乘上你当时的处境：",
+   "noFactors": "当时没有其他因素影响。",
+   "final": "合起来，这一{u}的死亡概率是 {p}。",
+   "crisis": "生死关头你选了「{t}」，有 {p} 的机会活下来，没有成功。",
+   "choice": "你在「{t}」这一步有 {p} 的死亡概率。",
+   "limit": "你活到了游戏设定的寿命上限（{d}）。",
+   "health": "你的健康降到了零。",
+   "cause": "为什么死因是“{c}”",
+   "share": "在「{s}」阶段，游戏里约 {p} 的死亡归于这个原因。",
+   "noShareButReal": "这个死因确实存在，但没有找到它占多少比例的数据，比例是估计的。",
+   "noShare": "没有找到这个死因占比的可靠数据，比例是估计的。",
+   "related": "和你这一生有关的研究",
+   "legend": "绿色来自对本物种的实测或官方统计；蓝色是为了能玩而设的规则，不是科学结论。",
+   "allSources": "查看全部来源",
+   "lowHealth": "健康偏低（{n}）",
+   "highHealth": "健康良好（{n}）",
+   "lowFood": "饥饿（饱食 {n}）",
+   "lowSafety": "处境危险（安全 {n}）",
+   "ruleRisk": "死亡率 ×{x}",
+   "ruleKill": "这一步有 {p} 的死亡概率"
+  },
+  "src": {
+   "nav": "数据来源",
+   "title": "数据与来源",
+   "intro": "这里列出 {refs} 条来源，覆盖 {n} / {all} 个物种。每条都由程序打开原文或摘要，确认引用的句子确实在里面。没有列出的数字都是估计或游戏设定。",
+   "how": "怎么看这些标签",
+   "measured": "在这个物种身上直接测得。",
+   "official": "政府或国际组织公布的统计。",
+   "related": "来自近缘物种、实验室或另一类环境，只能参考。",
+   "est": "没有找到可靠数据，由制作者估计。",
+   "rule": "为了能玩而设定的规则。例如死亡率倍数：觅食 ×{forage}、躲藏 ×{hide}、休息 ×{rest}、探索 ×{explore}、繁殖 ×{mate}；前 5 个抉择内不会死；出生境遇、体质和性格的影响。",
+   "line": "存活率有数据 {surv} 段 · 死因有依据 {causes}/{all} · 来源 {refs} 条",
+   "surv": "存活率",
+   "noSurv": "没有找到可靠的存活率，整条曲线是估计。",
+   "facts": "事实",
+   "curveKey": "绿色实线：有研究数据的年龄段，类型见下方标签。虚线：估计。"
+  }
  },
  "en": {
-  "title": "Next Life · Dept. of Reincarnation",
+  "title": "Next Life",
   "langName": "English",
   "heroSub": "Next Life",
   "navBook": "Book of lives",
   "navHome": "Home",
-  "heroEyebrow": "Department of Reincarnation · fair draw by living population · no refunds",
+  "heroEyebrow": "Be reborn, at the odds of who is alive right now",
   "bignum": "You are <b>1</b> of {digits}",
-  "lede": "About <b class=\"mono\">{total}</b> animals are alive on Earth right now, and your next life is drawn from them. Over 99% of tickets are copepods and nematodes. Human slots are, effectively, zero. Please take a number and remain calm.",
-  "ifNow": "Today’s tickets",
+  "lede": "About <b class=\"mono\">{total}</b> animals are alive on Earth right now. In your next life you become one of them at random and live it from birth to death. The chance of being human is vanishingly small.",
+  "ifNow": "If you were reborn right now",
   "other": "Other",
-  "oddsNote": "The other {n} species share {rest}. Odds of drawing a human: {human}. Don’t take the day off work.",
+  "oddsNote": "The other {n} species together make up {rest}. Your chance of being born human is {human}.",
   "pickLabel": "Species",
-  "go": "Take a number",
-  "allSpecies": "All available lives",
+  "go": "Be reborn",
+  "allSpecies": "All species",
   "legend": "Sorted by how many are alive now. <span class=\"conf low\">rough</span> means only an order-of-magnitude guess, possibly off by 10× or more; <span class=\"conf\">estimate</span> means a peer-reviewed study; <span class=\"conf\">census</span> means a census or official statistics.",
   "conf": {
    "high": "census",
@@ -14377,28 +14404,28 @@ window.UI = {
   "modes": [
    [
     "real",
-    "Whatever happens, happens",
-    "Real odds by living population. Prepare to be a copepod or a nematode."
+    "By living numbers",
+    "Drawn by how many are alive now. Most of the time you will be a copepod or a nematode."
    ],
    [
     "vert",
-    "At least a spine",
-    "Real odds among fish, birds, amphibians, reptiles and mammals."
+    "Vertebrates only",
+    "Drawn by number among fish, birds, amphibians, reptiles and mammals."
    ],
    [
     "mammal",
-    "At least some milk",
-    "Real odds among mammals, humans included."
+    "Mammals only",
+    "Drawn by number among mammals, humans included."
    ],
    [
     "even",
-    "Everyone gets a turn",
-    "Ignores numbers; every species equally likely. Good for collecting."
+    "Every species equal",
+    "Ignores numbers; every species is equally likely."
    ],
    [
     "pick",
-    "I know a guy",
-    "Choose your own. The Department saw nothing."
+    "Choose a species",
+    "Pick the species yourself."
    ]
   ],
   "odds": "Odds {p}",
@@ -14415,24 +14442,24 @@ window.UI = {
    "month": "month",
    "year": "year"
   },
-  "birthHead": "Notice of rebirth",
+  "birthHead": "Birth",
   "fSex": "Sex",
   "fKind": "Kind",
   "fAlive": "Alive right now",
-  "fOdds": "Real odds of this rebirth",
-  "fMature": "Chance of reaching breeding age",
+  "fOdds": "Odds of this rebirth",
+  "fMature": "Chance of reaching breeding age (estimated)",
   "fMax": "Maximum lifespan",
   "fSize": "Size",
   "fTick": "One step of time",
   "human": "Human",
   "cmpAlive": "Alive right now",
-  "sources": "Population source: {src}. Survival curve: {note}",
-  "begin": "Fine, begin",
-  "reroll": "Appeal (draw again)",
-  "openingEyebrow": "One last question from the Department",
+  "sources": "Population source: {src}.",
+  "begin": "Begin this life",
+  "reroll": "Draw again",
+  "openingEyebrow": "A choice before birth",
   "decision": "Decision",
-  "crisis": "Uh-oh",
-  "enterStage": "You levelled up: {s}.",
+  "crisis": "Life or death",
+  "enterStage": "You enter a new stage: {s}.",
   "starve": {
    "short": "Starvation",
    "text": "You had gone without food for a long time. Your body slowly stopped."
@@ -14446,14 +14473,14 @@ window.UI = {
    "text": "You died."
   },
   "quiet": [
-   "{d} passed. Nobody looked for you and nobody ate you. A win.",
-   "Nothing to report for {d}. The clerk went to make tea.",
-   "{d} went by. Even you didn’t notice.",
-   "Another {d}. Life is good, mostly because nobody found you.",
-   "For {d}, the writers were on holiday.",
-   "For {d} you just stayed alive, which is harder than it sounds.",
-   "A quiet {d}. The screenwriter says he tried.",
-   "{d} later you’re still here. Some colleagues are not."
+   "Nothing worth noting happened over the next {d}.",
+   "{d} passed.",
+   "Another {d} went by, much like the last.",
+   "For the next {d}, everything stayed the same.",
+   "For {d}, you simply lived.",
+   "A long stretch, {d}, with nothing to record.",
+   "{d} passed, and you were still here.",
+   "Another quiet {d}."
   ],
   "actions": {
    "instinct": [
@@ -14485,43 +14512,43 @@ window.UI = {
   "mateFemale": "You bred and left {n} offspring.",
   "nthBrood": "Brood {k}: {line}",
   "crisisTitle": [
-   "Uh-oh: {c}",
-   "Here we go again: {c}",
-   "Death is at the door: {c}",
-   "A familiar problem: {c}"
+   "Danger: {c}",
+   "Again: {c}",
+   "A close call: {c}",
+   "Facing it again: {c}"
   ],
   "crisisNth": " (time {n})",
   "crisisBody": [
-   "A split second. No time for a will.",
-   "No time to post about it. Choose.",
-   "The body is faster than the brain, where fitted.",
-   "You’ve seen this question before. Don’t get it wrong now."
+   "You have a split second to react.",
+   "There is no time to think.",
+   "The body moves before the mind.",
+   "Again, only a split second."
   ],
   "flee": [
-   "Leg it",
-   "Run first, think later",
-   "Become a blur",
-   "Flee in a surprising direction"
+   "Flee",
+   "Turn and run",
+   "Burst away",
+   "Flee the other way"
   ],
   "fleeHint": "Better odds when healthy · about {p}% survive",
   "fleeOk": [
-   "You got away. It wasn’t dignified, but you’re alive.",
-   "You outran the danger and most of your dignity.",
-   "You were a long way off before you remembered what you were afraid of.",
-   "Away again. It’s starting to doubt itself."
+   "You got away. It took a long time to calm down.",
+   "You escaped. Nothing followed.",
+   "You bolted, and stopped only much later.",
+   "You escaped again, more tired than before."
   ],
   "freeze": [
-   "Play dead",
-   "Pretend to be scenery",
-   "Be a rock",
-   "Hold still and deny everything"
+   "Freeze",
+   "Go still",
+   "Press flat",
+   "Hold still"
   ],
   "freezeHint": "Down to luck · about {p}% survive",
   "freezeOk": [
-   "It looked at you, lost its appetite, and left.",
-   "You became one with the background. Award-worthy.",
-   "You played a rock so well you nearly grew moss.",
-   "It didn’t see you. You pretended not to see it. Everyone saved face."
+   "You stayed still. The danger passed by.",
+   "It never noticed you.",
+   "You waited until it was quiet again.",
+   "It did not see you this time either."
   ],
   "autoChose": "{d}: (auto) {o}",
   "youChose": "{d}: you chose \"{o}\"",
@@ -14552,44 +14579,44 @@ window.UI = {
    "stamina": "Stamina↑",
    "events": "Encounters↑"
   },
-  "cantAct": "Current stage: {s}. No hands, no feet, no say in the matter. Fast-forwarding.",
+  "cantAct": "You are still at this stage: {s}. There is nothing you can do yet. Time passes a little faster.",
   "stepBtn": "Take one step (1 {u}) ▸",
   "toInstinct": [
-   "You stop deciding things and let instinct drive.",
-   "You hand the wheel back to instinct.",
-   "You return to factory settings."
+   "You stop trying anything in particular and follow instinct.",
+   "You drop your plan and live as usual.",
+   "You fall back into instinct."
   ],
   "toAction": [
-   "Decision made: {a}. Nobody objected.",
-   "New direction in life: {a}.",
-   "From now on: {a}. Motion carried, one vote to none.",
-   "You change your ways: {a}."
+   "You turn to this: {a}.",
+   "You spend your time on this: {a}.",
+   "Next: {a}.",
+   "You change how you live: {a}."
   ],
   "bioAge": " · biological age {d}",
   "sub": "{sp} · {st} · 1 step = 1 {u} · year {y}{bio}",
   "fStage": "Stage",
   "fKids": "Offspring",
-  "sibsLeft": "{label}, still in the group chat",
+  "sibsLeft": "{label}, still alive",
   "sibsDefault": "Born in the same batch",
-  "sibsOnly": "By the survival curve, the rest of your batch is gone. You’re alone in the group chat, typing “hello?”",
+  "sibsOnly": "By this survival curve, the rest of your batch is probably dead.",
   "sibsPct": "By the survival curve, about {p} of your batch is still alive.",
-  "onlyChild": "An only child. No group chat.",
+  "onlyChild": "You were born alone.",
   "deadTag": " · dead",
-  "ended": "Your trial has ended",
+  "ended": "This life is over",
   "lived": "You lived {d}",
-  "toRecord": "Collect your certificate",
+  "toRecord": "Look back on this life",
   "curveAria": "Survival curve for this species",
   "you": "you",
   "dormantCell": "dormant",
   "deathCell": "death",
-  "spent": "Where your life went",
+  "spent": "How you spent this life",
   "byTicks": "by steps of time",
-  "share": "In my last life I was {art} {sp} ({nick}). I lasted {d}. {c}.\n{strip}\n🏆 {award}\n{stars} “{review}”\nWhat will you be? {url}",
-  "humanSame": "A human baby born the same second has about a <b class=\"mono\">{p}</b> chance of living past {d}.",
-  "deathHead": "Certificate of departure",
+  "share": "In this life I was {art} {sp}. I lived {d}. Cause of death: {c}.\n{strip}\n{data}\nWhat will you be? {url}",
+  "humanSame": "A human baby born at the same moment has about a <b class=\"mono\">{p}</b> chance of living past {d}.",
+  "deathHead": "Record of a life",
   "deathLine": "{y0} – {y1} · lived {d}{bio} · died as: {st}",
   "deathBio": " (biological age {d})",
-  "fCause": "Reason for departure",
+  "fCause": "Cause of death",
   "fChoices": "Decisions made",
   "fEscapes": "Narrow escapes",
   "times": "{n}",
@@ -14598,29 +14625,29 @@ window.UI = {
   "matureLine": "About <span class=\"mono\">{p}</span> of this species reach breeding age. You {r}.",
   "madeIt": "made it",
   "didnt": "did not live to see it",
-  "thisLife": "Your health, over time",
+  "thisLife": "Health over this life",
   "mapLegend": "1 square = 1 step of time · colour = health",
   "curveTitle": "Survival curve",
   "curveLegend": "Share of those born who are still alive",
-  "yourChoices": "Decisions you made (no undo)",
-  "sameSecond": "Switched on the same second as you",
-  "byRealOdds": "drawn at real odds",
+  "yourChoices": "Your decisions",
+  "sameSecond": "Others born at the same moment",
+  "byRealOdds": "drawn by living numbers",
   "companion": "{Art} {sp}: lived <span class=\"mono\">{d}</span>. {c}.",
-  "shareTitle": "Show off this life",
-  "copy": "Copy report",
-  "copied": "Copied. Go alarm your friends.",
+  "shareTitle": "Share this life",
+  "copy": "Copy text",
+  "copied": "Copied",
   "selected": "Selected — press ⌘C / Ctrl+C to copy",
   "nextLife": "Next life",
-  "invertNote": "At real odds, {p} of tickets are invertebrates. To see the world, try another queue.",
-  "again": "Draw again",
+  "invertNote": "By the numbers, about {p} of rebirths land on an invertebrate. To meet other kinds of life, change the range.",
+  "again": "Be reborn again",
   "home": "Back to home",
   "bookIntro": "You have lived <span class=\"mono\">{n}</span> lives and met <span class=\"mono\">{got} / {all}</span> species. Records are kept only in this browser.",
   "livedN": "Lived {n}×",
-  "notYet": "Not drawn yet",
-  "pastLives": "Order history",
+  "notYet": "Not yet",
+  "pastLives": "Past lives",
   "livedFor": "lived {d}",
   "kidsN": "{n} offspring",
-  "noLives": "No orders yet. Go home and draw one.",
+  "noLives": "None yet. Go home and be reborn.",
   "fCon": "Constitution",
   "fTem": "Temperament",
   "trait": {
@@ -14632,129 +14659,100 @@ window.UI = {
    "curious": "Curious (runs into more while exploring)",
    "steady": "Steady"
   },
-  "status": "Vital signs",
-  "record": "The story so far",
+  "status": "Status",
+  "record": "Life record",
   "newest": "newest first",
-  "doingNow": "How do you plan to live?",
+  "doingNow": "What are you doing now?",
   "anyTime": "Change any time · number keys",
-  "whatTitle": "Hang on, what’s {art} {sp}?",
-  "protectNote": "Beginner’s protection: Death may not collect you until you’ve made 5 choices.",
+  "whatTitle": "What is {art} {sp}?",
+  "protectNote": "So that every life has choices in it, you cannot die before your fifth choice (a game rule).",
   "revealLines": [
-   "Drawing your number…",
-   "System busy: human slots full…",
-   "Checking your karma (no records found)…",
-   "Please do not shake the machine…",
-   "No refunds. Hold on…",
-   "Printing your life…"
+   "Choosing your species"
   ],
-  "whatIs": "What’s {art} {sp}?",
-  "hurtInstead": "You didn’t get away clean, but beginner’s protection applies. Injured, not collected.",
+  "whatIs": "What is {art} {sp}?",
+  "hurtInstead": "You did not get clear. You are badly hurt, but alive.",
   "saved": [
-   "The one next to you didn’t make it. It was meant to be you; the Department extended your lease.",
-   "Something took a neighbour instead of you, by a whisker.",
-   "Statistically you should be gone. The system hiccuped. You’re still here.",
-   "There’s a gap where your neighbour was. You pretend not to notice."
+   "One beside you died. It was almost you.",
+   "The danger brushed past and took another.",
+   "You came close to dying, then recovered.",
+   "The one nearest to you is gone."
   ],
   "firstMove": "You can move",
-  "firstMoveBody": "Congratulations, you’re switched on. How do you plan to live? You can change this any time.",
-  "firstMoveDone": "Right. Nature has seen your message.",
-  "encounter": "Something came up",
-  "savesLine": "To be honest: on the real survival curve, {p} of your kind live shorter than you did. Beginner’s protection stepped in {n}×.",
-  "shareCardMade": "Your life, officially",
-  "review": "Guest review",
-  "award": "Award",
+  "firstMoveBody": "How will you live now? You can change this at any time.",
+  "firstMoveDone": "You live on that way.",
+  "encounter": "Something happens",
+  "savesLine": "By this survival curve, about {p} of your kind live shorter than you did. The five-choice protection stopped {n} deaths.",
+  "shareCardMade": "Image of this life",
   "saveImg": "Save image",
   "copyLink": "Copy link",
   "linkCopied": "Link copied",
-  "sysShare": "Send to a friend",
+  "sysShare": "Share",
   "toX": "Post to X",
   "toWeibo": "Post to Weibo",
   "imgSaved": "Saved",
   "imgHold": "Long-press or right-click the image to save it",
-  "friendHead": "Someone is showing you their past life",
-  "cardLead": "In my last life I was",
-  "shareGentle": "In my last life I was {art} {sp}. I lived {d}.\n🕯 Was here.\n{url}",
-  "friendGo": "Draw mine and see who had it worse",
+  "friendHead": "A life a friend shared with you",
+  "cardLead": "In this life I was",
+  "friendGo": "Be reborn too",
   "friendHome": "Home",
   "myLife": "One of your lives",
-  "vsTitle": "Who had it worse?",
+  "vsTitle": "Your two lives",
   "vsYou": "You",
-  "vsThem": "Them",
+  "vsThem": "Friend",
   "vsLived": "Lived",
   "vsKids": "Offspring",
-  "vsRare": "Rarity",
-  "vsWin": "You win: you had it worse.",
-  "vsLose": "They win: they had it worse.",
-  "vsTie": "Equally bad. Consider reincarnating as a team.",
+  "vsRare": "Odds of this birth",
   "bookShare": "Share",
-  "quips": {
-   "hungry": "Narrator: the stomach is now louder than the animal.",
-   "full": "Narrator: overfed. The entire food chain has noticed.",
-   "hurt": "Narrator: a notification from your body. Balance low.",
-   "fit": "Narrator: suspiciously healthy.",
-   "firstKid": "Narrator: congratulations, your genes have been backed up.",
-   "half": "Narrator: half your batch is gone. The group chat is quieter.",
-   "tenth": "Narrator: a tenth of your batch left. You now count as well connected.",
-   "mature": "Narrator: you’re an adult. No ceremony, no ID.",
-   "halflife": "Narrator: past half of your kind’s maximum age. Your knees (if any) have notes.",
-   "hide": "Narrator: you’ve hidden so long that you’re having trouble finding yourself.",
-   "rest": "Narrator: more rest. The napping community has high hopes for you.",
-   "forage": "Narrator: eat, eat, eat, eat, eat.",
-   "explore": "Narrator: still wandering. No map, no budget.",
-   "mate": "Narrator: one thing on your mind. Nature understands.",
-   "instinct": "Narrator: you did nothing, and instinct worked your whole shift.",
-   "escape": "Narrator: Death crossed you off the list, then rubbed it out."
-  },
   "enc": [
    [
-    "A smell you don’t know",
-    "It smells like food. Or a trap.",
+    "An unfamiliar smell",
+    "A smell you do not know. It may be food.",
     [
-     "Get closer",
-     "Food? Risk↑",
+     "Go closer",
+     "Food↑ Risk↑",
      {
       "food": 18
      },
      1.25,
-     "It was food. Your lucky day."
+     "It is something to eat."
     ],
     [
      "Go around",
-     "Safety↑",
+     "Safety↑ Food↓",
      {
       "safety": 10,
       "food": -4
      },
      0.85,
-     "You went around. You’ll never know."
+     "You keep away."
     ]
    ],
    [
-    "One of your own in the way",
-    "It isn’t moving. Neither are you. It’s getting awkward.",
+    "One of your kind ahead",
+    "It holds the way and does not move.",
     [
-     "Squeeze past",
+     "Push past",
      "Food↑ Health↓",
      {
       "food": 12,
       "health": -6
      },
      1.1,
-     "You squeezed past. Both pretended nothing happened."
+     "You push past."
     ],
     [
-     "After you",
+     "Let it go first",
      "Safety↑",
      {
       "safety": 8
      },
      0.9,
-     "It left without a thank-you."
+     "It leaves, and you move on."
     ]
    ],
    [
-    "The last bite",
-    "There’s one mouthful left.",
+    "The last of the food",
+    "Only a little is left here.",
     [
      "Eat it now",
      "Food↑",
@@ -14762,136 +14760,136 @@ window.UI = {
       "food": 14
      },
      1,
-     "Gone. Future you can be hungry in the future."
+     "You finish it."
     ],
     [
-     "Take it slow",
-     "Health↑",
+     "Eat slowly",
+     "Health↑ Food↑",
      {
       "health": 5,
       "food": 4
      },
      0.95,
-     "You ate slowly, like a critic."
+     "You eat slowly and rest a while."
     ]
    ],
    [
-    "Two ways forward",
-    "Left looks exactly like right.",
+    "Two directions",
+    "Either way is possible.",
     [
-     "Left",
-     "Who knows",
+     "The open side",
+     "Food↑ Risk↑",
      {
       "food": 8
      },
      1.05,
-     "Left. As expected, much like right."
+     "There is a little more food there."
     ],
     [
-     "Right",
-     "Who knows",
+     "The sheltered side",
+     "Safety↑",
      {
       "safety": 6
      },
      1,
-     "Right. Everything is different now, probably."
+     "It is quieter there."
     ]
    ],
    [
-    "Too quiet",
-    "Suddenly nothing is making a sound.",
+    "Sudden quiet",
+    "Everything around you goes still.",
     [
-     "Move, now",
-     "Health↓ Safety↑",
+     "Leave at once",
+     "Safety↑ Health↓",
      {
       "health": -4,
       "safety": 14
      },
      0.8,
-     "Something landed where you had just been."
+     "Something passes where you had been."
     ],
     [
-     "Wait and see",
+     "Stay",
      "Food↑ Risk↑",
      {
       "food": 10
      },
      1.25,
-     "Turns out everyone was just having lunch."
+     "Nothing happens. You go on feeding."
     ]
    ],
    [
-    "Something touched you",
-    "Very lightly.",
+    "A light touch",
+    "Something brushes against you.",
     [
-     "Turn and look",
-     "Risk↑",
+     "Investigate",
+     "Food↑ Risk↑",
      {
       "safety": -6,
       "food": 12
      },
      1.2,
-     "A drifting scrap. Tasted fine."
+     "A small scrap you can eat."
     ],
     [
-     "Don’t look back",
+     "Move away",
      "Safety↑",
      {
       "safety": 10
      },
      0.85,
-     "You didn’t look. Wisest thing you did all day."
+     "You do not stay to find out."
     ]
    ],
    [
-    "Weather coming",
-    "Something in the air (or the water) has changed.",
+    "Conditions are changing",
+    "It feels different from before.",
     [
-     "Take cover early",
+     "Take shelter early",
      "Safety↑ Food↓",
      {
       "safety": 14,
       "food": -8
      },
      0.75,
-     "You hid early and looked very experienced."
+     "You shelter until it settles."
     ],
     [
-     "Eat a bit longer",
+     "Stay a little longer",
      "Food↑ Risk↑",
      {
       "food": 16
      },
      1.25,
-     "You ate to the last second. Soaked, but full."
+     "You feed a while longer, then leave."
     ]
    ],
    [
-    "Good spot, taken",
-    "A perfect place. Someone’s already in it.",
+    "A good place, taken",
+    "It is safe here, but occupied.",
     [
-     "Refuse to leave",
+     "Contest it",
      "Safety↑ Health↓",
      {
       "safety": 12,
       "health": -6
      },
      1.05,
-     "After a long standoff you became silent roommates."
+     "After a standoff you stay at the edge."
     ],
     [
-     "Let it go",
+     "Leave",
      "Health↑",
      {
       "health": 5
      },
      0.95,
-     "You left with great dignity."
+     "You save your strength."
     ]
    ],
    [
-    "Feeling off",
-    "You can’t say what’s wrong.",
+    "Feeling weak",
+    "You have little strength.",
     [
      "Rest",
      "Health↑ Food↓",
@@ -14900,87 +14898,139 @@ window.UI = {
       "food": -6
      },
      0.85,
-     "Better. No consultation fee."
+     "Rest helps."
     ],
     [
-     "Push through",
+     "Carry on",
      "Food↑ Health↓",
      {
       "food": 10,
       "health": -8
      },
      1.2,
-     "You pushed through. Your body made a note."
+     "You get through it, more tired."
     ]
    ],
    [
-    "Someone is staring",
-    "Or you’re imagining it.",
+    "Movement nearby",
+    "Something may be approaching.",
     [
-     "Stare back",
-     "Risk↑ Safety↑",
+     "Stop and watch",
+     "Safety↑ Risk↑",
      {
       "safety": 8
      },
      1.2,
-     "It looked away first. You won a contest that didn’t exist."
+     "It does not come closer."
     ],
     [
-     "Act natural",
+     "Slip away",
      "Safety↑",
      {
       "safety": 6
      },
      0.9,
-     "Very convincing."
+     "You move off."
     ]
    ],
    [
-    "Too full",
-    "There’s still some left.",
+    "Already full",
+    "Some food is left.",
     [
-     "One more bite",
+     "Keep eating",
      "Food↑ Risk↑",
      {
       "food": 20,
       "health": -4
      },
      1.15,
-     "You regret it, slightly."
+     "You stop only when heavy."
     ],
     [
-     "Quit while ahead",
+     "Stop",
      "Health↑",
      {
       "health": 6
      },
      0.9,
-     "Self-restraint: today’s personality."
+     "You leave the food."
     ]
    ],
    [
-    "Bored",
-    "Nothing has happened all day.",
+    "A quiet spell",
+    "Nothing needs doing.",
     [
-     "Stare into space",
+     "Rest",
      "Health↑",
      {
       "health": 8
      },
      0.9,
-     "You stared for a while. Possibly the best part of your life."
+     "You stay still for a while."
     ],
     [
-     "Find something to do",
+     "Move around",
      "Food↑ Risk↑",
      {
       "food": 10
      },
      1.15,
-     "You found something. Something found you."
+     "You find a little to eat."
     ]
    ]
-  ]
+  ],
+  "outlived": "Outlived {p} of my kind",
+  "outlivedNote": "Estimated from the survival curve the game uses",
+  "evData": "Evidence",
+  "basis": {
+   "measured": "Measured",
+   "official": "Official statistics",
+   "related": "Related species or lab",
+   "est": "Estimate",
+   "rule": "Game rule"
+  },
+  "why": {
+   "title": "Why did this happen?",
+   "when": "Why now",
+   "base": "In this stage ({s}), the base chance of dying in one {u} is {p}.",
+   "noCurve": "No reliable measurement was found for this age, so an estimated curve is used.",
+   "factors": "Multiplied by your situation at the time:",
+   "noFactors": "Nothing else was affecting it.",
+   "final": "Together, the chance of dying in that {u} was {p}.",
+   "crisis": "In the moment of danger you chose \"{t}\", with a {p} chance of surviving. It failed.",
+   "choice": "The step \"{t}\" carried a {p} chance of death.",
+   "limit": "You reached the maximum lifespan set in the game ({d}).",
+   "health": "Your health reached zero.",
+   "cause": "Why this cause: {c}",
+   "share": "In this stage ({s}), about {p} of deaths in the game are from this cause.",
+   "noShareButReal": "This cause is real, but no figure was found for how common it is; the share is an estimate.",
+   "noShare": "No reliable figure was found for how common this cause is; the share is an estimate.",
+   "related": "Research related to this life",
+   "legend": "Green comes from measurements of this species or official statistics. Blue is a rule made so the game can be played, not a scientific finding.",
+   "allSources": "See all sources",
+   "lowHealth": "Low health ({n})",
+   "highHealth": "Good health ({n})",
+   "lowFood": "Hunger (food {n})",
+   "lowSafety": "Exposed (safety {n})",
+   "ruleRisk": "death rate ×{x}",
+   "ruleKill": "this step carries a {p} chance of death"
+  },
+  "src": {
+   "nav": "Data",
+   "title": "Data and sources",
+   "intro": "{refs} sources are listed here, covering {n} of {all} species. For each, a program opened the text or abstract and confirmed the quoted sentence is in it. Numbers not listed are estimates or game rules.",
+   "how": "What the labels mean",
+   "measured": "Measured directly in this species.",
+   "official": "Statistics published by a government or international body.",
+   "related": "From a related species, a laboratory or a different setting; a guide only.",
+   "est": "No reliable data found; estimated by the makers.",
+   "rule": "A rule made so the game can be played. For example, death-rate multipliers: forage ×{forage}, hide ×{hide}, rest ×{rest}, explore ×{explore}, breed ×{mate}; no death before the fifth choice; the effects of birth circumstances, constitution and temperament.",
+   "line": "{surv} survival intervals with data · {causes}/{all} causes with evidence · {refs} sources",
+   "surv": "Survival",
+   "noSurv": "No reliable survival data found; the whole curve is an estimate.",
+   "facts": "Facts",
+   "curveKey": "Solid green: ages backed by published data (see the label below). Dashed: estimate."
+  }
  }
 };
 
@@ -15035,132 +15085,199 @@ window.ODDS_SRC_EN = {
 };
 
 ;
-// The humour layer. One voice: a tired clerk at the Department of Reincarnation.
-// Per species: [stars, zh nickname, zh plain-language "what is it", zh review, en nickname, en what, en review].
-window.FUN_SP = {
-  copepod: [1, '痞老板的亲戚', '芝麻大的小甲壳动物，几乎每片海、每个池塘里都有。小鱼吃它，大鱼吃小鱼，所以整片海都欠它一顿饭。《海绵宝宝》里的痞老板就是一只桡足类。读作 ráo zú lèi，“桡”就是船桨，说的是它的腿。', '海景房，无限自助。唯一的问题是我也在菜单上。',
-    'Plankton’s cousin', 'A sesame-sized crustacean living in nearly every sea and pond. Small fish eat copepods, big fish eat small fish, so the whole ocean owes it dinner. Plankton from SpongeBob is one. Say COH-puh-pod; it means “oar-foot”.', 'Ocean view, unlimited buffet. One problem: I was on the menu.'],
-  nematode: [2, '看不见的大多数', '细得肉眼看不见的小虫，不是蚯蚓。你脚下随便一把土里就有成千上万条。', '302 个神经元，够用了。没有上班，没有房贷，就是老被真菌套圈。',
-    'The invisible majority', 'A worm too thin to see, and not an earthworm. Any handful of soil holds thousands.', '302 neurons, and honestly that was enough. No job, no mortgage. Kept getting lassoed by fungus.'],
-  mite: [3, '落叶堆里的小坦克', '针尖大的八条腿小东西，蜘蛛的远亲，住在落叶堆里吃烂叶子和真菌。不是床上那种尘螨。', '自带盔甲，邻居都是烂叶子。安静，适合社恐。',
-    'A very small tank', 'A pinpoint-sized, eight-legged relative of spiders that eats dead leaves and fungus. Not the kind in your mattress.', 'Built-in armour. Neighbours are dead leaves. Quiet. Would suit introverts.'],
-  springtail: [3, '弹射座椅用户', '土里的六条腿小家伙，肚子下面折着一根弹簧，遇险一弹就没影。花盆浇水时蹦出来的小点，常常就是它。', '出门全靠弹，落哪算哪。导航有待改进。',
-    'Ejector-seat owner', 'A tiny six-legged soil dweller with a spring folded under its belly. Those specks that jump when you water a plant are often springtails.', 'I travel by explosion and land wherever. Navigation needs work.'],
-  aphid: [2, '植物上的吸管', '菜叶背面一堆堆的小绿虫，靠吸植物汁液过活，夏天不用交配就能直接生女儿。', '刚出生，肚子里就怀着女儿，女儿肚子里还怀着外孙女。催婚的可以歇了。',
-    'A straw with legs', 'Those little green bugs clustered under leaves. They drink plant sap, and all summer they give birth to daughters without mating.', 'Born already pregnant, with a daughter who was also pregnant. Relatives can stop asking.'],
-  mayfly: [2, '成年一日游', '先在河底当一年左右的稚虫，变成会飞的成虫以后，通常只活几个小时到一两天，而且没有能用的嘴。', '备考一年，考试一天，还不管饭。',
-    'Adult for a day', 'Spends about a year on the riverbed, then grows wings and lasts a few hours to a day or two, with no working mouth.', 'A year of studying for a one-day exam. Lunch not provided.'],
-  termite: [2, '木头美食家', '不是白色的蚂蚁，是蟑螂的近亲。一大窝住在一起，靠肠道里的微生物消化木头。', '包吃包住，因为房子就是饭。吃着吃着房没了。',
-    'Wood connoisseur', 'Not a white ant; it’s a close relative of cockroaches. Lives in huge colonies and digests wood with help from gut microbes.', 'Room and board included, because the room is the board. Ate the room.'],
-  ant: [2, '有编制的打工人', '蚁群里干活的雌蚁，不生育。年轻时在窝里带孩子，年纪大了才派出去找吃的。', '越老越要出外勤。没有退休，没有年假，同事上万。',
-    'Permanent employee', 'A sterile female who does the colony’s work: nursery duty when young, sent outside to find food when old.', 'The older you get, the more fieldwork. No pension, no leave, ten thousand coworkers.'],
-  honeybee: [2, '六周合同工', '蜂巢里的工蜂，全是姐妹。夏天的一辈子大约三到六周：扫地、带娃、盖房、站岗，最后出门采蜜。', '轮岗轮遍全公司，一辈子攒下不到一小勺蜜。被拿去泡柠檬了。',
-    'Six-week contractor', 'A worker bee; they’re all sisters. A summer life is three to six weeks of cleaning, nursing, building, guarding, and finally foraging.', 'Worked every job in the company. Life’s output: less than a teaspoon. Someone put it in tea.'],
-  mosquito: [1, '全民公敌', '腿上一圈圈白花纹的“花蚊子”。只有雌蚊吸血，为了产卵；雄蚊只喝花蜜。', '每次想吃口饭，全世界都在鼓掌。',
-    'Public enemy', 'The stripy-legged Asian tiger mosquito. Only females drink blood, to make eggs; males live on nectar.', 'Every time I tried to eat, people applauded.'],
-  krill: [2, '鲸鱼的主食', '六厘米左右的透明小甲壳动物，像虾但不是虾。成群结队，南极的鲸、企鹅和海豹都指着它吃饭。', '出门就是几亿只一起，很有安全感。蓝鲸张嘴的时候也是一起。',
-    'What whales are made of', 'A see-through crustacean about 6 cm long. Looks like a shrimp, isn’t one. Antarctic whales, penguins and seals all depend on it.', 'Never alone: hundreds of millions of us, always together. Including when the whale opened its mouth.'],
-  lanternfish: [3, '深海通勤族', '手指长的小鱼，肚皮上自带灯。白天躲在几百米深的黑暗里，晚上游上来吃饭，天亮再回去。', '每天垂直通勤几百米，自己打灯。没有地铁。',
-    'Vertical commuter', 'A finger-long fish with lights on its belly. Hides hundreds of metres down by day, swims up to eat at night, goes back at dawn.', 'Commute: several hundred metres, straight up, in the dark, with my own headlights. Every day.'],
-  sardine: [1, '罐头预备役', '爱扎堆的小海鱼，海里的大家伙几乎都吃它，人也吃，还装成罐头。', '朋友很多，人人都想约我吃饭。去了才知道我是饭。',
-    'Future tin resident', 'A small fish that lives in crowds. Nearly everything bigger in the sea eats it. So do we, from tins.', 'Very popular. Everyone wanted to have me for dinner. I misread the invitation.'],
-  squid: [2, '一年期体验版', '这里说的是太平洋褶柔鱼，就是常见的那种鱿鱼。长得飞快，只活一年左右，繁殖一次就死。', '三颗心，十条腕足，一年阳寿。配置拉满，电池不行。',
-    'One-year trial', 'The Japanese flying squid, a common eating squid. Grows fast, lives about a year, breeds once, dies.', 'Three hearts, ten arms, one year. Great specs, terrible battery.'],
-  octopus: [4, '独居学霸', '无脊椎动物里的聪明鬼，会变色、会喷墨、会挤进很小的缝。独居，一两年就走完一生。', '有三颗心，一颗都没碎过，因为根本没人约我。',
-    'Genius, lives alone', 'The brains of the invertebrates: changes colour, squirts ink, squeezes through tiny gaps. Lives alone for a year or two.', 'Three hearts, none broken, because nobody ever asked me out.'],
-  farmed_shrimp: [1, '白灼预备役', '餐桌上最常见的养殖虾，也叫南美白对虾。在池塘里挤着长大，三四个月就收。', '包吃包住，包到三个多月。没看清合同最后一页。',
-    'Cocktail candidate', 'The most common farmed shrimp on the table. Raised crowded in ponds, harvested after three or four months.', 'Free food and housing for three months. Should have read the last page of the contract.'],
-  farmed_carp: [2, '水煮鱼预备役', '中国池塘里最常见的家鱼之一，吃草长大。', '天天自助餐，体重达标那天有专车来接。',
-    'Dinner in training', 'Grass carp, one of China’s most common pond fish. It really does eat grass.', 'Buffet every day. The day I hit my target weight, they sent a car.'],
-  frog: [3, '从尾巴起步', '水田和池塘边常见的青蛙。先当蝌蚪，再长腿丢尾巴，冬天钻进泥里睡一觉。', '小时候有尾巴没腿，长大有腿没尾巴，就没齐过。',
-    'Some assembly required', 'A common pond frog. Starts as a tadpole, grows legs, loses the tail, sleeps the winter in mud.', 'Had a tail but no legs. Got legs, lost the tail. Never once had the full set.'],
-  salmon: [2, '单程票旅客', '在河里出生，去海里长大，几年后一路游回老家的河里产卵，然后死去。', '返乡之路逆流几百公里，半路还有熊收过路费。',
-    'One-way ticket', 'Born in a river, grows up at sea, swims all the way home years later to spawn, then dies.', 'Going home for the holidays: hundreds of kilometres upstream, and a bear at the toll booth.'],
-  sea_turtle: [3, '千里挑一的考生', '从沙坑里爬出来，得先跑过螃蟹和海鸟才能下水。长大要二三十年，成年后主要吃海草。', '出生第一件事是百米冲刺，对手是螃蟹。',
-    'One in a thousand', 'Hatches in sand and has to outrun crabs and birds to reach the sea. Takes decades to grow up, then mostly eats seagrass.', 'First thing I ever did was sprint. My opponent was a crab.'],
-  greenland_shark: [4, '活成文物', '北极深海里的大鲨鱼，已知最长寿的脊椎动物，可能活到近四百岁，一百五十岁左右才成年。游得比人散步还慢。', '青春期 150 年，作业还是没写完。',
-    'Living antique', 'A huge shark of cold deep water and the longest-lived vertebrate known: perhaps nearly 400 years, adult at about 150. Slower than a strolling human.', '150 years of puberty. Still didn’t finish my homework.'],
-  blue_whale: [4, '地球最大号', '已知地球上有过的最大的动物，却靠吃几厘米长的磷虾长大。', '体重一百多吨，主食是虾皮。',
-    'Size: XXXXXL', 'The largest animal known to have ever lived, powered by krill the length of your finger.', 'Weighed over a hundred tonnes. Lived on cocktail garnish.'],
-  sparrow: [3, '城市老居民', '街上最常见的小麻雀，住屋檐，吃谷子和小虫。', '无房无车无编制，好在天天有人掉面包渣。',
-    'Local resident', 'The little brown bird on every street. Nests under roofs, eats seeds and bugs.', 'No house, no car, no job. But people keep dropping croissants.'],
-  swallow: [4, '跨国两地分居', '尾巴像剪刀的小鸟，春天在屋檐下用泥筑巢，秋天飞去几千公里外过冬。', '年年出国，从没办过签证。',
-    'Frequent flyer', 'The bird with the scissor tail. Builds a mud nest under your roof in spring, flies thousands of kilometres in autumn.', 'Abroad every year. Never once had a visa.'],
-  pigeon: [3, '广场常驻嘉宾', '广场上那种灰鸽子。祖先被人驯养过，后来又跑回了街上。', '走路自带点头，对什么都同意。',
-    'Town square regular', 'The grey bird in every square. Its ancestors were domesticated, then went back to the streets.', 'I nod when I walk. People think I agree with them.'],
-  penguin: [3, '站岗世家', '最大的企鹅，在南极的冬天里孵蛋。爸爸把蛋顶在脚上，站两个月左右不吃饭。', '开局先站两个月军姿。冷是真冷，但穿得体面。',
-    'Always in a suit', 'The biggest penguin, breeding in the Antarctic winter. Dad balances the egg on his feet for about two months without eating.', 'Freezing, starving, standing. At least I was dressed for it.'],
-  duck: [1, '没下过水的鸭', '养来吃肉的鸭子，出壳六七周就出栏，很多一辈子没游过泳。', '技能：游泳（未激活）。',
-    'Never been swimming', 'A duck raised for meat, slaughtered at six or seven weeks. Many never swim.', 'Skills: swimming (not yet activated).'],
-  broiler: [1, '四十二天速成班', '炸鸡桶和鸡胸肉里的那种鸡。长得极快，大约六周就出栏。', '六周长到五斤，健身房看了都沉默。',
-    'Six-week bulk', 'The chicken in the bucket. Bred to grow so fast it’s slaughtered at about six weeks.', 'Zero to 2.5 kilos in six weeks. Gyms everywhere fell silent.'],
-  layer_hen: [1, '日更作者', '专门下蛋的母鸡，一年能下三百来个。', '日更三百天，版税为零，断更就被优化。',
-    'Daily content creator', 'A hen bred for eggs: around 300 a year.', 'Posted 300 times a year. No royalties. Got cut the moment I slowed down.'],
-  pig: [1, '被低估的学霸', '聪明、记性好、爱拱东西，多数只活半年左右。', '智商不输狗，待遇差一张沙发。',
-    'Underrated scholar', 'Smart, good memory, loves to root around. Most live about six months.', 'As clever as a dog. Short one sofa.'],
-  cattle: [2, '职业吃草人', '胃分四个隔间，吃下去的草还要返回嘴里再嚼一遍。', '一顿饭吃两遍，性价比很高。',
-    'Full-time grass eater', 'Has a four-chambered stomach and brings its lunch back up to chew again.', 'Ate every meal twice. Excellent value.'],
-  sheep: [2, '行走的毛衣', '人类最早驯化的家畜之一，胆小爱扎堆，能记住几十张同伴的脸。', '每年免费理发一次，款式不给选。',
-    'A sweater, pre-owned', 'One of the first animals people domesticated. Nervous, sociable, remembers dozens of faces.', 'One free haircut a year. No say in the style.'],
-  goat: [3, '什么都想尝一口', '爱爬高、好奇心重的家畜，羊不肯吃的灌木它也吃。', '爬最陡的坡，吃最硬的草，挨最多的骂。',
-    'Will try anything once', 'A curious climber that eats the shrubs other livestock refuse.', 'Climbed the steepest hill, ate the toughest bush, got yelled at the most.'],
-  rat: [2, '地下管道业主', '城市里最常见的大老鼠，聪明又谨慎，见到没见过的食物要先犹豫好久。', '学历不高，路熟。听说被挠痒痒会笑，没人来挠。',
-    'Basement landlord', 'The common city rat. Clever, cautious, deeply suspicious of new food.', 'No degree, but I know every pipe. Apparently I laugh when tickled. Nobody ever checked.'],
-  dog: [4, '气氛组', '人类最老的动物朋友。不过全世界的狗大多没有固定主人，在街上和村里自己过。', '鼻子里有一整座城市，心里只有一顿饭。',
-    'Morale officer', 'Our oldest animal friend, though most of the world’s dogs have no fixed owner and get by on streets and in villages.', 'I could smell the whole city. I was only ever looking for lunch.'],
-  cat: [5, '房东本人', '大约一万年前自己走进人类村子的小型猎手，走进来就没打算走。', '考察了人类一万年，暂不续约，也不搬走。',
-    'The actual landlord', 'A small hunter that walked into human villages about ten thousand years ago and declined to leave.', 'Ten thousand years observing humans. Will not renew the contract. Will not move out either.'],
-  bat: [3, '倒挂的夜班族', '唯一真正会飞的哺乳动物。这里说的是屋檐缝里的小蝙蝠，用耳朵“看”路，专吃虫子。', '夜班，倒着睡，靠喊认路。邻居从不投诉，因为听不见。',
-    'Night shift, upside down', 'The only mammal that truly flies. This one is a small roof-dwelling bat that “sees” by ear and eats insects.', 'Night shift. Sleep upside down. Navigate by screaming. Nobody complained; they couldn’t hear it.'],
-  wolf: [3, '狗的原厂配置', '狗和它是一家，只是没搬进客厅。跟着家人组成的狼群过日子。', '没有沙发，没有狗粮，但有尊严。周四开始想念沙发。',
-    'Dog, factory settings', 'Same family as dogs, minus the living room. A pack is mostly parents and their kids.', 'No sofa, no kibble, but dignity. By Thursday I missed the sofa.'],
-  chimpanzee: [3, '远房亲戚', '和人类血缘最近的动物之一，会用树枝钓白蚁，也会拉帮结派。', '会用工具，会搞派系，差一点就要上班了。',
-    'Cousin on your side', 'One of our closest living relatives. Fishes for termites with sticks and plays politics.', 'Tools: yes. Office politics: yes. Dangerously close to having a job.'],
-  lion: [4, '草原管理层', '唯一成群生活的大猫，一天大部分时间都在睡觉。', '每天睡将近二十个小时，还被叫百兽之王。管理岗真好。',
-    'Senior management', 'The only cat that lives in groups. Asleep for most of the day.', 'Slept nearly twenty hours a day and they called me king. Management is wonderful.'],
-  elephant: [4, '行走的备忘录', '陆地上最大的动物，跟着最年长的母象走，记得很远的水源。', '记性太好了，哪年哪月谁踩了我都记得。',
-    'A very large diary', 'The biggest land animal. Follows the oldest female, remembers distant waterholes.', 'I remember everything. Including who stepped on me, and when.'],
-  panda: [5, '顶流', '论出身是食肉目，却每天花十几个小时啃竹子。', '主业啃竹子，副业上热搜，黑眼圈是天生的。',
-    'Celebrity', 'Officially in the meat-eater family, yet spends over ten hours a day eating bamboo.', 'Job: bamboo. Side job: trending. The dark circles are natural.'],
-  human: [3, '摇号之神', '两条腿走路的灵长类，发明了闹钟，然后每天被它吵醒。', '中了一千七百多亿分之一的大奖，奖品是上班。',
-    'Lottery winner', 'A two-legged primate that invented the alarm clock and has been woken by it ever since.', 'Beat odds of one in 170-odd billion. The prize was a job.'],
-  earthworm: [3, '土壤装修队', '下雨天路上的那种。吃土、翻土，雌雄同体，每条都既能当爸又能当妈。', '没有眼睛，没有手，把整片地翻了一遍。没人发工资。',
-    'Underground contractor', 'The kind on the pavement after rain. Eats soil, turns soil, and every one can be both mum and dad.', 'No eyes, no hands, renovated an entire field. Invoice still unpaid.'],
-  spider: [3, '网络工程师', '会织大圆网的园蛛。八条腿，不是昆虫。', '自己架网，自己维护，天天有人来撞服务器。',
-    'Web developer', 'An orb-weaver, the kind that spins big round webs. Eight legs, not an insect.', 'Built my own web, maintained it myself. Users kept crashing into it.'],
-  housefly: [1, '厨房飞行员', '家里嗡嗡叫的那种苍蝇，天热时从卵到成虫只要一两周。', '飞得很努力，方向没想好，玻璃很硬。',
-    'Kitchen aviator', 'The one buzzing in your house. Egg to adult in a week or two when it’s hot.', 'Flew my heart out. No plan. The glass was very hard.'],
+// Plain-language "what is it", per species: [zh, en]
+window.ABOUT = {
+ "copepod": [
+  "芝麻大小的甲壳动物，几乎每片海洋和池塘里都有。它们吃浮游植物，小鱼吃它们，是海洋食物网的底层。读作 ráo zú lèi，“桡”是船桨，指它划水的腿。动画《海绵宝宝》里的痞老板就是一只桡足类。",
+  "A sesame-sized crustacean found in nearly every sea and pond. It eats plankton and small fish eat it, which puts it near the base of the ocean food web. Pronounced COH-puh-pod, “oar-foot”. Plankton in SpongeBob is a copepod."
+ ],
+ "nematode": [
+  "细得肉眼看不见的小虫，不是蚯蚓。你脚下随便一把土里就有成千上万条。",
+  "A worm too thin to see, and not an earthworm. Any handful of soil holds thousands."
+ ],
+ "mite": [
+  "针尖大的八条腿小东西，蜘蛛的远亲，住在落叶堆里吃烂叶子和真菌。不是床上那种尘螨。",
+  "A pinpoint-sized, eight-legged relative of spiders that eats dead leaves and fungus. Not the kind in your mattress."
+ ],
+ "springtail": [
+  "土里的六条腿小家伙，肚子下面折着一根弹簧，遇险一弹就没影。花盆浇水时蹦出来的小点，常常就是它。",
+  "A tiny six-legged soil dweller with a spring folded under its belly. Those specks that jump when you water a plant are often springtails."
+ ],
+ "aphid": [
+  "菜叶背面一堆堆的小绿虫，靠吸植物汁液过活，夏天不用交配就能直接生女儿。",
+  "Those little green bugs clustered under leaves. They drink plant sap, and all summer they give birth to daughters without mating."
+ ],
+ "mayfly": [
+  "先在河底当一年左右的稚虫，变成会飞的成虫以后，通常只活几个小时到一两天，而且没有能用的嘴。",
+  "Spends about a year on the riverbed, then grows wings and lasts a few hours to a day or two, with no working mouth."
+ ],
+ "termite": [
+  "不是白色的蚂蚁，是蟑螂的近亲。一大窝住在一起，靠肠道里的微生物消化木头。",
+  "Not a white ant; it’s a close relative of cockroaches. Lives in huge colonies and digests wood with help from gut microbes."
+ ],
+ "ant": [
+  "蚁群里干活的雌蚁，不生育。年轻时在窝里带孩子，年纪大了才派出去找吃的。",
+  "A sterile female who does the colony’s work: nursery duty when young, sent outside to find food when old."
+ ],
+ "honeybee": [
+  "蜂巢里的工蜂，全是姐妹。夏天的一辈子大约三到六周：扫地、带娃、盖房、站岗，最后出门采蜜。",
+  "A worker bee; they’re all sisters. A summer life is three to six weeks of cleaning, nursing, building, guarding, and finally foraging."
+ ],
+ "mosquito": [
+  "腿上一圈圈白花纹的“花蚊子”。只有雌蚊吸血，为了产卵；雄蚊只喝花蜜。",
+  "The stripy-legged Asian tiger mosquito. Only females drink blood, to make eggs; males live on nectar."
+ ],
+ "krill": [
+  "约六厘米长的透明甲壳动物，像虾但不是虾，大群生活。南极的鲸、企鹅和海豹大多以它为食。",
+  "A see-through crustacean about 6 cm long, shrimp-like but not a shrimp. Lives in huge swarms that feed Antarctic whales, penguins and seals."
+ ],
+ "lanternfish": [
+  "手指长的小鱼，肚皮上自带灯。白天躲在几百米深的黑暗里，晚上游上来吃饭，天亮再回去。",
+  "A finger-long fish with lights on its belly. Hides hundreds of metres down by day, swims up to eat at night, goes back at dawn."
+ ],
+ "sardine": [
+  "爱扎堆的小海鱼，海里的大家伙几乎都吃它，人也吃，还装成罐头。",
+  "A small fish that lives in crowds. Nearly everything bigger in the sea eats it. So do we, from tins."
+ ],
+ "squid": [
+  "这里说的是太平洋褶柔鱼，就是常见的那种鱿鱼。长得飞快，只活一年左右，繁殖一次就死。",
+  "The Japanese flying squid, a common eating squid. Grows fast, lives about a year, breeds once, dies."
+ ],
+ "octopus": [
+  "无脊椎动物，会变色、喷墨、挤过很窄的缝。独居，寿命一到两年。",
+  "An invertebrate that changes colour, squirts ink and squeezes through narrow gaps. Solitary; lives one to two years."
+ ],
+ "farmed_shrimp": [
+  "餐桌上最常见的养殖虾，也叫南美白对虾。在池塘里挤着长大，三四个月就收。",
+  "The most common farmed shrimp on the table. Raised crowded in ponds, harvested after three or four months."
+ ],
+ "farmed_carp": [
+  "中国池塘里最常见的家鱼之一，吃草长大。",
+  "Grass carp, one of China’s most common pond fish. It really does eat grass."
+ ],
+ "frog": [
+  "水田和池塘边常见的青蛙。先当蝌蚪，再长腿丢尾巴，冬天钻进泥里睡一觉。",
+  "A common pond frog. Starts as a tadpole, grows legs, loses the tail, sleeps the winter in mud."
+ ],
+ "salmon": [
+  "在河里出生，去海里长大，几年后一路游回老家的河里产卵，然后死去。",
+  "Born in a river, grows up at sea, swims all the way home years later to spawn, then dies."
+ ],
+ "sea_turtle": [
+  "从沙坑里爬出来，得先跑过螃蟹和海鸟才能下水。长大要二三十年，成年后主要吃海草。",
+  "Hatches in sand and has to outrun crabs and birds to reach the sea. Takes decades to grow up, then mostly eats seagrass."
+ ],
+ "greenland_shark": [
+  "北极深海里的大鲨鱼，已知最长寿的脊椎动物，可能活到近四百岁，一百五十岁左右才成年。游得比人散步还慢。",
+  "A huge shark of cold deep water and the longest-lived vertebrate known: perhaps nearly 400 years, adult at about 150. Slower than a strolling human."
+ ],
+ "blue_whale": [
+  "已知地球上有过的最大的动物，以几厘米长的磷虾为食。",
+  "The largest animal known to have lived, feeding on krill a few centimetres long."
+ ],
+ "sparrow": [
+  "街上最常见的小麻雀，住屋檐，吃谷子和小虫。",
+  "The little brown bird on every street. Nests under roofs, eats seeds and bugs."
+ ],
+ "swallow": [
+  "尾巴像剪刀的小鸟，春天在屋檐下用泥筑巢，秋天飞去几千公里外过冬。",
+  "The bird with the scissor tail. Builds a mud nest under your roof in spring, flies thousands of kilometres in autumn."
+ ],
+ "pigeon": [
+  "广场上那种灰鸽子。祖先被人驯养过，后来又跑回了街上。",
+  "The grey bird in every square. Its ancestors were domesticated, then went back to the streets."
+ ],
+ "penguin": [
+  "体型最大的企鹅，在南极的冬天繁殖。雄企鹅把蛋放在脚上孵约两个月，期间不进食。",
+  "The largest penguin, breeding in the Antarctic winter. Males incubate the egg on their feet for about two months without eating."
+ ],
+ "duck": [
+  "养来吃肉的鸭子，出壳六七周就出栏，很多一辈子没游过泳。",
+  "A duck raised for meat, slaughtered at six or seven weeks. Many never swim."
+ ],
+ "broiler": [
+  "专门养来吃肉的鸡，生长极快，通常约六周龄屠宰。",
+  "A chicken bred for meat. It grows very fast and is usually slaughtered at about six weeks."
+ ],
+ "layer_hen": [
+  "专门下蛋的母鸡，一年能下三百来个。",
+  "A hen bred for eggs: around 300 a year."
+ ],
+ "pig": [
+  "聪明、记性好、爱拱东西，多数只活半年左右。",
+  "Smart, good memory, loves to root around. Most live about six months."
+ ],
+ "cattle": [
+  "胃分四个隔间，吃下去的草还要返回嘴里再嚼一遍。",
+  "Has a four-chambered stomach and brings its lunch back up to chew again."
+ ],
+ "sheep": [
+  "人类最早驯化的家畜之一，胆小爱扎堆，能记住几十张同伴的脸。",
+  "One of the first animals people domesticated. Nervous, sociable, remembers dozens of faces."
+ ],
+ "goat": [
+  "善于攀爬的家畜，能吃别的牲畜不吃的灌木。",
+  "An agile climber that eats shrubs other livestock refuse."
+ ],
+ "rat": [
+  "城市里最常见的大型鼠类，聪明谨慎，会长时间回避没见过的食物。",
+  "The common city rat. Clever and cautious; it avoids unfamiliar food for a long time."
+ ],
+ "dog": [
+  "人类最老的动物朋友。不过全世界的狗大多没有固定主人，在街上和村里自己过。",
+  "Our oldest animal friend, though most of the world’s dogs have no fixed owner and get by on streets and in villages."
+ ],
+ "cat": [
+  "约一万年前开始在人类村落附近生活的小型猎手，后来被驯化。今天有家养的，也有大量流浪的。",
+  "A small hunter that began living around human villages about ten thousand years ago and was later domesticated. Some are pets; very many are strays."
+ ],
+ "bat": [
+  "唯一真正会飞的哺乳动物。这里说的是屋檐缝里的小蝙蝠，用耳朵“看”路，专吃虫子。",
+  "The only mammal that truly flies. This one is a small roof-dwelling bat that “sees” by ear and eats insects."
+ ],
+ "wolf": [
+  "狗的近亲，家犬由古代的狼驯化而来。狼群通常是一对父母和它们的孩子。",
+  "The closest relative of the dog, which was domesticated from ancient wolves. A pack is usually two parents and their young."
+ ],
+ "chimpanzee": [
+  "和人类血缘最近的动物之一，会用树枝钓白蚁，生活在有复杂关系的群体里。",
+  "One of our closest living relatives. Fishes for termites with sticks and lives in communities with complex relationships."
+ ],
+ "lion": [
+  "唯一成群生活的大猫，一天大部分时间都在睡觉。",
+  "The only cat that lives in groups. Asleep for most of the day."
+ ],
+ "elephant": [
+  "陆地上最大的动物，跟着最年长的母象走，记得很远的水源。",
+  "The biggest land animal. Follows the oldest female, remembers distant waterholes."
+ ],
+ "panda": [
+  "分类上属于食肉目，却几乎只吃竹子，每天要吃十几个小时。",
+  "Classified among the carnivores, yet lives almost entirely on bamboo and eats for over ten hours a day."
+ ],
+ "human": [
+  "直立行走的灵长类，目前约 82 亿。",
+  "An upright-walking primate, now numbering about 8.2 billion."
+ ],
+ "earthworm": [
+  "下雨天路上的那种。吃土、翻土，雌雄同体，每条都既能当爸又能当妈。",
+  "The kind on the pavement after rain. Eats soil, turns soil, and every one can be both mum and dad."
+ ],
+ "spider": [
+  "会织大圆网的园蛛。八条腿，不是昆虫。",
+  "An orb-weaver, the kind that spins big round webs. Eight legs, not an insect."
+ ],
+ "housefly": [
+  "家里嗡嗡叫的那种苍蝇，天热时从卵到成虫只要一两周。",
+  "The one buzzing in your house. Egg to adult in a week or two when it’s hot."
+ ]
 };
 // Chinese measure words (default 只)
-window.FUN_MW = { human: '个', nematode: '条', earthworm: '条', sardine: '条', lanternfish: '条', salmon: '条', farmed_carp: '条', squid: '条', greenland_shark: '条', dog: '条', blue_whale: '头', elephant: '头', cattle: '头', pig: '头', lion: '头', wolf: '匹' };
+window.ABOUT_MW = {"human":"个","nematode":"条","earthworm":"条","sardine":"条","lanternfish":"条","salmon":"条","farmed_carp":"条","squid":"条","greenland_shark":"条","dog":"条","blue_whale":"头","elephant":"头","cattle":"头","pig":"头","lion":"头","wolf":"匹"};
 
-// Awards, most specific first. Conditions live in engine.js (awardIds).
-window.FUN_AWARDS = {
-  gentle:   ['来过', '时间不长，但来过。', 'Was here', 'Not for long, but was here.'],
-  unopened: ['未拆封', '还没正式开机，就被退回了。', 'Factory sealed', 'Returned before ever being switched on.'],
-  trial:    ['体验卡到期', '没活满一天。系统连欢迎邮件都还没发完。', 'Free trial expired', 'Under a day. The welcome email hadn’t even arrived.'],
-  refund:   ['七天无理由退货', '没活过一周，原路返回。', '7-day return policy', 'Less than a week. Sent back, no questions asked.'],
-  relic:    ['活成文物', '活了一百多年，建议有关部门挂牌保护。', 'Listed monument', 'Over a century. Please do not touch the exhibit.'],
-  lucky:    ['摇号之神', '抽中人类。建议顺手买张彩票。', 'Lottery god', 'Drew human. Buy a ticket while it lasts.'],
-  rare:     ['限定皮肤', '全球没剩多少的款，你抽到了。', 'Limited edition', 'Not many of these left in the world.'],
-  lastone:  ['全村的希望', '同批都走了，就剩你一个撑场面。', 'Last one standing', 'Everyone born with you is gone. You held the fort.'],
-  oldage:   ['寿终正寝', '自然界最稀有的死法，恭喜。', 'Died of old age', 'The rarest way to go in nature. Congratulations.'],
-  census:   ['人口普查噩梦', '后代上千，户口本写不下。', 'Census nightmare', 'Over a thousand offspring. The form ran out of lines.'],
-  bigfam:   ['开枝散叶', '后代过百，过年红包发不起。', 'Big family', 'Over a hundred offspring. Birthdays are out of hand.'],
-  ninelives:['阎王点名没到', '死里逃生三次以上，点名册都快翻烂了。', 'Marked absent by Death', 'Three or more narrow escapes. Death keeps losing the file.'],
-  underdog: ['小个子逆袭', '天生瘦小，照样活到成年。', 'Runt of the century', 'Born small, made it to adulthood anyway.'],
-  hider:    ['家里蹲宗师', '大半辈子都在躲，世界几乎不知道你来过。', 'Grandmaster of hiding', 'Hid most of your life. The world barely noticed you.'],
-  rester:   ['躺平大师', '大半辈子都在休息，境界很高。', 'Professional napper', 'Rested through most of it. Enlightened, really.'],
-  eater:    ['干饭人', '大半辈子都在吃，人生目标明确。', 'Here for the food', 'Spent most of it eating. Clear goals.'],
-  roamer:   ['我就看看', '大半辈子都在到处逛，最后把自己逛没了。', 'Just looking', 'Wandered until wandering was no longer possible.'],
-  romantic: ['恋爱脑', '把很大一部分生命花在了繁殖上。', 'Hopeless romantic', 'A serious share of your life went to breeding.'],
-  kpi:      ['KPI 达成', '指标全部完成，绩效满分，合同终止。', 'Met all targets', 'Every target met. Perfect review. Contract ended.'],
-  hungry:   ['没赶上饭点', '生前最后一个念头是吃点什么。', 'Missed dinner', 'Last known thought: snack.'],
-  foodchain:['食物链优秀员工', '把自己奉献给了别人的晚饭。', 'Employee of the food chain', 'Gave everything to someone else’s dinner.'],
-  nokids:   ['丁克', '活到成年，没有后代，没有遗憾（大概）。', 'Child-free', 'Made it to adulthood, left no offspring, no regrets (probably).'],
-  waverer:  ['纠结星人', '做了十二个以上的抉择，每个都想了很久。', 'Overthinker', 'A dozen or more decisions, each agonised over.'],
-  plain:    ['平平无奇', '没什么可吹的，但确实活过。', 'Perfectly ordinary', 'Nothing to brag about, but it did happen.'],
-};
+;
+// Built by data/build.js — do not edit.
+window.EVIDENCE = {"ant":{"refs":{"schultheiss2022":{"a":"Schultheiss et al.","y":2022,"t":"The abundance, biomass, and distribution of ants on Earth","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.2201550119"},"riskas2026a":{"a":"Riskas et al.","y":2026,"t":"Body size predicts ant worker longevity: a hierarchical analysis of field and laboratory survival across phylogenetic lineages","s":"Proceedings of the Royal Society B Biological Sciences","u":"https://doi.org/10.1098/rspb.2025.1907"},"riskas2026b":{"a":"Riskas et al.","y":2026,"t":"Body size predicts ant worker longevity: a hierarchical analysis of field and laboratory survival across phylogenetic lineages","s":"Proceedings of the Royal Society B Biological Sciences","u":"https://doi.org/10.1098/rspb.2025.1907"},"bujan2020":{"a":"Bujan et al.","y":2020,"t":"Seasonal plasticity of thermal tolerance in ants","s":"Ecology","u":"https://doi.org/10.1002/ecy.3051"}},"survival":[],"causes":[],"causeNotes":{"heat":{"zh":"工蚁的耐热能力随季节变化：夏末的觅食蚁比春季和冬季的更耐高温。","en":"Foraging ants tolerate higher heat at the end of summer than in spring or winter.","ref":"bujan2020","basis":"related"}},"facts":[{"zh":"地球上的蚂蚁估计约 2×10^16 只（约 2 亿亿只）。","en":"About 2 × 10^16 ants are estimated to live on Earth.","ref":"schultheiss2022","basis":"related","stages":["forager"]},{"zh":"在 18 个蚁种的研究里，个头大的工蚁普遍活得更久，无论在野外还是在实验室。","en":"Across studied ant species, larger worker ants lived longer, both in the field and in captivity.","ref":"riskas2026b","basis":"related","stages":["nurse","forager","old"],"decisions":["nurse_to_forage"]},{"zh":"同一批研究中，工蚁的寿命从 23 天到 394 天不等。","en":"In that study, worker lifespans ranged from 23 to 394 days.","ref":"riskas2026a","basis":"related","stages":["forager","old"]}],"existing":{"events.19":"schultheiss2022"}},"aphid":{"refs":{"enkegaard2013":{"a":"Enkegaard et al.","y":2013,"t":"Shallot Aphids, Myzus ascalonicus, in Strawberry: Biocontrol Potential of Three Predators and Three Parasitoids","s":"Journal of Insect Science","u":"https://doi.org/10.1673/031.013.8301"},"enkegaard2013b":{"a":"Enkegaard et al.","y":2013,"t":"Shallot Aphids, Myzus ascalonicus, in Strawberry: Biocontrol Potential of Three Predators and Three Parasitoids","s":"Journal of Insect Science","u":"https://doi.org/10.1673/031.013.8301"},"michaud2018":{"a":"Michaud et al.","y":2018,"t":"Mortality of Sugarcane Aphid, Melanaphis sacchari (Zehntner, Hemiptera: Aphididae), at Low Temperatures","s":"Journal of Economic Entomology","u":"https://doi.org/10.1093/jee/toy195"}},"survival":[],"causes":[],"causeNotes":{"wasp":{"zh":"在培养皿里，寄生蜂 Aphidius ervi 刺过的蚜虫，有 79% 死亡。","en":"In petri dish tests, the parasitic wasp Aphidius ervi killed 79% of the aphids it stung.","ref":"enkegaard2013","basis":"related"},"ladybug":{"zh":"在培养皿里，二星瓢虫幼虫每天能吃掉约 25 只蚜虫。","en":"In petri dish tests, two-spotted ladybird larvae ate about 25 shallot aphids a day.","ref":"enkegaard2013b","basis":"related"},"lacewing":{"zh":"在培养皿里，草蛉三龄幼虫每天能吃掉约 35 只蚜虫。","en":"In petri dish tests, third-instar green lacewings ate about 35 shallot aphids a day.","ref":"enkegaard2013b","basis":"related"},"cold":{"zh":"在 30°C 下培养过的甘蔗蚜，在 4°C 时约半数死亡，在 0°C 时全部死亡。","en":"Sugarcane aphids conditioned at 30 °C had about 50% mortality at 4 °C and all died at 0 °C.","ref":"michaud2018","basis":"related"}},"facts":[{"zh":"在培养皿里，三种捕食者中草蛉的捕食量最大，其次是二星瓢虫。","en":"Among three predators tested in petri dishes, the green lacewing ate the most shallot aphids a day, ahead of the two-spotted ladybird.","ref":"enkegaard2013b","basis":"related","stages":["nymph","late","adult"],"causes":["lacewing","ladybug"]}],"existing":{"events.9":"remove","events.10":"remove","decisions.1":"remove"}},"bat":{"refs":{"baerwald2008_90":{"a":"Baerwald et al.","y":2008,"t":"Barotrauma is a Significant Cause of Bat Fatalities at Wind Turbines","s":"Current Biology (ScienceDaily release on the paper)","u":"https://sciencedaily.com/releases/2008/08/080825132107.htm"},"baerwald2008_half":{"a":"Baerwald et al.","y":2008,"t":"Barotrauma is a Significant Cause of Bat Fatalities at Wind Turbines","s":"Current Biology (ScienceDaily release on the paper)","u":"https://sciencedaily.com/releases/2008/08/080825132107.htm"},"frick2010_decline":{"a":"Frick et al.","y":2010,"t":"An Emerging Disease Causes Regional Population Collapse of a Common North American Bat Species","s":"Science (ScienceDaily release on the paper)","u":"https://www.sciencedaily.com/releases/2010/08/100805142945.htm"},"frick2010_extirpate":{"a":"Frick et al.","y":2010,"t":"An Emerging Disease Causes Regional Population Collapse of a Common North American Bat Species","s":"Science (ScienceDaily release on the paper)","u":"https://www.sciencedaily.com/releases/2010/08/100805142945.htm"},"frick2010_2006":{"a":"Frick et al.","y":2010,"t":"An Emerging Disease Causes Regional Population Collapse of a Common North American Bat Species","s":"Science (ScienceDaily release on the paper)","u":"https://www.sciencedaily.com/releases/2010/08/100805142945.htm"}},"survival":[],"causes":[],"causeNotes":{"turbine":{"ref":"baerwald2008_90","basis":"related","zh":"在加拿大阿尔伯塔的风电场，被检查的死蝠大多有气压伤造成的内出血。","en":"At a wind farm in Alberta, most dead bats examined had internal bleeding from pressure changes."},"wns":{"ref":"frick2010_2006","basis":"related","zh":"白鼻综合征感染冬眠的蝙蝠，2006 年在美国纽约州首次被发现。","en":"White-nose syndrome, which affects hibernating bats, was first discovered near Albany, New York in 2006."}},"facts":[{"zh":"北美东部小棕蝠的数量因白鼻综合征下降了 30% 到 99%。","en":"Little brown bat counts in the northeast US fell 30% to 99% after white-nose syndrome arrived.","ref":"frick2010_decline","basis":"related","stages":["adult","old"],"causes":["wns"]},{"zh":"估计北美东部的小棕蝠有可能在 20 年内区域性灭绝。","en":"Over 99% of northeastern little brown bats may be lost regionally within 20 years.","ref":"frick2010_extirpate","basis":"related","stages":["adult","old"],"causes":["wns"]},{"zh":"在风电场死去的蝙蝠，大多数内脏有气压伤造成的出血。","en":"Ninety percent of wind-farm bats examined had internal bleeding from pressure changes.","ref":"baerwald2008_90","basis":"related","stages":["adult","old"],"causes":["turbine"]},{"zh":"只有大约一半死于风电场的蝙蝠身上有叶片直接撞击的痕迹。","en":"Only about half of the wind-farm bats showed direct contact with the blades.","ref":"baerwald2008_half","basis":"related","stages":["adult","old"],"causes":["turbine"]},{"zh":"白鼻综合征 2006 年才在美国被首次发现。","en":"White-nose syndrome was first discovered near Albany, New York in 2006.","ref":"frick2010_2006","basis":"related","stages":["adult"],"causes":["wns"]}],"existing":{"events.6":"remove","events.17":"remove","events.18":"remove","events.23":"remove","decisions.1":"remove","decisions.4":"frick2010_decline","causes.2":"baerwald2008_90","causes.3":"remove"}},"blue_whale":{"refs":{"noaa_bw":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"noaa_bw_diet":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"noaa_bw_size":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"noaa_bw_life":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"monnahan2015":{"a":"Monnahan et al.","y":2015,"t":"Do ship strikes threaten the recovery of endangered eastern North Pacific blue whales?","s":"Marine Mammal Science","u":"https://doi.org/10.1111/mms.12157"},"atkinson2004":{"a":"Atkinson et al.","y":2004,"t":"Long-term decline in krill stock and increase in salps within the Southern Ocean","s":"Nature","u":"https://doi.org/10.1038/nature02996"},"monnahan2015_pop":{"a":"Monnahan et al.","y":2015,"t":"Do ship strikes threaten the recovery of endangered eastern North Pacific blue whales?","s":"Marine Mammal Science","u":"https://doi.org/10.1111/mms.12157"}},"survival":[],"causes":[],"causeNotes":{"ship":{"zh":"东北太平洋的蓝鲸被大船撞上的情况很多，现在的撞船数量超过了美国规定的上限。","en":"Ship strikes on eastern North Pacific blue whales are likely above legal limits set by the US.","ref":"monnahan2015","basis":"measured"},"net":{"zh":"美国渔业局列出的蓝鲸主要威胁，就是被大船撞和被渔网缠住。","en":"NOAA lists vessel strikes and entanglement in fishing gear as the primary threats blue whales face.","ref":"noaa_bw","basis":"official"},"krill":{"zh":"南大洋的磷虾密度自 1970 年代起下降，蓝鲸的主要食物也随之减少。","en":"Krill density in the southwest Atlantic, the main krill sector, has declined since the 1970s.","ref":"atkinson2004","basis":"related"}},"facts":[{"zh":"最大的蓝鲸一天可以吃掉约 6 吨磷虾。","en":"The biggest blue whales may eat up to 6 tons of krill a day.","ref":"noaa_bw_diet","basis":"official","stages":["adult"],"acts":["forage"]},{"zh":"蓝鲸的寿命估计在 80 到 90 年左右。","en":"Blue whales are estimated to live around 80 to 90 years.","ref":"noaa_bw_life","basis":"official","stages":["old"]},{"zh":"南极的蓝鲸可以长到约 110 英尺，体重超过 33 万磅。","en":"Antarctic blue whales can reach about 110 feet and weigh over 330,000 pounds.","ref":"noaa_bw_size","basis":"official","stages":["adult"],"flags":["antarctic"]},{"zh":"东北太平洋蓝鲸的种群模型估计，种群大约处在环境承载量的 97%。","en":"A population model puts eastern North Pacific blue whales at about 97% of carrying capacity.","ref":"monnahan2015_pop","basis":"measured","flags":["eastpac"]}],"existing":{"events.2":"remove","decisions.1":"remove","decisions.6":"atkinson2004"}},"broiler":{"refs":{"fvets2022":{"a":"Junghans et al.","y":2022,"t":"Data evaluation of broiler chicken rearing and slaughter-An exploratory study","s":"Frontiers in Veterinary Science","u":"https://doi.org/10.3389/fvets.2022.957786"},"psj2026death":{"a":"AL- Saeedi et al.","y":2026,"t":"Effects of broiler strain and stocking density on causes of death in broilers in Denmark","s":"Poultry Science","u":"https://doi.org/10.1016/j.psj.2026.107718"},"tvjl2026fwm":{"a":"AL-Saeedi et al.","y":2026,"t":"Causes of First-week Mortality in Slower- and Fast-Growing Danish Broilers","s":"The Veterinary Journal","u":"https://doi.org/10.1016/j.tvjl.2026.106979"},"avpath2020":{"a":"Grafl et al.","y":2020,"t":"Risks and disease aetiologies of compromised performance in commercial broilers kept at lower stocking density and limited antimicrobial use","s":"Avian Pathology","u":"https://doi.org/10.1080/03079457.2020.1805411"},"ps2015dof":{"a":"Kittelsen et al.","y":2015,"t":"A comparison of post-mortem findings in broilers dead-on-farm and broilers dead-on-arrival at the abattoir","s":"Poultry Science","u":"https://doi.org/10.3382/ps/pev294"},"ani2025legs":{"a":"Kang","y":2025,"t":"Effectual Environmental Enrichments for Commercial Broiler Chickens","s":"Animals","u":"https://doi.org/10.3390/ani15192829"},"jast2026transport":{"a":"Lee et al.","y":2026,"t":"Optimizing broiler transport under hot-climate conditions: interventions across pre-transport, in-transit, and post-transport stages","s":"Journal of Animal Science and Technology","u":"https://doi.org/10.5187/jast.2600011"},"ps2014growth":{"a":"Zuidhof et al.","y":2014,"t":"Growth, efficiency, and yield of commercial broilers from 1957, 1978, and 2005","s":"Poultry Science","u":"https://doi.org/10.3382/ps.2014-04291"},"ps2015transport":{"a":"Kittelsen et al.","y":2015,"t":"A comparison of post-mortem findings in broilers dead-on-farm and broilers dead-on-arrival at the abattoir","s":"Poultry Science","u":"https://doi.org/10.3382/ps/pev294"},"fvets2022age":{"a":"Junghans et al.","y":2022,"t":"Data evaluation of broiler chicken rearing and slaughter-An exploratory study","s":"Frontiers in Veterinary Science","u":"https://doi.org/10.3389/fvets.2022.957786"}},"survival":[{"from":0,"to":7,"surv":0.9934,"ref":"fvets2022","basis":"measured","zh":"这批德国肉鸡头一周的死亡率只有 0.66%，约 99% 活了下来。","en":"About 99% of these German broilers survived the first week."},{"from":7,"to":37,"surv":0.979,"ref":"fvets2022","basis":"measured","zh":"这批德国肉鸡从第 7 天到屠宰前，存活率约 98%。","en":"After the first week, about 98% of these broilers survived to slaughter."}],"causes":[{"stages":["grow"],"shares":{"heart":0.81},"ref":"psj2026death","basis":"measured","zh":"在丹麦，屠宰前死在农场里的肉鸡，81% 是心血管衰竭。","en":"Among Danish broilers that died on the farm, 81% showed cardiovascular collapse."}],"causeNotes":{"infect":{"zh":"大肠杆菌病是影响肉鸡健康和生产的最重要的感染性疾病之一。","en":"In commercial flocks, colibacillosis had the largest negative impact on health and productivity at all ages.","ref":"avpath2020","basis":"measured"},"leg":{"zh":"腿部健康问题是商品肉鸡淘汰和后期死亡的主要原因之一。","en":"Leg problems are a leading cause of culling and late mortality in commercial broilers.","ref":"ani2025legs","basis":"related"},"heat":{"zh":"炎热气候下运输肉鸡，热应激和死亡率都会升高。","en":"Hot-climate transport raises heat stress and mortality in broilers.","ref":"jast2026transport","basis":"related"},"transport":{"zh":"运输途中到达屠宰场前就死亡的肉鸡，会带来动物福利和经济损失。","en":"Birds dying in transit to the abattoir raise welfare concerns and cause economic losses.","ref":"ps2015transport","basis":"measured"},"heart":{"zh":"在丹麦，屠宰前死在农场里的肉鸡，81% 是心血管衰竭。","en":"Among Danish broilers that died on the farm, 81% showed cardiovascular collapse.","ref":"psj2026death","basis":"measured"}},"facts":[{"zh":"这批德国 Ross 308 肉鸡平均在 37 日龄屠宰。","en":"In this German study, the average slaughter age was 37 days.","ref":"fvets2022age","basis":"measured","stages":["finish"]},{"zh":"丹麦农场里死亡的肉鸡中，81% 是心血管衰竭。","en":"On Danish farms, 81% of dead broilers showed cardiovascular collapse.","ref":"psj2026death","basis":"measured","stages":["grow","finish"],"causes":["heart"]},{"zh":"在农场死亡的肉鸡中，24.0% 有腹水。","en":"Among broilers dead on farm, 24.0% had ascites.","ref":"ps2015dof","basis":"measured","stages":["finish"],"causes":["heart"]},{"zh":"从 1957 年到 2005 年，肉鸡的生长速度提高了 400% 以上。","en":"From 1957 to 2005, broiler growth increased by over 400%.","ref":"ps2014growth","basis":"measured","stages":["grow","finish"]},{"zh":"丹麦的头一周死亡鸡雏中，大肠杆菌是分离出的最常见细菌，占 62.4%。","en":"The most common bacterium isolated from Danish broiler chicks was E. coli, at 62.4%.","ref":"tvjl2026fwm","basis":"measured","stages":["chick","brood"],"causes":["infect"]}],"existing":{"events.4":"remove","events.5":"remove","events.6":"remove","events.7":"remove","decisions.1":"remove"}},"cat":{"refs":{"loss2013":{"a":"Loss et al.","y":2013,"t":"The impact of free-ranging domestic cats on wildlife of the United States","s":"Nature Communications","u":"https://doi.org/10.1038/ncomms2380"},"teng2024_le":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"teng2024_sex":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"teng2024_entire":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"teng2024_sphynx":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"gunther2011":{"a":"Gunther et al.","y":2011,"t":"Demographic differences between urban feeding groups of neutered and sexually intact free-roaming cats following a trap-neuter-return procedure","s":"Journal of the American Veterinary Medical Association","u":"https://doi.org/10.2460/javma.238.9.1134"},"pacini2023":{"a":"Pacini et al.","y":2023,"t":"Feline Parvovirus Lethal Outbreak in a Group of Adult Cohabiting Domestic Cats","s":"Pathogens","u":"https://doi.org/10.3390/pathogens12060822"},"sullivan2026":{"a":"Sullivan et al.","y":2026,"t":"Trauma, particularly vehicular strikes, causes substantial years of life lost in dogs and cats","s":"Journal of the American Veterinary Medical Association","u":"https://doi.org/10.2460/javma.26.05.0398"}},"survival":[],"causes":[],"causeNotes":{"panleuk":{"zh":"猫瘟主要伤害小猫和没打过疫苗的猫，常常是致命的。","en":"Feline panleukopenia mainly affects kittens and unvaccinated cats.","ref":"pacini2023","basis":"related"},"car":{"zh":"车祸是猫的重要死因之一，会让猫损失很多年的寿命。","en":"Vehicle strikes cause substantial years of life lost in dogs and cats.","ref":"sullivan2026","basis":"measured"}},"facts":[{"zh":"英国的宠物猫出生时的平均预期寿命约为 11.74 年。","en":"Life expectancy at birth for UK companion cats was 11.74 years.","ref":"teng2024_le","basis":"measured","stages":["kitten","adult"]},{"zh":"在英国，雌猫的平均寿命比雄猫多约 1.33 年。","en":"Female UK pet cats lived 1.33 years longer on average than males.","ref":"teng2024_sex","basis":"measured","stages":["adult","old"]},{"zh":"在英国的宠物猫中，没有绝育的猫寿命更短。","en":"In UK pet cats, being entire, meaning not neutered, was linked to a shorter lifespan.","ref":"teng2024_entire","basis":"measured","stages":["adult","old"],"decisions":["neuter"]},{"zh":"在英国分析的品种中，斯芬克斯猫的预期寿命最短，约 6.68 年。","en":"Sphynx cats had the shortest life expectancy of the breeds analysed: 6.68 years.","ref":"teng2024_sphynx","basis":"measured","stages":["adult"]},{"zh":"在以色列的一项研究中，绝育的野猫群体里小猫的存活率更高。","en":"In an Israeli study, kitten survival was higher in neutered free-roaming cat groups.","ref":"gunther2011","basis":"measured","stages":["kitten"],"decisions":["neuter"]},{"zh":"美国的自由活动猫每年估计杀死 14 亿到 37 亿只鸟。","en":"Free-ranging domestic cats kill an estimated 1.4 to 3.7 billion birds a year in the US.","ref":"loss2013","basis":"measured","stages":["adult"],"decisions":["bird"]}],"existing":{"events.8":"loss2013"}},"cattle":{"refs":{"ontario_calf":{"a":"Umaña Sedó et al.","y":2024,"t":"Herd-level risk factors associated with preweaning mortality on Ontario dairy farms","s":"Journal of Dairy Science","u":"https://doi.org/10.3168/jds.2024-25265"},"brd_feedlot":{"a":"Jobman et al.","y":2025,"t":"Aggregate Sampling to Detect Pathogens and Antimicrobial Resistance Genes Associated with Bovine Respiratory Disease in US Feedlots: A Pilot Study","s":"Veterinary Sciences","u":"https://doi.org/10.3390/vetsci12030244"},"brd_calves":{"a":"Mori et al.","y":2022,"t":"Field trial of antibody response to inactivated bacterial vaccine in young Holstein calves: influence of animal health status","s":"Journal of Veterinary Research","u":"https://doi.org/10.2478/jvetres-2022-0003"},"swiss_dairy_life":{"a":"Schlebusch et al.","y":2025,"t":"Are Dairy Cow Replacement Decisions Economically Justified? Evidence from Swiss Farms","s":"Animals","u":"https://doi.org/10.3390/ani15162442"},"swiss_dairy_replace":{"a":"Schlebusch et al.","y":2025,"t":"Are Dairy Cow Replacement Decisions Economically Justified? Evidence from Swiss Farms","s":"Animals","u":"https://doi.org/10.3390/ani15162442"},"bloat_australia":{"a":"Allworth et al.","y":2022,"t":"A survey on bloat in southern Australian beef production systems","s":"Australian Veterinary Journal","u":"https://doi.org/10.1111/avj.13226"},"feedlot_liver":{"a":"Huebner et al.","y":2019,"t":"Effects of a Saccharomyces cerevisiae fermentation product on liver abscesses, fecal microbiome, and resistome in feedlot cattle raised without antibiotics","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-019-39181-7"},"calf_diarrhea":{"a":"Wilson et al","y":2025,"t":"Emergence of mortality due to centrilobular to massive hepatic necrosis in western Canadian beef calves","s":"The Canadian Veterinary Journal","u":"https://www.ebi.ac.uk/europepmc/webservices/rest/article/MED/41142973?resultType=core&format=xml"}},"survival":[{"from":2,"to":60,"surv":0.972,"ref":"ontario_calf","basis":"measured","zh":"在安大略的奶牛场，犊牛断奶前的平均死亡率约为 2.8%。","en":"Dairy calves on sampled Ontario farms died before weaning at an average rate of 2.8 percent."}],"causes":[],"causeNotes":{"brd":{"zh":"牛呼吸道疾病是饲养场里牛生病和死亡的主要原因之一。","en":"Bovine respiratory disease is the leading cause of illness and death in feedlots.","ref":"brd_feedlot","basis":"measured"},"bloat":{"zh":"吃进大量嫩豆科牧草后，瘤胃胀气，牛有时会突然死亡。","en":"Frothy bloat from legume pastures frequently causes sudden death in cattle.","ref":"bloat_australia","basis":"measured"},"acidosis":{"zh":"精料多，瘤胃变酸，是饲养场里牛长肝脓肿的前因。","en":"High-grain feed causes rumen acidosis, which leads to liver abscesses in feedlot cattle.","ref":"feedlot_liver","basis":"measured"},"calf_disease":{"zh":"新生的肉牛犊常死于腹泻和肺炎。","en":"Newborn beef calves often die of diarrhea or pneumonia.","ref":"calf_diarrhea","basis":"measured"}},"facts":[{"zh":"奶牛的平均产奶寿命，全世界大约只有三到四胎。","en":"A dairy cow's average productive life is three to four parities worldwide.","ref":"swiss_dairy_life","basis":"measured","stages":["adult","old"],"flags":["dairy"]},{"zh":"每年有 20% 到 40% 的奶牛会被替换掉。","en":"Between 20% and 40% of dairy cows are replaced every year.","ref":"swiss_dairy_replace","basis":"measured","stages":["adult"],"flags":["dairy"]},{"zh":"呼吸道疾病是年幼犊牛的主要死因之一。","en":"Bovine respiratory disease is one of the primary causes of death in young calves.","ref":"brd_calves","basis":"related","stages":["young"],"causes":["brd"]},{"zh":"吃了大量嫩苜蓿之类的豆科草，牛可能突然胀气死亡。","en":"Frothy bloat from legume pastures frequently results in sudden death of cattle.","ref":"bloat_australia","basis":"measured","stages":["growth","adult"],"causes":["bloat"],"decisions":["lush_pasture"]},{"zh":"精料让瘤胃变酸，是饲养场牛长肝脓肿的前因。","en":"Rumen acidosis from high-concentrate feed is a precursor of liver abscesses in feedlot cattle.","ref":"feedlot_liver","basis":"measured","stages":["growth"],"causes":["acidosis"],"flags":["feedlot"]}],"existing":{"events.18":"remove"}},"chimpanzee":{"refs":{"wilson2014":{"a":"Wilson et al.","y":2014,"t":"Lethal aggression in Pan is better explained by adaptive strategies than human impacts","s":"Nature","u":"https://doi.org/10.1038/nature13727"},"ngogo2017":{"a":"Wood et al.","y":2017,"t":"Favorable ecological circumstances promote life expectancy in chimpanzees similar to that of human hunter-gatherers","s":"Journal of Human Evolution","u":"https://doi.org/10.1016/j.jhevol.2017.01.003"},"zoo2022":{"a":"Ross et al.","y":2022,"t":"A 25-Year Retrospective Review of Mortality in Chimpanzees (Pan troglodytes) in Accredited U.S. Zoos from a Management and Welfare Perspective","s":"Animals","u":"https://doi.org/10.3390/ani12151878"},"zoo2022_trauma":{"a":"Ross et al.","y":2022,"t":"A 25-Year Retrospective Review of Mortality in Chimpanzees (Pan troglodytes) in Accredited U.S. Zoos from a Management and Welfare Perspective","s":"Animals","u":"https://doi.org/10.3390/ani12151878"},"anderson2018":{"a":"Anderson","y":2018,"t":"Chimpanzees and death","s":"Philosophical Transactions of the Royal Society B: Biological Sciences","u":"https://doi.org/10.1098/rstb.2017.0257"}},"survival":[],"causes":[],"causeNotes":{"war":{"zh":"在野外的黑猩猩杀戮中，多数是群落之间的攻击。","en":"In wild chimpanzees, most lethal killings were attacks between communities.","ref":"wilson2014","basis":"measured"},"leopard":{"zh":"一篇黑猩猩死亡原因的综述，把被捕食列为其中一类。","en":"A review of why chimpanzees die covers predation as one of its categories.","ref":"anderson2018","basis":"measured"}},"facts":[{"zh":"乌干达 Ngogo 群的黑猩猩，出生时的平均预期寿命为 32.8 年。","en":"Chimpanzees in Uganda's Ngogo community had a life expectancy at birth of 32.8 years.","ref":"ngogo2017","basis":"measured","stages":["infant"]},{"zh":"在所观察的黑猩猩群中，多数致命杀戮是群落之间的攻击。","en":"Across the chimpanzee communities studied, most lethal killings were attacks between communities.","ref":"wilson2014","basis":"measured","stages":["adult"],"causes":["war"]},{"zh":"美国动物园里，满月后死去的黑猩猩中，15.3% 与外伤有关。","en":"In US zoos, 15.3% of chimpanzee deaths after the first month were related to trauma.","ref":"zoo2022_trauma","basis":"related","stages":["juv","adult"]}],"existing":{"events.5":"remove","events.21":"remove","decisions.1":"remove","decisions.3":"remove"}},"copepod":{"refs":{"hirst2007":{"a":"Hirst et al.","y":2007,"t":"Seasonal dynamics and mortality rates of Calanus helgolandicus over two years at a station in the English Channel","s":"Marine Ecology Progress Series","u":"https://doi.org/10.3354/meps340189"},"hirst2007b":{"a":"Hirst et al.","y":2007,"t":"Seasonal dynamics and mortality rates of Calanus helgolandicus over two years at a station in the English Channel","s":"Marine Ecology Progress Series","u":"https://doi.org/10.3354/meps340189"},"kaartvedt2021":{"a":"Kaartvedt et al.","y":2021,"t":"Sleep walking copepods? Calanus diapausing in hypoxic waters adjust their vertical position during winter","s":"Journal of Plankton Research","u":"https://doi.org/10.1093/plankt/fbab004"},"phen2024":{"a":"Anderson et al.","y":2024,"t":"Optimal phenology of life history events in Calanus finmarchicus: exit from diapause in relation to interannual variation in spring bloom timing and predation","s":"Journal of Plankton Research","u":"https://doi.org/10.1093/plankt/fbae028"},"ecy2020":{"a":"Kvile et al.","y":2020,"t":"Predation risk alters life history strategies in an oceanic copepod","s":"Ecology","u":"https://doi.org/10.1002/ecy.3214"},"cole2015":{"a":"Cole et al.","y":2015,"t":"The impact of polystyrene microplastics on feeding, function and fecundity in the marine copepod Calanus helgolandicus","s":"Environmental Science & Technology","u":"https://doi.org/10.1021/es504525u"},"cole2013":{"a":"Cole et al.","y":2013,"t":"Microplastic ingestion by zooplankton","s":"Environmental Science & Technology","u":"https://doi.org/10.1021/es400663f"}},"survival":[{"from":0,"to":1.5,"surv":0.1,"ref":"hirst2007b","basis":"related","zh":"C. helgolandicus 的卵到第一个无节幼体阶段，常常不到一成能活下来。","en":"Often under 10% of Calanus eggs survive to the first nauplius stage."}],"causes":[],"causeNotes":{"egg_eaten":{"zh":"模型显示，早春捕食压力低时，卵和早期发育阶段存活更多。","en":"A model finds eggs and early stages survive better when predation is low early in the year.","ref":"phen2024","basis":"related"},"diapause":{"zh":"在缺氧的深水里越冬时，冬初死亡率低；越冬位置上移后死亡率上升。","en":"Overwintering copepods in hypoxic deep water had low mortality early in winter, which rose as they moved shallower.","ref":"kaartvedt2021","basis":"related"}},"facts":[{"zh":"C. helgolandicus 卵的瞬时死亡率平均每天约 6.1，是各阶段里最高的。","en":"The instantaneous death rate of Calanus helgolandicus eggs averaged 6.1 per day, the highest of the stages measured.","ref":"hirst2007","basis":"related","stages":["egg","nauplius"]},{"zh":"给桡足类加入鱼类捕食者的气味，它们会更早成熟但体型更小、脂肪更少。","en":"Chemical cues from a fish predator made lab-reared Calanus finmarchicus smaller and leaner, and they matured earlier.","ref":"ecy2020","basis":"measured","stages":["copepodite"],"acts":["hide"]},{"zh":"在实验里，微塑料让 C. helgolandicus 吃进的藻类减少了约 11%。","en":"In a 24-hour lab test, microplastic beads made Calanus helgolandicus eat 11% fewer algal cells.","ref":"cole2015","basis":"related","stages":["adult","old"],"acts":["forage"]},{"zh":"越冬的桡足类在缺氧的深水里，几乎没有捕食者，冬初死亡率也低。","en":"In a hypoxic overwintering site, predators were largely absent and mortality was low in early winter.","ref":"kaartvedt2021","basis":"related","stages":["copepodite"],"decisions":["winter"],"causes":["diapause"]}],"existing":{"events.0":"remove","events.1":"remove","events.16":"cole2013","decisions.0":"remove","decisions.1":"remove","decisions.2":"remove","decisions.3":"remove","decisions.4":"remove","decisions.5":"remove"}},"dog":{"refs":{"paul2016":{"a":"Paul et al.","y":2016,"t":"High early life mortality in free-ranging dogs is largely influenced by humans","s":"Scientific Reports","u":"https://doi.org/10.1038/srep19641"},"paul2016_human":{"a":"Paul et al.","y":2016,"t":"High early life mortality in free-ranging dogs is largely influenced by humans","s":"Scientific Reports","u":"https://doi.org/10.1038/srep19641"},"czup2016":{"a":"Czupryna et al.","y":2016,"t":"Ecology and Demography of Free-Roaming Domestic Dogs in Rural Villages near Serengeti National Park in Tanzania","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0167092"},"michell_8pct":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"michell_neuter":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"michell_size":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"michell_car":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"oneill2021":{"a":"O'Neill et al.","y":2021,"t":"Epidemiology of periodontal disease in dogs in the UK primary-care veterinary setting","s":"Journal of Small Animal Practice","u":"https://doi.org/10.1111/jsap.13405"},"hughes2013":{"a":"Hughes & Macdonald","y":2013,"t":"A review of the interactions between free-roaming domestic dogs and wildlife","s":"Biological Conservation","u":"https://doi.org/10.1016/j.biocon.2012.07.005"}},"survival":[],"causes":[],"causeNotes":{"car":{"zh":"在英国的一项调查中，不同品种的狗死于车祸的情况也不同。","en":"A British owner survey of dog deaths reports breed differences in road accidents.","ref":"michell_car","basis":"measured"}},"facts":[{"zh":"在印度西孟加拉邦，流浪狗的幼崽只有约 19% 能活到繁殖年龄。","en":"Only about 19% of free-ranging dog pups in West Bengal survived to breeding age.","ref":"paul2016","basis":"measured","stages":["newborn","puppy"]},{"zh":"在同一项研究中，大部分的幼犬死亡都和人有关。","en":"In that study, 63% of deaths were influenced by humans.","ref":"paul2016_human","basis":"measured","stages":["newborn","puppy"]},{"zh":"在坦桑尼亚的农村，生病和被鬣狗捕食是流浪狗的两大死因。","en":"In rural Tanzania, sickness and hyena predation were the two main causes of free-roaming dog deaths.","ref":"czup2016","basis":"measured","stages":["young","adult","old"]},{"zh":"在英国一项调查中，只有 8% 的狗活过了 15 岁。","en":"In a British owner survey, only 8 per cent of dogs lived beyond 15.","ref":"michell_8pct","basis":"measured","stages":["old"]},{"zh":"在英国的调查中，绝育的母狗比公狗和未绝育的母狗活得更长。","en":"In a British survey, neutered female dogs lived longer than males or intact females.","ref":"michell_neuter","basis":"measured","stages":["adult","old"],"decisions":["neuter"]},{"zh":"英国的一项兽医记录调查显示，一年之内约有 12.52% 的狗被诊断出牙周病。","en":"In a UK vet-records sample, 12.52% of dogs were diagnosed with periodontal disease in one year.","ref":"oneill2021","basis":"measured","stages":["adult","old"]},{"zh":"全世界的家养狗估计超过七亿只。","en":"Estimates put the global domestic dog population at over 700 million.","ref":"hughes2013","basis":"related","stages":["adult"]}],"existing":{"events.6":"remove","events.11":"remove","events.21":"michell_size","events.36":"remove","decisions.0":"remove"}},"duck":{"refs":{"plosone2023herpes":{"a":"Damir et al.","y":2023,"t":"Investigation of a herpesvirus outbreak in mixed breeds of adult domestic ducks using next generation sequencing","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0280923"},"tbed2026dadv3":{"a":"Zhu et al.","y":2026,"t":"Pathogenicity and Genomic Features of a DAdV-3 Strain Causing Severe Hepatitis in Muscovy Ducklings","s":"Transboundary and Emerging Diseases","u":"https://doi.org/10.1155/tbed/7156678"},"psj2026heat":{"a":"Liang et al.","y":2026,"t":"Heat stress promotes ferroptosis in Jiaji duck myocardium by disrupting iron homeostasis and inducing lipid peroxidation","s":"Poultry Science","u":"https://doi.org/10.1016/j.psj.2026.107241"}},"survival":[],"causes":[],"causeNotes":{"heat":{"zh":"炎热天气会让家禽发生热应激，有时导致急性死亡。","en":"Heat stress is a common cause of acute death in poultry, including ducks.","ref":"psj2026heat","basis":"related"}},"facts":[{"zh":"在一个成年鸭群的疱疹病毒暴发中，死亡率达到 35%。","en":"A herpesvirus outbreak on one adult duck farm caused 35% mortality.","ref":"plosone2023herpes","basis":"measured"},{"zh":"在中国的番鸭中，一种鸭腺病毒感染的死亡率有时高达 43%。","en":"In Muscovy ducks in China, a duck adenovirus infection has reached mortality rates as high as 43%.","ref":"tbed2026dadv3","basis":"related","stages":["chick"]}],"existing":{}},"earthworm":{"refs":{"schally2024":{"a":"Schally et al.","y":2024,"t":"The effect of soil parameters and earthworm abundance on the fine-scale nocturnal habitat use of the Eurasian woodcock","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.70136"},"schally2024engineers":{"a":"Schally et al.","y":2024,"t":"The effect of soil parameters and earthworm abundance on the fine-scale nocturnal habitat use of the Eurasian woodcock","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.70136"},"fellowes2020":{"a":"Fellowes et al.","y":2020,"t":"Map-A-Mole: Greenspace Area Influences the Presence and Abundance of the European Mole Talpa europaea in Urban Habitats","s":"Animals","u":"https://doi.org/10.3390/ani10061097"}},"survival":[],"causes":[],"causeNotes":{"bird":{"zh":"欧亚丘鹬的主要食物是蚯蚓，它们偏爱蚯蚓多的草地。","en":"The Eurasian woodcock prefers habitats with more earthworms, its main prey.","ref":"schally2024","basis":"related"},"mole":{"zh":"蚯蚓是鼹鼠最重要的食物之一，蚯蚓少的土壤会限制鼹鼠的分布。","en":"Moles depend on earthworms as their most important prey, and low earthworm density limits them.","ref":"fellowes2020","basis":"related"}},"facts":[{"zh":"蚯蚓是温带生态系统里分布最广的土壤生态工程师。","en":"Earthworms are the most widespread soil ecosystem engineers in temperate ecosystems.","ref":"schally2024engineers","basis":"related","stages":["adult","old"]}],"existing":{"events.18":"remove"}},"elephant":{"refs":{"wittemyer2014":{"a":"Wittemyer et al.","y":2014,"t":"Illegal killing for ivory drives global decline in African elephants","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1403984111"},"wittemyer_samburu":{"a":"Wittemyer et al.","y":2014,"t":"Illegal killing for ivory drives global decline in African elephants","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1403984111"},"forest2018":{"a":"Turkalo et al.","y":2018,"t":"Demography of a forest elephant population","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0192777"},"forest2018_sex":{"a":"Turkalo et al.","y":2018,"t":"Demography of a forest elephant population","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0192777"}},"survival":[{"from":0,"to":730,"surv":0.97,"ref":"forest2018","basis":"related","zh":"森林象的幼象在出生后两年内存活率约为 97%（森林象，非草原象）。","en":"About 97% of forest elephant calves survived their first two years."}],"causes":[],"causeNotes":{"poacher":{"zh":"在萨布鲁，盗猎随象牙黑市价格上涨而明显增加，成为大象的重要死因。","en":"In Samburu, Kenya, illegal killing rose sharply after 2008 and tracked the black-market ivory price.","ref":"wittemyer_samburu","basis":"measured"}},"facts":[{"zh":"2011 年，非洲大陆的盗猎率高峰约为 8%，远超可持续水平。","en":"In 2011, illegal killing peaked at about 8% of African elephants, which was unsustainable.","ref":"wittemyer2014","basis":"measured","causes":["poacher"],"stages":["adult"]},{"zh":"森林象的雄象比雌象存活率低，研究者怀疑这与人类为象牙而猎杀有关。","en":"Male forest elephants survived less well than females, which researchers suspect is driven by hunting for ivory.","ref":"forest2018_sex","basis":"related","causes":["poacher"],"stages":["young","adult"]}],"existing":{"events.6":"remove","events.11":"remove","events.12":"remove","events.15":"remove","events.29":"remove","decisions.1":"remove","causes.6":"remove"}},"farmed_carp":{"refs":{"fsi2026gcrv":{"a":"Li et al.","y":2026,"t":"A Z-DNA/PKZ-based immunoenhancer confers protective immunity against GCRV infection in grass carp","s":"Fish & Shellfish Immunology","u":"https://doi.org/10.1016/j.fsi.2026.111719"},"pathogens2025ich":{"a":"Peng et al.","y":2025,"t":"Effects of a Synthetic Isoquinoline Derivative Against Ichthyophthirius multifiliis In Vivo and In Vitro in Grass Carp (Ctenopharyngodon idella)","s":"Pathogens","u":"https://doi.org/10.3390/pathogens14101069"},"animals2025hypoxia":{"a":"Wang et al.","y":2025,"t":"Integrative Genomics and Multi-Tissue Transcriptomics Identify Key Loci and Pathways for Hypoxia Tolerance in Grass Carp","s":"Animals","u":"https://doi.org/10.3390/ani15243518"},"helminth2024cormorant":{"a":"Gyöngy et al.","y":2024,"t":"Digenean trematodes (Trematoda: Digenea) parasitizing the digestive system of the great cormorant (Phalacrocorax carbo) in Hungary","s":"Helminthologia","u":"https://doi.org/10.2478/helm-2024-0033"},"ijm2025saprolegnia":{"a":"Rathod et al.","y":2025,"t":"Abiotic stressors influence saprolegniasis infection, causing mass mortality in Pangasianodon hypophthalmus and Labeo rohita under cage culture in Eastern India","s":"International Microbiology","u":"https://doi.org/10.1007/s10123-025-00721-z"}},"survival":[],"causes":[],"causeNotes":{"gcrv":{"zh":"草鱼出血病（草鱼呼肠孤病毒）是草鱼鱼种阶段死亡的重要原因。","en":"Grass carp reovirus disease causes hemorrhagic illness and high losses in fingerling grass carp.","ref":"fsi2026gcrv","basis":"related"},"ichthyo":{"zh":"白点病（小瓜虫）在高密度养殖中会造成大量死亡。","en":"White spot disease from Ichthyophthirius can cause heavy mortality in intensive farming.","ref":"pathogens2025ich","basis":"related"},"oxygen":{"zh":"低氧是养殖鱼类存活和生长的重要压力。","en":"Low oxygen is a major stressor that affects survival and growth of farmed fish.","ref":"animals2025hypoxia","basis":"related"},"predator":{"zh":"鸬鹚等鱼食性水鸟会对鱼类造成很大的经济损失。","en":"Piscivorous cormorants are known to cause large economic losses to fish stocks.","ref":"helminth2024cormorant","basis":"related"},"fungus":{"zh":"水霉病（丝水霉）在寒冷季节会造成鱼类大量死亡。","en":"Saprolegnia infection causes heavy fish mortality in aquaculture during winter.","ref":"ijm2025saprolegnia","basis":"related"}},"facts":[{"zh":"草鱼出血病可使草鱼鱼种死亡率高达 80%。","en":"Grass carp reovirus can cause mortality of up to 80% in fingerlings.","ref":"fsi2026gcrv","basis":"related","stages":["fingerling"],"causes":["gcrv"]},{"zh":"小瓜虫引起的白点病，在密集养殖里死亡率可超过 80%。","en":"White spot disease from Ichthyophthirius can cause mortality above 80% in intensive systems.","ref":"pathogens2025ich","basis":"related","stages":["fry","fingerling"],"causes":["ichthyo"]}],"existing":{}},"farmed_shrimp":{"refs":{"tbed2017":{"a":"Muniesa et al.","y":2017,"t":"Spatial Epidemiology and Risk Factor Analysis of White Spot Disease in the Shrimp Farming Industry of Sinaloa, Mexico, from 2005 to 2011","s":"Transboundary and Emerging Diseases","u":"https://doi.org/10.1111/tbed.12542"},"viruses2023":{"a":"Cox et al.","y":2023,"t":"The Way of Water: Unravelling White Spot Syndrome Virus (WSSV) Transmission Dynamics in Litopenaeus vannamei Shrimp","s":"Viruses","u":"https://doi.org/10.3390/v15091824"},"jaah2014":{"a":"Otta et al.","y":2014,"t":"Association of dual viral infection with mortality of Pacific white shrimp (Litopenaeus vannamei) in culture ponds in India","s":"VirusDisease","u":"https://doi.org/10.1007/s13337-013-0180-x"},"albalat2022":{"a":"Albalat et al.","y":2022,"t":"Welfare in Farmed Decapod Crustaceans, With Particular Reference to Penaeus vannamei","s":"Frontiers in Marine Science","u":"https://doi.org/10.3389/fmars.2022.886024"}},"survival":[],"causes":[],"causeNotes":{"wssv":{"zh":"白斑病毒引起的白斑病是养殖对虾死亡和经济损失的主要原因之一。","en":"White spot disease is one of the primary causes of mortality on shrimp farms.","ref":"tbed2017","basis":"measured"}},"facts":[{"zh":"全球每年约有 167 亿只养殖凡纳滨对虾被收获。","en":"About 167 billion farmed whiteleg shrimp are harvested each year.","ref":"albalat2022","basis":"related","stages":["old"]},{"zh":"印度一些养殖池里，对虾养到 50–72 天就因病提前收获。","en":"On some Indian pond farms, whiteleg shrimp were harvested early at 50 to 72 days because of disease.","ref":"jaah2014","basis":"measured","stages":["grow"],"causes":["wssv"]},{"zh":"在实验室感染试验中，感染白斑病毒的对虾约 78 小时内死亡。","en":"In a lab challenge, shrimp infected with white spot virus died within 78 hours.","ref":"viruses2023","basis":"related","stages":["grow"],"causes":["wssv"]}],"existing":{"events.5":"remove","events.11":"remove","decisions.0":"remove"}},"frog":{"refs":{"mantella_surv":{"a":"Edmonds et al.","y":2024,"t":"Small population size and possible extirpation of the threatened Malagasy poison frog Mantella cowanii","s":"PeerJ","u":"https://doi.org/10.7717/peerj.17947"},"mantella_decline":{"a":"Edmonds et al.","y":2024,"t":"Small population size and possible extirpation of the threatened Malagasy poison frog Mantella cowanii","s":"PeerJ","u":"https://doi.org/10.7717/peerj.17947"},"berger_fungus":{"a":"Berger et al.","y":1998,"t":"Chytridiomycosis causes amphibian mortality associated with population declines in the rain forests of Australia and Central America","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.95.15.9031"}},"survival":[{"from":365,"to":730,"surv":0.574,"ref":"mantella_surv","basis":"related","zh":"在一种马达加斯加的毒蛙身上，成蛙每年大约有 53% 到 62% 能活下来。","en":"In a Madagascan poison frog, about 53% to 62% of adults survived each year."}],"causes":[],"causeNotes":{"chytrid":{"zh":"在澳大利亚和巴拿马的雨林里，感染蛙壶菌的成蛙和死蛙出现在大量死亡事件中。","en":"A chytrid fungus was found in sick and dead adult frogs during mass die-offs in rainforests of Australia and Panama.","ref":"berger_fungus","basis":"related"}},"facts":[{"zh":"一种马达加斯加的毒蛙，成蛙每年的存活率大约在 53% 到 62% 之间。","en":"Annual adult survival in a Madagascan poison frog was about 53% to 62%.","ref":"mantella_surv","basis":"related","stages":["adult"]},{"zh":"在这种毒蛙调查最密集的地点，种群在 2015 到 2023 年间减少了 80% 以上。","en":"At the best-surveyed site, the population fell by more than 80% from 2015 to 2023.","ref":"mantella_decline","basis":"related","stages":["adult"]},{"zh":"在澳大利亚和巴拿马的雨林里，蛙壶菌感染的成蛙在大规模死亡事件中被发现。","en":"Chytrid fungus was found on sick and dead adult frogs during mass die-offs in rainforests of Australia and Panama.","ref":"berger_fungus","basis":"related","stages":["adult"],"causes":["chytrid"]}],"existing":{"events.14":"remove","events.17":"berger_fungus","decisions.1":"remove","decisions.5":"remove"}},"goat":{"refs":{"zamuner_kids":{"a":"Zamuner et al.","y":2023,"t":"Evaluation of plasma immunoglobulin G and BW thresholds for predicting preweaning mortality in commercially raised dairy goat kids","s":"animal","u":"https://doi.org/10.1016/j.animal.2023.100989"},"mandonnet_creole":{"a":"Mandonnet et al.","y":2003,"t":"Mortality of Creole kids during infection with gastrointestinal strongyles: a survival analysis","s":"Journal of Animal Science","u":"https://doi.org/10.2527/2003.81102401x"},"mandonnet_parasite":{"a":"Mandonnet et al.","y":2003,"t":"Mortality of Creole kids during infection with gastrointestinal strongyles: a survival analysis","s":"Journal of Animal Science","u":"https://doi.org/10.2527/2003.81102401x"},"khan_wolf":{"a":"Khan et al.","y":2019,"t":"Status and Magnitude of Grey Wolf Conflict with Pastoral Communities in the Foothills of the Hindu Kush Region of Pakistan","s":"Animals","u":"https://doi.org/10.3390/ani9100787"},"namgail_predators":{"a":"Namgail et al.","y":2007,"t":"Carnivore-caused livestock mortality in Trans-Himalaya","s":"Environmental Management","u":"https://doi.org/10.1007/s00267-005-0178-2"},"fan_diarrhea":{"a":"Fan et al.","y":2025,"t":"Bacillus pumilus 315 improves intestinal microbiota and barrier function to alleviate diarrhea of neonatal goats","s":"Animal Nutrition","u":"https://doi.org/10.1016/j.aninu.2024.10.008"},"zeder2000":{"a":"Zeder & Hesse","y":2000,"t":"The initial domestication of goats (Capra hircus) in the Zagros mountains 10,000 years ago","s":"Science","u":"https://doi.org/10.1126/science.287.5461.2254"}},"survival":[{"from":0,"to":42,"surv":0.79,"ref":"zamuner_kids","basis":"measured","zh":"在商业化养殖的奶山羊羔中，约 79% 能活到 42 天大。","en":"In commercially raised dairy goat kids, about 79% survived to 42 days old."}],"causes":[],"causeNotes":{"parasite":{"zh":"在草场上养的羊羔，胃肠道线虫感染会导致它们死亡。","en":"Strongyle worm infection causes deaths in goat kids reared at pasture.","ref":"mandonnet_parasite","basis":"measured"},"wolf":{"zh":"狼会咬死山羊，在一项巴基斯坦的调查里，被狼攻击的牲畜多数是山羊和绵羊。","en":"In a Pakistani study, goats and sheep made up 79.2% of reported wolf attacks.","ref":"khan_wolf","basis":"related"}},"facts":[{"zh":"在商业化养殖的奶山羊羔中，约 21% 在 42 天内死亡。","en":"In commercial dairy goat kids, 21% of kids died by 42 days old.","ref":"zamuner_kids","basis":"measured","stages":["kid","juv"]},{"zh":"在同一项研究中，出生两周内约有 12% 的奶山羊羔死亡。","en":"In the same study, 12% of dairy goat kids died within 14 days of birth.","ref":"zamuner_kids","basis":"measured","stages":["kid"]},{"zh":"在放养的羊群里，公羊羔因肠道线虫感染而死的风险远高于母羊羔。","en":"Male goat kids were more than three times as likely to die from worm infection as females.","ref":"mandonnet_creole","basis":"measured","stages":["kid","juv"],"causes":["parasite"]},{"zh":"在喜马拉雅的三个村子里，家山羊是被食肉动物杀死最多的牲畜之一。","en":"Domestic goats were 32% of the livestock killed by carnivores in three Ladakh villages.","ref":"namgail_predators","basis":"related","stages":["juv","young","adult"],"causes":["wolf"]},{"zh":"腹泻是出生后山羊羔的首要死因。","en":"Diarrhea is the leading cause of death in goat kids after birth, according to one study.","ref":"fan_diarrhea","basis":"related","stages":["kid"]},{"zh":"山羊大约一万年前在伊朗西部的扎格罗斯山地开始被驯化。","en":"Goats were first domesticated about 10,000 years ago in the highlands of western Iran.","ref":"zeder2000","basis":"measured","stages":["kid"]}],"existing":{"opening":"zeder2000"}},"greenland_shark":{"refs":{"nielsen_mat":{"a":"Nielsen et al.","y":2016,"t":"Eye lens radiocarbon reveals centuries of longevity in the Greenland shark (Somniosus microcephalus)","s":"Science","u":"https://doi.org/10.1126/science.aaf1703"},"nielsen_max":{"a":"Nielsen et al.","y":2016,"t":"Eye lens radiocarbon reveals centuries of longevity in the Greenland shark (Somniosus microcephalus)","s":"Science","u":"https://doi.org/10.1126/science.aaf1703"},"nielsen_28":{"a":"Nielsen et al.","y":2016,"t":"Eye lens radiocarbon reveals centuries of longevity in the Greenland shark (Somniosus microcephalus)","s":"Science","u":"https://doi.org/10.1126/science.aaf1703"},"peerj_common":{"a":"Grant et al.","y":2018,"t":"Greenland shark (Somniosus microcephalus) feeding behavior on static fishing gear, effect of SMART (Selective Magnetic and Repellent-Treated) hook deterrent technology, and factors influencing entanglement in bottom longlines","s":"PeerJ","u":"https://doi.org/10.7717/peerj.4751"},"peerj_rate":{"a":"Grant et al.","y":2018,"t":"Greenland shark (Somniosus microcephalus) feeding behavior on static fishing gear, effect of SMART (Selective Magnetic and Repellent-Treated) hook deterrent technology, and factors influencing entanglement in bottom longlines","s":"PeerJ","u":"https://doi.org/10.7717/peerj.4751"},"peerj_mort":{"a":"Grant et al.","y":2018,"t":"Greenland shark (Somniosus microcephalus) feeding behavior on static fishing gear, effect of SMART (Selective Magnetic and Repellent-Treated) hook deterrent technology, and factors influencing entanglement in bottom longlines","s":"PeerJ","u":"https://doi.org/10.7717/peerj.4751"}},"survival":[],"causes":[],"causeNotes":{"bycatch":{"zh":"格陵兰睡鲨被延绳钓误捕后，报道的死亡比例约为一半，部分是渔民杀掉了严重缠住的鲨鱼。","en":"Reported mortality of Greenland sharks in a halibut longline fishery was about 50%, partly because fishers killed entangled sharks.","ref":"peerj_mort","basis":"measured"}},"facts":[{"zh":"格陵兰睡鲨大约要到 156 岁前后才性成熟，误差约 ±22 年。","en":"Greenland sharks reach sexual maturity at an estimated 156 ± 22 years of age.","ref":"nielsen_mat","basis":"measured","stages":["subad","adult"]},{"zh":"研究中最大的一条（502 厘米）估计已有 392 ± 120 岁。","en":"The largest sampled shark, 502 cm long, was estimated to be 392 ± 120 years old.","ref":"nielsen_max","basis":"measured","stages":["old"]},{"zh":"用眼球晶状体的放射性碳测年，28 条雌鲨显示寿命至少有 272 年。","en":"Eye-lens radiocarbon dating of 28 female sharks showed a life span of at least 272 years.","ref":"nielsen_28","basis":"measured"},{"zh":"在一次试验性的格陵兰大比目鱼夏季渔业中，平均每 1000 个钩子就误捕 6.3 条睡鲨。","en":"During an experimental summer halibut fishery, bycatch averaged 6.3 Greenland sharks per 1000 hooks set.","ref":"peerj_rate","basis":"measured","stages":["juv","subad","adult","old"],"causes":["bycatch"],"decisions":["longline"]},{"zh":"在加拿大坎伯兰湾，格陵兰睡鲨是格陵兰大比目鱼底延绳钓渔业中最常见的误捕物种。","en":"In Cumberland Sound, Canada, Greenland shark is the most common bycatch in the halibut longline fishery.","ref":"peerj_common","basis":"measured","stages":["juv","subad","adult","old"],"causes":["bycatch"],"decisions":["longline"]}],"existing":{"events.2":"remove","events.4":"remove","events.5":"remove","events.7":"remove","events.10":"remove","events.13":"remove","decisions.1":"remove"}},"honeybee":{"refs":{"prado2020":{"a":"Prado et al.","y":2020,"t":"Honeybee lifespan: the critical role of pre-foraging stage","s":"Royal Society Open Science","u":"https://doi.org/10.1098/rsos.200998"},"prado2020b":{"a":"Prado et al.","y":2020,"t":"Honeybee lifespan: the critical role of pre-foraging stage","s":"Royal Society Open Science","u":"https://doi.org/10.1098/rsos.200998"},"sarmad2025":{"a":"Sarmad & Ryšánek","y":2025,"t":"Impact of different constant temperatures on the survival of honey bee, Apis mellifera (Hymenoptera: Apidae)","s":"Apidologie","u":"https://doi.org/10.1007/s13592-025-01191-y"},"varroa2024":{"a":"Boonmee et al.","y":2024,"t":"Properties of essential oils absorbed on the surface of cardboard pieces after using atmospheric-pressure plasma treatments to develop long-lasting Varroa miticides in honeybees (Apis mellifera)","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0297980"}},"survival":[],"causes":[],"causeNotes":{"varroa":{"zh":"瓦螨被认为是养殖西方蜜蜂中分布最广、危害最严重的害虫之一。","en":"Varroa mites are considered the most serious widespread pest of managed honey bees.","ref":"varroa2024","basis":"related"}},"facts":[{"zh":"大约四成工蜂在开始出去采集之前就死了。","en":"Roughly 40% of worker honey bees die before they start foraging.","ref":"prado2020","basis":"measured","stages":["nurse","builder"]},{"zh":"开始采集之后，工蜂每个采集日大约有 36% 的概率死去。","en":"Once foraging, a worker bee has about a 36% chance of dying on each foraging day.","ref":"prado2020b","basis":"measured","stages":["forager"]},{"zh":"实验室里，31°C 下半数工蜂约在两周左右死亡。","en":"In a lab test at 31 °C, half of the worker bees had died by about 14 days.","ref":"sarmad2025","basis":"related","stages":["forager"]}],"existing":{"events.5":"remove","events.6":"remove","events.7":"remove","decisions.1":"remove","decisions.2":"remove","decisions.4":"remove"}},"housefly":{"refs":{"shahzad2025":{"a":"Shahzad et al.","y":2025,"t":"Effects of Indoxacarb on life history traits and population performance of the house fly, Musca domestica","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-025-06279-0"},"shahzad2025b":{"a":"Shahzad et al.","y":2025,"t":"Effects of Indoxacarb on life history traits and population performance of the house fly, Musca domestica","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-025-06279-0"},"hafez2026":{"a":"Hafez & Abbas","y":2026,"t":"Realized Heritability and Fitness Costs of Diflubenzuron Resistance in Musca domestica L","s":"Insects","u":"https://doi.org/10.3390/insects17050480"},"amir2026":{"a":"Amir et al.","y":2026,"t":"Fitness costs of sublethal cyantraniliprole exposure: life-history trade-offs in the non-target insect Musca domestica","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-026-42884-3"}},"survival":[],"causes":[],"causeNotes":{"insecticide":{"zh":"在实验室里，接触高剂量茚虫威的家蝇，成虫寿命只有约 23 到 25 天。","en":"In lab tests, house flies given the highest indoxacarb dose lived only about 23 to 25 days as adults.","ref":"shahzad2025","basis":"related"}},"facts":[{"zh":"在实验室里，茚虫威高剂量组的幼虫期到成虫期发育最长约 14 天。","en":"In a lab test, pre-adult development took up to about 14 days in the highest indoxacarb dose group.","ref":"shahzad2025b","basis":"related","stages":["larva","pupa"],"causes":["insecticide"]},{"zh":"用于抗性选育的家蝇，相对适合度只有未选育群体的 0.39。","en":"House flies selected for diflubenzuron resistance had a relative fitness of 0.39 compared with unselected flies.","ref":"hafez2026","basis":"related","causes":["insecticide"],"stages":["adult"]},{"zh":"在实验室里，用 50 ppm 溴氰虫酰胺 处理的雄蝇，成虫寿命约 41 天，短于未处理组。","en":"In a lab test, male house flies given 50 ppm cyantraniliprole lived about 41 days as adults, shorter than untreated males.","ref":"amir2026","basis":"related","stages":["adult"],"causes":["insecticide"]}],"existing":{"events.25":"remove"}},"human":{"refs":{"who_u5":{"a":"WHO","y":2026,"t":"Child mortality (under 5 years)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/children-reducing-mortality"},"who_u5_deaths":{"a":"WHO","y":2026,"t":"Child mortality (under 5 years)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/children-reducing-mortality"},"who_neonatal":{"a":"WHO","y":2026,"t":"Child mortality (under 5 years)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/children-reducing-mortality"},"who_pneumonia":{"a":"WHO","y":2022,"t":"Pneumonia in children","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/pneumonia"},"who_diarrhoea":{"a":"WHO","y":2024,"t":"Diarrhoeal disease","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/diarrhoeal-disease"},"who_malaria":{"a":"WHO","y":2025,"t":"Malaria","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/malaria"},"who_malaria_u5":{"a":"WHO","y":2025,"t":"Malaria","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/malaria"},"who_mmr":{"a":"WHO","y":2025,"t":"Maternal mortality","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/maternal-mortality"},"who_road":{"a":"WHO","y":2026,"t":"Road traffic injuries","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries"},"who_road_deaths":{"a":"WHO","y":2026,"t":"Road traffic injuries","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries"},"who_cvd":{"a":"WHO","y":2025,"t":"Cardiovascular diseases (CVDs)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)"},"who_cvd_deaths":{"a":"WHO","y":2025,"t":"Cardiovascular diseases (CVDs)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)"},"who_cancer":{"a":"WHO","y":2026,"t":"Cancer","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/cancer"},"who_dementia":{"a":"WHO","y":2026,"t":"Dementia","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/dementia"},"jmp2025":{"a":"WHO, UNICEF","y":2025,"t":"1 in 4 people globally still lack access to safe drinking water","s":"WHO/UNICEF JMP news release","u":"https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef"},"unesco2025":{"a":"UN News","y":2025,"t":"Global perspective Human stories","s":"UN News","u":"https://news.un.org/en/story/2025/12/1166556"},"ilocl2021":{"a":"ILO, UNICEF","y":2021,"t":"Child labour rises to 160 million – first increase in two decades","s":"ILO News","u":"https://www.ilo.org/resource/news/child-labour-rises-160-million-first-increase-two-decades"},"ilo2025":{"a":"ILO","y":2025,"t":"The State of Social Justice 2025","s":"ILO flagship report","u":"https://www.ilo.org/state-social-justice-2025"},"itu2024":{"a":"ITU","y":2024,"t":"Internet use continues to grow, but universality remains elusive","s":"ITU Facts and Figures 2024","u":"https://www.itu.int/itu-d/reports/statistics/2024/11/10/ff24-internet-us"},"measles2023":{"a":"Minta et al.","y":2023,"t":"Progress Toward Measles Elimination - Worldwide, 2000-2022","s":"MMWR. Morbidity and Mortality Weekly Report","u":"https://doi.org/10.15585/mmwr.mm7246a3"},"wb_f65":{"a":"World Bank","y":2024,"t":"Survival to age 65, female (% of cohort)","s":"World Development Indicators (UN WPP, UN IGME)","u":"https://data.worldbank.org/indicator/SP.DYN.TO65.FE.ZS?locations=1W"},"wb_m65":{"a":"World Bank","y":2024,"t":"Survival to age 65, male (% of cohort)","s":"World Development Indicators (UN WPP, UN IGME)","u":"https://data.worldbank.org/indicator/SP.DYN.TO65.MA.ZS?locations=1W"},"wb_imr":{"a":"World Bank","y":2024,"t":"Mortality rate, infant (per 1,000 live births)","s":"World Development Indicators (UN WPP, UN IGME)","u":"https://data.worldbank.org/indicator/SP.DYN.IMRT.IN?locations=1W"}},"survival":[{"from":0,"to":365,"surv":0.9723,"ref":"wb_imr","basis":"official","zh":"2024 年全球每 1000 个新生儿约有 28 个活不到一岁。","en":"In 2024 about 28 of every 1,000 newborns worldwide died before age one."},{"from":365,"to":1825,"surv":0.99,"ref":"who_u5","basis":"official","zh":"2024 年全球每 1000 个孩子约有 37 个在五岁前死亡。","en":"In 2024 about 37 of every 1,000 children worldwide died before age five."},{"from":1825,"to":23725,"surv":0.8129,"ref":"wb_f65","basis":"official","zh":"按 2024 年全球死亡率，约 83% 的女性能活到 65 岁。","en":"At 2024 world death rates, about 83% of women live to 65."}],"causes":[{"stages":["infant","child"],"shares":{"pneumonia":0.14},"ref":"who_pneumonia","basis":"official","zh":"五岁以下儿童的死亡中，约 14% 是肺炎造成的。","en":"Pneumonia accounts for about 14% of deaths of children under 5."}],"causeNotes":{"diarrhea":{"ref":"who_diarrhoea","basis":"official","zh":"腹泻是五岁以下儿童的第三大死因。","en":"Diarrhoea is the third leading cause of death in children under 5."},"malaria":{"ref":"who_malaria_u5","basis":"official","zh":"在非洲区域，疟疾死亡中约 75% 是五岁以下儿童。","en":"In Africa, about 75% of malaria deaths are in children under 5."},"childbirth":{"ref":"who_mmr","basis":"official","zh":"2023 年全球孕产妇死亡率为每 10 万活产 197 人。","en":"In 2023 the global maternal death rate was 197 per 100 thousand live births."},"accident":{"ref":"who_road","basis":"official","zh":"道路交通伤害是 5 到 29 岁儿童和青年的头号死因。","en":"Road crashes are the leading cause of death for children and young adults aged 5 to 29."},"heart":{"ref":"who_cvd","basis":"official","zh":"心血管疾病是全球头号死因。","en":"Heart and blood-vessel disease is the leading cause of death worldwide."},"cancer":{"ref":"who_cancer","basis":"official","zh":"癌症是全球主要死因，2024 年近 1000 万人死于癌症。","en":"Cancer is a leading cause of death worldwide, with nearly 10 million deaths in 2024."}},"facts":[{"zh":"2024 年全球约 490 万名五岁以下儿童死亡。","en":"In 2024 about 4.9 million children under 5 died worldwide.","ref":"who_u5_deaths","basis":"official","stages":["infant","child"]},{"zh":"五岁以下儿童死亡里，约 47% 发生在出生后的头 28 天。","en":"47% of under-5 deaths happen in the first 28 days of life.","ref":"who_neonatal","basis":"official","stages":["infant"]},{"zh":"腹泻是五岁以下儿童的第三大死因。","en":"Diarrhoea is the third leading cause of death in children under 5.","ref":"who_diarrhoea","basis":"official","stages":["infant","child"],"causes":["diarrhea"]},{"zh":"肺炎约占五岁以下儿童死亡的 14%。","en":"Pneumonia causes about 14% of deaths of children under 5.","ref":"who_pneumonia","basis":"official","stages":["infant","child"],"causes":["pneumonia"]},{"zh":"2024 年全球约有 2.82 亿疟疾病例。","en":"In 2024 there were about 282 million malaria cases worldwide.","ref":"who_malaria","basis":"official","stages":["child","school","youth"],"causes":["malaria"]},{"zh":"全球每年约 116 万人死于道路交通事故。","en":"About 1.16 million people die each year in road crashes.","ref":"who_road_deaths","basis":"official","stages":["child","school","youth","adult"],"causes":["accident"]},{"zh":"2022 年约 1980 万人死于心血管疾病，占全部死亡的约 32%。","en":"About 19.8 million people died of heart and blood-vessel disease in 2022, about 32% of all deaths.","ref":"who_cvd_deaths","basis":"official","stages":["adult","old"],"causes":["heart"]},{"zh":"2023 年全球孕产妇死亡率为每 10 万活产 197 人。","en":"In 2023 the global maternal death rate was 197 per 100 thousand live births.","ref":"who_mmr","basis":"official","stages":["youth","adult"],"causes":["childbirth"]},{"zh":"按 2024 年全球死亡率，约 74% 的男性能活到 65 岁。","en":"At 2024 world death rates, about 74% of men live to 65.","ref":"wb_m65","basis":"official","stages":["adult","old"]}],"existing":{"events.2":"measles2023","events.5":"unesco2025","events.7":"jmp2025","events.8":"ilocl2021","events.10":"ilo2025","events.11":"itu2024","events.19":"who_dementia","decisions.1":"remove","decisions.0":"remove","events.18":"remove"}},"krill":{"refs":{"atkinson2004":{"a":"Atkinson et al.","y":2004,"t":"Long-term decline in krill stock and increase in salps within the Southern Ocean","s":"Nature","u":"https://doi.org/10.1038/nature02996"},"atkinson2004b":{"a":"Atkinson et al.","y":2004,"t":"Long-term decline in krill stock and increase in salps within the Southern Ocean","s":"Nature","u":"https://doi.org/10.1038/nature02996"},"savoca2024":{"a":"Savoca et al.","y":2024,"t":"Whale recovery and the emerging human-wildlife conflict over Antarctic krill","s":"Nature Communications","u":"https://doi.org/10.1038/s41467-024-51954-x"},"biuw2024":{"a":"Biuw et al.","y":2024,"t":"Estimated summer abundance and krill consumption of fin whales throughout the Scotia Sea during the 2018/2019 summer season","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-024-57378-3"},"biuw2024b":{"a":"Biuw et al.","y":2024,"t":"Estimated summer abundance and krill consumption of fin whales throughout the Scotia Sea during the 2018/2019 summer season","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-024-57378-3"},"dong2025":{"a":"Dong et al.","y":2025,"t":"Temporal variability in mortality and recruitment jointly influence the periodic fluctuations in Antarctic krill populations","s":"Marine Environmental Research","u":"https://doi.org/10.1016/j.marenvres.2024.106923"},"guerrero2021":{"a":"Guerrero et al.","y":2021,"t":"Complementary use of stable isotopes and fatty acids for quantitative diet estimation of sympatric predators, the Antarctic pack-ice seals","s":"Oecologia","u":"https://doi.org/10.1007/s00442-021-05045-z"},"flores2012":{"a":"Flores et al.","y":2012,"t":"The association of Antarctic krill Euphausia superba with the under-ice habitat","s":"PLoS ONE","u":"https://doi.org/10.1371/journal.pone.0031775"}},"survival":[],"causes":[],"causeNotes":{"whale":{"zh":"仅南极半岛和斯科蒂亚海的长须鲸，夏季每年就估计要吃掉约 797 万吨磷虾。","en":"Fin whales alone are estimated to eat about 7.97 million tonnes of krill per summer in the Antarctic Peninsula and Scotia Sea.","ref":"biuw2024","basis":"measured"},"seal":{"zh":"南极浮冰区的食蟹海豹，食谱几乎全是磷虾。","en":"Crabeater seals in the pack ice eat krill as almost their only food.","ref":"guerrero2021","basis":"related"},"trawl":{"zh":"南极磷虾渔获自 1993 年以来增加到约四倍。","en":"Krill catch has increased fourfold since 1993.","ref":"savoca2024","basis":"measured"},"starve":{"zh":"在冬季海冰下发现了较多的磷虾后幼体，海冰生物可能对它们越冬存活很重要。","en":"Postlarval krill found under winter sea ice suggest that ice-associated biota matter for winter survival.","ref":"flores2012","basis":"measured"}},"facts":[{"zh":"南极磷虾在西南大西洋的密度自 1970 年代起明显下降。","en":"Krill density in the productive southwest Atlantic has declined since the 1970s.","ref":"atkinson2004","basis":"measured","stages":["adult"]},{"zh":"西南大西洋占南大洋磷虾资源的一半以上。","en":"The southwest Atlantic sector holds over 50% of Southern Ocean krill stocks.","ref":"atkinson2004b","basis":"measured","stages":["adult"]},{"zh":"仅南极半岛和斯科蒂亚海的长须鲸，夏季每年就要吃掉约 797 万吨磷虾。","en":"Fin whales in the Scotia Sea and Antarctic Peninsula eat about 7.97 million tonnes of krill per summer.","ref":"biuw2024","basis":"measured","stages":["adult","old"],"causes":["whale"]},{"zh":"长须鲸夏季吃掉的磷虾量约为同季商业捕捞量的 20 倍。","en":"Fin whale krill consumption in one summer was around 20 times the commercial krill catch in Area 48.","ref":"biuw2024b","basis":"measured","stages":["adult"],"causes":["whale"]},{"zh":"南极半岛一带的磷虾数量大约每 5 到 6 年起伏一次，主要受新生个体数量影响。","en":"Antarctic Peninsula krill abundance cycles every 5–6 years, driven mainly by recruitment.","ref":"dong2025","basis":"measured","stages":["juv"]},{"zh":"南极磷虾的渔获量自 1993 年以来增加到约四倍。","en":"Krill catch has increased fourfold since 1993.","ref":"savoca2024","basis":"measured","stages":["adult","old"],"causes":["trawl"]},{"zh":"在冬季海冰下找到的磷虾后幼体，说明冰下生物对它们越冬很重要。","en":"Postlarval krill under winter sea ice suggest ice-associated biota are important for their winter survival.","ref":"flores2012","basis":"measured","stages":["juv"],"decisions":["ice_edge"],"causes":["starve"]},{"zh":"南极浮冰区的食蟹海豹，食谱几乎全是磷虾。","en":"Crabeater seals in the pack ice eat krill as almost their only food.","ref":"guerrero2021","basis":"related","stages":["juv","adult"],"causes":["seal"]}],"existing":{"events.1":"remove","events.5":"remove","events.34":"atkinson2004","decisions.3":"remove","decisions.4":"remove","decisions.5":"flores2012"}},"lanternfish":{"refs":{"yang2026":{"a":"Yang et al.","y":2026,"t":"Dynamics of daily vertical migration in mesopelagic fish communities across the Southern Ocean","s":"Proceedings of the Royal Society B: Biological Sciences","u":"https://doi.org/10.1098/rspb.2025.2264"},"matthews2024":{"a":"Matthews et al.","y":2024,"t":"Biological Characteristics of the Glacier Lantern Fish Benthosema glaciale (Myctophidae) in Icelandic Waters and the Irminger Sea During Summer","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.70386"},"valls2021":{"a":"Valls et al.","y":2021,"t":"Diet and feeding behaviour of albacore Thunnus alalunga in the western Mediterranean Sea during the spawning period","s":"Journal of Fish Biology","u":"https://doi.org/10.1111/jfb.14935"},"cherel2018":{"a":"Cherel et al.","y":2018,"t":"Stable isotopes document the winter foraging ecology of king penguins and highlight connectivity between subantarctic and Antarctic ecosystems","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.3883"},"yano2022":{"a":"Yano et al.","y":2022,"t":"14-3-3 proteins are luciferases candidate proteins from lanternfish Diaphus watasei","s":"Photochemical & Photobiological Sciences","u":"https://doi.org/10.1007/s43630-022-00311-2"}},"survival":[],"causes":[],"causeNotes":{"tuna":{"zh":"金枪鱼（长鳍金枪鱼）在产卵季会专门捕食成群垂直迁移的灯笼鱼。","en":"Albacore tuna in the western Mediterranean specialise on aggregations of migrating myctophids during spawning.","ref":"valls2021","basis":"related"},"seabird":{"zh":"王企鹅冬天在亚南极和南极的海域都吃灯笼鱼。","en":"In winter, king penguins preyed on myctophids in both subantarctic and Antarctic waters.","ref":"cherel2018","basis":"related"}},"facts":[{"zh":"南大洋的灯笼鱼约有 14.2 百万吨每天往返上下迁移，占总生物量的近三成。","en":"Of 48.3 million tonnes of Southern Ocean lanternfish, 14.2 million tonnes migrate vertically each day.","ref":"yang2026","basis":"measured","stages":["juv","adult"],"decisions":["dusk"]},{"zh":"冰岛水域采到的冰川灯笼鱼（Benthosema glaciale）年龄为 2 到 6 岁。","en":"Glacier lanternfish sampled in Icelandic waters were 2 to 6 years old.","ref":"matthews2024","basis":"related","stages":["old"]},{"zh":"地中海的长鳍金枪鱼在产卵期专门捕食成群垂直迁移的灯笼鱼。","en":"Albacore in the western Mediterranean fed on migrating myctophids during spawning.","ref":"valls2021","basis":"related","stages":["adult"],"causes":["tuna"]},{"zh":"灯笼鱼用腹侧发光器让身体的影子消失，这叫做反照明。","en":"Lanternfish use ventral light organs to hide their silhouette from below, a strategy called counterillumination.","ref":"yano2022","basis":"related","stages":["juv","adult"],"decisions":["lure_dim"]},{"zh":"冬天的王企鹅在两个海区都捕食灯笼鱼。","en":"In winter, king penguins preyed on myctophids in both subantarctic and Antarctic zones.","ref":"cherel2018","basis":"related","stages":["adult"],"causes":["seabird"]}],"existing":{"events.8":"yano2022","decisions.5":"yano2022"}},"layer_hen":{"refs":{"plosone2016mort":{"a":"Weeks et al.","y":2016,"t":"Implications for Welfare, Productivity and Sustainability of the Variation in Reported Levels of Mortality for Laying Hen Flocks Kept in Different Housing Systems: A Meta-Analysis of Ten Studies","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0146394"},"avd2016lesions":{"a":"Kajlich et al.","y":2016,"t":"Incidence, Severity, and Welfare Implications of Lesions Observed Postmortem in Laying Hens from Commercial Noncage Farms in California and Iowa","s":"Avian Diseases","u":"https://doi.org/10.1637/11247-080415-Reg.1"},"avd2016vent":{"a":"Kajlich et al.","y":2016,"t":"Incidence, Severity, and Welfare Implications of Lesions Observed Postmortem in Laying Hens from Commercial Noncage Farms in California and Iowa","s":"Avian Diseases","u":"https://doi.org/10.1637/11247-080415-Reg.1"},"poultsci2015keel":{"a":"Petrik et al.","y":2015,"t":"On-farm comparison of keel fracture prevalence and other welfare indicators in conventional cage and floor-housed laying hens in Ontario, Canada","s":"Poultry Science","u":"https://doi.org/10.3382/ps/pev039"},"frontvet2016keel":{"a":"Casey-Trott & Widowski","y":2016,"t":"Behavioral Differences of Laying Hens with Fractured Keel Bones within Furnished Cages","s":"Frontiers in Veterinary Science","u":"https://doi.org/10.3389/fvets.2016.00042"},"ps2026nc":{"a":"Butler-Lund et al.","y":2026,"t":"A multiple correspondence analysis of necropsy findings in non-caged laying hens that died during the production period","s":"Poultry Science","u":"https://doi.org/10.1016/j.psj.2026.106734"},"sweden2009cann":{"a":"Fossum et al.","y":2009,"t":"Causes of mortality in laying hens in different housing systems in 2001 to 2004","s":"Acta Veterinaria Scandinavica","u":"https://doi.org/10.1186/1751-0147-51-3"},"plosone2015perch":{"a":"Stratmann et al.","y":2015,"t":"Soft perches in an aviary system reduce incidence of keel bone damage in laying hens","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0122568"},"tsg2006":{"a":"German federal law, consolidated text","y":2006,"t":"Tierschutzgesetz (TierSchG)","s":"Bundesgesetzblatt, Germany","u":"https://www.gesetze-im-internet.de/tierschg/BJNR012770972.html"},"avd2019structure":{"a":"Fulton","y":2019,"t":"Health of Commercial Egg Laying Chickens in Different Housing Systems","s":"Avian Diseases","u":"https://doi.org/10.1637/11942-080618-Reg.1"}},"survival":[{"from":126,"to":490,"surv":0.9,"ref":"plosone2016mort","basis":"measured","zh":"自由放养的蛋鸡群到 60–80 周龄时，平均累计死亡率约 10%。","en":"In free-range laying flocks, about 10% of hens had died by 60 to 80 weeks of age on average."}],"causes":[],"causeNotes":{"keel":{"zh":"龙骨骨折在各种饲养系统中都很常见。","en":"Keel bone fractures are highly prevalent in laying hens in all housing systems.","ref":"frontvet2016keel","basis":"measured"},"peck":{"zh":"啄食同类导致的死亡在蛋鸡中是已知的死因之一。","en":"Cannibalism, meaning pecking that leads to death, is a recognised cause of hen mortality.","ref":"sweden2009cann","basis":"measured"},"infect":{"zh":"输卵管炎和腹膜炎是非笼养蛋鸡最常见的死因之一。","en":"Salpingitis-peritonitis is among the most common diagnosed causes of death in non-caged hens.","ref":"ps2026nc","basis":"measured"},"prolapse":{"zh":"泄殖腔脱出在出现死亡或淘汰的蛋鸡中是常见的病变。","en":"Cloacal prolapse is a common lesion in hens examined after death or culling.","ref":"avd2016lesions","basis":"measured"},"cage_trap":{"zh":"在棚舍结构中被卡住而死亡的鸡，在某些鸡舍里比较常见。","en":"Some hens die after being caught in the housing structure, most often in aviary systems.","ref":"avd2019structure","basis":"measured"}},"facts":[{"zh":"在安大略省的农场里，平养鸡群的龙骨骨折率比笼养鸡群高。","en":"On Ontario farms, keel fractures were 48.3% in floor-housed flocks versus 24.8% in cage flocks.","ref":"poultsci2015keel","basis":"measured","stages":["layer"],"causes":["keel"],"decisions":["perch"]},{"zh":"自由放养蛋鸡群到 60–80 周龄时，平均累计死亡率约 10%，但各群差异很大。","en":"Free-range flocks averaged about 10% cumulative mortality at 60 to 80 weeks of age.","ref":"plosone2016mort","basis":"measured","stages":["layer","spent"]},{"zh":"在死亡或被淘汰的非笼养母鸡中，泄殖腔脱出占 30.5%。","en":"In noncage hens examined after death or culling, 30.5% had cloacal prolapse.","ref":"avd2016lesions","basis":"measured","stages":["layer"],"causes":["prolapse"]},{"zh":"非笼养蛋鸡中，啄肛和龙骨变形等病变在至少 40% 的母鸡上可见。","en":"In noncage hens, vent cannibalism and keel deformation were seen in at least 40% of hens.","ref":"avd2016vent","basis":"measured","stages":["layer"],"causes":["peck","keel"]},{"zh":"德国法律禁止无合理理由地处死蛋鸡品种的雏鸡（公雏）。","en":"German law prohibits killing chicks of domestic hens, with limited exceptions.","ref":"tsg2006","basis":"official","stages":["chick"]}],"existing":{"events.0":"remove","events.9":"frontvet2016keel","decisions.0":"remove","decisions.2":"plosone2015perch"}},"lion":{"refs":{"luangwa2018":{"a":"Mweetwa et al.","y":2018,"t":"Quantifying lion (Panthera leo) demographic response following a three-year moratorium on trophy hunting","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0197030"},"hwange2024":{"a":"Dejeante et al.","y":2024,"t":"Counter-strategies to infanticide: The importance of cubs in determining lion habitat selection and social interactions","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.14045"},"ngorongoro2004":{"a":"Kissui & Packer","y":2004,"t":"Top-down population regulation of a top predator: lions in the Ngorongoro Crater","s":"Proceedings of the Royal Society of London. Series B: Biological Sciences","u":"https://doi.org/10.1098/rspb.2004.2797"},"cms_lion":{"a":"CMS (Convention on Migratory Species)","y":2023,"t":"Conservation Status of the African Lion","s":"CMS","u":"https://www.cms.int/en/node/653"},"bs_gir":{"a":"Business Standard (citing Gujarat Forest Department)","y":2020,"t":"Guj's lion count rises to 674 from 523, PM hopes positive trend continues","s":"Business Standard","u":"https://business-standard.com/article/current-affairs/guj-s-lion-count-rises-to-674-from-523-pm-hopes-positive-trend-continues-120061100126_1.html"}},"survival":[],"causes":[],"causeNotes":{"infanticide":{"zh":"狮子是会杀婴的物种，雄狮可以留在幼崽身边，也可以巡逻领地来防止别的雄狮入侵。","en":"Lions are an infanticidal species; males can stay near cubs or patrol their territory against rival males.","ref":"hwange2024","basis":"measured"}},"facts":[{"zh":"赞比亚南卢安瓜的研究发现，暂停三年狩猎后，亚成年雄狮的存活率升高了 17.1 个百分点，成年雄狮升高了 14.0 个百分点。","en":"In South Luangwa, Zambia, a three-year hunting pause raised survival by 17.1 points for subadult males and 14.0 points for adult males.","ref":"luangwa2018","basis":"measured","stages":["sub","adult"]},{"zh":"恩戈罗戈罗火山口的狮群在 1994 至 2001 年间遭遇三次疾病暴发，种群一直没能恢复到环境容量。","en":"In Ngorongoro Crater, three disease outbreaks between 1994 and 2001 stopped the lion population from recovering.","ref":"ngorongoro2004","basis":"measured"},{"zh":"2020 年，古吉拉特邦森林部数出了 674 头亚洲狮。","en":"In 2020, Gujarat's forest department counted 674 Asiatic lions.","ref":"bs_gir","basis":"official","flags":["gir"]},{"zh":"狮子是会杀婴的物种，雄狮有两种办法保护幼崽：留在幼崽身边，或是更勤地巡逻领地。","en":"Lions are an infanticidal species; males can guard cubs by staying close to them or by patrolling their territory.","ref":"hwange2024","basis":"measured","stages":["cub"],"causes":["infanticide"]}],"existing":{"events.6":"remove","events.22":"cms_lion","events.34":"bs_gir","decisions.1":"remove"}},"mayfly":{"refs":{"gcb2016":{"a":"Verberk et al.","y":2016,"t":"Field and laboratory studies reveal interacting effects of stream oxygenation and warming on aquatic ectotherms","s":"Global Change Biology","u":"https://doi.org/10.1111/gcb.13240"},"mayflies2019":{"a":"Jacobus et al.","y":2019,"t":"Mayflies (Ephemeroptera) and Their Contributions to Ecosystem Services","s":"Insects","u":"https://doi.org/10.3390/insects10060170"},"mayflies2019b":{"a":"Jacobus et al.","y":2019,"t":"Mayflies (Ephemeroptera) and Their Contributions to Ecosystem Services","s":"Insects","u":"https://doi.org/10.3390/insects10060170"},"mayflies2019c":{"a":"Jacobus et al.","y":2019,"t":"Mayflies (Ephemeroptera) and Their Contributions to Ecosystem Services","s":"Insects","u":"https://doi.org/10.3390/insects10060170"}},"survival":[],"causes":[],"causeNotes":{"low_oxygen":{"zh":"在缺氧的水里，两种欧洲蜉蝣稚虫的致死温度分别降低了 5.5 和 8.2°C。","en":"In low-oxygen water, the lethal temperature for two European mayfly nymph species dropped by 5.5 and 8.2 °C.","ref":"gcb2016","basis":"related"}},"facts":[{"zh":"蜉蝣的有翅成虫没有功能性的口器和消化系统，不吃东西。","en":"Winged adult mayflies have no working mouthparts or digestive system, so they do not feed.","ref":"mayflies2019","basis":"measured","stages":["imago"]},{"zh":"蜉蝣独有亚成虫这一阶段，在现存昆虫中是唯一的。","en":"Mayflies are the only living insects with a subimago stage.","ref":"mayflies2019b","basis":"measured","stages":["subimago"]},{"zh":"蜉蝣稚虫的取食方式多样，有的是收集者，有的是滤食者，还有的是主动捕食者。","en":"Mayfly nymphs feed in several ways, including as collectors, filterers, scrapers and active predators.","ref":"mayflies2019c","basis":"measured","stages":["nymph"]}],"existing":{"events.4":"remove","events.18":"mayflies2019"}},"mite":{"refs":{"krause2019":{"a":"Krause et al.","y":2019,"t":"Shift in trophic niches of soil microarthropods with conversion of tropical rainforest into plantation systems as indicated by stable isotopes (15N, 13C)","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0224520"},"vonsaltzwedel2014":{"a":"von Saltzwedel et al.","y":2014,"t":"Evidence for Frozen-Niche Variation in a Cosmopolitan Parthenogenetic Soil Mite Species (Acari, Oribatida)","s":"PLoS ONE","u":"https://doi.org/10.1371/journal.pone.0113268"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"甲螨是土壤里数量最多的小动物之一，参与落叶分解和养分循环。","en":"Oribatid mites are among the most abundant soil animals and take part in decomposition and nutrient cycling.","ref":"krause2019","basis":"related","stages":["proto","deuto","adult","old"]},{"zh":"一种分布很广的甲螨是孤雌生殖的，不经雄螨也能繁殖。","en":"A widespread oribatid soil mite species reproduces parthenogenetically, without males.","ref":"vonsaltzwedel2014","basis":"related","stages":["adult"]}],"existing":{"events.5":"krause2019","events.12":"vonsaltzwedel2014"}},"mosquito":{"refs":{"balestrino2022":{"a":"Balestrino et al.","y":2022,"t":"Field Performance Assessment of Irradiated Aedes albopictus Males Through Mark–Release–Recapture Trials With Multiple Release Points","s":"Frontiers in Bioengineering and Biotechnology","u":"https://doi.org/10.3389/fbioe.2022.876677"},"helgen1989":{"a":"Helgen","y":1989,"t":"Larval Mosquitoes as Vulnerable Prey: Chaoborus Predation","s":"Canadian Journal of Fisheries and Aquatic Sciences","u":"https://doi.org/10.1139/f89-209"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"野外释放的白纹伊蚊雄蚊，每天的存活率与空气相对湿度呈正相关。","en":"Released adult male Asian tiger mosquitoes survived each day more often when the air was more humid.","ref":"balestrino2022","basis":"related","stages":["adult"]},{"zh":"在水里，伊蚊幼虫比同处一地的小型水蚤更容易被幽蚊幼虫捕食。","en":"Aedes mosquito larvae are much more vulnerable to Chaoborus predator larvae than the small water fleas (Daphnia) they coexist with.","ref":"helgen1989","basis":"related","stages":["larva"]}],"existing":{"decisions.1":"remove"}},"nematode":{"refs":{"tan1999":{"a":"Tan et al.","y":1999,"t":"Killing of Caenorhabditis elegans by Pseudomonas aeruginosa used to model mammalian bacterial pathogenesis","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.96.2.715"},"tan1999slow":{"a":"Tan et al.","y":1999,"t":"Killing of Caenorhabditis elegans by Pseudomonas aeruginosa used to model mammalian bacterial pathogenesis","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.96.2.715"},"lee2011":{"a":"Lee et al.","y":2011,"t":"Nictation, a dispersal behavior of the nematode Caenorhabditis elegans, is regulated by IL2 neurons","s":"Nature Neuroscience","u":"https://doi.org/10.1038/nn.2975"},"hsueh2017":{"a":"Hsueh et al.","y":2017,"t":"Nematophagous fungus Arthrobotrys oligospora mimics olfactory cues of sex and food to lure its nematode prey","s":"eLife","u":"https://doi.org/10.7554/elife.20023"},"shi2014":{"a":"Shi & Murphy","y":2014,"t":"Mating Induces Shrinking and Death in Caenorhabditis Mothers","s":"Science","u":"https://doi.org/10.1126/science.1242958"},"duan2025":{"a":"Duan et al.","y":2025,"t":"Nutrient State-Dependent Ascarosides and Nematode Immune Response Limit the Predation of Arthrobotrys oligospora","s":"Microorganisms","u":"https://doi.org/10.3390/microorganisms13122816"},"felix2011":{"a":"Félix et al.","y":2011,"t":"Natural and experimental infection of Caenorhabditis nematodes by novel viruses related to nodaviruses","s":"PLoS Biology","u":"https://doi.org/10.1371/journal.pbio.1000586"},"mcgill2015":{"a":"McGill et al.","y":2015,"t":"Anhydrobiosis and freezing-tolerance: adaptations that facilitate the establishment of Panagrolaimus nematodes in polar habitats","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0116084"},"eren2026":{"a":"Eren et al.","y":2026,"t":"Predatory aggression evolved through adaptations to noradrenergic circuits","s":"Nature","u":"https://doi.org/10.1038/s41586-025-10009-x"}},"survival":[],"causes":[],"causeNotes":{"pathogen":{"zh":"铜绿假单胞菌这样的细菌能在几天内把线虫杀死，线虫吃进去的细菌会在体内致病。","en":"The bacterium Pseudomonas aeruginosa kills C. elegans, with slow killing taking several days on minimal medium.","ref":"tan1999","basis":"related"},"fungus":{"zh":"食线虫真菌会形成陷阱，像捕食者一样捉住线虫。","en":"Nematode-trapping fungi are soil predators that catch nematodes, a typical predator-prey relationship.","ref":"duan2025","basis":"related"},"pristionchus":{"zh":"Pristionchus pacificus 是一种会捕食其他线虫的肉食性线虫。","en":"Pristionchus pacificus is a predatory nematode that hunts other nematodes.","ref":"eren2026","basis":"related"},"dry":{"zh":"一些土壤线虫能失去几乎全部水分仍能存活。","en":"Some soil nematodes can survive losing both free and bound water.","ref":"mcgill2015","basis":"related"}},"facts":[{"zh":"用基础培养基培养的铜绿假单胞菌，要花几天时间才能把线虫杀死。","en":"PA14 grown on minimal medium kills C. elegans slowly, over several days.","ref":"tan1999slow","basis":"related","stages":["larva","adult","old"],"causes":["pathogen"],"decisions":["pseudomonas"]},{"zh":"食线虫真菌会释放气味，把线虫引过来。","en":"The trapping fungus Arthrobotrys oligospora releases odours that attract C. elegans and other nematodes.","ref":"hsueh2017","basis":"related","stages":["larva","adult","old"],"causes":["fungus"],"decisions":["fungus_trap"]},{"zh":"许多线虫会站起来、摆动头部，这种行为能把它们送到新的地方。","en":"Many nematodes stand on their tails and wave their heads, a behaviour that disperses them.","ref":"lee2011","basis":"related","decisions":["nictation"]},{"zh":"与雄虫交配后，雌雄同体会缩小，并在停止产卵后不久死去。","en":"After mating, a hermaphrodite mother shrinks and dies soon after she stops producing offspring.","ref":"shi2014","basis":"related","stages":["adult","old"],"decisions":["male"]},{"zh":"食线虫真菌捕食线虫，是土壤里典型的捕食与被捕食关系。","en":"Nematode-trapping fungi prey on nematodes in soil, a typical predator-prey relationship.","ref":"duan2025","basis":"related","stages":["larva","adult","old"],"causes":["fungus"]},{"zh":"2011 年在野生线虫中发现了两种新的 RNA 病毒。","en":"In 2011, two new RNA viruses were found in wild C. elegans and C. briggsae isolates.","ref":"felix2011","basis":"related","stages":["adult","old"]}],"existing":{"events.0":"remove","events.4":"remove","events.9":"remove","events.11":"remove","events.14":"felix2011","events.29":"remove","decisions.0":"remove","decisions.1":"remove","decisions.2":"lee2011","decisions.3":"hsueh2017","decisions.4":"shi2014"}},"panda":{"refs":{"cpv2025":{"a":"Zhou et al.","y":2025,"t":"First Identification of CPV-2c Infection in a Wild Cub Giant Panda (Ailuropoda melanoleuca) Suggesting an Emerging Transmission From Wildlife and Domestic Dogs","s":"Transboundary and Emerging Diseases","u":"https://doi.org/10.1155/tbed/6716483"},"fmr2021":{"a":"Bi et al.","y":2021,"t":"Field metabolic rates of giant pandas reveal energetic adaptations","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-021-01872-5"},"captive2025":{"a":"Luo et al.","y":2025,"t":"Exploring Captive Giant Panda Reproduction: Maternal and Offspring Factor Correlations from 324 Breeding Events","s":"Animals","u":"https://doi.org/10.3390/ani15081182"}},"survival":[],"causes":[],"causeNotes":{"disease":{"zh":"2020 年在卧龙自然保护区发现的一只年幼野生大熊猫，经检查确诊为犬细小病毒感染。","en":"A young wild giant panda found dead in Wolong in 2020 was diagnosed with canine parvovirus, a disease that threatens wild cubs.","ref":"cpv2025","basis":"measured"}},"facts":[{"zh":"大熊猫常常坐在一片竹子里，一吃就是好几个小时。","en":"Giant pandas often sit in one patch of bamboo and eat for hours at a time.","ref":"fmr2021","basis":"measured","stages":["young","adult"]},{"zh":"圈养繁殖记录中，单胎幼崽出生时比双胞胎重。","en":"In captive breeding records, single cubs were heavier at birth than twins.","ref":"captive2025","basis":"related","stages":["cub"],"decisions":["twin_nest"]},{"zh":"2020 年，卧龙自然保护区发现的一只年幼野生大熊猫因犬细小病毒死亡。","en":"A young wild panda found dead in Wolong in 2020 was infected with canine parvovirus.","ref":"cpv2025","basis":"measured","stages":["cub","young"],"causes":["disease"]}],"existing":{"events.0":"remove","events.9":"remove","events.10":"remove","decisions.2":"remove"}},"penguin":{"refs":{"lescornec2025":{"a":"Le Scornec et al.","y":2025,"t":"Intrinsic and extrinsic drivers of juvenile survival in emperor penguins","s":"Journal record (AGRIS abstract; journal listed as Polar Biology in a 2024 thesis)","u":"https://agris.fao.org/search/en/records/682f33fad0cf3796e621592b"},"lescornec2025_mass":{"a":"Le Scornec et al.","y":2025,"t":"Intrinsic and extrinsic drivers of juvenile survival in emperor penguins","s":"Journal record (AGRIS abstract)","u":"https://agris.fao.org/search/en/records/682f33fad0cf3796e621592b"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"帝企鹅幼鸟的年存活率在不同年份差别很大，从 0.08 到 0.48。","en":"Emperor penguin juvenile survival varied between 0.08 and 0.48 from year to year.","ref":"lescornec2025","basis":"measured","stages":["juv"]},{"zh":"幼鸟的存活和它离开父母时的体重有关，体重又受雏鸟期海冰多少影响。","en":"Juvenile survival depends on body mass, which tracks sea ice during the chick-rearing period.","ref":"lescornec2025_mass","basis":"measured","stages":["chick","juv"]}],"existing":{"opening":"remove"}},"pig":{"refs":{"rvsc2018crush":{"a":"Rangstrup-Christensen et al.","y":2018,"t":"Causes of preweaning mortality in organic outdoor sow herds","s":"Research in Veterinary Science","u":"https://doi.org/10.1016/j.rvsc.2018.02.010"},"pvm2012farmers":{"a":"KilBride et al.","y":2012,"t":"A cohort study of preweaning piglet mortality and farrowing accommodation on 112 commercial pig farms in England","s":"Preventive Veterinary Medicine","u":"https://doi.org/10.1016/j.prevetmed.2011.11.011"},"pvm2012rate":{"a":"KilBride et al.","y":2012,"t":"A cohort study of preweaning piglet mortality and farrowing accommodation on 112 commercial pig farms in England","s":"Preventive Veterinary Medicine","u":"https://doi.org/10.1016/j.prevetmed.2011.11.011"},"animals2025diarrhea":{"a":"Ambrós et al.","y":2025,"t":"Efficacy of a New Commercial Vaccine Against Clostridioides difficile and Clostridium perfringens Type A for Recurrent Swine Neonatal Diarrhea Under Field Conditions","s":"Animals","u":"https://doi.org/10.3390/ani15091200"},"pathogens2026resp":{"a":"Barna et al.","y":2026,"t":"Epidemiological Analysis of Environmental Factors Affecting Porcine Pleuropneumonia in a Herd Endemic for Actinobacillus pleuropneumoniae","s":"Pathogens","u":"https://doi.org/10.3390/pathogens15050513"},"pathogens2026heat":{"a":"Barna et al.","y":2026,"t":"Epidemiological Analysis of Environmental Factors Affecting Porcine Pleuropneumonia in a Herd Endemic for Actinobacillus pleuropneumoniae","s":"Pathogens","u":"https://doi.org/10.3390/pathogens15050513"},"tas2020postweaning":{"a":"Gebhardt et al.","y":2020,"t":"Postweaning mortality in commercial swine production. I: review of non-infectious contributing factors","s":"Translational Animal Science","u":"https://doi.org/10.1093/tas/txaa068"},"dtw2002hungary":{"a":"Hungarian farrow-to-finish unit","y":2002,"t":"Emergency-culling and mortality in growing/fattening pigs in a large Hungarian \"farrow-to-finish\" production unit","s":"Deutsche Tierärztliche Wochenschrift","u":"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=11838293&retmode=xml"},"phm2026b5":{"a":"Loscertales et al.","y":2026,"t":"A pantothenic acid deficiency outbreak causing mortality and neuromuscular disorders in newborn and nursery piglets","s":"Porcine Health Management","u":"https://doi.org/10.1186/s40813-026-00527-z"}},"survival":[],"causes":[{"stages":["suckle"],"shares":{"crush":0.83},"ref":"rvsc2018crush","basis":"related","zh":"在有机户外养殖的母猪群里，出生后四天内死亡的仔猪中，83% 是被母猪压死。","en":"In organic outdoor herds, crushing caused 83% of piglet deaths up to day four after birth."}],"causeNotes":{"scour":{"zh":"新生仔猪腹泻会增加仔猪死亡率。","en":"Neonatal diarrhoea increases piglet mortality and slows weight gain.","ref":"animals2025diarrhea","basis":"related"},"resp":{"zh":"呼吸道疾病导致的死亡在温度和湿度升高的时期更多。","en":"Deaths from respiratory disease rose during periods of higher temperature or humidity.","ref":"pathogens2026resp","basis":"measured"},"heat":{"zh":"气候因素，尤其是温度和湿度，会影响育肥猪的死亡率。","en":"Climate, especially temperature and humidity, affects mortality in finishing pigs.","ref":"pathogens2026heat","basis":"measured"}},"facts":[{"zh":"在英国的农场中，农场主报告称，压死健康的仔猪是最常见的死因，占活产仔猪哺乳期死亡的 55%。","en":"Farmers reported that crushing caused 55% of live-born preweaning piglet deaths.","ref":"pvm2012farmers","basis":"measured","stages":["suckle"],"causes":["crush"]},{"zh":"在英国的 112 个农场中，活产仔猪的哺乳期死亡率为 12%。","en":"Live-born piglets had 12% preweaning mortality in the English farms studied.","ref":"pvm2012rate","basis":"measured","stages":["suckle"]},{"zh":"工业平均的断奶后死亡率在保育、育肥或断奶到出栏阶段，约为 4% 到 8%。","en":"Industry averages for postweaning mortality are 4 to 8% in nursery and finishing stages.","ref":"tas2020postweaning","basis":"related","stages":["nursery","finish"]},{"zh":"匈牙利一个大型繁育育肥场的生长育肥猪，年均紧急淘汰和死亡率为 8.62%。","en":"In one large Hungarian farrow-to-finish unit, growing pigs had an average annual culling and mortality rate of 8.62%.","ref":"dtw2002hungary","basis":"measured","stages":["finish"]},{"zh":"西班牙一个猪场的一次泛酸缺乏疫情中，仔猪死亡率曾高达 65%。","en":"In one Spanish farm outbreak, piglet mortality reached up to 65% during a pantothenic acid deficiency.","ref":"phm2026b5","basis":"related","stages":["suckle"]}],"existing":{"decisions.2":"remove"}},"pigeon":{"refs":{"bto_rockdove_juv":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_adult":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_clutch":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_inc":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_fledge":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"}},"survival":[{"from":35,"to":400,"surv":0.57,"ref":"bto_rockdove_juv","basis":"related","zh":"野生岩鸽的幼鸽在第一年约有 57% 能活下来，城市鸽数据不足。","en":"About 57% of young wild rock doves survive their first year."},{"from":400,"to":1130,"surv":0.442,"ref":"bto_rockdove_adult","basis":"related","zh":"野生岩鸽的成鸽每年约有三分之二活到下一年。","en":"About two-thirds of adult wild rock doves survive each year."}],"causes":[],"causeNotes":{},"facts":[{"zh":"岩鸽一窝通常只产 2 枚蛋。","en":"Wild rock doves typically lay 2 eggs per clutch.","ref":"bto_rockdove_clutch","basis":"related","stages":["egg"]},{"zh":"岩鸽孵蛋大约 16 到 19 天。","en":"Rock doves incubate their eggs for about 16 to 19 days.","ref":"bto_rockdove_inc","basis":"related","stages":["egg"]},{"zh":"岩鸽幼鸽大约 35 到 37 天后离巢。","en":"Young rock doves leave the nest after about 35 to 37 days.","ref":"bto_rockdove_fledge","basis":"related","stages":["squab"]},{"zh":"野生岩鸽的幼鸽第一年存活率约为 57%。","en":"About 57% of young rock doves survive their first year.","ref":"bto_rockdove_juv","basis":"related","stages":["juv"]},{"zh":"野生岩鸽的成鸽每年存活率约为 66.5%。","en":"Adult rock doves survive each year at about 66.5%.","ref":"bto_rockdove_adult","basis":"related","stages":["adult"]}],"existing":{"opening":"remove"}},"rat":{"refs":{"panksepp2003":{"a":"Panksepp & Burgdorf","y":2003,"t":"\"Laughing\" rats and the evolutionary antecedents of human joy?","s":"Physiology & Behavior","u":"https://doi.org/10.1016/s0031-9384(03)00159-8"},"lambert2008":{"a":"Lambert et al.","y":2008,"t":"The effect of habitat management on home-range size and survival of rural Norway rat populations","s":"Journal of Applied Ecology","u":"https://doi.org/10.1111/j.1365-2664.2008.01543.x"},"ruiz2024":{"a":"Ruiz-López et al.","y":2024,"t":"No evidence of mutations associated with anticoagulant resistance in gene Vkorc1 in brown and black rats from Barcelona","s":"Science of The Total Environment","u":"https://doi.org/10.1016/j.scitotenv.2024.176321"}},"survival":[],"causes":[],"causeNotes":{"poison":{"zh":"城市里的褐家鼠常被抗凝血类毒饵毒死。","en":"City brown rats are often controlled with anticoagulant poison.","ref":"ruiz2024","basis":"measured"}},"facts":[{"zh":"被挠痒的大鼠会发出约 50 千赫兹的超声“笑声”。","en":"Tickled rats emit ultrasonic chirps of about 50 kHz.","ref":"panksepp2003","basis":"measured","stages":["juv","adult"]},{"zh":"在农场建筑附近清理掉遮蔽物，会让那里的鼠群数量和存活率下降。","en":"Changing habitat near farm buildings reduced the survival rate of Norway rat populations.","ref":"lambert2008","basis":"measured","stages":["adult"]},{"zh":"城市里的褐家鼠常被抗凝血类毒饵控制。","en":"City brown rats are often controlled with anticoagulant poison.","ref":"ruiz2024","basis":"measured","stages":["juv","adult","old"],"causes":["poison"],"decisions":["bait"]}],"existing":{"events.15":"panksepp2003"}},"salmon":{"refs":{"welch_late":{"a":"Welch et al.","y":2011,"t":"In situ measurement of coastal ocean movements and survival of juvenile Pacific salmon","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1014044108"},"welch_decline":{"a":"Welch et al.","y":2011,"t":"In situ measurement of coastal ocean movements and survival of juvenile Pacific salmon","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1014044108"},"araki_rapid":{"a":"Araki et al.","y":2008,"t":"Fitness of hatchery-reared salmonids in the wild","s":"Evolutionary Applications","u":"https://doi.org/10.1111/j.1752-4571.2008.00026.x"},"araki_nonlocal":{"a":"Araki et al.","y":2008,"t":"Fitness of hatchery-reared salmonids in the wild","s":"Evolutionary Applications","u":"https://doi.org/10.1111/j.1752-4571.2008.00026.x"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"一些太平洋鲑种群的大量死亡，发生在洄游的后期，离出生的河也更远。","en":"In some salmon populations, much juvenile mortality happened late in the migration and far from the home river.","ref":"welch_late","basis":"measured","stages":["ocean_juv"]},{"zh":"许多太平洋和大西洋的鲑鱼种群，在过去二十年里回归的数量急剧减少，海里的死亡率很高。","en":"Many Pacific and Atlantic salmon populations have had sharply falling returns and high ocean mortality over the past two decades.","ref":"welch_decline","basis":"measured","stages":["ocean_juv","ocean_adult"]},{"zh":"人工繁殖的鲑鱼只经过一两代圈养，在野外的适应力就可能很快下降。","en":"Hatchery-reared salmonids can lose fitness in the wild very quickly, after one or two generations of captive rearing.","ref":"araki_rapid","basis":"related","decisions":["hatch_release"]},{"zh":"外地来的人工繁殖鱼群，在野外的繁殖表现普遍很差。","en":"Nonlocal hatchery stocks consistently reproduce very poorly in the wild.","ref":"araki_nonlocal","basis":"related","decisions":["hatch_release"]}],"existing":{"events.2":"remove","events.15":"remove","events.20":"remove","events.24":"remove","decisions.0":"remove","decisions.3":"remove","decisions.4":"remove","decisions.6":"araki_rapid"}},"sardine":{"refs":{"srep2015":{"a":"Garrido et al.","y":2015,"t":"Born small, die young: Intrinsic, size-selective mortality in marine larval fish","s":"Scientific Reports","u":"https://doi.org/10.1038/srep17065"},"srep2015b":{"a":"Garrido et al.","y":2015,"t":"Born small, die young: Intrinsic, size-selective mortality in marine larval fish","s":"Scientific Reports","u":"https://doi.org/10.1038/srep17065"},"yatsu2019":{"a":"Yatsu","y":2019,"t":"Review of population dynamics and management of small pelagic fishes around the Japanese Archipelago","s":"Fisheries Science","u":"https://doi.org/10.1007/s12562-019-01305-3"},"yatsu2019b":{"a":"Yatsu","y":2019,"t":"Review of population dynamics and management of small pelagic fishes around the Japanese Archipelago","s":"Fisheries Science","u":"https://doi.org/10.1007/s12562-019-01305-3"},"bordes2025":{"a":"Bordes et al.","y":2025,"t":"Disentangling the influence of density dependence, size dependence and environmental effects on fish population dynamics","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.70177"},"caputo2022":{"a":"Caputo et al.","y":2022,"t":"Inter- and intra-specific trophic interactions of coastal delphinids off the eastern coast of South Africa inferred from stable isotope analysis","s":"Marine Environmental Research","u":"https://doi.org/10.1016/j.marenvres.2022.105784"},"bartashevich2024":{"a":"Bartashevich et al.","y":2024,"t":"Collective anti-predator escape manoeuvres through optimal attack and avoidance strategies","s":"Communications Biology","u":"https://doi.org/10.1038/s42003-024-07267-2"}},"survival":[],"causes":[],"causeNotes":{"purse":{"zh":"大型围网船队在 1980 年代大量投入，海洋生产力下降时，过度捕捞随之出现。","en":"Large purse-seine fleets built up in the 1980s, when ocean productivity was falling, and overfishing followed.","ref":"yatsu2019b","basis":"related"},"dolphin":{"zh":"南非东岸的海豚被认为会跟随成群沙丁鱼的聚集而移动。","en":"Dolphins off South Africa are thought to follow pulses of shoaling sardines.","ref":"caputo2022","basis":"related"},"tuna":{"zh":"红肉旗鱼会攻击成群的沙丁鱼，鱼群的逃避方式也会改变攻击的成败。","en":"Striped marlin attack schooling sardines, and the school's escape pattern shapes each attack.","ref":"bartashevich2024","basis":"related"},"starve":{"zh":"很多早期死亡发生在没有捕食者的卵黄期和混合摄食期，原因是幼体自身的缺陷。","en":"Much early larval mortality happens in the absence of predators, during the yolk and early feeding period.","ref":"srep2015","basis":"related"}},"facts":[{"zh":"沙丁鱼仔鱼的很大一部分死亡发生在没有捕食者的卵黄期和混合摄食期。","en":"A large part of larval fish mortality happens during the yolk and early feeding period, without predators.","ref":"srep2015","basis":"related","stages":["egg","larva"],"causes":["starve"]},{"zh":"像沙丁鱼这样产卵多的小型鱼类，大部分仔鱼体型小，几乎没有存活机会。","en":"Small pelagic fish spawn many eggs, so most larvae are small and have almost no chance to survive.","ref":"srep2015b","basis":"related","stages":["egg","larva"],"decisions":["spawn"]},{"zh":"日本小型中上层鱼类的种群波动，主要取决于早期存活率的变化。","en":"Variation in early survival is a key driver of population swings in Japanese small pelagic fish.","ref":"yatsu2019","basis":"related","stages":["larva","juv"]},{"zh":"日本沙丁鱼的过度捕捞，与 1980 年代投入过多的大型围网船队有关。","en":"Overfishing was driven by large purse-seine fleets built in the 1980s when ocean productivity was poor.","ref":"yatsu2019b","basis":"related","stages":["juv","adult"],"decisions":["purse"],"causes":["purse"]},{"zh":"大西洋东北部比斯开湾的沙丁鱼，自然死亡率在 1 岁和 3 岁时受种群密度影响。","en":"In Bay of Biscay sardines, natural mortality at age 1 and age 3 depends on population density.","ref":"bordes2025","basis":"measured","stages":["juv","adult"]},{"zh":"南非东岸的海豚被认为跟随沙丁鱼的聚集而移动，因此会一起捕食。","en":"Dolphins off South Africa are thought to follow the pulses of shoaling sardines.","ref":"caputo2022","basis":"related","stages":["juv","adult"],"causes":["dolphin"]},{"zh":"红肉旗鱼攻击成群沙丁鱼时，鱼群的逃避方式决定了攻击的成败。","en":"Striped marlin attack schooling sardines, and the school's escape pattern shapes how well those attacks work.","ref":"bartashevich2024","basis":"related","stages":["juv","adult"],"causes":["tuna"]}],"existing":{"decisions.0":"srep2015b","decisions.2":"remove"}},"sea_turtle":{"refs":{"tort_incub":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"},"tort_nonhatch":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"},"tort_pred":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"},"tort_emerge":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"}},"survival":[{"from":0,"to":60,"surv":0.515,"ref":"tort_emerge","basis":"measured","zh":"在托图格罗，算上被毁的巢，大约一半的卵能变成爬出沙面的幼龟。","en":"At Tortuguero, counting destroyed nests, about half of the eggs became hatchlings that left the sand."}],"causes":[],"causeNotes":{},"facts":[{"zh":"在哥斯达黎加的托图格罗，一窝卵平均约 104 枚，沙里孵化平均约 62 天。","en":"A green turtle nest at Tortuguero held about 104 eggs and took about 62 days to incubate.","ref":"tort_incub","basis":"measured","stages":["egg"]},{"zh":"托图格罗的海龟卵中，大约 13% 没有孵化出来。","en":"About 13% of all eggs deposited at Tortuguero did not hatch.","ref":"tort_nonhatch","basis":"measured","stages":["egg"]},{"zh":"在托图格罗的研究区，狗、长鼻浣熊和秃鹫毁掉了 38% 的巢。","en":"At Tortuguero, dogs, coatis and vultures destroyed 38% of study-area nests.","ref":"tort_pred","basis":"measured","stages":["egg"]},{"zh":"成功的巢里，平均有 83% 的卵孵出并爬出沙面。","en":"In successful study-area nests, the mean emergence percentage was 83%.","ref":"tort_emerge","basis":"measured","stages":["hatch"]}],"existing":{"events.1":"remove","events.3":"remove","events.50":"remove","decisions.3":"remove"}},"sheep":{"refs":{"awassi_lamb":{"a":"Ceyhan & Kozaklı","y":2023,"t":"The survival analysis of some environmental factors associated with lamb mortality in Awassi sheep","s":"Tropical Animal Health and Production","u":"https://doi.org/10.1007/s11250-023-03821-y"},"algeria_lamb":{"a":"Benmebarek et al.","y":2025,"t":"Epidemiological, pathological and microbiological investigation of neonatal lamb mortality in the region of Constantine, Algeria","s":"Veterinary Record Open","u":"https://doi.org/10.1002/vro2.70021"},"algeria_causes":{"a":"Benmebarek et al.","y":2025,"t":"Epidemiological, pathological and microbiological investigation of neonatal lamb mortality in the region of Constantine, Algeria","s":"Veterinary Record Open","u":"https://doi.org/10.1002/vro2.70021"},"kopp_nsw":{"a":"Kopp et al.","y":2020,"t":"A Survey of New South Wales Sheep Producer Practices and Perceptions on Lamb Mortality and Ewe Supplementation","s":"Animals","u":"https://doi.org/10.3390/ani10091586"},"kopp_mortality":{"a":"Kopp et al.","y":2020,"t":"A Survey of New South Wales Sheep Producer Practices and Perceptions on Lamb Mortality and Ewe Supplementation","s":"Animals","u":"https://doi.org/10.3390/ani10091586"},"bighorn_lamb":{"a":"Cain et al.","y":2018,"t":"Survival and cause-specific mortality of desert bighorn sheep lambs","s":"The Journal of Wildlife Management","u":"https://doi.org/10.1002/jwmg.21597"},"kendrick2001":{"a":"Kendrick et al.","y":2001,"t":"Sheep don't forget a face","s":"Nature","u":"https://doi.org/10.1038/35102669"}},"survival":[{"from":0,"to":90,"surv":0.757,"ref":"awassi_lamb","basis":"measured","zh":"在一项 Awassi 羊的研究中，羔羊从出生到断奶前约 75.7% 能活下来。","en":"About 75.7% of lambs in this Awassi sheep study survived to weaning."}],"causes":[],"causeNotes":{"lamb_cold":{"zh":"在阿尔及利亚的一项研究中，饥饿和低体温综合征是新生羔羊的死因之一。","en":"Starvation-hypothermia was among the causes of death in neonatal lambs in an Algerian study.","ref":"algeria_causes","basis":"measured"},"pneu":{"zh":"羔羊的呼吸道疾病也是常见的死因之一。","en":"Respiratory disorders were among the causes of death in surveyed neonatal lambs.","ref":"algeria_causes","basis":"measured"},"predator":{"zh":"澳洲的研究者认为，多数情况下捕食对羔羊死亡的影响有限。","en":"An Australian producer survey concludes predation has limited impact on lamb deaths in most cases.","ref":"kopp_nsw","basis":"measured"}},"facts":[{"zh":"在阿尔及利亚的一项调查中，羔羊出生后早期的死亡率为 5.74%。","en":"In an Algerian farm survey, 5.74% of lambs died in the neonatal period.","ref":"algeria_lamb","basis":"measured","stages":["newborn"],"causes":["lamb_cold"]},{"zh":"澳洲的生产者估计，出生到做标记之间的羔羊死亡率通常在 20% 到 25% 之间。","en":"Published Australian estimates put lamb mortality between birth and marking at 20-25%.","ref":"kopp_mortality","basis":"measured","stages":["newborn","lamb"]}],"existing":{"events.3":"kendrick2001"}},"sparrow":{"refs":{"bto_sparrow":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_juv":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_inc":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_fledge":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_broods":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_clutch":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_decline":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"}},"survival":[{"from":26,"to":391,"surv":0.489,"ref":"bto_sparrow_juv","basis":"measured","zh":"在英国，离巢的幼雀大约一半能活过第一年。","en":"About half of juvenile sparrows in Britain survive their first year."},{"from":391,"to":1121,"surv":0.326,"ref":"bto_sparrow","basis":"measured","zh":"在英国，成年麻雀每年约有 57% 活到下一年。","en":"About 57% of adult sparrows in Britain survive each year."}],"causes":[],"causeNotes":{},"facts":[{"zh":"英国麻雀一窝通常产 4 到 5 枚蛋。","en":"British sparrows usually lay 4 to 5 eggs per clutch.","ref":"bto_sparrow_clutch","basis":"measured","stages":["egg"]},{"zh":"雌麻雀孵蛋大约 12 到 15 天。","en":"The female sparrow incubates the eggs for about 12 to 15 days.","ref":"bto_sparrow_inc","basis":"measured","stages":["egg"]},{"zh":"雏雀在巢中大约 14 到 17 天后离巢。","en":"Nestlings leave the nest after about 14.5 to 17 days.","ref":"bto_sparrow_fledge","basis":"measured","stages":["nest"]},{"zh":"英国的麻雀一年通常养 2 到 3 窝。","en":"British sparrows typically raise 2 to 3 broods a year.","ref":"bto_sparrow_broods","basis":"measured","stages":["adult"]},{"zh":"英国的麻雀数量 1995 到 2024 年间下降了 18%。","en":"The British sparrow population fell 18% between 1995 and 2024.","ref":"bto_sparrow_decline","basis":"measured","stages":["adult"]}],"existing":{"events.2":"remove","events.3":"remove","events.10":"remove","events.15":"remove","events.16":"bto_sparrow_broods","decisions.0":"bto_sparrow_fledge","decisions.1":"remove"}},"spider":{"refs":{"bell2005":{"a":"Bell et al.","y":2005,"t":"Ballooning dispersal using silk: world fauna, phylogenies, genetics and models","s":"Bulletin of Entomological Research","u":"https://doi.org/10.1079/ber2004350"},"elgar1992":{"a":"Elgar","y":1992,"t":"Sexual cannibalism in spiders and other invertebrates","s":"Cannibalism","u":"https://doi.org/10.1093/oso/9780198546504.003.0007"}},"survival":[],"causes":[],"causeNotes":{"cannibal":{"zh":"有些蜘蛛的雌性会试图吃掉雄性配偶。","en":"Certain spiders are known to attempt to eat their mates.","ref":"elgar1992","basis":"related"}},"facts":[{"zh":"许多蜘蛛的幼体会靠放出的丝飘浮在空中迁移，这叫做“气球扩散”。","en":"Spiders, spider mites and moth larvae disperse by aerial silk ballooning.","ref":"bell2005","basis":"related","stages":["juv"],"acts":["explore"]}],"existing":{"events.19":"remove","events.22":"elgar1992","decisions.0":"bell2005"}},"springtail":{"refs":{"thakur2018":{"a":"Thakur et al.","y":2018,"t":"Temperature effects on prey and basal resources exceed that of predators in an experimental community","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.4695"},"thakur2018diet":{"a":"Thakur et al.","y":2018,"t":"Temperature effects on prey and basal resources exceed that of predators in an experimental community","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.4695"}},"survival":[],"causes":[],"causeNotes":{"mite":{"zh":"捕食螨是跳虫的凶猛天敌。","en":"Predatory mites are voracious predators of Collembola species.","ref":"thakur2018","basis":"related"}},"facts":[{"zh":"跳虫大多是真菌的啃食者，也会吃落叶里的碎屑。","en":"Springtails are generally fungal grazers, but also eat litter debris.","ref":"thakur2018diet","basis":"related","stages":["sub","adult"],"acts":["forage"]}],"existing":{"events.3":"remove","events.10":"remove","decisions.0":"remove","decisions.1":"remove","decisions.2":"remove","decisions.4":"remove"}},"squid":{"refs":{"gutierrez2023":{"a":"Gutiérrez et al.","y":2023,"t":"Parasite assemblages in volatile host stocks: inter- and intra-cohort variability restrict their value as biological tags for squid stock assessment","s":"Parasitology","u":"https://doi.org/10.1017/s0031182023001051"},"jiang2026":{"a":"Jiang et al.","y":2026,"t":"Ignoring death after spawning misrepresents the population dynamics of marine semelparous species","s":"Journal of Applied Ecology","u":"https://doi.org/10.1111/1365-2664.70572"},"goto2019":{"a":"Goto & Takanashi","y":2019,"t":"Changes in the strategy of a small-scale jigging fishery for Japanese flying squid Todarodes pacificus off northeastern Japan","s":"Fisheries Science","u":"https://doi.org/10.1007/s12562-019-01360-w"},"lee2025":{"a":"Lee et al.","y":2025,"t":"Long-term variability analysis of the habitat suitability index for Todarodes pacificus (Japanese common squid) using MODIS-Aqua dataset in the East/Japan Sea, South Korea","s":"Marine Environmental Research","u":"https://doi.org/10.1016/j.marenvres.2025.107537"}},"survival":[],"causes":[],"causeNotes":{"jig":{"zh":"鱿鱼钓船在岩手县外海的渔场，渔获下降后会不断换渔场找鱼。","en":"Jigging fleets off Iwate kept moving to new grounds to find more squid as catches fell.","ref":"goto2019","basis":"related"},"old":{"zh":"这种鱿鱼一生只繁殖一次，产卵之后的成体在种群模型里会被移除。","en":"Squid are semelparous: adults are removed from the population after they spawn.","ref":"jiang2026","basis":"related"}},"facts":[{"zh":"近亲阿根廷短鳍鱿鱼一生约只有一年，生长很快。","en":"A close relative, Illex argentinus, grows rapidly over a one-year lifespan.","ref":"gutierrez2023","basis":"related","stages":["adult","old"]},{"zh":"这种鱿鱼一生只繁殖一次，产卵后的死亡要算进种群模型。","en":"Post-spawning death must be included in models of semelparous squid populations.","ref":"jiang2026","basis":"related","stages":["old"]},{"zh":"岩手县外海的鱿鱼钓渔船，渔获下降后会转换渔场。","en":"Jigging fleets off Iwate shifted grounds to exploit more abundant squid when catches fell.","ref":"goto2019","basis":"related","stages":["juv","adult"],"causes":["jig"]},{"zh":"在日本海（韩国称东海），这种鱿鱼的栖息适宜度下降，同时年渔获量也下降。","en":"Habitat suitability for this squid declined in the East/Japan Sea, matching a drop in its annual catch.","ref":"lee2025","basis":"measured","stages":["adult"],"causes":["jig"]}],"existing":{"events.14":"jiang2026","decisions.0":"remove","decisions.2":"remove"}},"swallow":{"refs":{"ece3_swallow":{"a":"Grüebler et al.","y":2014,"t":"Equal nonbreeding period survival in adults and juveniles of a long-distant migrant bird","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.984"},"bto_swallow_adult":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_juv":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_fledge":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_inc":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_clutch":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_broods":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_decline":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"}},"survival":[{"from":36,"to":57,"surv":0.32,"ref":"ece3_swallow","basis":"measured","zh":"幼燕离巢后头三周，只有约三成能活下来。","en":"About a third of young swallows survive the first three weeks after leaving the nest."},{"from":401,"to":1131,"surv":0.14,"ref":"bto_swallow_adult","basis":"measured","zh":"在英国，成年家燕每年约有 37% 活到下一年。","en":"About 37% of adult swallows in Britain survive each year."}],"causes":[],"causeNotes":{},"facts":[{"zh":"家燕孵蛋大约 16 到 18 天。","en":"Female swallows incubate their eggs for about 16 to 18 days.","ref":"bto_swallow_inc","basis":"measured","stages":["egg"]},{"zh":"英国的家燕一窝通常产 4 到 5 枚蛋。","en":"British swallows usually lay 4 to 5 eggs per clutch.","ref":"bto_swallow_clutch","basis":"measured","stages":["egg"]},{"zh":"英国的家燕一年通常繁殖 2 窝。","en":"British swallows typically raise 2 broods a year.","ref":"bto_swallow_broods","basis":"measured","stages":["adult"]},{"zh":"幼燕在第一年里约有 40% 能活下来。","en":"About 39.5% of juvenile swallows survive their first year.","ref":"bto_swallow_juv","basis":"measured","stages":["fledge"]},{"zh":"英国的家燕数量 1995 到 2024 年间下降了 23%。","en":"The UK breeding swallow population fell 23% between 1995 and 2024.","ref":"bto_swallow_decline","basis":"measured","stages":["adult"]}],"existing":{"events.6":"bto_swallow_fledge","events.13":"remove","decisions.0":"remove","decisions.1":"remove","decisions.3":"remove"}},"termite":{"refs":{"quarcoo2019":{"a":"Quarcoo et al.","y":2019,"t":"Temperature-Mediated Variations in Behavior and Mortality Caused by Non-Repellent Insecticides in Subterranean Termites (Blattodea: Rhinotermitidae)","s":"Insects","u":"https://doi.org/10.3390/insects10020037"},"quarcoo2019bait":{"a":"Quarcoo et al.","y":2019,"t":"Temperature-Mediated Variations in Behavior and Mortality Caused by Non-Repellent Insecticides in Subterranean Termites (Blattodea: Rhinotermitidae)","s":"Insects","u":"https://doi.org/10.3390/insects10020037"},"wen2026":{"a":"Wen et al.","y":2026,"t":"Differential Responses of the Ant Odontoponera transversa to Termite Chemical Signals: Evidence for Prey Preference","s":"Insects","u":"https://doi.org/10.3390/insects17050501"},"chen2022":{"a":"Chen et al.","y":2022,"t":"The effect of ergosterol on the allogrooming behavior of termites in response to the entomopathogenic fungus Metarhizium anisopliae","s":"Insect Science","u":"https://doi.org/10.1111/1744-7917.13055"}},"survival":[],"causes":[],"causeNotes":{"ant":{"zh":"蚂蚁是白蚁的主要天敌，会捕食白蚁。","en":"Ants are considered the major predators of termites.","ref":"wen2026","basis":"related"},"fungus":{"zh":"白蚁接触绿僵菌孢子后，舔毛清洁的次数明显增加，这是它们对真菌的行为反应。","en":"Coptotermes workers exposed to Metarhizium spores groom themselves much more often, a behavioural response to the fungus.","ref":"chen2022","basis":"measured"},"bait":{"zh":"杀虫剂会让台湾乳白蚁等白蚁中毒死亡，温度会影响死亡情况。","en":"Insecticides such as fipronil and indoxacarb cause termite mortality, and temperature also affects it.","ref":"quarcoo2019bait","basis":"measured"}},"facts":[{"zh":"在 15–30°C 的实验里，台湾乳白蚁工蚁的存活率约为 88%–94%。","en":"In lab tests between 15 and 30 °C, Formosan termite workers survived at 88–94%.","ref":"quarcoo2019","basis":"measured","stages":["adult"]}],"existing":{"events.17":"remove"}},"wolf":{"refs":{"cubaynes2014":{"a":"Cubaynes et al.","y":2014,"t":"Density-dependent intraspecific aggression regulates survival in northern Yellowstone wolves (Canis lupus)","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.12238"},"cubaynes_age":{"a":"Cubaynes et al.","y":2014,"t":"Density-dependent intraspecific aggression regulates survival in northern Yellowstone wolves (Canis lupus)","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.12238"},"liberg2012":{"a":"Liberg et al.","y":2012,"t":"Shoot, shovel and shut up: cryptic poaching slows restoration of a large carnivore in Europe","s":"Proceedings of the Royal Society B: Biological Sciences","u":"https://doi.org/10.1098/rspb.2011.1275"},"suutarinen2017":{"a":"Suutarinen & Kojola","y":2017,"t":"Poaching regulates the legally hunted wolf population in Finland","s":"Biological Conservation","u":"https://doi.org/10.1016/j.biocon.2017.08.031"},"suutarinen_surv":{"a":"Suutarinen & Kojola","y":2017,"t":"Poaching regulates the legally hunted wolf population in Finland","s":"Biological Conservation","u":"https://doi.org/10.1016/j.biocon.2017.08.031"},"creel2010":{"a":"Creel & Rotella","y":2010,"t":"Meta-analysis of relationships between human offtake, total mortality and population dynamics of gray wolves (Canis lupus)","s":"PLoS ONE","u":"https://doi.org/10.1371/journal.pone.0012918"},"nps":{"a":"Cassidy, K. (National Park Service)","y":2025,"t":"Research Report: Using Radio Collars to Study Yellowstone Wolves","s":"National Park Service","u":"https://www.nps.gov/articles/using-radio-collars-to-study-yellowstone-wolves.htm"},"ethwolf2024":{"a":"Marino et al.","y":2024,"t":"Concurrent Rabies and Canine Distemper Outbreaks and Infection in Endangered Ethiopian Wolves","s":"Emerging Infectious Diseases","u":"https://doi.org/10.3201/eid3012.240432"}},"survival":[],"causes":[{"stages":["juv","young","adult","old"],"shares":{"gun":0.5},"ref":"liberg2012","basis":"measured","zh":"在斯堪的纳维亚，偷猎约占狼死亡的一半（所有年龄合计）。","en":"In Scandinavia, poaching caused about half of wolf deaths across all ages.","flags":["europe_farm"]}],"causeNotes":{"gun":{"zh":"在芬兰，偷猎是狼的首要死因，其次是合法猎杀。","en":"In Finland, poaching was the main cause of wolf death, ahead of legal hunting.","ref":"suutarinen2017","basis":"measured"},"pack_fight":{"zh":"在黄石北部，狼的密度越高，狼之间的争斗越多，成年狼存活率越低。","en":"In northern Yellowstone, higher wolf density meant more fighting between wolves and lower adult survival.","ref":"cubaynes2014","basis":"measured"},"disease":{"zh":"埃塞俄比亚狼是狼的近亲，它们在 2019 年同时爆发狂犬病和犬瘟热。","en":"Ethiopian wolves, close relatives of grey wolves, had concurrent rabies and canine distemper outbreaks in 2019.","ref":"ethwolf2024","basis":"related"}},"facts":[{"zh":"在斯堪的纳维亚，偷猎约占狼死亡的一半。","en":"In Scandinavia, poaching caused about half of wolf deaths.","ref":"liberg2012","basis":"measured","causes":["gun"],"flags":["europe_farm"]},{"zh":"在芬兰，偷猎是狼的首要死因，其次是合法猎杀。","en":"In Finland, poaching was the main cause of wolf death, ahead of legal hunting.","ref":"suutarinen2017","basis":"measured","causes":["gun"],"flags":["europe_farm"]},{"zh":"芬兰模型显示，偷猎严重时狼每年存活率约 0.11–0.24，没有偷猎时约 0.43–0.60。","en":"Finnish models put yearly wolf survival at 0.11–0.24 with heavy poaching and 0.43–0.60 with none.","ref":"suutarinen_surv","basis":"measured","causes":["gun"],"flags":["europe_farm"]},{"zh":"黄石的狼中，一岁狼和成年狼的存活率相近，六岁以上的成年狼存活率更低。","en":"In Yellowstone, yearlings and adults survived at similar rates, but adults older than six survived less well.","ref":"cubaynes_age","basis":"measured","stages":["adult","old"],"flags":["yellowstone"]},{"zh":"黄石北部，狼的密度升高时狼之间的争斗增多，成年狼的存活率随之下降。","en":"In northern Yellowstone, higher wolf density increased fights between wolves and lowered adult survival.","ref":"cubaynes2014","basis":"measured","stages":["adult"],"causes":["pack_fight"],"flags":["yellowstone"]},{"zh":"北美蒙大拿和爱达荷的狼，在取消保护的那一年有 37.1% 被人类捕杀。","en":"In Montana and Idaho, 37.1% of wolves were killed by people in the year they lost federal protection.","ref":"creel2010","basis":"measured","causes":["gun"],"flags":["yellowstone"]},{"zh":"1995 和 1996 年放归狼后，黄石一直用无线电项圈监测和研究狼。","en":"Since the 1995 and 1996 reintroductions, radio collars have been the main tool for studying Yellowstone wolves.","ref":"nps","basis":"official","flags":["yellowstone"]}],"existing":{"events.6":"remove","events.16":"remove","events.26":"nps","decisions.2":"remove"}}};
 
 ;
 // Sharing, with no backend: a whole life is packed into the link's #fragment, and drawn as an image card.
@@ -15180,7 +15297,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   function encode(d) {
     return ['life', d.id.replace(/_/g, ''), b36(d.cal * 1440), d.cause, b36(d.off), b36(d.esc), `${d.con}${d.tem}`, d.strip || 'x', d.rolls.length ? d.rolls.map(b36).join('') : 'x', d.awards.map(b36).join('') || 'x', b36(d.ch)].join('-');
   }
-  function decode(hash, ids, nAwards) {
+  function decode(hash, ids) {
     const p = String(hash || '').split('-');
     if (p.length !== 11 || p[0] !== 'life' || p.some((x) => !/^[a-z0-9]+$/.test(x))) return null;
     const id = ids.find((x) => x.replace(/_/g, '') === p[1]);
@@ -15188,7 +15305,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     return {
       id, cal: num(p[2], 1e10) / 1440, cause: p[3].slice(0, 2), off: num(p[4], 1e12), esc: num(p[5], 999),
       con: Math.min(+p[6][0] || 0, 2), tem: Math.min(+p[6][1] || 0, 3), strip: p[7] === 'x' ? '' : p[7].replace(/[^gyrz]/g, '').slice(0, 12),
-      rolls: p[8] === 'x' ? [] : [...p[8]].slice(0, 6).map((c) => num(c, 35)), awards: p[9] === 'x' ? [] : [...p[9]].slice(0, 3).map((c) => num(c, 35)).filter((i) => i < nAwards), ch: num(p[10], 9999),
+      rolls: p[8] === 'x' ? [] : [...p[8]].slice(0, 6).map((c) => num(c, 35)), awards: [], ch: num(p[10], 9999),
     };
   }
 
@@ -15250,7 +15367,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   function fit(g, text, font, size, max, min = 34) { let s = size; do { g.font = font.replace('%', s); if (g.measureText(text).width <= max) break; s -= 3; } while (s > min); return s; }
   async function card(d) {
     const W = 1080, P = 72, C = { bg: '#0c1514', panel: '#16231f', ink: '#e6eee9', mute: '#93a49d', line: '#2a3c36', acc: '#ff7a4d', cyan: '#6cc6c0', bad: '#ef7560', good: '#7fc58a', warn: '#e6b450' };
-    const text = [d.name, d.nick, d.review, d.award, d.awardDesc, d.cause, d.lived].join('');
+    const text = [d.name, d.about, d.evidence, d.stat, d.cause, d.lived].join('');
     const want = ['900 90px "Noto Serif SC"', '600 60px "Noto Serif SC"', '400 34px "Noto Sans SC"', '500 34px "Noto Sans SC"', '400 60px "Ma Shan Zheng"', '400 28px "IBM Plex Mono"'];
     if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled(want.map((f) => document.fonts.load(f, text + '轮回'))), new Promise((r) => setTimeout(r, 2500))]);
     const c = document.createElement('canvas'); c.width = W; c.height = 1800; const g = c.getContext('2d');
@@ -15264,7 +15381,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     let y = 540;
     g.fillStyle = C.mute; g.font = `400 34px ${BODY}`; g.fillText(d.lead, P, y);
     y += 98; fit(g, d.name, `900 %px ${DISPLAY}`, 92, W - P * 2); g.fillStyle = C.ink; g.fillText(d.name, P, y);
-    y += 54; fit(g, d.nick, `500 %px ${BODY}`, 38, W - P * 2); g.fillStyle = C.acc; g.fillText(d.nick, P, y);
+    g.font = `400 28px ${BODY}`; g.fillStyle = C.mute; y += 50; wrap(g, d.about, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 40; }); y -= 18;
     y += 92; fit(g, d.lived, `600 %px ${DISPLAY}`, 64, W - P * 2); g.fillStyle = C.ink; g.fillText(d.lived, P, y);
     y += 52; g.font = `400 34px ${BODY}`; g.fillStyle = C.bad; wrap(g, d.cause, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 44; });
     // life strip
@@ -15272,18 +15389,13 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     cells.concat('x').forEach((s, i) => { g.fillStyle = { g: C.good, y: C.warn, r: C.bad, z: C.line, x: C.ink }[s]; g.fillRect(P + i * (cw + 8), y, cw, 26); });
     y += 66;
     const panel = (h) => { g.fillStyle = C.panel; g.beginPath(); if (g.roundRect) g.roundRect(P, y, W - P * 2, h, 16); else g.rect(P, y, W - P * 2, h); g.fill(); };
-    g.font = `400 30px ${BODY}`; const ad = wrap(g, d.awardDesc, W - P * 2 - 72).slice(0, 2);
-    let h = 92 + ad.length * 42; panel(h);
-    fit(g, `${d.mark} ${d.award}`, `600 %px ${DISPLAY}`, 44, W - P * 2 - 72); g.fillStyle = C.warn; g.fillText(`${d.mark} ${d.award}`, P + 36, y + 62);
-    g.fillStyle = C.ink; g.font = `400 30px ${BODY}`; ad.forEach((l, i) => g.fillText(l, P + 36, y + 110 + i * 42));
-    y += h + 20;
-    if (d.review) {
-      g.font = `400 32px ${BODY}`; const rv = wrap(g, d.review, W - P * 2 - 72).slice(0, 3);
-      h = 84 + rv.length * 46; panel(h);
-      g.fillStyle = C.mute; g.font = `400 26px ${BODY}`; g.fillText(d.reviewLabel, P + 36, y + 50);
-      g.textAlign = 'right'; g.fillStyle = C.warn; g.font = `400 30px ${BODY}`; g.fillText('★★★★★'.slice(0, d.stars) + '☆☆☆☆☆'.slice(0, 5 - d.stars), W - P - 36, y + 50); g.textAlign = 'left';
-      g.fillStyle = C.ink; g.font = `400 32px ${BODY}`; rv.forEach((l, i) => g.fillText(l, P + 36, y + 104 + i * 46));
-      y += h;
+    panel(132); fit(g, d.stat, `600 %px ${DISPLAY}`, 46, W - P * 2 - 72); g.fillStyle = C.cyan; g.fillText(d.stat, P + 36, y + 66);
+    g.fillStyle = C.mute; g.font = `400 24px ${BODY}`; g.fillText(d.statNote, P + 36, y + 108); y += 152;
+    if (d.evidence) {
+      g.font = `400 30px ${BODY}`; const ev = wrap(g, d.evidence, W - P * 2 - 72).slice(0, 4), h = 118 + ev.length * 44; panel(h);
+      g.fillStyle = C.good; g.font = `500 26px ${BODY}`; g.fillText(d.evidenceLabel, P + 36, y + 50);
+      g.fillStyle = C.ink; g.font = `400 30px ${BODY}`; ev.forEach((l, i) => g.fillText(l, P + 36, y + 100 + i * 44));
+      fit(g, d.evidenceSrc, `400 %px ${BODY}`, 24, W - P * 2 - 72, 16); g.fillStyle = C.mute; g.fillText(d.evidenceSrc, P + 36, y + h - 22); y += h;
     }
     // footer sits below whatever the text needed
     const H = Math.max(1440, Math.ceil(y + 210)), fy = H - 70; g.fillStyle = C.ink; g.font = `400 72px ${BRUSH}`; g.fillText('轮回', P, fy);
@@ -15319,6 +15431,42 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     weibo: (t) => `https://service.weibo.com/share/share.php?title=${encodeURIComponent(t)}`,
   };
 })();
+
+;
+// Birth circumstances that only make sense together.
+// [roll, option, earlierRoll, [allowed options of earlierRoll]] — the option is offered only when the earlier roll landed on one of those.
+// A roll with no offered option is skipped.
+window.ROLL_RULES = {
+  panda: [[2, 0, 0, [1]], [2, 1, 0, [0]], [2, 2, 0, []], [2, 3, 0, []], [3, 0, 0, [0, 1]], [3, 1, 0, [1]], [3, 2, 0, [0, 1]]],
+  lion: [[2, 0, 0, [0]], [2, 1, 0, [4]], [2, 2, 0, [5]], [2, 3, 0, [6]], [3, 2, 1, [1]]],
+  wolf: [[2, 0, 0, [0, 1]], [2, 1, 0, [2, 3]], [2, 2, 0, [4]], [2, 3, 0, [5]], [3, 2, 1, [0]]],
+  chimpanzee: [[3, 0, 0, [1, 2]], [3, 1, 0, [0]], [3, 2, 0, []]],
+  cat: [[1, 1, 0, [2]], [1, 2, 0, [2]], [1, 3, 0, [2]], [2, 0, 0, [0, 1]], [2, 1, 0, [0, 2]], [2, 2, 0, []], [2, 3, 0, [2]]],
+  dog: [[1, 1, 0, [2]], [1, 2, 0, [2]], [1, 3, 0, [2]], [2, 0, 0, [1]], [2, 1, 0, [1, 2]], [2, 2, 0, [2]], [2, 3, 0, [2]]],
+  broiler: [[2, 0, 0, [0]], [2, 1, 0, []], [2, 2, 0, []]],
+  bat: [[2, 0, 0, [2, 3]], [2, 1, 0, [0]], [2, 2, 0, [1]], [2, 3, 0, [2]]],
+  nematode: [[1, 0, 0, []], [1, 1, 0, [0, 1, 3]]],
+  blue_whale: [[1, 0, 0, [0, 2]], [1, 1, 0, [0, 1]], [1, 2, 0, [0, 1]]],
+  honeybee: [[3, 2, 0, [0, 1, 3]]],
+  housefly: [[1, 0, 0, [1]], [1, 1, 0, [1]], [2, 0, 0, [1]], [2, 1, 0, [1]], [2, 2, 0, [0, 2]], [3, 0, 0, [1]], [3, 1, 0, [1]], [3, 2, 0, [2]]],
+  earthworm: [[2, 0, 0, []], [2, 1, 0, []], [2, 2, 0, []]],
+  aphid: [[2, 0, 0, [0]], [2, 1, 0, [0]], [2, 2, 0, [3]]],
+  mayfly: [[1, 0, 0, [0]], [1, 1, 0, [3]], [1, 2, 0, [3]], [1, 3, 0, [3]], [2, 2, 0, [0, 3]]],
+  mite: [[2, 0, 0, [0, 2]], [2, 1, 0, [0]], [2, 2, 0, [1]], [2, 3, 0, [3]]],
+  springtail: [[2, 0, 0, [0]], [2, 1, 0, [1, 2, 3]], [2, 2, 0, [2]]],
+  octopus: [[1, 0, 0, [0, 1]], [1, 1, 0, [0, 1]], [1, 2, 0, [2]], [1, 3, 0, [0]]],
+  pigeon: [[2, 0, 0, []], [2, 1, 0, [2]], [2, 2, 0, [0]], [2, 3, 0, []]],
+  salmon: [[1, 0, 0, [0, 1]], [1, 1, 0, []], [1, 2, 0, [2]]],
+  sheep: [[2, 2, 0, [1, 2]], [3, 2, 0, [2]]],
+  sparrow: [[2, 1, 0, []], [2, 2, 0, [1]], [2, 3, 0, [3]]],
+  termite: [[2, 0, 0, []], [2, 1, 0, [0]], [2, 2, 0, [1]], [2, 3, 0, [1]]],
+  goat: [[2, 0, 0, [0, 1, 2]], [2, 1, 0, [3]], [2, 2, 0, [0, 1]], [3, 1, 0, [0, 3]], [3, 2, 0, [0, 2]]],
+  cattle: [[2, 1, 0, [0]]],
+  farmed_carp: [[2, 0, 1, [0, 1]], [2, 1, 1, [0, 1]], [2, 2, 1, [0, 1]]],
+  frog: [[2, 2, 0, [1]]],
+  greenland_shark: [[1, 2, 0, [2, 3]]],
+  ant: [[2, 1, 1, [0]]],
+};
 
 ;
 // Pixel habitat scenes. Drawn at 192×72 and scaled up with image-rendering: pixelated,
@@ -15576,7 +15724,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : LANG;
     if (EN && !(window.I18N_SP && window.I18N_SP[LANG])) {
       const sc = document.createElement('script');
-      sc.src = `i18n/${LANG}.js?v=2c3e8561`; sc.onload = run; sc.onerror = run;
+      sc.src = `i18n/${LANG}.js?v=619f1644`; sc.onload = run; sc.onerror = run;
       document.head.appendChild(sc);
     } else run();
   }
@@ -15589,19 +15737,31 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   // Game logic that reads the Chinese source text is computed here, before any translation is applied.
   const ESC_YES = /吃|捕|咬|抓|扑|叼|撞|拍|吞|啄|追|夹|袭|围攻|捉|刺穿|猎|网|钩|踩/;
   const ESC_NO = /病|感染|毒|饿|冻|寄生|衰老|老年|屠宰|淘汰|收获|缺氧|脱水|干涸|干透|^卵|卵被|巢被|夭折|意外/;
+  // Evidence (data/evidence.js): every entry carries a source whose quote was machine-checked.
+  // Measured survival over an age interval replaces the estimated hazard there; everything else stays an estimate.
+  function prepEvidence(sp) {
+    const ev = sp._ev = (window.EVIDENCE && window.EVIDENCE[sp.id]) || { refs: {}, survival: [], causes: [], causeNotes: {}, facts: [], existing: {} };
+    const pts = sp.survival.map((p) => p.slice()), n = pts.length;
+    if (pts[n - 1][1] <= 0) pts[n - 1][1] = pts[n - 2][1] * 0.002;
+    sp.survival = pts;
+    if (!(ev.survival || []).length) return;
+    const logS = (t) => { for (let i = 1; i < pts.length; i++) if (t <= pts[i][0]) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i]; return Math.log(y0) + (Math.log(y1) - Math.log(y0)) * (t - x0) / (x1 - x0); } return Math.log(pts[pts.length - 1][1]); };
+    const xs = [...new Set(pts.map((p) => p[0]).concat(...ev.survival.map((a) => [a.from, a.to])))].sort((a, b) => a - b);
+    const dH = xs.slice(1).map((x, i) => Math.max(1e-9, logS(xs[i]) - logS(x)));
+    ev.survival.forEach((a) => {
+      const idx = dH.map((_, i) => i).filter((i) => xs[i] >= a.from - 1e-9 && xs[i + 1] <= a.to + 1e-9);
+      const cur = idx.reduce((t, i) => t + dH[i], 0), want = Math.max(1e-6, -Math.log(a.surv));
+      idx.forEach((i) => { dH[i] = cur > 1e-6 ? dH[i] * want / cur : want * (xs[i + 1] - xs[i]) / (a.to - a.from); });
+    });
+    let H = 0; sp.survival = [[0, 1]]; dH.forEach((h, i) => { H += h; sp.survival.push([xs[i + 1], Math.exp(-H)]); });
+  }
   Object.values(SP).forEach((sp) => {
     sp.stages.forEach((st) => { st._quiet = /egg|pupa|^卵|蛹|胚/.test(st.id + '|' + st.name) || /卵|蛹|胚胎/.test(st.name); });
     (sp.causes || []).forEach((c) => { if (typeof c.escape !== 'boolean') c.escape = c.id !== 'old' && c.id !== 'slaughter' && ESC_YES.test(c.short) && !ESC_NO.test(c.short); });
     const sc = (sp.causes || []).find((x) => /starv|hunger|饿/.test(x.id + x.short)); sp._starve = sc && sc.id;
     (sp.causes || []).forEach((c) => { c._cull = /屠宰|收获|淘汰|出塘|上市|宰杀/.test(c.short); c._eaten = /吃|吞|叼|捕|咬/.test(c.short) && !/饿|毒|网/.test(c.short); });
     ((sp.birth && sp.birth.sex) || []).forEach((o) => { o._flag = o[0] === '雄性' ? 'male' : o[0] === '雌性' ? 'female' : null; });
-    // Birth variants change risk relative to each other, but each roll is rescaled so its weighted average is 1:
-    // the species as a whole still follows its real survival curve.
-    ((sp.birth && sp.birth.rolls) || []).forEach((r) => {
-      const tw = r.options.reduce((a, o) => a + o[1], 0);
-      const mean = r.options.reduce((a, o) => a + o[1] * ((o[2] && o[2].risk) || 1), 0) / (tw || 1);
-      r.options.forEach((o) => { o._risk = ((o[2] && o[2].risk) || 1) / mean; });
-    });
+    prepEvidence(sp);
     // apply the translation table: { "events.3.text": "...", ... }
     const dict = EN && window.I18N_SP && window.I18N_SP[LANG] && window.I18N_SP[LANG][sp.id];
     if (dict) for (const [p, v] of Object.entries(dict)) {
@@ -15613,15 +15773,20 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     if (EN && sp.sci && /[\u4e00-\u9fff]/.test(sp.sci)) sp.sci = (sp.sci.match(/[A-Za-z][A-Za-z .&-]*[A-Za-z.]/g) || []).map((x) => x.trim()).filter((x, i, a) => a.indexOf(x) === i).join(' · ');
     if (EN && window.ODDS_SRC_EN) { const od = (window.ODDS || []).find((x) => x.id === sp.id); if (od && window.ODDS_SRC_EN[sp.id]) od.src = window.ODDS_SRC_EN[sp.id]; }
   });
-  // humour layer (fun.js): nickname, plain-language explanation, review
-  const FI = EN ? 4 : 1;
-  const fun = (id) => { const f = EN ? straight(window.FUN_SP[id]) : window.FUN_SP[id]; return f ? { stars: f[0], nick: f[FI], what: f[FI + 1], review: f[FI + 2] } : { stars: 3, nick: '', what: '', review: '' }; };
-  const AWARDS = Object.keys(window.FUN_AWARDS);
-  const award = (k) => { const a = window.FUN_AWARDS[k]; return EN ? straight([a[2], a[3]]) : [a[0], a[1]]; };
-  const mw = (id) => window.FUN_MW[id] || '只';
+  const about = (id) => { const a = window.ABOUT[id]; return a ? (EN ? straight(a[1]) : a[0]) : ''; };
+  const mw = (id) => window.ABOUT_MW[id] || '只';
   const lc = (n) => (EN && !/^(Japanese|African|Antarctic|Asian|East|European|Atlantic|Pacific|Greenland|Western|Chinese)\b/.test(n) ? n.charAt(0).toLowerCase() + n.slice(1) : n);
   const art = (n) => (n === 'Cattle' ? 'one of the' : /^[aeiou]/i.test(n) ? 'an' : 'a');
   const MIN_CHOICES = 5;   // nobody dies before making this many choices
+  Object.values(SP).forEach((sp) => {   // facts with no verified source are not shown as facts
+    const ex = sp._ev.existing || {};
+    const set = (o, k) => { if (!o || !o.fact) return; if (ex[k] && ex[k] !== 'remove') o.ref = ex[k]; else delete o.fact; };
+    sp.events.forEach((e, i) => set(e, `events.${i}`)); sp.decisions.forEach((e, i) => set(e, `decisions.${i}`)); sp.causes.forEach((e, i) => set(e, `causes.${i}`)); set(sp.opening, 'opening');
+  });
+  const txt = (o) => (EN ? straight(o.en) : o.zh);
+  function link(sp, key) { const r = sp._ev.refs[key]; return r ? `<a class="src" target="_blank" rel="noopener" href="${esc(r.u)}">${esc(`${r.a} ${r.y}`)}${r.s ? ` · ${esc(r.s)}` : ''} ↗</a>` : ''; }
+  const badge = (b) => `<span class="ev ev-${b}">${T(`basis.${b}`)}</span>`;
+  const evLine = (sp, o) => `<p class="evline">${badge(o.basis)} ${esc(txt(o))} ${link(sp, o.ref)}</p>`;
   const sprCache = {};
   function sprite(sp) {
     if (!sp.sprite) return null;
@@ -15745,7 +15910,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       if (t <= x1) {
         const [x0, y0] = pts[i - 1];
         const f = (t - x0) / Math.max(1e-9, x1 - x0);
-        const a = Math.log(Math.max(y0, 1e-7)), b = Math.log(Math.max(y1, 1e-7));
+        const a = Math.log(Math.max(y0, 1e-30)), b = Math.log(Math.max(y1, 1e-30));
         const v = Math.exp(a + (b - a) * f);
         return y1 <= 0 && f >= 1 ? 0 : v;
       }
@@ -15773,7 +15938,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   }
 
   // ---------- views ----------
-  const VIEWS = ['home', 'reveal', 'birth', 'life', 'death', 'book', 'friend'];
+  const VIEWS = ['home', 'reveal', 'birth', 'life', 'death', 'book', 'friend', 'src'];
   function show(v) {
     VIEWS.forEach((k) => { $('#v-' + k).hidden = k !== v; });
     window.scrollTo(0, 0);
@@ -15809,7 +15974,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     const hum = oddsOf('human');
     $('#oddsnote').textContent = T('oddsNote', { n: top.length - 2, rest: pct(rest), human: oneIn(hum.pop / TOTAL) });
 
-    $('#whats').innerHTML = top.slice(0, 2).map((o) => { const f = fun(o.id), sp = SP[o.id]; return `<div class="what"><span class="em">${icon(sp, 56)}</span><div><h3>${esc(T('whatTitle', { art: art(sp.name), sp: lc(sp.name) }))}</h3><p>${esc(f.what)}</p></div></div>`; }).join('');
+    $('#whats').innerHTML = top.slice(0, 2).map((o) => { const sp = SP[o.id]; return `<div class="what"><span class="em">${icon(sp, 56)}</span><div><h3>${esc(T('whatTitle', { art: art(sp.name), sp: lc(sp.name) }))}</h3><p>${esc(about(o.id))}</p></div></div>`; }).join('');
     $('#modes').innerHTML = MODES.map(([k, label]) => `<button class="btn" type="button" data-mode="${k}" aria-pressed="${k === mode}">${label}</button>`).join('');
     $('#pick').innerHTML = ODDS.map((o) => `<option value="${o.id}">${esc((SP[o.id].sprite ? '' : SP[o.id].emoji + ' ') + SP[o.id].name)}</option>`).join('');
     const lastPick = store.get('lunhui.pick', null); if (lastPick && SP[lastPick]) $('#pick').value = lastPick;
@@ -15822,7 +15987,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       const w = clamp((Math.log10(o.pop) - minL) / (maxL - minL), 0.01, 1) * 100;
       return `<div class="oddsrow" title="${esc(o.src)}">
         <span class="em">${s ? icon(s, 18) : '·'}</span>
-        <span class="nm">${esc(s ? s.name : o.id)} <span class="conf ${o.conf}">${confLabel}</span><small class="mono">${cnNum(o.pop)}</small>${s ? `<span class="nick">${esc(fun(o.id).nick)}</span><span class="wh">${esc(fun(o.id).what)}</span>` : ''}</span>
+        <span class="nm">${esc(s ? s.name : o.id)} <span class="conf ${o.conf}">${confLabel}</span><small class="mono">${cnNum(o.pop)}</small>${s ? `<span class="wh">${esc(about(o.id))}</span>` : ''}</span>
         <span class="bar"><i style="width:${w}%"></i></span>
         <span class="od">${oneIn(o.pop / TOTAL)}</span>
       </div>`;
@@ -15848,7 +16013,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     const tick = () => {
       const o = i < steps - 1 ? ODDS[Math.floor(rand() * ODDS.length)] : final;
       const s = SP[o.id];
-      $('#rv-em').innerHTML = icon(s, 64); $('#rv-nm').textContent = s.name; $('#rv-nick').textContent = fun(o.id).nick;
+      $('#rv-em').innerHTML = icon(s, 64); $('#rv-nm').textContent = s.name;
       if (i % 4 === 0) { const ls = T('revealLines'); $('#rv-line').textContent = ls[Math.floor(rand() * ls.length)]; }
       $('#rv-od').textContent = T('odds', { p: oneIn(shareIn(mode, o.id)) });
       i++;
@@ -15868,19 +16033,23 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     let risk = 1;
     const sex = b.sex ? wpick(b.sex, (x) => x[1]) : null;
     if (sex) { if (sex._flag) flags.add(sex._flag); if (sex[2]) applyEff(sex[2], stats, flags); }
-    const rolls = {}, rollVals = [], rollIdx = [];
-    (b.rolls || []).forEach((r) => {
-      const opt = wpick(r.options, (x) => x[1]); rollIdx.push(r.options.indexOf(opt));
-      rolls[r.label] = opt[0]; rollVals.push(opt[0]);
-      risk *= opt._risk ?? ((opt[2] && opt[2].risk) || 1);
+    const rolls = {}, rollVals = [], rollIdx = [], riskParts = [];
+    (b.rolls || []).forEach((r, ri) => {
+      const offered = r.options.filter((_, oi) => ((window.ROLL_RULES || {})[id] || []).every(([x, y, a, ok]) => x !== ri || y !== oi || ok.includes(rollIdx[a])));
+      if (!offered.length) { rollIdx.push(-1); return; }
+      const opt = wpick(offered, (x) => x[1]); rollIdx.push(r.options.indexOf(opt));
+      // relative risk within what was actually possible, so variants do not shift the species' average
+      const mean = offered.reduce((t, x) => t + x[1] * ((x[2] && x[2].risk) || 1), 0) / offered.reduce((t, x) => t + x[1], 0), rr = ((opt[2] && opt[2].risk) || 1) / mean;
+      rolls[r.label] = opt[0]; rollVals.push(opt[0]); if (Math.abs(rr - 1) > 0.005) riskParts.push([`${r.label}${EN ? ': ' : '：'}${opt[0]}`, rr]);
+      risk *= rr;
       if (opt[2]) applyEff(opt[2], stats, flags);
     });
     // individual variation every animal gets: constitution and temperament (also set flags species content can use)
     const con = wpick(TRAITS.con, (x) => x.w), tem = wpick(TRAITS.tem, (x) => x.w);
-    [con, tem].forEach((t) => { flags.add(t.id); if (t.health) stats.health = clamp(stats.health + t.health, 0, 100); if (t.risk) risk *= t.risk; });
+    [con, tem].forEach((t) => { flags.add(t.id); if (t.health) stats.health = clamp(stats.health + t.health, 0, 100); if (t.risk) { risk *= t.risk; riskParts.push([traitName(t), t.risk]); } });
     const no = `${'ABCDEFGH'[Math.floor(rand() * 8)]}${String(Math.floor(rand() * 1e4)).padStart(4, '0')}`;
     L = {
-      sp, id, no, mode, traits: { con, tem }, sex: sex ? sex[0] : null, sexFlag: sex ? sex._flag : null, rolls, rollVals, rollIdx, flags, stats, risk,
+      sp, id, no, mode, traits: { con, tem }, sex: sex ? sex[0] : null, sexFlag: sex ? sex._flag : null, rolls, rollVals, rollIdx, riskParts, why: null, lastData: 0, usedData: new Set(), flags, stats, risk,
       age: 0, cal: 0, ticks: 0, mods: [], log: [], map: [], fired: new Set(), once: new Set(), firstStage: {},
       choices: [], dead: false, cause: null, paused: false, speed: store.get('lunhui.speed', 1), auto: false, ff: false,
       sibsN: b.siblings || 1, stageId: null, escapes: 0, lastCrisis: -99, seen: {}, lastSeen: {}, usedText: new Set(), idleBag: [], idleRefills: 0, quietFrom: null, act: 'instinct', actTicks: {}, stepMode: store.get('lunhui.step', false), mateCd: 0, saves: 0, saveLogs: 0, lastChoice: 0, moved: false, encUsed: new Set(), quips: new Set(), lastQuip: -9, streak: 0, diedQuiet: false, t: 0, seed: Math.floor(rand() * 1e6) + 1,
@@ -15956,12 +16125,13 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       <div class="card">
         <div class="card-head"><span>${T('birthHead')}</span><span>No. ${L.no}</span></div>
         <div class="card-body">
-          <div class="specname"><span class="em">${icon(sp, 52)}</span><div><h2>${esc(sp.name)}</h2><div class="nick">${esc(fun(sp.id).nick)}</div><div class="sci">${esc(sp.sci || '')}${EN ? '' : ` · ${esc(sp.en || '')}`}</div>${sp.taxon ? `<div class="mono small muted">${esc(sp.taxon)}</div>` : ''}</div></div>
+          <div class="specname"><span class="em">${icon(sp, 52)}</span><div><h2>${esc(sp.name)}</h2><div class="sci">${esc(sp.sci || '')}${EN ? '' : ` · ${esc(sp.en || '')}`}</div>${sp.taxon ? `<div class="mono small muted">${esc(sp.taxon)}</div>` : ''}</div></div>
           <p style="font-size:16.5px">${esc(fill(sp.birth.intro))}</p>
-          <div class="whatis"><b>${esc(T('whatIs', { art: art(sp.name), sp: lc(sp.name) }))}</b><p>${esc(fun(sp.id).what)}</p>${sp.note ? `<p class="small muted">${esc(sp.note)}</p>` : ''}</div>
+          <div class="whatis"><b>${esc(T('whatIs', { art: art(sp.name), sp: lc(sp.name) }))}</b><p>${esc(about(sp.id))}</p>${sp.note ? `<p class="small muted">${esc(sp.note)}</p>` : ''}</div>
           <div class="fields">${fields.map(([k, v]) => `<div class="field"><span class="eyebrow">${esc(k)}</span><div class="v">${String(v).startsWith('<') ? v : esc(v)}</div></div>`).join('')}</div>
           ${cmp}
-          <p class="small muted">${esc(T('sources', { src: o.src, note: sp.survivalNote || '' }))}</p>
+          <p class="small muted">${esc(T('sources', { src: o.src, note: sp.survivalNote || '' }))} <button class="linkbtn" type="button" data-src="${sp.id}">${T('why.allSources')}</button></p>
+          ${(sp._ev.survival || []).slice(0, 3).map((a) => evLine(sp, a)).join('')}
           <p class="small muted">${esc(T('protectNote'))}</p>
           <div class="row"><button class="btn-primary" id="begin" type="button">${T('begin')}</button><button class="btn" id="reroll" type="button">${T('reroll')}</button></div>
         </div>
@@ -15992,16 +16162,18 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     
     timer = setTimeout(step, ms);
   }
-  function activeMult() {
-    let m = L.risk * (availableActions().includes(L.act) ? actionDef(L.act).risk : 1);
+  // every multiplier on the base death rate, named, so a death can be explained
+  function multParts() {
+    const parts = L.riskParts.slice(), h = L.stats.health;
+    if (availableActions().includes(L.act)) { const A = actionDef(L.act); if (Math.abs(A.risk - 1) > 0.005) parts.push([A.name, A.risk]); }
     L.mods = L.mods.filter((x) => x.until > L.cal);
-    L.mods.forEach((x) => { m *= x.mult; });
-    const h = L.stats.health;
-    if (h < 40) m *= 1 + (40 - h) / 40; else if (h > 85) m *= 0.9;
-    if (L.stats.food < 15) m *= 1.4;
-    if (L.stats.safety < 20) m *= 1.2;
-    return m;
+    L.mods.forEach((x) => parts.push([x.label || T('decision'), x.mult]));
+    if (h < 40) parts.push([T('why.lowHealth', { n: Math.round(h) }), 1 + (40 - h) / 40]); else if (h > 85) parts.push([T('why.highHealth', { n: Math.round(h) }), 0.9]);
+    if (L.stats.food < 15) parts.push([T('why.lowFood', { n: Math.round(L.stats.food) }), 1.4]);
+    if (L.stats.safety < 20) parts.push([T('why.lowSafety', { n: Math.round(L.stats.safety) }), 1.2]);
+    return parts;
   }
+  const activeMult = () => multParts().reduce((m, p) => m * p[1], 1);
   function findDecision(st) {
     for (const d of L.sp.decisions || []) {
       if (L.fired.has(d.id)) continue;
@@ -16046,7 +16218,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
 
     if (L.age + dt >= sp.maxAge) {
       if (safe) { const e = nextEncounter(); if (e) { openDecision(e); return; } }
-      L.age = sp.maxAge; L.cal += dt; return die('old');
+      L.age = sp.maxAge; L.cal += dt; L.why = { kind: 'limit', age: L.age, stage: st }; return die('old');
     }
     const quiet = isQuietStage(st);
     const escShare = quiet ? 0 : escapableShare(st);
@@ -16057,6 +16229,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     if (rand() < p) {
       const mod = L.mods.find((x) => x.cause);
       const c = pickCause(mod && rand() < 0.6 ? mod.cause : null);
+      L.why = { kind: 'rate', unit: u, p0, parts: multParts(), p: 1 - Math.pow(1 - p0, activeMult()), age: L.age, stage: st };
       const crisis = !quiet && isEscapable(c) && L.ticks - L.lastCrisis > 2;
       if (crisis || !safe) {
         const f = rand();
@@ -16085,7 +16258,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       else if (L.stats.food > 45) L.stats.health = clamp(L.stats.health + 1.5, 0, 100);
     }
     L.stats.safety += (50 - L.stats.safety) * 0.08;
-    if (L.stats.health <= 0) { if (!safe) return die('starve'); L.stats.health = 25; L.stats.food = Math.max(L.stats.food, 30); spare(); }
+    if (L.stats.health <= 0) { if (!safe) { L.why = { kind: 'health', age: L.age, stage: st }; return die('starve'); } L.stats.health = 25; L.stats.food = Math.max(L.stats.food, 30); spare(); }
 
     // events
     st = stageAt(sp, L.age);
@@ -16112,7 +16285,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       if (e.once) L.once.add(i);
       const n = applyEff(e.eff, L.stats, L.flags);
       if (e.set) L.flags.add(e.set);
-      logged = logOnce(fill(e.text, { n: n ?? '' }), e.eff && Object.values(e.eff).some((v) => (Array.isArray(v) ? v[1] : v) < -9) ? 'bad' : '', e.fact);
+      logged = logOnce(fill(e.text, { n: n ?? '' }), e.eff && Object.values(e.eff).some((v) => (Array.isArray(v) ? v[1] : v) < -9) ? 'bad' : '', e.fact, e);
     } else if (A.text && A.text.some((t) => !L.usedText.has(t)) && rand() < 0.3) {
       const pool = A.text.filter((t) => !L.usedText.has(t));  // shared with events and idle lines
       const t = pool[Math.floor(rand() * pool.length)];
@@ -16125,17 +16298,25 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       if (L.idleBag.length) { const t = sp.idle[L.idleBag.pop()]; L.usedText.add(t); logged = logOnce(fill(t), 'idle'); }
     }
     if (!logged && L.quietFrom == null) L.quietFrom = L.cal - dt;
-    narrate(st, acts.length > 0);
+    showData(st);
     L.map.push({ h: L.stats.health, f: L.stats.food });
     renderLife();
     renderActs();
     schedule();
   }
 
+  // While living: a sourced fact about what is happening now, at most once each.
+  function showData(st) {
+    if (L.ticks - L.lastData < 6) return;
+    const ok = (L.sp._ev.facts || []).filter((f, i) => !L.usedData.has(i) && (!(f.stages || []).length || f.stages.includes(st.id)) && (!(f.acts || []).length || f.acts.includes(L.act)) && (!(f.flags || []).length || f.flags.some((x) => L.flags.has(x))) && (!(f.causes || []).length || f.causes.some((id) => { const c = L.sp.causes.find((y) => y.id === id); return c && inStage(c, st) && needOk(c.need, L.flags); })));
+    if (!ok.length) return;
+    const f = ok[Math.floor(rand() * ok.length)]; L.usedData.add(L.sp._ev.facts.indexOf(f)); L.lastData = L.ticks;
+    addLog(txt(f), 'data', null, f);
+  }
   // Beginner's protection: a death that should have landed takes a neighbour instead.
   function spare() {
     L.saves++;
-    if (L.saveLogs < T('saved').length) { addLog(Tn('saved', ++L.saveLogs), 'quip'); }
+    if (L.saveLogs < T('saved').length) { addLog(Tn('saved', ++L.saveLogs), 'bad'); }
   }
   function openFirstMove() {
     openDecision({ id: '__first', eyebrow: T('decision'), title: T('firstMove'), body: T('firstMoveBody'),
@@ -16150,35 +16331,27 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     return { id: `__enc${i}`, eyebrow: T('encounter'), title: e[0], body: e[1],
       options: [e[2], e[3]].map(([t, hint, eff, risk, result]) => ({ t, hint, eff, risk, riskDays: UNIT[L.unit || stageAt(L.sp, L.age).unit] * 6, result })) };
   }
-  // No jokes at the expense of children.
-  const gentle = () => L.id === 'human' && L.age < 18 * 365;
-  function narrate(st, mobile) {
-    if (st._quiet || gentle() || L.ticks - L.lastQuip < 4) return;
-    const say = (k) => { if (L.quips.has(k)) return false; L.quips.add(k); L.lastQuip = L.ticks; addLog(T(`quips.${k}`), 'quip'); return true; };
-    L.streak = L.act === L.streakAct ? L.streak + 1 : 1; L.streakAct = L.act;
-    const x = L.stats, left = S(L.sp, L.age);
-    if (x.food < 20 && say('hungry')) return;
-    if (x.food > 92 && say('full')) return;
-    if (x.health < 25 && say('hurt')) return;
-    if (x.health > 97 && say('fit')) return;
-    if (x.offspring > 0 && say('firstKid')) return;
-    if (L.escapes > 0 && say('escape')) return;
-    if (L.age >= (L.sp.maturity || 0) && L.sp.maturity > 0 && say('mature')) return;
-    if (L.sibsN >= 8 && left < 0.1 && left * L.sibsN > 1 && say('tenth')) return;
-    if (L.sibsN >= 8 && left < 0.5 && left >= 0.1 && say('half')) return;
-    if (L.age > L.sp.maxAge / 2 && say('halflife')) return;
-    if (mobile && L.streak >= 9) say(L.act);
-  }
+  const gentle = () => L.id === 'human' && L.age < 18 * 365;   // encounters are written for animals and adults
 
   // Chance of surviving a crisis by fleeing (depends on health) or freezing (depends on safety).
   function escapeOdds() {
     return { pf: clamp(0.15 + L.stats.health / 250, 0.15, 0.55), ph: clamp(0.2 + L.stats.safety / 300, 0.2, 0.5) };
   }
   const isEscapable = (c) => !!(c && c.escape);
+  // Chance of each cause in a stage. Published shares are used where they exist; the rest splits what is left by estimated weights.
+  function causeTable(sp, st, flags) {
+    const ok = (sp.causes || []).filter((x) => inStage(x, st) && (!flags || needOk(x.need, flags)));
+    const a = (sp._ev.causes || []).find((x) => x.stages.includes(st.id) && (!x.flags || (flags && x.flags.some((k) => needOk(k, flags)))));
+    const sh = (c) => (a && c.id in a.shares ? a.shares[c.id] : null);
+    const given = ok.reduce((t, c) => t + (sh(c) || 0), 0), rest = ok.filter((c) => sh(c) == null).reduce((t, c) => t + (c.w ?? 1), 0);
+    const list = ok.map((c) => ({ c, w: sh(c) != null ? sh(c) : rest ? (c.w ?? 1) / rest * Math.max(0, 1 - given) : 0, given: sh(c) != null })).filter((x) => x.w > 0);
+    const tot = list.reduce((t, x) => t + x.w, 0) || 1; list.forEach((x) => { x.w /= tot; });
+    return { list, anchor: a };
+  }
   function escapableShare(st) {
-    const ok = (L.sp.causes || []).filter((x) => (x.w ?? 1) > 0 && inStage(x, st) && needOk(x.need, L.flags));
-    const tot = ok.reduce((a, x) => a + (x.w ?? 1), 0);
-    return tot ? ok.filter(isEscapable).reduce((a, x) => a + (x.w ?? 1), 0) / tot : 0;
+    // escapable dangers must strike more often than they kill, so that deaths still match the shares
+    const o = escapeOdds(), e = (o.pf + o.ph) / 2, l = causeTable(L.sp, st, L.flags).list.map((x) => ({ x, a: isEscapable(x.c) ? x.w / (1 - e) : x.w }));
+    const t = l.reduce((n, y) => n + y.a, 0); return t ? l.filter((y) => isEscapable(y.x.c)).reduce((n, y) => n + y.a, 0) / t : 0;
   }
   function openCrisis(c) {
     L.lastCrisis = L.ticks;
@@ -16190,8 +16363,8 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       title: Tn('crisisTitle', n, { c: cs }) + (n > 4 ? T('crisisNth', { n }) : ''),
       body: Tn('crisisBody', n),
       options: [
-        { t: Tn('flee', n), hint: T('fleeHint', { p: Math.round(pf * 100) }), kill: 1 - pf, causeObj: c, eff: { food: -10 }, escaped: true, result: Tn('fleeOk', n) },
-        { t: Tn('freeze', n), hint: T('freezeHint', { p: Math.round(ph * 100) }), kill: 1 - ph, causeObj: c, eff: { safety: -15 }, escaped: true, result: Tn('freezeOk', n) },
+        { t: Tn('flee', n), hint: T('fleeHint', { p: Math.round(pf * 100) }), kill: 1 - pf, causeObj: c, crisis: true, eff: { food: -10 }, escaped: true, result: Tn('fleeOk', n) },
+        { t: Tn('freeze', n), hint: T('freezeHint', { p: Math.round(ph * 100) }), kill: 1 - ph, causeObj: c, crisis: true, eff: { safety: -15 }, escaped: true, result: Tn('freezeOk', n) },
       ],
     });
   }
@@ -16203,12 +16376,10 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     else if (causeId === 'old') c = causes.find((x) => x.id === 'old') || { id: 'old', ...T('oldAge') };
     else if (causeId) c = causes.find((x) => x.id === causeId);
     if (!c) {
-      const old = causes.find((x) => x.id === 'old');
-      if (old && (st.id === 'old' || L.age > sp.maxAge * 0.8) && rand() < 0.5) c = old;
-      else {
-        const ok = causes.filter((x) => (x.w ?? 1) > 0 && inStage(x, st) && needOk(x.need, L.flags));
-        c = ok.length ? wpick(ok, (x) => x.w ?? 1) : (causes[0] || { ...T('death') });
-      }
+      const tb = causeTable(sp, st, L.flags), old = causes.find((x) => x.id === 'old');
+      if (old && !(tb.anchor && 'old' in tb.anchor.shares) && (st.id === 'old' || L.age > sp.maxAge * 0.8) && rand() < 0.5) c = old;
+      else if (tb.list.length) { const o = escapeOdds(), e = (o.pf + o.ph) / 2; c = wpick(tb.list, (x) => (isEscapable(x.c) && !st._quiet ? x.w / (1 - e) : x.w)).c; }
+      else c = causes[0] || { ...T('death') };
     }
     return c;
   }
@@ -16257,9 +16428,9 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     });
   }
   // Logs a line unless the same text appeared recently; a long quiet stretch becomes one summary line first.
-  function logOnce(text, cls, fact) {
+  function logOnce(text, cls, fact, ev) {
     if (L.log.slice(-12).some((l) => l.text === text)) return false;
-    addLog(text, cls, fact);
+    addLog(text, cls, fact, ev);
     return true;
   }
   function die(cause) {
@@ -16285,7 +16456,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       <div class="head"><span class="eyebrow" style="color:${d.crisis ? 'var(--bad)' : 'var(--accent)'}">${esc(d.eyebrow || T('decision'))}</span><span class="eyebrow">${n} ${u} · ${esc(stageAt(L.sp, L.age).name)}</span></div>
       <h2 id="dlg-title">${esc(d.title)}</h2>
       <p>${esc(fill(d.body))}</p>
-      ${d.fact ? `<div class="fact">${esc(d.fact)}</div>` : ''}
+      ${decisionEvidence(d)}
       <div class="opts">${d.options.map((o, i) => `<button class="opt" type="button" data-i="${i}"><span class="k">${i + 1}</span><span class="tt">${esc(o.t)}</span>${o.hint ? `<span class="h">${esc(o.hint)}</span>` : ''}</button>`).join('')}</div>`;
     $('#overlay').hidden = false;
     $('#dlg').querySelector('.opt').focus();
@@ -16296,12 +16467,17 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       choose(d, opt, true);
     };
   }
+  function decisionEvidence(d) {
+    if (d.fact) return `<div class="fact">${esc(d.fact)} ${link(L.sp, d.ref)}</div>`;
+    const id = d.id === '__opening' ? 'opening' : d.id, f = (L.sp._ev.facts || []).find((x) => (x.decisions || []).includes(id));
+    return f ? `<div class="fact">${badge(f.basis)} ${esc(txt(f))} ${link(L.sp, f.ref)}</div>` : '';
+  }
   function choose(d, opt, interactive = false) {
     L.choices.push(`${d.title} → ${opt.t}`); L.lastChoice = L.ticks;
     if (opt.act) L.act = opt.act;
     applyEff(opt.eff, L.stats, L.flags);
     if (opt.set) (typeof opt.set === 'string' ? [opt.set] : Object.keys(opt.set)).forEach((f) => L.flags.add(f));
-    if (opt.risk) L.mods.push({ mult: opt.risk, until: L.cal + (opt.riskDays || UNIT[stageAt(L.sp, L.age).unit]), cause: opt.cause });
+    if (opt.risk) L.mods.push({ mult: opt.risk, until: L.cal + (opt.riskDays || UNIT[stageAt(L.sp, L.age).unit]), cause: opt.cause, label: `${d.title}${EN ? ': ' : '：'}${opt.t}` });
     if (opt.skip) {
       const days = val(opt.skip);
       L.cal += days;
@@ -16309,6 +16485,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       addLog(T('dormant', { d: dur(days) }), 'idle');
     }
     if (opt.kill && rand() < opt.kill) {
+      if (opt.crisis && L.why) L.why.crisis = { t: opt.t, p: 1 - opt.kill }; else L.why = { kind: 'choice', t: `${d.title}${EN ? ': ' : '：'}${opt.t}`, p: opt.kill, age: L.age, stage: stageAt(L.sp, L.age) };
       if (L.choices.length > MIN_CHOICES - 1) return die(opt.causeObj || opt.cause || null);
       // protected: hurt instead of dead
       L.saves++; opt = { ...opt, eff: { health: -20 }, risk: 0, escaped: false, result: T('hurtInstead'), fixed: true };
@@ -16332,6 +16509,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       <h2 id="dlg-title">${esc(opt.t)}</h2>
       ${opt.result ? `<p>${esc(fill(opt.result))}</p>` : ''}
       ${chips || riskNote ? `<div class="row">${chips}${riskNote}</div>` : ''}
+      ${opt.risk || (opt.kill && !opt.crisis) ? `<p class="small muted">${badge('rule')} ${[opt.risk ? T('why.ruleRisk', { x: opt.risk.toFixed(2) }) : '', opt.kill && !opt.crisis ? T('why.ruleKill', { p: pct(opt.kill) }) : ''].filter(Boolean).join(EN ? '; ' : '；')}</p>` : ''}
       <div class="opts"><button class="opt" type="button" id="dlg-go"><span class="k">→</span><span class="tt">${T('continue')}</span></button></div>`;
     $('#dlg-go').focus();
     $('#dlg-go').onclick = () => { $('#overlay').hidden = true; schedule(); };
@@ -16350,7 +16528,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   });
 
   // ---------- life rendering ----------
-  function addLog(text, cls = '', fact = null) {
+  function addLog(text, cls = '', fact = null, ev = null) {
     if (L.quietFrom != null) {
       const gap = L.cal - L.quietFrom;
       L.quietFrom = null;
@@ -16363,7 +16541,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     L.log.push({ t: stamp(L.cal, unit), text, cls, fact });
     const el = document.createElement('div');
     el.className = `logline ${cls}`;
-    el.innerHTML = `<span class="t">${esc(stamp(L.cal, unit))}</span><span class="tx">${esc(text)}${fact ? `<span class="fact">${esc(fact)}</span>` : ''}</span>`;
+    el.innerHTML = `<span class="t">${esc(stamp(L.cal, unit))}</span><span class="tx">${esc(text)}${fact ? `<span class="fact">${esc(fact)} ${ev && ev.ref ? link(L.sp, ev.ref) : ''}</span>` : ''}${ev && ev.basis ? `<span class="fact plain">${badge(ev.basis)} ${link(L.sp, ev.ref)}</span>` : ''}</span>`;
     const log = $('#lf-log');
     log.prepend(el);
     while (log.children.length > 300) log.lastChild.remove();
@@ -16493,7 +16671,6 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       <h2 id="dlg-title">${T('lived', { d: dur(L.cal) })}</h2>
       <p class="cause">${esc(L.cause.short)}</p>
       <p>${esc(fill(L.cause.text))}</p>
-      <div class="awardline"><span>${isGentle(L.life) ? '🕯' : '🏆'}</span><div><b>${esc(award(AWARDS[L.life.awards[0]])[0])}</b><p class="small muted">${esc(award(AWARDS[L.life.awards[0]])[1])}</p></div></div>
       <div class="opts"><button class="opt" type="button" id="to-death"><span class="k">→</span><span class="tt">${T('toRecord')}</span></button></div>`;
     $('#overlay').hidden = false;
     $('#to-death').focus();
@@ -16521,7 +16698,8 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${T('curveAria')}">
       ${[0, 0.5, 1].map((s) => `<line x1="${pl}" x2="${W - pr}" y1="${Y(s)}" y2="${Y(s)}" stroke="var(--line)" stroke-width="1"/><text x="${pl - 6}" y="${Y(s) + 4}" text-anchor="end" font-size="11" fill="var(--muted)" font-family="var(--font-mono)">${s * 100}%</text>`).join('')}
       <path d="${area}" fill="var(--cyan)" fill-opacity="0.15"/>
-      <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="2"/>
+      <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="1.5" stroke-dasharray="4 3"/>
+      ${(sp._ev.survival || []).map((a) => { let q = ''; for (let i = 0; i <= 24; i++) { const t = a.from + (a.to - a.from) * i / 24; q += `${i ? 'L' : 'M'}${X(t).toFixed(1)},${Y(S(sp, t)).toFixed(1)}`; } return `<path d="${q}" fill="none" stroke="var(--good)" stroke-width="3.5"/>`; }).join('')}
       ${ticks.map((t, i) => `<text x="${X(t)}" y="${H - 10}" text-anchor="${i === 0 ? 'start' : i === 4 ? 'end' : 'middle'}" font-size="11" fill="var(--muted)" font-family="var(--font-mono)">${t === 0 ? '0' : dur(t)}</text>`).join('')}
       <line x1="${X(you)}" x2="${X(you)}" y1="${pt}" y2="${H - pb}" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 3"/>
       <circle cx="${X(you)}" cy="${Y(S(sp, you))}" r="5" fill="var(--accent)"/>
@@ -16548,37 +16726,48 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     }).join('');
     return `<div class="panel"><div class="row" style="justify-content:space-between"><h3>${T('spent')}</h3><span class="eyebrow">${T('byTicks')}</span></div><div style="display:grid;gap:8px">${rows}</div></div>`;
   }
-  // ---------- sharing: one life as plain data (d), the same whether it's yours or came in a link ----------
-  function awardKeys() {
-    const sp = L.sp, c = L.cause, k = [];
-    if (gentle()) return ['gentle'];
-    const tot = Object.values(L.actTicks).reduce((a, b) => a + b, 0) || 1, sh = (a) => (L.actTicks[a] || 0) / tot;
-    const adult = L.age >= (sp.maturity || 0), pop = oddsOf(sp.id).pop, off = L.stats.offspring;
-    if (L.cal > 36500) k.push('relic');
-    if (sp.id === 'human') k.push('lucky');
-    if (L.escapes >= 3) k.push('ninelives');
-    if (c._cull || c.id === 'slaughter') k.push('kpi');
-    if (c.id === 'old' && !c._cull) k.push('oldage');
-    if (L.diedQuiet) k.push('unopened');
-    if (L.cal < 1) k.push('trial'); else if (L.cal < 7) k.push('refund');
-    if (off >= 1000) k.push('census'); else if (off >= 100) k.push('bigfam');
-    if (L.traits.con.id === 'runt' && adult) k.push('underdog');
-    if (L.sibsN >= 10 && S(sp, L.age) * L.sibsN < 1.5) k.push('lastone');
-    if (pop < 1e6) k.push('rare');
-    if (tot >= 10) { if (sh('hide') > 0.45) k.push('hider'); if (sh('rest') > 0.45) k.push('rester'); if (sh('forage') > 0.5) k.push('eater'); if (sh('explore') > 0.45) k.push('roamer'); if (sh('mate') > 0.25) k.push('romantic'); }
-    if (c.id === 'starve' || c.id === sp._starve) k.push('hungry');
-    if (c._eaten) k.push('foodchain');
-    if (adult && !off && canBreed(sp)) k.push('nokids');
-    if (L.choices.length >= 12) k.push('waverer');
-    if (!k.length) k.push('plain');
-    return k.slice(0, 3);
+  // ---------- why did this happen ----------
+  const measuredAt = (sp, age) => (sp._ev.survival || []).find((a) => age >= a.from - 1e-9 && age < a.to);
+  function whyPanel() {
+    const w = L.why, sp = L.sp, c = L.cause; if (!w) return '';
+    const st = w.stage, m = measuredAt(sp, w.age), out = [];
+    if (w.kind === 'rate') {
+      out.push(`<h4>${T('why.when')}</h4><p>${esc(T('why.base', { s: st.name, u: UNITNAME[w.unit], p: pct(w.p0) }))}</p>${m ? evLine(sp, m) : `<p class="evline">${badge('est')} ${T('why.noCurve')}</p>`}`);
+      out.push(`<p>${T(w.parts.length ? 'why.factors' : 'why.noFactors')} ${badge('rule')}</p>${w.parts.length ? `<ul class="parts">${w.parts.map(([l, x]) => `<li><span>${esc(l)}</span><b class="mono ${x > 1 ? 'up' : 'down'}">×${x.toFixed(2)}</b></li>`).join('')}</ul>` : ''}<p>${esc(T('why.final', { u: UNITNAME[w.unit], p: pct(w.p) }))}</p>`);
+      if (w.crisis) out.push(`<p>${esc(T('why.crisis', { t: w.crisis.t, p: pct(w.crisis.p) }))} ${badge('rule')}</p>`);
+    } else if (w.kind === 'choice') out.push(`<h4>${T('why.when')}</h4><p>${esc(T('why.choice', { t: w.t, p: pct(w.p) }))} ${badge('rule')}</p>`);
+    else out.push(`<h4>${T('why.when')}</h4><p>${esc(T(w.kind === 'limit' ? 'why.limit' : 'why.health', { d: dur(sp.maxAge) }))} ${badge(w.kind === 'limit' ? 'est' : 'rule')}</p>`);
+    const tb = causeTable(sp, st, L.flags), row = tb.list.find((x) => x.c.id === c.id);
+    out.push(`<h4>${esc(T('why.cause', { c: c.short }))}</h4>`);
+    if (row && w.kind !== 'choice') out.push(`<p>${esc(T('why.share', { s: st.name, p: pct(row.w) }))}</p>`);
+    if (row && row.given) out.push(evLine(sp, tb.anchor));
+    else { const n = sp._ev.causeNotes && sp._ev.causeNotes[c.id]; if (n) out.push(evLine(sp, n)); out.push(`<p class="evline">${badge('est')} ${T(n ? 'why.noShareButReal' : 'why.noShare')}</p>`); }
+    const used = new Set([m, tb.anchor]);
+    const rel = (sp._ev.facts || []).map((f) => ({ f, k: ((f.causes || []).includes(c.id) ? 4 : 0) + ((f.flags || []).some((x) => L.flags.has(x)) ? 2 : 0) + ((f.stages || []).includes(st.id) ? 1 : 0) })).filter((x) => x.k && !used.has(x.f) && (!(x.f.flags || []).length || x.f.flags.some((q) => L.flags.has(q)))).sort((a, b) => b.k - a.k).slice(0, 4);
+    if (rel.length) out.push(`<h4>${T('why.related')}</h4>${rel.map((x) => evLine(sp, x.f)).join('')}`);
+    return `<div class="panel why"><h3>${T('why.title')}</h3>${out.join('')}<p class="small muted">${T('why.legend')} <button class="linkbtn" type="button" data-src="${sp.id}">${T('why.allSources')}</button></p></div>`;
   }
+  function coverage(sp) { const e = sp._ev, cs = new Set([...(e.causes || []).flatMap((x) => Object.keys(x.shares)), ...Object.keys(e.causeNotes || {}), ...(e.facts || []).flatMap((f) => f.causes || [])]); return { surv: (e.survival || []).length, shares: (e.causes || []).length, causes: cs.size, allCauses: sp.causes.length, facts: (e.facts || []).length, refs: Object.keys(e.refs).length }; }
+  function renderSources(focus) {
+    const cov = ODDS.map((o) => ({ sp: SP[o.id], c: coverage(SP[o.id]) })), sum = (k) => cov.reduce((t, x) => t + x.c[k], 0);
+    const R = ACTIONS;
+    $('#v-src').innerHTML = `<div style="display:grid;gap:8px"><h2 style="font-size:30px">${T('src.title')}</h2><p>${T('src.intro', { refs: sum('refs'), n: cov.filter((x) => x.c.refs).length, all: cov.length })}</p></div>
+      <div class="panel"><h3>${T('src.how')}</h3><p>${badge('measured')} ${T('src.measured')}</p><p>${badge('official')} ${T('src.official')}</p><p>${badge('related')} ${T('src.related')}</p><p>${badge('est')} ${T('src.est')}</p><p>${badge('rule')} ${T('src.rule', { forage: R.forage.risk, hide: R.hide.risk, rest: R.rest.risk, explore: R.explore.risk, mate: R.mate.risk })}</p></div>
+      ${cov.map(({ sp, c }) => `<details class="panel srcsp" id="src-${sp.id}" ${focus === sp.id ? 'open' : ''}><summary><span class="em">${icon(sp, 24)}</span> <b>${esc(sp.name)}</b> <span class="small muted">${T('src.line', { surv: c.surv, causes: c.causes, all: c.allCauses, refs: c.refs })}</span></summary>
+        <p class="small muted">${T('fAlive')}${EN ? ': ' : '：'}${esc(oddsOf(sp.id).src)}</p>
+        ${(sp._ev.survival || []).length ? `<h4>${T('src.surv')}</h4>${sp._ev.survival.map((a) => evLine(sp, a)).join('')}` : `<p class="evline">${badge('est')} ${T('src.noSurv')}</p>`}
+        ${(sp._ev.causes || []).length || Object.keys(sp._ev.causeNotes || {}).length ? `<h4>${T('fCause')}</h4>${(sp._ev.causes || []).concat(Object.values(sp._ev.causeNotes || {})).map((a) => evLine(sp, a)).join('')}` : ''}
+        ${(sp._ev.facts || []).length ? `<h4>${T('src.facts')}</h4>${sp._ev.facts.map((a) => evLine(sp, a)).join('')}` : ''}</details>`).join('')}`;
+    show('src'); if (focus) $(`#src-${focus}`).scrollIntoView();
+  }
+  document.addEventListener('click', (e) => { const b = e.target.closest('[data-src]'); if (!b) return; if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderSources(b.dataset.src || null); });
+
+  // ---------- sharing: one life as plain data (d), the same whether it's yours or came in a link ----------
   function packLife() {
     const i = (L.sp.causes || []).findIndex((x) => x.id === L.cause.id), n = L.map.length, cells = Math.min(10, n), strip = [];
     for (let k = 0; k < cells; k++) { const c = L.map[Math.floor((k + 0.5) * n / cells)]; strip.push(c.skip ? 'z' : c.h >= 66 ? 'g' : c.h >= 33 ? 'y' : 'r'); }
-    const awards = awardKeys();
     return { id: L.id, cal: L.cal, cause: i >= 0 ? i.toString(36) : { starve: 'zs', old: 'zo' }[L.cause.id] || 'zd', off: L.stats.offspring, esc: L.escapes,
-      con: TRAITS.con.indexOf(L.traits.con), tem: TRAITS.tem.indexOf(L.traits.tem), strip: strip.join(''), rolls: L.rollIdx.slice(0, 6), awards: awards.map((a) => AWARDS.indexOf(a)), ch: L.choices.length };
+      con: TRAITS.con.indexOf(L.traits.con), tem: TRAITS.tem.indexOf(L.traits.tem), strip: strip.join(''), rolls: L.rollIdx.slice(0, 6), awards: [], ch: L.choices.length };
   }
   function causeOf(d) {
     const g = { zs: 'starve', zo: 'oldAge', zd: 'death' }[d.cause];
@@ -16587,18 +16776,26 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     return c ? c.short : T('death.short');
   }
   const codeOf = (d) => window.SOCIAL.encode(d);
-  const isGentle = (d) => AWARDS[d.awards[0]] === 'gentle';
-  const starStr = (n) => '★★★★★'.slice(0, n) + '☆☆☆☆☆'.slice(0, 5 - n);
+  // the honest one-line statistic for a shared life
+  const ageOf = (d) => d.cal;
+  const dataLine = (d) => `${T('outlived', { p: pct(1 - S(SP[d.id], Math.min(ageOf(d), SP[d.id].maxAge))) })}${EN ? ' (' : '（'}${T('outlivedNote')}${EN ? ')' : '）'}`;
+  function causeEvidence(id, c) {   // the text that says what is known about this cause
+    const ev = SP[id]._ev; if (!c) return null;
+    const a = (ev.causes || []).find((x) => c.id in x.shares); if (a) return a;
+    return (ev.facts || []).find((f) => (f.causes || []).includes(c.id) && /\d/.test(f.zh)) || (ev.causeNotes && ev.causeNotes[c.id]) || null;
+  }
+  const causeObj = (d) => (SP[d.id].causes || [])[parseInt(d.cause, 36)] && !/^z/.test(d.cause) ? SP[d.id].causes[parseInt(d.cause, 36)] : null;
   function cardData(d) {
-    const sp = SP[d.id], f = fun(d.id), a = award(AWARDS[d.awards[0]] || 'plain'), o = oddsOf(d.id), g = isGentle(d);
-    return { name: sp.name, nick: g ? '' : f.nick, mark: g ? '🕯' : '🏆', lived: T('lived', { d: dur(d.cal) }).replace(/^你/, ''), cause: `${T('fCause')}${EN ? ': ' : '：'}${causeOf(d)}`, award: a[0], awardDesc: a[1],
-      review: g ? '' : f.review, stars: f.stars, reviewLabel: T('review'), strip: d.strip, odds: T('odds', { p: oneIn(o.pop / TOTAL) }), head: T('deathHead'), lead: T('cardLead'),
-      scene: sp.scene, emoji: sp.emoji, sprite: sprite(sp)?.canvas, seed: 7 + sp.name.length, foot: T('heroEyebrow').split(' · ')[0], url: window.SOCIAL.url(codeOf(d)) };
+    const sp = SP[d.id], o = oddsOf(d.id), e = causeEvidence(d.id, causeObj(d)), r = e && sp._ev.refs[e.ref];
+    return { name: sp.name, about: about(d.id), lived: T('lived', { d: dur(d.cal) }).replace(/^你/, ''), cause: `${T('fCause')}${EN ? ': ' : '：'}${causeOf(d)}`,
+      stat: T('outlived', { p: pct(1 - S(sp, Math.min(d.cal, sp.maxAge))) }).replace(/我的?/, ''), statNote: T('outlivedNote'), evidence: e ? txt(e) : '', evidenceSrc: r ? `${r.a} ${r.y} · ${r.s}` : '', evidenceLabel: T('evData'),
+      strip: d.strip, odds: T('odds', { p: oneIn(o.pop / TOTAL) }), head: T('deathHead'), lead: T('cardLead'),
+      scene: sp.scene, emoji: sp.emoji, sprite: sprite(sp)?.canvas, seed: 7 + sp.name.length, foot: 'Next Life', url: window.SOCIAL.url(codeOf(d)) };
   }
   function shareText(d) {
-    const sp = SP[d.id], f = fun(d.id), a = award(AWARDS[d.awards[0]] || 'plain');
-    const strip = [...d.strip].map((c) => ({ g: '🟩', y: '🟨', r: '🟥', z: '💤' }[c])).join('') + '💀';
-    return T(isGentle(d) ? 'shareGentle' : 'share', { art: art(sp.name), mw: mw(d.id), sp: lc(sp.name), nick: f.nick, d: dur(d.cal), c: causeOf(d), strip, award: `${a[0]} — ${a[1]}`, stars: starStr(f.stars), review: f.review, url: window.SOCIAL.url(codeOf(d)) });
+    const sp = SP[d.id], strip = [...d.strip].map((c) => ({ g: '🟩', y: '🟨', r: '🟥', z: '💤' }[c])).join('') + '⬛';
+    const e = causeEvidence(d.id, causeObj(d)), r = e && sp._ev.refs[e.ref];
+    return T('share', { art: art(sp.name), mw: mw(d.id), sp: lc(sp.name), d: dur(d.cal), c: causeOf(d), strip, data: dataLine(d) + (e ? `\n${txt(e)}（${r.a} ${r.y}）`.replace(/（(.*)）$/, EN ? ' ($1)' : '（$1）') : ''), url: window.SOCIAL.url(codeOf(d)) });
   }
   function sharePanel(d, cardOnly = false) {
     const tx = shareText(d);
@@ -16638,7 +16835,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   // ---------- a life that arrived in a link ----------
   let challenge = null;
   function readHash() {
-    const d = window.SOCIAL.decode(location.hash.slice(1), Object.keys(SP), AWARDS.length);
+    const d = window.SOCIAL.decode(location.hash.slice(1), Object.keys(SP));
     if (!d) return false;
     const mine = store.get('lunhui.lives', []).some((l) => l.code === codeOf(d));
     if (!mine) challenge = d;
@@ -16647,7 +16844,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   }
   function openLife(d, mine) {
     $('#v-friend').innerHTML = `
-      <div style="display:grid;gap:6px;text-align:center"><div class="eyebrow">${T(mine ? 'myLife' : 'friendHead')}</div><h2 style="font-size:30px">${esc(SP[d.id].name)}</h2>${isGentle(d) ? '' : `<p class="nick">${esc(fun(d.id).nick)}</p>`}<p class="muted">${esc(fun(d.id).what)}</p></div>
+      <div style="display:grid;gap:6px;text-align:center"><div class="eyebrow">${T(mine ? 'myLife' : 'friendHead')}</div><h2 style="font-size:30px">${esc(SP[d.id].name)}</h2><p class="muted">${esc(about(d.id))}</p></div>
       ${mine ? '' : `<div class="row" style="justify-content:center"><button class="btn-primary" type="button" id="f-go">${T('friendGo')}</button><button class="btn" type="button" id="f-home">${T('friendHome')}</button></div>`}
       ${sharePanel(d, !mine)}`;
     if (!mine) { $('#f-go').onclick = () => reveal(); $('#f-home').onclick = () => { renderHome(); show('home'); }; }
@@ -16656,11 +16853,9 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   function versus(d) {
     if (!challenge) return '';
     const a = d, b = challenge, pop = (x) => oddsOf(x.id).pop;
-    let w = 0; w += Math.sign(b.cal - a.cal); w += Math.sign(b.off - a.off); w += Math.sign(pop(a) - pop(b));
     const row = (l, x, y) => `<tr><td>${l}</td><td class="mono">${x}</td><td class="mono">${y}</td></tr>`;
     return `<div class="panel"><h3>${T('vsTitle')}</h3><table class="compare"><thead><tr><th></th><th class="mono">${T('vsYou')} · ${esc(SP[a.id].name)}</th><th class="mono">${T('vsThem')} · ${esc(SP[b.id].name)}</th></tr></thead><tbody>
-      ${row(T('vsLived'), dur(a.cal), dur(b.cal))}${row(T('vsKids'), a.off.toLocaleString('en-US'), b.off.toLocaleString('en-US'))}${row(T('vsRare'), oneIn(pop(a) / TOTAL), oneIn(pop(b) / TOTAL))}</tbody></table>
-      <p><b>${T(isGentle(a) || isGentle(b) ? 'vsTie' : w > 0 ? 'vsWin' : w < 0 ? 'vsLose' : 'vsTie')}</b></p></div>`;
+      ${row(T('vsLived'), dur(a.cal), dur(b.cal))}${row(T('vsKids'), a.off.toLocaleString('en-US'), b.off.toLocaleString('en-US'))}${row(T('vsRare'), oneIn(pop(a) / TOTAL), oneIn(pop(b) / TOTAL))}</tbody></table></div>`;
   }
   function renderDeath() {
     const sp = L.sp, o = oddsOf(sp.id), hum = SP.human;
@@ -16669,14 +16864,11 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     const reached = L.age >= mat;
     const others = [0, 1, 2, 3].map(sampleOther);
     const humanLine = hum && hum !== sp ? `<p>${T('humanSame', { d: dur(L.cal), p: pct(S(hum, L.cal)) })}</p>` : '';
-    const d = L.life, f = fun(sp.id);
+    const d = L.life;
     $('#v-death').innerHTML = `
       ${sharePanel(d)}
-      ${isGentle(d) ? '' : versus(d)}
-      <div class="panel">
-        <div class="awards">${d.awards.map((i) => award(AWARDS[i])).map(([t, x]) => `<div class="awardline"><span>${isGentle(d) ? '🕯' : '🏆'}</span><div><b>${esc(t)}</b><p class="small muted">${esc(x)}</p></div></div>`).join('')}</div>
-        ${isGentle(d) ? '' : `<div class="review"><span class="stars">${starStr(f.stars)}</span><p>${esc(f.review)}</p></div>`}
-      </div>
+      ${whyPanel()}
+      ${versus(d)}
       <div class="card deathcard">
         <div class="card-head"><span>${T('deathHead')}</span><span>No. ${L.no}</span></div>
         <div class="card-body">
@@ -16709,7 +16901,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       <div class="panel curve">
         <div class="row" style="justify-content:space-between"><h3>${T('curveTitle')}</h3><span class="eyebrow">${T('curveLegend')}</span></div>
         ${curveSVG(sp, L.age)}
-        <p class="small muted">${esc(sp.survivalNote || '')}</p>
+        <p class="small muted">${T('src.curveKey')}</p>${(sp._ev.survival || []).map((a) => evLine(sp, a)).join('')}${(sp._ev.survival || []).length ? '' : `<p class="small muted">${esc(sp.survivalNote || '')}</p>`}
       </div>
 
       ${actBreakdown()}
@@ -16761,7 +16953,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
         <h3>${T('pastLives')}</h3>
         <div class="pastlives">${lives.length ? lives.slice(0, 60).map((l) => { const s = SP[l.id]; if (!s) return ''; return `<div class="pl"><span style="font-size:20px">${icon(s, 20)}</span><span>${esc(s.name)}${l.roll ? ` · <span class="muted">${esc(l.roll)}</span>` : ''}<br><span class="small muted">${T('livedFor', { d: dur(l.cal) })} · ${esc(l.cause)}${l.off ? ` · ${T('kidsN', { n: l.off.toLocaleString('en-US') })}` : ''}</span></span><span class="mono small muted">${l.code ? `<button class="btn" type="button" data-life="${esc(l.code)}">${T('bookShare')}</button> ` : ''}${new Date(l.at).toLocaleDateString(EN ? 'en-US' : 'zh-CN')}</span></div>`; }).join('') : `<p class="muted">${T('noLives')}</p>`}</div>
       </div>`;
-    $('#v-book').onclick = (e) => { const b = e.target.closest('[data-life]'); if (!b) return; const d = window.SOCIAL.decode(b.dataset.life, Object.keys(SP), AWARDS.length); if (d) openLife(d, true); };
+    $('#v-book').onclick = (e) => { const b = e.target.closest('[data-life]'); if (!b) return; const d = window.SOCIAL.decode(b.dataset.life, Object.keys(SP)); if (d) openLife(d, true); };
     show('book');
   }
 

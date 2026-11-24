@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>轮回 · 投胎管理局 | Next Life</title>
-<meta name="description" content="按地球上活着的动物数量摇号投胎。九成九是桡足类和线虫。What will you be in your next life?"><link rel="icon" href="favicon.svg">
-<meta property="og:type" content="website"><meta property="og:title" content="轮回 · 投胎管理局 | Next Life"><meta property="og:description" content="按地球上活着的动物数量摇号投胎。九成九是桡足类和线虫。What will you be in your next life?">
+<title>轮回 · Next Life</title>
+<meta name="description" content="按此刻地球上活着的动物数量投一次胎，每个结果都说明依据。What will you be in your next life?"><link rel="icon" href="favicon.svg">
+<meta property="og:type" content="website"><meta property="og:title" content="轮回 · Next Life"><meta property="og:description" content="按此刻地球上活着的动物数量投一次胎，每个结果都说明依据。What will you be in your next life?">
 <meta property="og:url" content="https://echo-xiao9.github.io/next-life/"><meta property="og:image" content="https://echo-xiao9.github.io/next-life/og.png"><link rel="canonical" href="https://echo-xiao9.github.io/next-life/"><meta name="twitter:card" content="summary_large_image">
 <style>body{margin:0}:root{padding-top:env(safe-area-inset-top,0px)}</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -88,19 +88,18 @@ p { margin: 0; }
 .what .em { font-size: 48px; line-height: 1; }
 .what h3 { font-size: 20px; margin-bottom: 4px; }
 .what p { font-size: 14.5px; }
-.nick { color: var(--accent); font-size: 14px; }
-.reveal .nick { font-size: 20px; }
-.specname .nick { font-size: 18px; }
-.oddsrow .nick { margin-left: 8px; font-size: 13px; }
 .oddsrow .wh { display: block; font-size: 12.5px; line-height: 1.55; color: var(--muted); }
 .whatis { display: grid; gap: 4px; padding: 12px 14px; background: var(--surface-2); border-radius: 8px; }
-.logline.quip .tx { color: var(--muted); font-style: italic; }
-.awards { display: grid; gap: 10px; }
-.awardline { display: grid; grid-template-columns: 30px minmax(0,1fr); gap: 8px; align-items: start; font-size: 20px; }
-.awardline b { font-size: 17px; }
-.review { display: grid; gap: 4px; padding-top: 10px; border-top: 1px solid var(--line); }
-.review .stars { color: var(--warn); letter-spacing: 0.1em; }
-.review p { font-family: var(--font-display); font-size: 19px; line-height: 1.5; }
+.logline.data { background: var(--surface-2); margin-inline: -10px; padding-inline: 10px; border-radius: 6px; }
+.logline .fact.plain::before { content: none; }
+.src { color: var(--cyan); text-decoration: none; overflow-wrap: anywhere; } .src:hover { text-decoration: underline; }
+.ev { display: inline-block; font-size: 11.5px; line-height: 1.5; padding: 0 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.ev-measured, .ev-official { color: var(--good); border-color: currentColor; } .ev-related { color: var(--warn); border-color: currentColor; } .ev-est { border-style: dashed; } .ev-rule { color: var(--cyan); border-color: currentColor; }
+.evline { font-size: 14px; overflow-wrap: anywhere; }
+.why h4, .srcsp h4 { margin: 8px 0 0; font-size: 15px; }
+.parts { list-style: none; margin: 0; padding: 0; display: grid; } .parts li { display: flex; justify-content: space-between; gap: 12px; padding-block: 4px; border-top: 1px solid var(--line); font-size: 14px; } .parts .up { color: var(--bad); } .parts .down { color: var(--good); }
+.linkbtn { border: 0; background: none; padding: 0; color: var(--cyan); text-decoration: underline; }
+.srcsp summary { cursor: pointer; } .srcsp[open] { gap: 8px; }
 .sharegrid { display: grid; grid-template-columns: 240px minmax(0,1fr); gap: 18px; align-items: start; }
 .cardimg { min-height: 200px; background: var(--surface-2); border-radius: 8px; overflow: hidden; }
 .cardimg img { display: block; width: 100%; height: auto; }
@@ -266,6 +265,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
     <div class="brand">轮回 <b>·</b> <span class="mono small muted">1 / 1.45×10²¹</span></div>
     <div class="row">
       <button class="btn" id="nav-lang" type="button" lang="en">English</button>
+      <button class="btn" id="nav-src" type="button" data-src="" data-t="src.nav"></button>
       <button class="btn" id="nav-book" type="button" data-t="navBook">轮回簿</button>
       <button class="btn" id="nav-home" type="button" data-t="navHome">首页</button>
     </div>
@@ -288,7 +288,7 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
       </div>
       <button class="btn-primary" id="go" type="button" data-t="go">投胎</button>
       <p class="small muted" id="modenote"></p>
-      <p class="small" data-t="protectNote"></p>
+      <p class="small muted" data-t="protectNote"></p>
     </div>
     <div class="section">
       <div class="eyebrow" data-t="ifNow">如果你此刻投胎</div>
@@ -309,7 +309,6 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
       <div class="eyebrow" id="rv-line"></div>
       <div class="em" id="rv-em"></div>
       <div class="nm" id="rv-nm"></div>
-      <div class="nick" id="rv-nick"></div>
       <div class="mono small muted" id="rv-od"></div>
     </div>
   </section>
@@ -373,6 +372,9 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   <!-- A life opened from a link -->
   <section id="v-friend" hidden class="narrow" style="padding-block: 32px; display:grid; gap:20px"></section>
 
+  <!-- Data and sources -->
+  <section id="v-src" hidden class="narrow" style="padding-block: 24px; display:grid; gap:14px"></section>
+
   <!-- Book -->
   <section id="v-book" hidden style="padding-block: 24px; display:grid; gap:18px"></section>
 </div>
@@ -381,5 +383,5 @@ body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-a
   <div class="dlg" id="dlg" role="dialog" aria-modal="true" aria-labelledby="dlg-title"></div>
 </div>
 
-<script src="app.js?v=aa67995d" defer></script>
+<script src="app.js?v=f52d1ccd" defer></script>
 </body></html>
