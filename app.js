@@ -15282,7 +15282,7 @@ window.EVIDENCE = {"ant":{"refs":{"schultheiss2022":{"a":"Schultheiss et al.","y
 ;
 // Sharing, with no backend: a whole life is packed into the link's #fragment, and drawn as an image card.
 // Before launch on your own domain, set LUNHUI_URL to the public address (adds the QR code to image cards).
-window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
+window.LUNHUI_URL = "https://nextlife.top/";
 (() => {
   'use strict';
   const FRAMED = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
