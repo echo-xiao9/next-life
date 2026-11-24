@@ -15154,11 +15154,11 @@ window.FUN_AWARDS = {
   eater:    ['干饭人', '大半辈子都在吃，人生目标明确。', 'Here for the food', 'Spent most of it eating. Clear goals.'],
   roamer:   ['我就看看', '大半辈子都在到处逛，最后把自己逛没了。', 'Just looking', 'Wandered until wandering was no longer possible.'],
   romantic: ['恋爱脑', '把很大一部分生命花在了繁殖上。', 'Hopeless romantic', 'A serious share of your life went to breeding.'],
-  kpi:      ['KPI 达成', '长到标准体重的那天，绩效满分，合同终止。', 'Met all targets', 'Hit the target weight. Perfect review. Contract ended.'],
+  kpi:      ['KPI 达成', '指标全部完成，绩效满分，合同终止。', 'Met all targets', 'Every target met. Perfect review. Contract ended.'],
   hungry:   ['没赶上饭点', '生前最后一个念头是吃点什么。', 'Missed dinner', 'Last known thought: snack.'],
   foodchain:['食物链优秀员工', '把自己奉献给了别人的晚饭。', 'Employee of the food chain', 'Gave everything to someone else’s dinner.'],
   nokids:   ['丁克', '活到成年，没有后代，没有遗憾（大概）。', 'Child-free', 'Made it to adulthood, left no offspring, no regrets (probably).'],
-  waverer:  ['纠结星人', '做了八个以上的抉择，每个都想了很久。', 'Overthinker', 'Eight or more decisions, each agonised over.'],
+  waverer:  ['纠结星人', '做了十二个以上的抉择，每个都想了很久。', 'Overthinker', 'A dozen or more decisions, each agonised over.'],
   plain:    ['平平无奇', '没什么可吹的，但确实活过。', 'Perfectly ordinary', 'Nothing to brag about, but it did happen.'],
 };
 
