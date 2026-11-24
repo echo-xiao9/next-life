@@ -15249,12 +15249,12 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   }
   function fit(g, text, font, size, max, min = 34) { let s = size; do { g.font = font.replace('%', s); if (g.measureText(text).width <= max) break; s -= 3; } while (s > min); return s; }
   async function card(d) {
-    const W = 1080, H = 1440, P = 72, C = { bg: '#0c1514', panel: '#16231f', ink: '#e6eee9', mute: '#93a49d', line: '#2a3c36', acc: '#ff7a4d', cyan: '#6cc6c0', bad: '#ef7560', good: '#7fc58a', warn: '#e6b450' };
+    const W = 1080, P = 72, C = { bg: '#0c1514', panel: '#16231f', ink: '#e6eee9', mute: '#93a49d', line: '#2a3c36', acc: '#ff7a4d', cyan: '#6cc6c0', bad: '#ef7560', good: '#7fc58a', warn: '#e6b450' };
     const text = [d.name, d.nick, d.review, d.award, d.awardDesc, d.cause, d.lived].join('');
     const want = ['900 90px "Noto Serif SC"', '600 60px "Noto Serif SC"', '400 34px "Noto Sans SC"', '500 34px "Noto Sans SC"', '400 60px "Ma Shan Zheng"', '400 28px "IBM Plex Mono"'];
     if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled(want.map((f) => document.fonts.load(f, text + '轮回'))), new Promise((r) => setTimeout(r, 2500))]);
-    const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
-    g.fillStyle = C.bg; g.fillRect(0, 0, W, H);
+    const c = document.createElement('canvas'); c.width = W; c.height = 1800; const g = c.getContext('2d');
+    g.fillStyle = C.bg; g.fillRect(0, 0, W, 1800);
     const sc = document.createElement('canvas'); sc.width = 192; sc.height = 72;
     window.drawScene(sc, { scene: d.scene, t: 10, night: false, emoji: d.emoji, sprite: d.sprite, sibs: 5, seed: d.seed || 7, dead: false });
     g.imageSmoothingEnabled = false; g.drawImage(sc, 0, 0, W, 405);
@@ -15285,12 +15285,13 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
       g.fillStyle = C.ink; g.font = `400 32px ${BODY}`; rv.forEach((l, i) => g.fillText(l, P + 36, y + 104 + i * 46));
       y += h;
     }
-    // footer
-    const fy = H - 70; g.fillStyle = C.ink; g.font = `400 72px ${BRUSH}`; g.fillText('轮回', P, fy);
+    // footer sits below whatever the text needed
+    const H = Math.max(1440, Math.ceil(y + 210)), fy = H - 70; g.fillStyle = C.ink; g.font = `400 72px ${BRUSH}`; g.fillText('轮回', P, fy);
     g.fillStyle = C.mute; g.font = `400 28px ${BODY}`; g.fillText(d.foot, P + 190, fy - 8);
     const m = isPublic() ? qr(d.url) : null;
     if (m) { const q = 150, x0 = W - P - q, y0 = H - q - 30, u = q / (m.length + 4); g.fillStyle = '#fff'; g.fillRect(x0, y0, q, q); g.fillStyle = '#000'; m.forEach((r, yy) => r.forEach((on, xx) => { if (on) g.fillRect(x0 + (xx + 2) * u, y0 + (yy + 2) * u, u + 0.4, u + 0.4); })); }
-    return c;
+    const out = document.createElement('canvas'); out.width = W; out.height = H; out.getContext('2d').drawImage(c, 0, 0);
+    return out;
   }
 
   // ---------- actions ----------
@@ -15561,7 +15562,9 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   const lsGet = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
   let LANG = lsGet('lunhui.lang') || ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
   if (!window.UI || !window.UI[LANG]) LANG = 'zh';
-  const D = window.UI[LANG];
+  // Chinese fonts draw curly quotes full-width, so other languages use straight ones
+  const straight = (x) => (typeof x === 'string' ? x.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"') : Array.isArray(x) ? x.map(straight) : x && typeof x === 'object' ? Object.fromEntries(Object.entries(x).map(([k, v]) => [k, straight(v)])) : x);
+  const D = LANG === 'zh' ? window.UI.zh : straight(window.UI[LANG]);
   const dig = (o, k) => k.split('.').reduce((x, p) => (x == null ? x : x[p]), o);
   const fmt = (str, v = {}) => String(str).replace(/\{(\w+)\}/g, (m, x) => (x in v ? v[x] : m));
   const T = (k, v) => { const x = dig(D, k) ?? dig(window.UI.zh, k); return typeof x === 'string' ? fmt(x, v) : x; };
@@ -15604,7 +15607,7 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
     if (dict) for (const [p, v] of Object.entries(dict)) {
       const ks = p.split('.'); let o = sp;
       for (let i = 0; i < ks.length - 1 && o != null; i++) o = o[ks[i]];
-      if (o != null && typeof o === 'object') o[ks[ks.length - 1]] = v;
+      if (o != null && typeof o === 'object') o[ks[ks.length - 1]] = straight(v);
     }
     // scientific names mix Latin with Chinese glosses; in other languages keep only the Latin parts
     if (EN && sp.sci && /[\u4e00-\u9fff]/.test(sp.sci)) sp.sci = (sp.sci.match(/[A-Za-z][A-Za-z .&-]*[A-Za-z.]/g) || []).map((x) => x.trim()).filter((x, i, a) => a.indexOf(x) === i).join(' · ');
@@ -15612,9 +15615,9 @@ window.LUNHUI_URL = "https://echo-xiao9.github.io/next-life/";
   });
   // humour layer (fun.js): nickname, plain-language explanation, review
   const FI = EN ? 4 : 1;
-  const fun = (id) => { const f = window.FUN_SP[id]; return f ? { stars: f[0], nick: f[FI], what: f[FI + 1], review: f[FI + 2] } : { stars: 3, nick: '', what: '', review: '' }; };
+  const fun = (id) => { const f = EN ? straight(window.FUN_SP[id]) : window.FUN_SP[id]; return f ? { stars: f[0], nick: f[FI], what: f[FI + 1], review: f[FI + 2] } : { stars: 3, nick: '', what: '', review: '' }; };
   const AWARDS = Object.keys(window.FUN_AWARDS);
-  const award = (k) => { const a = window.FUN_AWARDS[k]; return EN ? [a[2], a[3]] : [a[0], a[1]]; };
+  const award = (k) => { const a = window.FUN_AWARDS[k]; return EN ? straight([a[2], a[3]]) : [a[0], a[1]]; };
   const mw = (id) => window.FUN_MW[id] || '只';
   const lc = (n) => (EN && !/^(Japanese|African|Antarctic|Asian|East|European|Atlantic|Pacific|Greenland|Western|Chinese)\b/.test(n) ? n.charAt(0).toLowerCase() + n.slice(1) : n);
   const art = (n) => (n === 'Cattle' ? 'one of the' : /^[aeiou]/i.test(n) ? 'an' : 'a');
