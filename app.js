@@ -15914,7 +15914,7 @@ window.ROLL_RULES = {
 
   // ---------- language ----------
   const lsGet = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
-  let LANG = lsGet('lunhui.lang') || window.PAGE_LANG || ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+  let LANG = window.PAGE_LANG || lsGet('lunhui.lang') || ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
   if (!window.UI || !window.UI[LANG]) LANG = 'zh';
   // Chinese fonts draw curly quotes full-width, so other languages use straight ones
   const straight = (x) => (typeof x === 'string' ? x.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"') : Array.isArray(x) ? x.map(straight) : x && typeof x === 'object' ? Object.fromEntries(Object.entries(x).map(([k, v]) => [k, straight(v)])) : x);
