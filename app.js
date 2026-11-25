@@ -14379,8 +14379,8 @@ window.UI = {
    "curveKey": "绿色实线：有研究数据的年龄段，类型见下方标签。虚线：估计。"
   },
   "langSwitch": "切换英文",
-  "soundOn": "声音开",
-  "soundOff": "声音关",
+  "soundOn": "声音：开",
+  "soundOff": "声音：关",
   "no": "编号 {n}",
   "wheelNote": "轮盘只是动画，抽到谁由活着的数量决定。",
   "over": "此生终了",
@@ -14397,12 +14397,44 @@ window.UI = {
    "title": "看准时机",
    "body": "让指针停在绿色里就能活下来。绿色占 {p}，正好是逃生的概率。",
    "btn": "停"
+  },
+  "photoBy": "摄影：{a}，{l}",
+  "bio": {
+   "open": "了解这种动物",
+   "pictured": "图中个体鉴定为 {t}。",
+   "about": "了解{sp}",
+   "latin": "学名",
+   "mature": "成熟年龄",
+   "close": "关闭",
+   "be": "投成它",
+   "stages": "一生的阶段",
+   "birth": "出生",
+   "from": "从{d}起",
+   "causes": "常见的死因",
+   "causesNote": "按游戏里采用的比重排序；有公开占比的用研究数据，其余是估计。",
+   "research": "相关研究",
+   "rank": {
+    "phylum": "门",
+    "class": "纲",
+    "order": "目",
+    "family": "科",
+    "genus": "属"
+   },
+   "sec": {
+    "intro": "简介",
+    "body": "形态",
+    "habitat": "栖息地",
+    "diet": "食性",
+    "repro": "繁殖与发育",
+    "life": "寿命与天敌",
+    "status": "现状"
+   }
   }
  },
  "en": {
   "title": "Next Life",
   "langName": "English",
-  "heroSub": "Next Life",
+  "heroSub": "",
   "navBook": "Book of lives",
   "navHome": "Home",
   "heroEyebrow": "Be reborn, at the odds of who is alive right now",
@@ -15052,8 +15084,8 @@ window.UI = {
    "curveKey": "Solid green: ages backed by published data (see the label below). Dashed: estimate."
   },
   "langSwitch": "Switch to Chinese",
-  "soundOn": "Sound on",
-  "soundOff": "Sound off",
+  "soundOn": "Sound: on",
+  "soundOff": "Sound: off",
   "no": "No. {n}",
   "wheelNote": "The wheel is only for show. Who you become depends on living numbers.",
   "over": "Life over",
@@ -15070,6 +15102,38 @@ window.UI = {
    "title": "Time it",
    "body": "Stop the marker in the green to survive. Green covers {p}, exactly your odds of escape.",
    "btn": "Stop"
+  },
+  "photoBy": "Photo: {a}, {l}",
+  "bio": {
+   "open": "About this animal",
+   "pictured": "The individual pictured was identified as {t}.",
+   "about": "About the {sp}",
+   "latin": "Latin name",
+   "mature": "Matures at",
+   "close": "Close",
+   "be": "Be born as this",
+   "stages": "Stages of life",
+   "birth": "birth",
+   "from": "from {d}",
+   "causes": "Common causes of death",
+   "causesNote": "Ordered by the weights used in the game: published shares where they exist, estimates otherwise.",
+   "research": "Related research",
+   "rank": {
+    "phylum": "Phylum",
+    "class": "Class",
+    "order": "Order",
+    "family": "Family",
+    "genus": "Genus"
+   },
+   "sec": {
+    "intro": "Overview",
+    "body": "Form and size",
+    "habitat": "Habitat",
+    "diet": "Diet",
+    "repro": "Reproduction and development",
+    "life": "Lifespan and natural enemies",
+    "status": "Status"
+   }
   }
  }
 };
@@ -15388,7 +15452,7 @@ window.LUNHUI_URL = "https://nextlife.top/";
   }
 
   // ---------- image card ----------
-  const BODY = '"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif';
+  const DISPLAY = '"Noto Serif SC","Songti SC","STSong",serif', BODY = '"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif', MONO = '"IBM Plex Mono",Menlo,monospace', BRUSH = '"Ma Shan Zheng","STKaiti","KaiTi",serif';
   function wrap(g, text, max) {
     const toks = String(text).match(/[⺀-鿿　-ヿ＀-￯‘-”…]|\s+|[^\s⺀-鿿　-ヿ＀-￯‘-”…]+/g) || [];
     const lines = []; let cur = '';
@@ -15404,41 +15468,43 @@ window.LUNHUI_URL = "https://nextlife.top/";
   }
   function fit(g, text, font, size, max, min = 34) { let s = size; do { g.font = font.replace('%', s); if (g.measureText(text).width <= max) break; s -= 3; } while (s > min); return s; }
   async function card(d) {
-    const W = 1080, P = 84, PX = d.en ? '"Jersey 15",monospace' : '"Fusion Pixel","PingFang SC","Microsoft YaHei",sans-serif';
-    const C = { bg: '#14122b', panel: '#2c2760', ink: '#fff6e0', mute: '#aaa3d6', line: '#433c86', acc: '#ffcf4a', cyan: '#4fd1c0', bad: '#ff6b5e', good: '#7ddc6a', warn: '#ffb347', frame: '#f3e6c4' };
-    const text = [d.name, d.about, d.evidence, d.stat, d.cause, d.lived, d.foot, d.head, d.lead].join('');
-    if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled([`400 60px ${d.en ? '"Jersey 15"' : '"Fusion Pixel"'}`, '400 34px "Noto Sans SC"', '500 34px "Noto Sans SC"'].map((f) => document.fonts.load(f, text))), new Promise((r) => setTimeout(r, 4000))]);
-    const c = document.createElement('canvas'); c.width = W; c.height = 1900; const g = c.getContext('2d'); g.imageSmoothingEnabled = false;
-    g.fillStyle = C.bg; g.fillRect(0, 0, W, 1900);
-    g.fillStyle = '#2a2558'; for (let yy = 20; yy < 1900; yy += 40) for (let xx = 20; xx < W; xx += 40) g.fillRect(xx, yy, 4, 4);
-    const frame = (x, y, w, h, fill, edge = C.frame, t = 8) => { g.fillStyle = edge; g.fillRect(x, y - t, w, h + t * 2); g.fillRect(x - t, y, w + t * 2, h); g.fillStyle = fill; g.fillRect(x, y, w, h); };
-    const sc = document.createElement('canvas'); sc.width = 192; sc.height = 72;
-    window.drawScene(sc, { scene: d.scene, t: 10, night: false, emoji: d.emoji, sprite: d.sprite, sibs: 5, seed: d.seed || 7, act: 'instinct', dead: false });
-    frame(44, 44, W - 88, 372, '#000'); g.drawImage(sc, 44, 44, W - 88, 372);
-    g.fillStyle = C.acc; g.fillRect(44, 416, W - 88, 56); g.fillStyle = '#2a1b00'; g.textBaseline = 'middle'; g.textAlign = 'left'; fit(g, d.odds, `400 %px ${PX}`, 30, 560, 20); g.fillText(d.odds, P, 446);
-    if (d.stars !== null && d.stars !== undefined) { g.fillStyle = '#14122b'; g.fillRect(W - P - 162, 416, 166, 56); const im = await Promise.all(['star', 'starOff'].map((k) => new Promise((r) => { const x = new Image(); x.onload = () => r(x); x.onerror = () => r(null); x.src = window.GAME.iconUrl(k); }))); for (let k = 0; k < 3; k++) { const x = k < d.stars ? im[0] : im[1]; if (x) g.drawImage(x, W - P - 150 + k * 52, 424, 42, 42 * x.height / x.width); } }
-    g.textBaseline = 'alphabetic';
-    let y = 548;
-    g.fillStyle = C.mute; g.font = `400 34px ${PX}`; g.fillText(d.lead, P, y);
-    y += 104; fit(g, d.name, `400 %px ${PX}`, 96, W - P * 2); g.fillStyle = '#7a4413'; g.fillText(d.name, P, y + 8); g.fillStyle = C.acc; g.fillText(d.name, P, y);
-    g.font = `400 28px ${BODY}`; g.fillStyle = C.mute; y += 56; wrap(g, d.about, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 40; }); y -= 18;
-    y += 86; fit(g, d.lived, `400 %px ${PX}`, 60, W - P * 2); g.fillStyle = C.ink; g.fillText(d.lived, P, y);
-    y += 56; g.font = `400 36px ${PX}`; g.fillStyle = C.bad; wrap(g, d.cause, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 46; });
-    y += 6; const cells = d.strip.split(''), cw = Math.min(64, (W - P * 2) / (cells.length + 1) - 8);
-    cells.concat('x').forEach((k, i) => { g.fillStyle = { g: C.good, y: C.warn, r: C.bad, z: C.line, x: C.ink }[k]; g.fillRect(P + i * (cw + 8), y, cw, 28); });
-    y += 76;
-    frame(P - 8, y, W - P * 2 + 16, 124, C.panel, C.line, 6); fit(g, d.stat, `400 %px ${PX}`, 44, W - P * 2 - 60); g.fillStyle = C.cyan; g.fillText(d.stat, P + 24, y + 60);
-    g.fillStyle = C.mute; g.font = `400 24px ${BODY}`; g.fillText(d.statNote, P + 24, y + 100); y += 152;
+    const W = 1080, P = 72, C = { bg: '#0c1514', panel: '#16231f', ink: '#e6eee9', mute: '#93a49d', line: '#2a3c36', acc: '#ff7a4d', cyan: '#6cc6c0', bad: '#ef7560', good: '#7fc58a', warn: '#e6b450' };
+    const text = [d.name, d.about, d.evidence, d.stat, d.cause, d.lived].join('');
+    const want = ['900 90px "Noto Serif SC"', '600 60px "Noto Serif SC"', '400 34px "Noto Sans SC"', '500 34px "Noto Sans SC"', '400 60px "Ma Shan Zheng"', '400 28px "IBM Plex Mono"'];
+    if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled(want.map((f) => document.fonts.load(f, text + d.foot))), new Promise((r) => setTimeout(r, 2500))]);
+    const c = document.createElement('canvas'); c.width = W; c.height = 2000; const g = c.getContext('2d');
+    g.fillStyle = C.bg; g.fillRect(0, 0, W, 2000);
+    const pic = d.photo ? await new Promise((r) => { const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = d.photo; }) : null;
+    g.fillStyle = C.panel; g.fillRect(0, 0, W, 560);
+    if (pic) { const k = Math.max(W / pic.width, 560 / pic.height), w = pic.width * k, h = pic.height * k, f = (d.focus || '50% 50%').split(' ').map((x) => parseFloat(x) / 100); g.drawImage(pic, (W - w) * f[0], (560 - h) * f[1], w, h); }
+    if (d.credit) { g.font = `400 20px ${BODY}`; let t = d.credit; while (g.measureText(t).width > W - 80) t = t.slice(0, -2); const w = g.measureText(t).width; g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(W - w - 28, 522, w + 28, 38); g.fillStyle = '#fff'; g.fillText(t, W - w - 14, 548); }
+    g.fillStyle = C.acc; g.fillRect(0, 560, W, 54);
+    g.fillStyle = '#1a0d07'; g.font = `500 26px ${MONO}`; g.textBaseline = 'middle'; g.textAlign = 'left'; g.fillText(d.odds, P, 588);
+    if (d.stars !== null && d.stars !== undefined) { g.textAlign = 'right'; g.font = '30px sans-serif'; g.fillText('★'.repeat(d.stars) + '☆'.repeat(3 - d.stars), W - P, 588); } g.textAlign = 'left'; g.textBaseline = 'alphabetic';
+    let y = 690;
+    g.fillStyle = C.mute; g.font = `400 34px ${BODY}`; g.fillText(d.lead, P, y);
+    y += 98; fit(g, d.name, `900 %px ${DISPLAY}`, 92, W - P * 2); g.fillStyle = C.ink; g.fillText(d.name, P, y);
+    g.font = `400 28px ${BODY}`; g.fillStyle = C.mute; y += 50; wrap(g, d.about, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 40; }); y -= 18;
+    y += 92; fit(g, d.lived, `600 %px ${DISPLAY}`, 64, W - P * 2); g.fillStyle = C.ink; g.fillText(d.lived, P, y);
+    y += 52; g.font = `400 34px ${BODY}`; g.fillStyle = C.bad; wrap(g, d.cause, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 44; });
+    // life strip
+    y += 4; const cells = d.strip.split(''); const cw = Math.min(64, (W - P * 2) / (cells.length + 1) - 8);
+    cells.concat('x').forEach((s, i) => { g.fillStyle = { g: C.good, y: C.warn, r: C.bad, z: C.line, x: C.ink }[s]; g.fillRect(P + i * (cw + 8), y, cw, 26); });
+    y += 66;
+    const panel = (h) => { g.fillStyle = C.panel; g.beginPath(); if (g.roundRect) g.roundRect(P, y, W - P * 2, h, 16); else g.rect(P, y, W - P * 2, h); g.fill(); };
+    panel(132); fit(g, d.stat, `600 %px ${DISPLAY}`, 46, W - P * 2 - 72); g.fillStyle = C.cyan; g.fillText(d.stat, P + 36, y + 66);
+    g.fillStyle = C.mute; g.font = `400 24px ${BODY}`; g.fillText(d.statNote, P + 36, y + 108); y += 152;
     if (d.evidence) {
-      g.font = `400 30px ${BODY}`; const ev = wrap(g, d.evidence, W - P * 2 - 60).slice(0, 4), h = 112 + ev.length * 44; frame(P - 8, y, W - P * 2 + 16, h, C.panel, C.line, 6);
-      g.fillStyle = C.good; g.font = `400 28px ${PX}`; g.fillText(d.evidenceLabel, P + 24, y + 46);
-      g.fillStyle = C.ink; g.font = `400 30px ${BODY}`; ev.forEach((l, i) => g.fillText(l, P + 24, y + 94 + i * 44));
-      fit(g, d.evidenceSrc, `400 %px ${BODY}`, 24, W - P * 2 - 60, 16); g.fillStyle = C.mute; g.fillText(d.evidenceSrc, P + 24, y + h - 20); y += h;
+      g.font = `400 30px ${BODY}`; const ev = wrap(g, d.evidence, W - P * 2 - 72).slice(0, 4), h = 118 + ev.length * 44; panel(h);
+      g.fillStyle = C.good; g.font = `500 26px ${BODY}`; g.fillText(d.evidenceLabel, P + 36, y + 50);
+      g.fillStyle = C.ink; g.font = `400 30px ${BODY}`; ev.forEach((l, i) => g.fillText(l, P + 36, y + 100 + i * 44));
+      fit(g, d.evidenceSrc, `400 %px ${BODY}`, 24, W - P * 2 - 72, 16); g.fillStyle = C.mute; g.fillText(d.evidenceSrc, P + 36, y + h - 22); y += h;
     }
-    const H = Math.max(1440, Math.ceil(y + 230)), fy = H - 84; fit(g, d.foot, `400 %px ${PX}`, 84, 560); g.fillStyle = '#7a4413'; g.fillText(d.foot, P, fy + 7); g.fillStyle = C.acc; g.fillText(d.foot, P, fy);
+    // footer sits below whatever the text needed
+    const H = Math.max(1440, Math.ceil(y + 210)), fy = H - 70; g.fillStyle = C.ink; g.font = d.en ? `900 62px ${DISPLAY}` : `400 72px ${BRUSH}`; g.fillText(d.foot, P, fy);
     const m = isPublic() ? qr(d.url) : null;
-    if (m) { const q = 160, x0 = W - P - q, y0 = H - q - 52, u = q / (m.length + 4); frame(x0, y0, q, q, '#fff', C.frame, 6); g.fillStyle = '#000'; m.forEach((r, yy) => r.forEach((on, xx) => { if (on) g.fillRect(x0 + (xx + 2) * u, y0 + (yy + 2) * u, u + 0.4, u + 0.4); })); }
-    const out = document.createElement('canvas'); out.width = W; out.height = H; const o = out.getContext('2d'); o.drawImage(c, 0, 0);
+    if (m) { const q = 150, x0 = W - P - q, y0 = H - q - 30, u = q / (m.length + 4); g.fillStyle = '#fff'; g.fillRect(x0, y0, q, q); g.fillStyle = '#000'; m.forEach((r, yy) => r.forEach((on, xx) => { if (on) g.fillRect(x0 + (xx + 2) * u, y0 + (yy + 2) * u, u + 0.4, u + 0.4); })); }
+    const out = document.createElement('canvas'); out.width = W; out.height = H; out.getContext('2d').drawImage(c, 0, 0);
     return out;
   }
 
@@ -15505,400 +15571,458 @@ window.ROLL_RULES = {
 };
 
 ;
-// Game feel: pixel icons, pixelated creatures, the wheel of rebirth, sound, the timing bar and floating numbers.
-// Nothing here decides who you become or how you die, except the timing bar, whose green part equals the stated odds.
+// Built from the photo sources; every photo is CC0, public domain, CC BY or CC BY-SA.
+window.PHOTOS = {
+ "ant": {
+  "artist": "Jake Nitta",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/204716485",
+  "taxon": "Tetramorium immigrans",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "aphid": {
+  "artist": "Mihajlo Tomić",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/65371831",
+  "taxon": "Acyrthosiphon pisum",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 576
+ },
+ "bat": {
+  "artist": "WATANABE Hitoshi 渡辺仁",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/220176789",
+  "taxon": "Alionoctula abramus",
+  "focus": "62% 42%",
+  "w": 1024,
+  "h": 683
+ },
+ "chimpanzee": {
+  "artist": "Wairambar Rainforest",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/217300479",
+  "taxon": "Pan troglodytes schweinfurthii",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "copepod": {
+  "artist": "Aleksandr Novikov",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/66280309",
+  "taxon": "Calanoida",
+  "focus": "64% 50%",
+  "w": 1024,
+  "h": 776
+ },
+ "earthworm": {
+  "artist": "alicia penney",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/369071390",
+  "taxon": "Lumbricus terrestris",
+  "focus": "50% 50%",
+  "w": 867,
+  "h": 860
+ },
+ "elephant": {
+  "artist": "dhfischer",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/93674728",
+  "taxon": "Loxodonta africana",
+  "focus": "42% 50%",
+  "w": 800,
+  "h": 533
+ },
+ "farmed_carp": {
+  "artist": "Pengo",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ctenopharyngodon_idella_01_Pengo.jpg",
+  "taxon": "Ctenopharyngodon idella",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "farmed_shrimp": {
+  "artist": "José Francisco Colorado-Dapa",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://www.inaturalist.org/photos/1441420",
+  "taxon": "Penaeus vannamei",
+  "focus": "50% 45%",
+  "w": 1024,
+  "h": 615
+ },
+ "frog": {
+  "artist": "りなべる",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/235476689",
+  "taxon": "Pelophylax nigromaculatus",
+  "focus": "52% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "greenland_shark": {
+  "artist": "Hemming1952",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Greenland_shark_profile.jpg",
+  "taxon": "Somniosus microcephalus",
+  "focus": "55% 48%",
+  "w": 1024,
+  "h": 683
+ },
+ "honeybee": {
+  "artist": "Douglas Goldman",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://www.inaturalist.org/photos/82354387",
+  "taxon": "Apis mellifera",
+  "focus": "50% 50%",
+  "w": 968,
+  "h": 648
+ },
+ "housefly": {
+  "artist": "Richard Fuller",
+  "lic": "CC0",
+  "page": "https://www.inaturalist.org/photos/79611144",
+  "taxon": "Musca domestica",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 684
+ },
+ "krill": {
+  "artist": "Uwe Kils",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Antarctic_krill_(Euphausia_superba).jpg",
+  "taxon": "Euphausia superba",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 695
+ },
+ "lanternfish": {
+  "artist": "Luca Davenport-Thomas",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/623831397",
+  "taxon": "Myctophidae",
+  "focus": "56% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "lion": {
+  "artist": "iNaturalist",
+  "lic": "CC0",
+  "page": "https://www.inaturalist.org/photos/158168063",
+  "taxon": "Panthera leo melanochaita",
+  "focus": "30% 50%",
+  "w": 750,
+  "h": 495
+ },
+ "mayfly": {
+  "artist": "Attila Oláh",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/39195854",
+  "taxon": "Ephemera danica",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 1023
+ },
+ "mite": {
+  "artist": "Thomas Dalley",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/724364972",
+  "taxon": "Peloribates longipilosus",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "mosquito": {
+  "artist": "Timothy Lindsey",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/558144877",
+  "taxon": "Aedes albopictus",
+  "focus": "55% 45%",
+  "w": 1024,
+  "h": 586
+ },
+ "nematode": {
+  "artist": "Gannu03",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://www.inaturalist.org/photos/569925645",
+  "taxon": "Caenorhabditis elegans",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 1024
+ },
+ "octopus": {
+  "artist": "iNaturalist",
+  "lic": "CC0",
+  "page": "https://www.inaturalist.org/photos/322883970",
+  "taxon": "Octopus vulgaris",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 679
+ },
+ "panda": {
+  "artist": "James Eaton",
+  "lic": "CC0",
+  "page": "https://www.inaturalist.org/photos/351209016",
+  "taxon": "Ailuropoda melanoleuca",
+  "focus": "48% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "penguin": {
+  "artist": "Enzo Fiorelli",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://www.flickr.com/photos/enzofloyd/5574841247/",
+  "taxon": "Aptenodytes forsteri",
+  "focus": "50% 40%",
+  "w": 1024,
+  "h": 683
+ },
+ "pigeon": {
+  "artist": "Donsky",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/466351693",
+  "taxon": "Columba livia domestica",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "rat": {
+  "artist": "Martin Cooper",
+  "lic": "CC BY 2.0",
+  "page": "https://www.flickr.com/photos/m-a-r-t-i-n/16502748592/",
+  "taxon": "Rattus norvegicus",
+  "focus": "72% 60%",
+  "w": 1024,
+  "h": 633
+ },
+ "salmon": {
+  "artist": "iNaturalist",
+  "lic": "CC0",
+  "page": "https://www.inaturalist.org/photos/336279503",
+  "taxon": "Oncorhynchus keta",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "sardine": {
+  "artist": "harum.koh",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://www.flickr.com/photos/harumkoh/15579000828/",
+  "taxon": "Sardinops sagax",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "sea_turtle": {
+  "artist": "Don Loarie",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/58917865",
+  "taxon": "Chelonia mydas",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 728
+ },
+ "sparrow": {
+  "artist": "Esteban Poveda",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/136543105",
+  "taxon": "Passer domesticus",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 769
+ },
+ "spider": {
+  "artist": "夏仲归",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/239699258",
+  "taxon": "Araneus ventricosus",
+  "focus": "50% 45%",
+  "w": 1024,
+  "h": 772
+ },
+ "springtail": {
+  "artist": "Gilles San Martin",
+  "lic": "CC BY-SA",
+  "page": "https://www.inaturalist.org/photos/256876329",
+  "taxon": "Folsomia candida",
+  "focus": "33% 50%",
+  "w": 1024,
+  "h": 539
+ },
+ "squid": {
+  "artist": "Almandine",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Todarodes_pacificus.jpg",
+  "taxon": "Todarodes pacificus",
+  "focus": "40% 50%",
+  "w": 1024,
+  "h": 617
+ },
+ "swallow": {
+  "artist": "Donald Davesne",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/635249563",
+  "taxon": "Hirundo rustica rustica",
+  "focus": "50% 45%",
+  "w": 1024,
+  "h": 683
+ },
+ "wolf": {
+  "artist": "James Telford",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/291704385",
+  "taxon": "Canis lupus",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "cattle": {
+  "artist": "Verum",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:HF_in_der_Rh%C3%B6n_auf_der_Weide.jpg",
+  "taxon": "Bos taurus",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "goat": {
+  "artist": "Mourad Harzallah",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/262088806",
+  "taxon": "Capra hircus",
+  "focus": "36% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "sheep": {
+  "artist": "Christopher Stephens",
+  "lic": "CC BY-SA 4.0",
+  "page": "https://www.inaturalist.org/photos/632127459",
+  "taxon": "Ovis aries",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "dog": {
+  "artist": "Afsar Nayakkan",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/215940095",
+  "taxon": "Canis familiaris",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 819
+ },
+ "cat": {
+  "artist": "Von.grzanka",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Felis_catus-cat_on_snow.jpg",
+  "taxon": "Felis catus",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
+ "duck": {
+  "artist": "iNaturalist",
+  "lic": "CC0",
+  "page": "https://www.inaturalist.org/photos/662513197",
+  "taxon": "Anas platyrhynchos domesticus",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 1024
+ },
+ "pig": {
+  "artist": "Rictor Norton & David Allen",
+  "lic": "CC BY 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Show_Pig_(18097041013).jpg",
+  "taxon": "Sus scrofa domesticus",
+  "focus": "50% 50%",
+  "w": 1000,
+  "h": 667
+ },
+ "termite": {
+  "artist": "Scott Bauer, USDA",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Coptotermes_formosanus_shiraki_USGov_k8204-7.jpg",
+  "taxon": "",
+  "focus": "50% 50%",
+  "w": 733,
+  "h": 1100
+ },
+ "blue_whale": {
+  "artist": "NOAA Photo Library",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:Anim1754_-_Flickr_-_NOAA_Photo_Library.jpg",
+  "taxon": "",
+  "focus": "50% 50%",
+  "w": 960,
+  "h": 665
+ },
+ "human": {
+  "artist": "Mark D",
+  "lic": "CC BY-SA 2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Shibuya_Crossing,_Tokyo;_December_2017.jpg",
+  "taxon": "",
+  "focus": "50% 45%",
+  "w": 960,
+  "h": 640
+ },
+ "broiler": {
+  "artist": "USDAgov",
+  "lic": "Public domain",
+  "page": "https://commons.wikimedia.org/wiki/File:20130822-OC-RBN-2946_(9682285758).jpg",
+  "taxon": "",
+  "focus": "50% 70%",
+  "w": 960,
+  "h": 638
+ },
+ "layer_hen": {
+  "artist": "Maqi",
+  "lic": "CC BY-SA 3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Battery-farm.jpg",
+  "taxon": "",
+  "focus": "50% 50%",
+  "w": 900,
+  "h": 600
+ }
+};
+
+;
+// Built by data/bio/build.js — do not edit.
+window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["膜翅目","Hymenoptera"],"family":["蚁科","Formicidae"],"genus":["铺道蚁属","Tetramorium"]},"sections":{"intro":{"zh":"草地铺道蚁是一种蚂蚁，原产于欧洲、摩洛哥和西亚，现已在许多其他大陆形成分布广泛的种群。","en":"Tetramorium caespitum, the pavement ant, is a species of ant native to Europe, Morocco and western Asia. It is now found on many other continents.","refs":["wiki"]},"body":{"zh":"身体深棕色，腿色较浅。工蚁通常体长约 3.25 毫米，是不育的雌性，身体上有两个明显的隆起；蚁后约 8 毫米。","en":"Bodies are dark brown with pale legs. A typical worker is about 3.25 mm long and is a sterile female, while the queen is about 8 mm long. Workers have two clearly visible humps.","refs":["adw"]},"habitat":{"zh":"多在人行道、石块和路面下筑巢，也会在房屋的缝隙中筑巢。偏好 10–40 摄氏度的温度范围。工蚁常在人行道和道路上觅食。","en":"They tend to nest under sidewalks, stones and pavement, and in crevices of buildings. Workers are commonly found on pavements and roads, usually searching for food.","refs":["wiki","adw"]},"diet":{"zh":"是杂食性的清道夫，几乎吃遇到的任何残余食物，偏好含糖食物，也会在巢中储存种子和谷物。","en":"They are scavengers that eat almost anything left in their territory. They are drawn toward sugary food, and they store seeds and grains in the nest for later use.","refs":["adw"]},"repro":{"zh":"一个蚁群可以有多只蚁后。处女蚁后和雄蚁在婚飞中交配，之后蚁后脱翅建巢，雄蚁随即死亡。每只蚁后每天可产卵数枚到四十枚，由工蚁照料。","en":"A colony can have more than one queen. After the nuptial flight, the young queens start new nests and the males die. Queens lay from five to forty eggs a day, and workers care for the brood.","refs":["adw"]},"life":{"zh":"它们对入侵巢穴的其他蚂蚁十分好斗，体内的毒素使身体味道很差。","en":"They are aggressive toward nest intruders, and their bodies taste foul because of a toxin.","refs":["adw"]},"status":{"zh":"在北美已有分布，美国东部和南部的大部分地区都能见到。它们会在路面和建筑地基下挖掘，可能造成损害。","en":"It has also spread to North America, where it is now found in most of the eastern and southern United States. It excavates soil under roads and walkways.","refs":["adw"]}},"refs":{"wiki":{"title":"Tetramorium caespitum","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Tetramorium_caespitum"},"adw":{"title":"Tetramorium caespitum","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Tetramorium_caespitum/"}}},"aphid":{"sci":"Acyrthosiphon pisum","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["半翅目","Hemiptera"],"family":["蚜科","Aphididae"],"genus":["无网长管蚜属","Acyrthosiphon"]},"sections":{"intro":{"zh":"豌豆蚜（Acyrthosiphon pisum）是蚜科的一种吸食植物汁液的昆虫，也是一种常用于生物学研究的模式生物。","en":"The pea aphid (Acyrthosiphon pisum) is a sap-sucking insect in the family Aphididae. It is also a model organism for biological study whose genome has been sequenced.","refs":["wiki","adw"]},"body":{"zh":"成体体长可达约 4 毫米，是比较大型的蚜虫。与许多蚜虫不同，豌豆蚜通常不会形成密集的群体，个体不会一直待在出生的地方。","en":"Adults are a rather large aphid, reaching about 4 millimetres in body length. Unlike many aphid species, pea aphids do not tend to form dense colonies where individuals stay where they were born.","refs":["wiki"]},"habitat":{"zh":"已知可寄主 20 多个豆科属，包括豌豆、三叶草、紫花苜蓿和蚕豆等饲料作物。多在叶片背面、芽和豆荚上取食。","en":"It is known to host more than 20 legume genera, including forage crops such as pea, clover, alfalfa and broad bean. It usually feeds on the lower sides of leaves, buds and pods.","refs":["wiki"]},"diet":{"zh":"用口针刺入植物组织，吸食韧皮部中的汁液。这种吸食会直接削弱植物，影响产量。","en":"It feeds by piercing plant tissue with its stylets and sucking up phloem sap. This sap intake can directly weaken the plants, although pea aphids seldom reach densities high enough to greatly reduce crop production.","refs":["wiki","adw"]},"repro":{"zh":"秋季产下受精卵，越冬后在春季孵化。之后雌蚜多以孤雌胎生的方式繁殖，每只雌蚜一生约产一百只。","en":"Fertilised eggs laid in autumn overwinter and hatch in spring. Adult females then reproduce by viviparous parthenogenesis, and each one has around a hundred offspring in her lifetime.","refs":["wiki"]},"life":{"zh":"成虫寿命约 30 天。种群数量在初夏最高，之后因捕食和寄生而下降。","en":"An adult lives about 30 days. Population densities peak in early summer and then fall through predation and parasitism. Natural predators and parasitoids are among its enemies.","refs":["wiki"]},"status":{"zh":"是农业上重要的蚜虫，会吸食作物汁液，并可作为多种植物病毒的传播媒介。其学名下包含若干适应不同寄主的生物型。","en":"It is considered among the aphid species of major agronomical importance. It can sap crops and act as a vector of plant viral diseases. Its name covers several biotypes specialised on different host species.","refs":["wiki"]}},"refs":{"wiki":{"title":"Acyrthosiphon pisum","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Acyrthosiphon_pisum"},"adw":{"title":"Aphididae","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Aphididae/"}}},"bat":{"sci":"Pipistrellus abramus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["翼手目","Chiroptera"],"family":["蝙蝠科","Vespertilionidae"],"genus":["伏翼属","Pipistrellus"]},"sections":{"intro":{"zh":"东亚伏翼又称日本家蝠，是一种蝙蝠，分布于东亚。","en":"The Japanese pipistrelle, also known as the Japanese house bat, is a vesper bat found across East Asia.","refs":["wiki"]},"body":{"zh":"成年个体体长约 3.6 至 4.8 厘米，翼长约 3.2 至 3.6 厘米。","en":"An adult has a body length of 3.6 to 4.8 cm and a wing length of 3.2 to 3.6 cm.","refs":["wiki"]},"habitat":{"zh":"它常在老房子的屋顶内或天花板下栖息，分布于中国大陆和台湾、乌苏里地区、朝鲜半岛和日本。","en":"It roosts under the ceiling or inside the roof of old buildings, and is found from China and Taiwan to the Ussuri region, Korea and Japan.","refs":["wiki"]},"diet":{"zh":"它吃甲虫、石蛾、蝇类、膜翅目昆虫、蛾类和半翅目昆虫等。","en":"It feeds on beetles, caddisflies, flies, hymenopterans, moths and true bugs.","refs":["wiki"]}},"refs":{"wiki":{"title":"Japanese pipistrelle","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Pipistrellus_abramus"}}},"blue_whale":{"sci":"Balaenoptera musculus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["须鲸科","Balaenopteridae"],"genus":["须鲸属","Balaenoptera"]},"sections":{"intro":{"zh":"蓝鲸（Balaenoptera musculus）是一种须鲸，也是须鲸科中最大的海洋哺乳动物。它是已知有史以来最大的动物。","en":"The blue whale (Balaenoptera musculus) is a species of baleen whale and the largest marine mammal in the rorqual family Balaenopteridae. It is the largest animal known to have ever existed.","refs":["wiki"]},"body":{"zh":"蓝鲸的最大可确认体长为 29.9 至 30.5 米，体重可达 190 至 200 吨。它的身体细长，背部为灰蓝色，腹面颜色较浅。","en":"Blue whales reach a maximum confirmed length of 29.9 to 30.5 m and weigh up to 190 to 200 tonnes. Their long, slender bodies are greyish-blue above and somewhat lighter below.","refs":["wiki"]},"habitat":{"zh":"蓝鲸分布在世界各大洋中。多数种群夏季在靠近极地的海域觅食，冬季则回到近热带的繁殖区。","en":"Blue whales are found in all of the world's oceans. Most populations migrate between summer feeding areas near the poles and winter breeding grounds near the tropics.","refs":["adw","wiki"]},"diet":{"zh":"蓝鲸是滤食性动物，食物几乎完全是磷虾。蓝鲸每天可以吞食 3 至 4 吨磷虾。蓝鲸和其他大型须鲸是磷虾的重要捕食者。","en":"Blue whales are filter feeders whose diet consists almost exclusively of krill, and they can ingest 3 to 4 tons of krill per day. Blue whales, and other large baleen whales, are important predators of krill.","refs":["wiki","adw"]},"repro":{"zh":"妊娠期可能为 10 至 12 个月，幼鲸出生时重 2 至 3 吨。雌鲸约 5 岁达到性成熟，之后每 2 至 3 年产一次幼鲸。","en":"Gestation may last 10 to 12 months, and calves weigh 2 to 3 tonnes at birth. Females reach sexual maturity at about 5 years old and give birth every 2 to 3 years.","refs":["wiki","adw"]},"life":{"zh":"蓝鲸的寿命估计可达 110 年，有研究认为其寿命为 80 至 90 年。由于体型极大，蓝鲸几乎没有天敌。","en":"Longevity has been estimated at as high as 110 years, and studies suggest a lifespan of 80 to 90 years. Blue whales have virtually no natural predators because of their extreme size.","refs":["adw"]},"status":{"zh":"蓝鲸曾被捕鲸者猎杀到近乎灭绝，直到 1966 年国际捕鲸委员会禁止了所有蓝鲸捕猎。国际自然保护联盟自 2018 年起将其列为濒危物种。","en":"Whalers hunted blue whales almost to extinction until the International Whaling Commission banned all blue whale hunting in 1966. The IUCN has listed them as endangered as of 2018.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Blue whale","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Blue_whale"},"adw":{"title":"Balaenoptera musculus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Balaenoptera_musculus/"}}},"broiler":{"sci":"Gallus gallus domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["鸡形目","Galliformes"],"family":["雉科","Phasianidae"],"genus":["原鸡属","Gallus"]},"sections":{"intro":{"zh":"肉鸡是专门为肉用而培育和饲养的鸡。","en":"A broiler is any chicken bred and raised specifically for meat production.","refs":["wiki"]},"body":{"zh":"现代商品肉鸡在 5 至 7 周内就能长到约 2 公斤的屠宰体重。","en":"Modern commercial broilers reach a slaughter weight of about 2 kg in only 5 to 7 weeks.","refs":["wiki"]},"habitat":{"zh":"肉鸡通常以雌雄混养的方式，在大型鸡舍里集中饲养，饲养密度通常较高。","en":"Broilers are usually grown as mixed-sex flocks in large sheds under intensive conditions, and usually kept at high stocking densities.","refs":["wiki"]},"life":{"zh":"快速生长可能导致猝死综合征等代谢疾病，在欧洲会使高达 3% 的鸡死亡。由于快速选育，肉鸡还容易出现骨骼畸形、皮肤和眼部损伤以及心脏病。","en":"Rapid growth can cause sudden death syndrome and other disorders, which kill up to 3% of birds in Europe. Broilers are also prone to skeletal and heart problems.","refs":["wiki"]},"status":{"zh":"截至 2018 年，全球肉鸡雏鸡的估计数量约为二百三十亿只。","en":"As of 2018, the estimated worldwide broiler chick population was about 23 billion.","refs":["wiki"]}},"refs":{"wiki":{"title":"Broiler","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Broiler"}}},"cat":{"sci":"Felis catus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["猫科","Felidae"],"genus":["猫属","Felis"]},"sections":{"intro":{"zh":"家猫（Felis catus）是一种小型的被驯化的食肉哺乳动物，是猫科中唯一被驯化的物种。","en":"The domestic cat (Felis catus) is a small domesticated carnivorous mammal. It is the only domesticated species of the cat family, Felidae, and its relationship with people has lasted thousands of years.","refs":["wiki"]},"body":{"zh":"成年家猫的体重范围为 4.1 至 5.4 公斤，平均体长约 76.2 厘米。尽管家猫有许多品种，但它们的体型和大小都非常相似。","en":"Adult domestic cats weigh from 4.1 to 5.4 kg, and the average length is 76.2 cm. Although there are many breeds of domestic cats, all have a very similar body shape and size.","refs":["adw"]},"habitat":{"zh":"家猫主要生活在人类居住的地方，野化的猫群大多也生活在人类聚居区附近。","en":"Domestic cats primarily live in areas of human habitation and are somewhat constrained to developed areas. Most feral populations live near current or past human settlements.","refs":["adw"]},"diet":{"zh":"猫是专性肉食动物，适应了低纤维、易消化的肉类食物。它们的爪子可以伸缩，适合捕捉老鼠之类的小型猎物。","en":"Cats are obligate carnivores that have adapted to a low-fibre, highly digestible meat diet. They have retractable claws suited to catching small prey such as mice and rats.","refs":["wiki"]},"repro":{"zh":"家猫的妊娠期为 60 至 67 天。大多数小猫在出生后 7 至 8 周断奶，并能完全独立生活。","en":"Gestation ranges from 60 to 67 days. Most kittens are weaned by 7 to 8 weeks after birth. As many as 18 kittens in a single litter has been reported.","refs":["adw"]},"life":{"zh":"在野外，家猫的平均寿命没有可靠的资料；圈养的个体预计可以活到约 14 年。野生的捕食者偶尔会捕食家猫。","en":"There is no information on the average lifespan of domestic cats in the wild, while captive individuals are expected to live about 14 years. Domestic cats are occasionally preyed on by wild predators, such as coyotes and foxes.","refs":["adw"]},"status":{"zh":"全世界估计有六亿只家猫。家猫数量很多，在许多地区，猫的过度繁殖是一个主要问题。","en":"An estimated 600 million domestic cats live worldwide, including 400 million in Asia. Domestic cats are abundant, and overpopulation is a major issue throughout various parts of their global distribution.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Cat","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Cat"},"adw":{"title":"Felis catus (domestic cat)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Felis_catus/"}}},"cattle":{"sci":"Bos taurus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["牛科","Bovidae"],"genus":["牛属","Bos"]},"sections":{"intro":{"zh":"牛（家牛，Bos taurus）是大型的家畜，属于牛科偶蹄类。大约一万年前，人类开始从野生原牛中驯化出家牛。","en":"Cattle (Bos taurus) are large, domesticated bovid ungulates widely kept as livestock. Taurine cattle were first domesticated from wild aurochs about 10,500 years ago, in central Anatolia, the Levant and Western Iran.","refs":["wiki"]},"body":{"zh":"家牛体型大，身体粗壮。它们上颌没有门齿，而是有一层厚厚的齿垫，靠圆周式的磨动咀嚼草料。","en":"Domestic cows are large, sturdy animals, and they have no upper incisors. Instead, they have a thick layer called the dental pad, and their jaws are designed for the circular grinding motion used when chewing plants.","refs":["adw"]},"habitat":{"zh":"家牛遍布世界各地。很多牛在草场上饲养，让牛群在大片草地上放牧；它们是在草场上出生和长大的。","en":"Domestic cows are common and can be found throughout the world. Cattle are born and raised on rangelands, often by letting herds graze on the grasses of large tracts of rangeland.","refs":["adw","wiki"]},"diet":{"zh":"牛是反刍动物，以草、茎叶等植物为食。它们的消化系统专门用来分解富含纤维素的植物。","en":"Cattle are ruminants, and domestic cows feed on grasses, stems and other herbaceous plant material. Their digestive system is highly specialized for processing plant material such as grass rich in cellulose.","refs":["adw","wiki"]},"repro":{"zh":"母牛怀孕约九个月，每胎通常只生一头小牛。母牛约一岁时达到性成熟，繁殖可持续到约十二岁。小牛大约吃奶六个月。","en":"One calf is born after approximately nine months of gestation. Females reach sexual maturity at approximately one year, and young domestic cows nurse for approximately six months.","refs":["adw","wiki"]},"life":{"zh":"家牛的最长寿命可超过 20 年，但寿命常因人类的淘汰而缩短。家牛是群居动物，生活在称为牛群的群体中。","en":"Maximum lifespan in domestic cows may exceed 20 years, but lifespan is often limited by human culling. Domestic cows are social animals and live in groups called herds.","refs":["adw"]},"status":{"zh":"作为一个物种，牛并不受威胁；人们对保护正在快速消失的稀有品种有一定兴趣。","en":"As a species, cattle are not threatened, although there is some interest in conserving rapidly disappearing rare breeds.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Cattle","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Cattle"},"adw":{"title":"Bos taurus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Bos_taurus/"}}},"chimpanzee":{"sci":"Pan troglodytes","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["灵长目","Primates"],"family":["人科","Hominidae"],"genus":["黑猩猩属","Pan"]},"sections":{"intro":{"zh":"黑猩猩（Pan troglodytes）是一种中等体型的大型类人猿，分布在非洲赤道地区的森林和草原中。它与倭黑猩猩同属黑猩猩属，是与人类亲缘关系最近的现存物种之一。","en":"The chimpanzee (Pan troglodytes) is a medium-sized great ape found in the forests and savannas of equatorial Africa. It shares the genus Pan with the bonobo, and the two are humans' closest living relatives.","refs":["wiki"]},"body":{"zh":"黑猩猩全身长着粗硬的黑毛，脸、手指、脚趾、手掌和脚掌没有毛。野外的雄性平均体重约 40 公斤，雌性约 30 公斤。","en":"Chimpanzees are covered in coarse black hair, with bare faces, fingers, toes, palms and soles. In the wild, males weigh an average of 40 kg and females 30 kg.","refs":["wiki"]},"habitat":{"zh":"黑猩猩利用的生境类型很多，既有热带雨林，也有森林与草原的镶嵌环境和山地森林，山地森林海拔可达 2750 米。","en":"Chimpanzees use many habitat types. Although they are typically thought of as living in tropical rainforests, they also occur in forest-savanna mosaics and mountain forests at elevations up to 2,750 m.","refs":["adw"]},"diet":{"zh":"黑猩猩是杂食动物，主要吃水果，也吃其他植物和昆虫，有时还会猎捕小型猴子。","en":"Chimpanzees are broadly omnivorous. They primarily eat fruit, but also eat other plant material and insects, and will even hunt smaller monkeys. In a study in Budongo Forest, Uganda, chimpanzees spent 64.5% of their feeding time on fruits.","refs":["adw","wiki"]},"repro":{"zh":"妊娠期为 202 至 260 天，平均 230 天，通常只生一只幼崽。幼崽会经常骑在母亲身上，直到约 3.5 至 4.5 岁断奶。","en":"Gestation lasts 202 to 260 days, with a mean of 230 days, and a single young is usually born. Young chimpanzees regularly ride on their mothers until weaning at 3.5 to 4.5 years.","refs":["adw"]},"life":{"zh":"黑猩猩通常能活到 40 至 60 岁，但在一些野外群体中，平均寿命要短得多，例如泰伊群体的平均寿命只有 13 年。在贡贝的一个群体中，约 58% 已知死因的死亡是由疾病造成的。","en":"Chimpanzees can live from 40 to 60 years, but average life expectancy in some wild groups is much lower, at 13 years in Taï. In one Gombe group, around 58% of deaths with known causes were due to disease.","refs":["adw","wiki"]},"status":{"zh":"黑猩猩在 国际自然保护联盟红色名录中被列为濒危物种。人类向雨林和混交林的扩张，使黑猩猩的种群面临威胁。","en":"The chimpanzee is listed on the IUCN Red List as an endangered species. Its populations are jeopardized by human expansion into rainforests and mixed forests.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Chimpanzee","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Chimpanzee"},"adw":{"title":"Pan troglodytes","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Pan_troglodytes/"}}},"copepod":{"sci":"Calanoida","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["桡足纲","Copepoda"],"order":["哲水蚤目","Calanoida"]},"sections":{"intro":{"zh":"桡足类是一类小型甲壳动物，几乎生活在所有淡水和海水环境中。飞马哲水蚤是其中的一种大型浮游桡足类，在北大西洋的浮游动物中数量很多。","en":"Copepods are small crustaceans found in nearly every freshwater and saltwater habitat. Calanus finmarchicus, a calanoid copepod, is one of the most common zooplankton in the North Atlantic.","refs":["wiki","wiki_cal"]},"body":{"zh":"飞马哲水蚤被认为是较大的桡足类，成体通常体长 2–4 毫米。身体多呈水滴形，大多数种类的身体几乎透明。","en":"Calanus finmarchicus is considered a large copepod, typically 2–4 millimetres long. Copepods usually have a teardrop-shaped body, and in most species it is almost totally transparent.","refs":["wiki","wiki_cal"]},"habitat":{"zh":"主要分布在北海和挪威海，也遍布北大西洋较冷的水域，从海面到约 4000 米深处都能找到。","en":"Calanus finmarchicus is most commonly found in the North Sea and the Norwegian Sea. It is also found throughout the colder waters of the North Atlantic, and can live from the ocean surface down to about 4,000 metres deep.","refs":["wiki_cal"]},"diet":{"zh":"主要以浮游植物为食，包括硅藻、甲藻和其他微型海洋生物。多数自由生活的桡足类会逐个捕捉食物细胞，它也可能以微型浮游动物为食。","en":"Calanus finmarchicus primarily feeds on phytoplankton, including diatoms, dinoflagellates and other photosynthetic marine organisms. Most free-living copepods catch their food cells one by one, and some evidence suggests it also eats microzooplankton.","refs":["wiki_cal","wiki"]},"repro":{"zh":"成体几乎只在表层海水中繁殖。卵直径通常约 0.05 毫米，2–3 天孵化成无节幼体，之后蜕皮五到六次。","en":"Adults reproduce almost exclusively in surface waters. Calanus eggs are typically 0.05 mm in diameter and hatch in 2–3 days into nauplius larvae, which moult five or six times.","refs":["wiki_cal","wiki"]},"life":{"zh":"冬季许多个体会下沉到 500–2500 米深处休眠，以度过食物匮乏的季节。慢游的海马也会捕食桡足类。","en":"In winter, many individuals sink to depths of 500 to 2,500 metres and rest there. Copepods are also hunted by predators such as the seahorse.","refs":["wiki_cal","wiki"]},"status":{"zh":"是北大西洋亚极区水域中最常见的浮游动物之一，也是北大西洋食物网的关键组成部分，为鱼类、虾类和鲸类提供食物。","en":"Calanus finmarchicus is one of the most commonly found zooplankton in the subarctic North Atlantic. It is a key component of the food web there, providing food for fish, shrimp and whales.","refs":["wiki_cal"]}},"refs":{"wiki":{"title":"Copepod","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Copepod"},"wiki_cal":{"title":"Calanus finmarchicus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Calanus_finmarchicus"}}},"dog":{"sci":"Canis lupus familiaris","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["犬科","Canidae"],"genus":["犬属","Canis"]},"sections":{"intro":{"zh":"狗（Canis lupus familiaris）是由狼驯化而来的家养动物，也是最早被人类驯化的物种，驯化历史距今一万四千年以上。","en":"Dogs are a domesticated descendant of wolves, and they share a common ancestor with the modern gray wolf. They were the first species to be domesticated, over 14,000 years ago, before the development of agriculture.","refs":["wiki"]},"body":{"zh":"家狗的体型和外形差异极大。不同品种之间头骨、身体和四肢的比例差异，超过了整个食肉目内的差异。","en":"Domestic dogs come in a wide variety of shapes and sizes. Body proportions differ between breeds more than across the entire order of carnivores. Most breeds were derived from small numbers of founders within the last 200 years.","refs":["wiki","adw"]},"habitat":{"zh":"家狗与人类相伴，遍布世界各地，生活在多种多样的生境中。它们被人类培育用于多种用途。","en":"Domestic dogs are found in association with humans worldwide and in a wide variety of habitats. Feral domestic dogs maintain home ranges that they defend against others and may move around throughout the year.","refs":["adw"]},"diet":{"zh":"野化的家狗会吃各种食物，包括动物和水果。人类食物中，发霉的奶酪、洋葱和巧克力对狗可能是致命的。","en":"Feral domestic dogs will eat a variety of foods, including animals and fruits. Human foods such as moldy cheese, onions and chocolate can be fatal to dogs.","refs":["adw"]},"repro":{"zh":"家狗的怀孕期约 9 周，一窝幼崽从一只到几十只不等。幼犬约 8 至 10 周龄时断奶。","en":"Dogs have a gestation period of 9 weeks, and a litter can range from one puppy to dozens. Puppies are weaned at about 8 to 10 weeks of age.","refs":["adw"]},"life":{"zh":"得到良好照顾的家狗可以活到 12 年或更久，体型较大的品种寿命通常较短。野化的家狗可能被任何大型捕食者捕食。","en":"Well-cared-for dogs can live 12 years or more, and larger breeds generally have shorter lifespans. Feral dogs may be preyed upon by any large predator.","refs":["adw"]},"status":{"zh":"全球的狗估计有七亿到十亿只，分布于世界各地。狗曾被培育用于拉车、看守、狩猎、放牧和作伴等许多用途。","en":"The global dog population is estimated at 700 million to 1 billion, spread across the world. Dogs have been bred for many purposes, including herding, hunting, guarding and as companions.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Dog","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Dog"},"adw":{"title":"Canis lupus familiaris (dog)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Canis_lupus_familiaris/"}}},"duck":{"sci":"Anas platyrhynchos domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["雁形目","Anseriformes"],"family":["鸭科","Anatidae"],"genus":["鸭属","Anas"]},"sections":{"intro":{"zh":"养殖鸭以北京鸭为主，是全球主要的商品水禽。","en":"Waterfowl, primarily ducks, are important commercial poultry worldwide. The Pekin duck is the predominant breed in this production.","refs":["pmc"]},"body":{"zh":"一只典型的北京鸭在 4 至 5 周龄时就能达到上市体重，约 3 至 4 公斤。","en":"A typical Pekin duck reaches market weight of about 3 to 4 kg in 4 to 5 weeks.","refs":["pmc"]},"habitat":{"zh":"肉鸭通常饲养在鸭舍里。育雏阶段需要较高的温度，鸭舍内的相对湿度则要保持较低。","en":"Pekin ducks are kept in duck houses. Brooding systems keep birds at a temperature of at least 20 to 25 °C during the first weeks, and a lower relative humidity is preferred in the house.","refs":["pmc"]},"diet":{"zh":"饲料按生长阶段配制，饲料中不能含有抗球虫药物，因为它们对鸭子有毒。鸭子应当通过乳头式饮水线饮水。","en":"Feed is formulated for each growth phase and must contain no anticoccidial medications, which can be toxic to ducks. Pekin ducks should be given drinking water through pin-metered nipple lines.","refs":["pmc"]},"repro":{"zh":"很多商品鸭是在商业孵化场里孵出的。孵化温度是影响雏鸭质量的众多因素之一。","en":"Many commercial ducks are hatched in commercial hatcheries. Incubation temperature is only one of many factors that affect hatchling quality.","refs":["pmc"]},"status":{"zh":"水禽，主要是鸭，是全球重要的商品家禽，而且这一产业的规模增长很快。","en":"Waterfowl, primarily ducks, are important commercial poultry worldwide, and the industry is growing rapidly.","refs":["pmc"]}},"refs":{"pmc":{"title":"Centennial Review: History and husbandry recommendations for raising Pekin ducks in research or commercial production","source":"PubMed Central","url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC8261006/"}}},"earthworm":{"sci":"Lumbricus terrestris","lineage":{"phylum":["环节动物门","Annelida"],"class":["环带纲","Clitellata"],"order":["单向蚓目","Haplotaxida"],"family":["正蚓科","Lumbricidae"],"genus":["正蚓属","Lumbricus"]},"sections":{"intro":{"zh":"陆正蚓是一种大型蚯蚓，可能原产于西欧，现已在世界多地广泛分布。","en":"Lumbricus terrestris is a large, reddish earthworm thought to be native to Western Europe. It is now widely distributed around the world, and it is the example earthworm used by many biology students.","refs":["wiki"]},"body":{"zh":"成体通常长 110–200 毫米，直径约 7–10 毫米，身体约有 120–170 节。身体横切面呈圆柱形，后部宽而扁平。","en":"It is generally 110 to 200 millimetres long, about 7 to 10 millimetres in diameter, and has around 120 to 170 segments. Its body is cylindrical in cross section, except for the broad, flattened posterior section.","refs":["wiki"]},"habitat":{"zh":"它挖掘深而直立的洞穴，常住在半永久性的洞穴中，并可退到较深的土层。常见于温带地区的花园和农田土壤中。","en":"It is a deep-burrowing earthworm that builds vertical burrows and lives in semi-permanent burrows. It is common in garden and agricultural soils of the temperate zone.","refs":["wiki"]},"diet":{"zh":"主要以地表的枯落叶为食，也会吃死昆虫、土壤微生物和粪便。它会爬到地表取食。","en":"It is a detritivore that eats mainly dead leaves on the soil surface. It also eats dead insects, soil microorganisms and faeces, and it surfaces to feed.","refs":["wiki"]},"repro":{"zh":"同时具有雌雄两性，两条蚯蚓相互交换精子完成交配。受精在卵茧中进行，几周后幼虫孵出。发育成熟通常需要一年以上。","en":"It is a simultaneous hermaphrodite, and two worms exchange sperm when they mate. Fertilisation takes place in a cocoon, and young worms emerge after a few weeks. Adulthood takes at least a year.","refs":["wiki"]},"life":{"zh":"自然寿命尚不清楚，圈养个体曾活过六年。夏季高温和干燥时，它会退到洞穴最深处。","en":"Its natural lifespan is unknown, though captive individuals have lived six years. In hot, dry summers it retreats to the deepest parts of its burrow.","refs":["wiki"]},"status":{"zh":"在欧洲西北部大西洋沿岸的一些地区，它因外来扁虫的捕食而受到局部威胁。在美国中北部被视为入侵物种。","en":"In parts of northwestern Europe it is locally endangered by introduced flatworm predators. It is considered invasive in the north central United States, where it does not do well in tilled fields.","refs":["wiki"]}},"refs":{"wiki":{"title":"Lumbricus terrestris","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Lumbricus_terrestris"}}},"elephant":{"sci":"Loxodonta africana","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["长鼻目","Proboscidea"],"family":["象科","Elephantidae"],"genus":["非洲象属","Loxodonta"]},"sections":{"intro":{"zh":"非洲草原象（Loxodonta africana）是现存最大的陆生动物。它们以家族群生活，雌象组成的群体由一头母象领导。","en":"The African savanna elephant (Loxodonta africana) is the largest living land organism. Its herds are led by a matriarch and consist of females and their young.","refs":["adw","wiki"]},"body":{"zh":"非洲草原象是现存最大的陆生动物。雌象体重约 2000 至 3500 公斤，肩高 2.2 至 2.6 米；雄象更大，体重约 4500 至 6100 公斤，肩高 3.2 至 4 米。","en":"Females weigh 2,000 to 3,500 kg and stand 2.2 to 2.6 m at the shoulder. Males are larger, weighing 4,500 to 6,100 kg and standing 3.2 to 4 m at the shoulder.","refs":["adw"]},"habitat":{"zh":"非洲象分布在非洲的许多生境中，包括草原、雨林、林地和灌丛，偶尔也会出现在沙漠和海滩。","en":"African elephants are found in many habitats of Africa such as savannas, rain forests, woodlands, scrub forests, occasionally deserts, and beaches. The African bush elephant inhabits a variety of habitats such as forests, grasslands, woodlands, wetlands and agricultural land.","refs":["adw","wiki"]},"diet":{"zh":"非洲象是草食动物，吃树叶、果实、草本植物、草，以及树根、嫩枝和树皮。成年象每天最多可吃约 150 公斤食物。","en":"African elephants are herbivores. Their diet includes tree foliage, fruits, herbs, grasses, roots, twigs and bark, and adults can eat up to 150 kg of food per day.","refs":["adw","wiki"]},"repro":{"zh":"妊娠期约 22 个月，是哺乳动物中最长的。非洲象大约每 3 至 9 年繁殖一次。幼象完全依靠母乳，约四个月断奶，但有时仍会喝母乳直到三岁。","en":"Gestation lasts about 22 months, the longest of any mammal. African elephants breed once every 3 to 9 years. Offspring are completely dependent on their mother's milk until they are weaned at four months.","refs":["wiki","adw"]},"life":{"zh":"野外的非洲象平均寿命约 60 至 70 年。由于体型巨大，许多捕食者很难捕食成年象。","en":"In the wild, African elephants live an average of 60 to 70 years. Because of their size, they are not easy prey for many predators.","refs":["adw"]},"status":{"zh":"自 2021 年起，国际自然保护联盟红色名录将该物种列为濒危。东非大约有十三万七千头象，分布在六个国家。","en":"Since 2021, the IUCN Red List has listed this species as Endangered. In East Africa there are roughly 137,000 elephants, distributed across six countries in a wide array of habitats.","refs":["wiki"]}},"refs":{"wiki":{"title":"African bush elephant","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/African_bush_elephant"},"adw":{"title":"Loxodonta africana","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Loxodonta_africana/"}}},"farmed_carp":{"sci":"Ctenopharyngodon idella","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["鲤形目","Cypriniformes"],"family":["鲤科","Cyprinidae"],"genus":["草鱼属","Ctenopharyngodon"]},"sections":{"intro":{"zh":"草鱼是一种大型草食性淡水鱼，原产远东地区，在中国已作为食用鱼养殖了数百年。这里描述的是池塘养殖的草鱼。","en":"The grass carp is a large herbivorous freshwater fish native to the Pacific Far East. It has been cultivated as a food fish in China for centuries.","refs":["wiki"]},"body":{"zh":"草鱼生长很快，典型体长约 60 到 100 厘米，最大可长到 45 千克。","en":"Grass carp grow very rapidly, with a typical length of about 60 to 100 centimetres and a maximum weight of about 45 kilograms.","refs":["wiki"]},"habitat":{"zh":"草鱼生活在大河的湖泊、池塘和回水区，偏好水草丰富、水流缓慢或静止的水体。它的原产地从越南北部延伸到阿穆尔河。","en":"Grass carp inhabit lakes, ponds and backwaters of large rivers, preferring slow-flowing or standing water with abundant vegetation. Their native range runs from northern Vietnam to the Amur River.","refs":["wiki"]},"diet":{"zh":"成鱼主要吃水生植物，每天能吃掉相当于自身体重三倍的食物。","en":"Adult grass carp feed mainly on aquatic plants and can eat up to three times their own body weight each day.","refs":["wiki"]},"repro":{"zh":"草鱼性成熟需要约 5 年。在 20 到 30 摄氏度的水温下产卵，野外的草鱼在水流较快的河流中产卵。","en":"Grass carp have long maturation periods of 5 years. They spawn at temperatures of 20 to 30 °C, and in the wild they spawn in fast-moving rivers.","refs":["wiki"]},"life":{"zh":"一项研究认为草鱼通常能活 5 到 9 年，最长记录为 11 年。","en":"One study found that grass carp live 5 to 9 years, with the oldest surviving 11 years.","refs":["wiki"]},"status":{"zh":"草鱼是报告产量最高的养殖鱼类，每年养殖产量超过五百万吨。在中国，它是最常见的淡水养殖鱼之一。","en":"Grass carp has the largest reported farmed production of any fish species, over five million tonnes per year. It is one of the most common freshwater farmed fish in China.","refs":["wiki"]}},"refs":{"wiki":{"title":"Grass carp","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Grass_carp"}}},"farmed_shrimp":{"sci":"Litopenaeus vannamei","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["软甲纲","Malacostraca"],"order":["十足目","Decapoda"],"family":["对虾科","Penaeidae"],"genus":["滨对虾属","Litopenaeus"]},"sections":{"intro":{"zh":"凡纳滨对虾是东太平洋的一种对虾，常被捕捞或养殖作为食物。这里描述的是养殖个体。","en":"The whiteleg shrimp is a prawn of the eastern Pacific Ocean that is commonly caught or farmed for food. This entry describes farmed individuals.","refs":["wiki"]},"body":{"zh":"最大体长可达 230 毫米。","en":"The whiteleg shrimp grows to a maximum length of about 230 millimetres.","refs":["wiki"]},"habitat":{"zh":"凡纳滨对虾原产东太平洋，从墨西哥索诺拉州延伸到秘鲁北部。它需要全年水温保持在 20 摄氏度以上，因此只适合温暖的地区。成虾生活在海洋中，深度可达 72 米；幼虾生活在河口。","en":"It is native to the eastern Pacific, from the Mexican state of Sonora to northern Peru. It is restricted to areas where the water stays above 20 °C throughout the year. Adults live in the ocean at depths to 72 metres, and juveniles live in estuaries.","refs":["wiki"]},"status":{"zh":"在西半球，它是养殖最多的对虾。全球白对虾产量约为 5 百万公吨。养殖中的主要风险是病毒病，如白斑综合征和陶拉综合征。","en":"Litopenaeus vannamei is the most commonly cultured shrimp in the western hemisphere, and global production of white shrimp is about 5 million metric tons. Farms are limited by viral diseases such as white spot syndrome and Taura syndrome.","refs":["usgs","wiki"]}},"refs":{"wiki":{"title":"Litopenaeus vannamei","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Litopenaeus_vannamei"},"usgs":{"title":"Litopenaeus vannamei (Pacific white shrimp)","source":"USGS Nonindigenous Aquatic Species Database","url":"https://nas.er.usgs.gov/queries/FactSheet.aspx?SpeciesID=1212"}}},"frog":{"sci":"Pelophylax nigromaculatus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["两栖纲","Amphibia"],"order":["无尾目","Anura"],"family":["蛙科","Ranidae"],"genus":["侧褶蛙属","Pelophylax"]},"sections":{"intro":{"zh":"黑斑侧褶蛙是东亚的一种真蛙，1861 年首次被描述。它分布广泛，数量多，是常见的蛙类。","en":"The black-spotted pond frog is a species of true frog found in East Asia, first described in 1861. It is a widespread and common frog.","refs":["wiki"]},"body":{"zh":"成年雄蛙吻肛长约 62 毫米，雌蛙约 74 毫米。背部通常有大块深色斑点，并有一条浅色的背中线。","en":"Adult males measure about 62 millimetres and females about 74 millimetres in snout-vent length. The back usually has large dark spots and a light mid-dorsal line.","refs":["wiki"]},"habitat":{"zh":"它分布于中国大陆大部分地区、俄罗斯阿穆尔河流域、朝鲜半岛和日本大部分地区。不见于 2200 米以上的地区，通常生活在静水或缓流水体附近。","en":"It is found across much of mainland China, the Amur River valley, the Korean Peninsula and most of Japan. It is not found above 2200 m and is typically found in or near stagnant or slow-moving water.","refs":["wiki"]},"diet":{"zh":"它是机会型捕食者，主要吃昆虫，包括黄蜂和胡蜂。","en":"It is an opportunistic predator that mainly eats insects, including wasps and hornets.","refs":["wiki"]},"repro":{"zh":"繁殖季紧接在冬眠之后。大约两岁时可能达到性成熟。据报道，每窝卵数为 1800 到 3000 枚或 600 到 5000 枚，卵产在浅水中。","en":"The mating season occurs soon after hibernation, and maturity is probably reached at about two years. Clutch sizes have been reported as 1800 to 3000 or 600 to 5000 eggs, laid in shallow water.","refs":["wiki"]},"life":{"zh":"这种蛙的寿命可达 13 年。","en":"The total life span may reach 13 years.","refs":["wiki"]},"status":{"zh":"它分布广泛、数量很多。在朝鲜半岛，它被认为是最常见的真蛙，并长期被人捕来作食物。土库曼斯坦、欧胡岛和塞班岛也有人为引入的种群。","en":"It is a widespread and common frog. On the Korean Peninsula it has been considered the most common true frog and has been hunted for food for centuries. There are also introduced populations in Turkmenistan, Oahu and Saipan.","refs":["wiki"]}},"refs":{"wiki":{"title":"Pelophylax nigromaculatus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Pelophylax_nigromaculatus"}}},"goat":{"sci":"Capra hircus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["牛科","Bovidae"],"genus":["山羊属","Capra"]},"sections":{"intro":{"zh":"山羊（家山羊，Capra hircus）是主要被人类饲养的家畜。它是最早被驯化的动物之一，大约一万年前在伊朗开始被驯化。","en":"The goat (Capra hircus) is a species of caprine kept mostly as livestock. It was one of the first animals to be domesticated, in Iran around 10,000 years ago.","refs":["wiki"]},"body":{"zh":"山羊的瞳孔是横向的狭缝形，这使它们在明亮和昏暗的环境中都能看得清楚。","en":"Goats have horizontal, slit-shaped pupils, which let them see well in both well-lit and dark conditions. As with other mammal ruminants, they are even-toed ungulates.","refs":["wiki"]},"habitat":{"zh":"山羊在世界许多地方饲养。家山羊几乎在所有生境中都有饲养，它们的产品包括山羊奶、山羊奶酪、羊皮、羊肉和羊毛。","en":"Goats are raised in many parts of the world, with products including goat milk, goat cheese, goatskin, goat meat, and wool. Domestic goats have been raised in almost all habitats.","refs":["adw","wiki"]},"diet":{"zh":"山羊是反刍动物，以草和灌木为食。山羊能选择吃哪些草，通常会避开被粪便污染的草。","en":"Domestic goats are ruminants and eat grasses and shrubs. Goats can choose what grasses they will eat and generally avoid grass covered in feces, and in captivity they eat roughage.","refs":["adw"]},"repro":{"zh":"山羊的怀孕期约 150 天。小羊出生后几小时内就能走动并跟随母羊，约十个月后断奶。","en":"Gestation lasts about 150 days. Young goats are able to walk and follow their mother within hours of birth, and are weaned at about 10 months.","refs":["wiki","adw"]},"life":{"zh":"家山羊在圈养条件下通常能活到约 15 岁，有个体活到过 22 岁。作为家养动物，山羊很容易遭到捕食。","en":"Domestic goats typically live to about 15 years in captivity, and one individual has lived to 22 years old. As a domesticated species, goats are very susceptible to predation.","refs":["adw"]},"status":{"zh":"2024 年全世界的山羊超过十一亿八千万只，其中印度的数量最多。每年约有五亿六千四百万只山羊被屠宰取肉。","en":"More than 1.18 billion goats were recorded worldwide in 2024, and India has the most. Almost 564 million goats are slaughtered for meat each year.","refs":["wiki"]}},"refs":{"wiki":{"title":"Goat","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Goat"},"adw":{"title":"Capra hircus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Capra_hircus/"}}},"greenland_shark":{"sci":"Somniosus microcephalus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["软骨鱼纲","Chondrichthyes"],"order":["角鲨目","Squaliformes"],"family":["睡鲨科","Somniosidae"],"genus":["睡鲨属","Somniosus"]},"sections":{"intro":{"zh":"格陵兰睡鲨是一种大型鲨鱼，分布于北大西洋和北冰洋，是已知寿命最长的脊椎动物。","en":"The Greenland shark is a large shark of the family Somniosidae, inhabiting the North Atlantic and Arctic Oceans. It has the longest lifespan of any known vertebrate.","refs":["wiki"]},"body":{"zh":"成年个体通常长约 4 到 5 米，已确认的最大个体长 6.4 米。","en":"Adults grow to around 4 to 5 metres long, and the largest confirmed specimen measured 6.4 metres.","refs":["wiki"]},"habitat":{"zh":"它偏好冷水和深水，生活深度范围为 100 到 1200 米。","en":"It prefers cold water and deep water, between 100 and 1,200 metres deep.","refs":["wiki"]},"diet":{"zh":"它是广食性的捕食者，也吃腐肉。主要吃鲱鱼、鲑鱼、鳕鱼等鱼类，也吃海豹。","en":"It is a generalist feeder that also eats carrion. It mainly eats fish such as herring, salmon and cod, and also seals.","refs":["wiki"]},"repro":{"zh":"格陵兰睡鲨约 150 年才性成熟。它是卵胎生，妊娠期估计为 8 到 18 年，据报道每窝最多可产 10 只幼崽。","en":"Greenland sharks reach sexual maturity around 150 years of age. They are born alive after an estimated gestation of 8 to 18 years, and a litter may contain up to 10 pups.","refs":["wiki"]},"life":{"zh":"据估计，这一物种的寿命至少为 272 年，是已知脊椎动物中最长的。","en":"The species is estimated to live at least 272 years, the longest lifespan of any known vertebrate.","refs":["wiki"]},"status":{"zh":"其种群状况研究较少。格陵兰、挪威和冰岛仍有以其肝油为对象的渔业。海冰减少也可能影响它的猎物。","en":"Its population status is not well known. It supports a liver oil fishery in Greenland, Norway and Iceland.","refs":["adw","wiki"]}},"refs":{"wiki":{"title":"Greenland shark","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Greenland_shark"},"adw":{"title":"Somniosus microcephalus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Somniosus_microcephalus/"}}},"honeybee":{"sci":"Apis mellifera","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["膜翅目","Hymenoptera"],"family":["蜜蜂科","Apidae"],"genus":["蜜蜂属","Apis"]},"sections":{"intro":{"zh":"西方蜜蜂是最早被人类驯化的昆虫之一，至今仍是养蜂人饲养的主要蜜蜂。这里描述的是其中的工蜂，它是雌性，平时不能繁殖。","en":"The western honey bee was one of the first domesticated insects and is still the main bee kept by beekeepers. This entry describes the worker, a female that is normally non-reproductive.","refs":["wiki"]},"body":{"zh":"成年工蜂体长约 10 到 15 毫米。","en":"Adult workers are about 10 to 15 millimetres long.","refs":["adw","wiki"]},"habitat":{"zh":"西方蜜蜂现已分布于除南极洲以外的各大洲。它原本在非洲、中东和欧洲一带自然扩散，其后的大范围扩展是人类造成的。","en":"The western honey bee can be found on every continent except Antarctica. It spread naturally through Africa, the Middle East and Europe, and humans are responsible for much of its additional range.","refs":["wiki"]},"diet":{"zh":"工蜂从花上采集花蜜和花粉，把花蜜酿成蜂蜜，储存在蜂巢中。","en":"Workers collect flower nectar and pollen. They convert the nectar into honey, which is stored in the hive.","refs":["wiki"]},"repro":{"zh":"工蜂由受精卵发育而来，是通常不能繁殖的雌性。健康的蜂群中，所有的卵都由蜂王产下。","en":"Workers develop from fertilized diploid eggs and are normally non-reproductive females. In a healthy colony, the queen lays all the eggs.","refs":["wiki"]},"life":{"zh":"夏季出生的工蜂通常只活 2 到 4 周，在冬天存活下来的工蜂可活到 11 个月。工蜂面临的主要威胁是害虫和疾病，尤其是瓦螨和蜂群崩溃失调症。","en":"Summer workers live about 2 to 4 weeks, while those that survive the winter can live as long as 11 months. The main threats include pests and diseases, especially the Varroa mite and colony collapse disorder.","refs":["adw","wiki"]},"status":{"zh":"截至 2025 年，国际自然保护联盟红色名录将西方蜜蜂评为数据缺乏。它是养蜂人用来生产蜂蜜和传粉的主要蜂种。","en":"As of 2025, the western honey bee was assessed as Data Deficient on the IUCN Red List. It is the main species beekeepers keep for honey production and pollination.","refs":["wiki"]}},"refs":{"wiki":{"title":"Western honey bee","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Western_honey_bee"},"adw":{"title":"Apis mellifera","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Apis_mellifera/"}}},"housefly":{"sci":"Musca domestica","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["双翅目","Diptera"],"family":["蝇科","Muscidae"],"genus":["家蝇属","Musca"]},"sections":{"intro":{"zh":"家蝇可能是全球分布最广的昆虫，原产地或在中东，随人类活动扩散到世界各地。成虫呈灰色到黑色，胸部有四条深色纵纹。","en":"The housefly has spread around the world as a commensal of humans, probably from a place of origin in the Middle East. Adults are grey to black, with four dark longitudinal lines on the thorax.","refs":["wiki"]},"body":{"zh":"成虫体长通常为 6 到 7 毫米，眼睛为红色。雌蝇的眼睛间距更宽，身体比雄蝇稍大。","en":"Adults are usually 6 to 7 millimetres long and have red compound eyes. Females are slightly larger than males, with the eyes set farther apart.","refs":["wiki"]},"habitat":{"zh":"家蝇几乎分布于世界各地，北极和热带都有。它在热带数量尤其多。","en":"The housefly is probably the insect with the widest distribution in the world. It is present in the Arctic as well as the tropics, where it is abundant.","refs":["wiki"]},"diet":{"zh":"成蝇主要吃动物性物质、腐肉和粪便，也吃牛奶、含糖物质和腐烂的果蔬。它们先用唾液软化固体食物，再把食物吸入口中。","en":"Adults mainly eat animal matter, carrion and feces, but also consume milk, sugary substances and rotting fruit and vegetables. They soften solid food with saliva before sucking it up.","refs":["wiki"]},"repro":{"zh":"雌蝇通常只交配一次，并把精子储存起来慢慢使用。它把卵成批产在腐烂的有机物上，每批约 100 枚。卵孵化成蛆后，经过两到五天的发育化为蛹；整个生活史在最适条件下只需七到十天。","en":"A female usually mates only once and stores the sperm for later use. She lays batches of about 100 eggs on decaying organic matter, and the larvae pupate after two to five days. Under optimal conditions the whole life cycle takes seven to ten days.","refs":["wiki"]},"life":{"zh":"成蝇通常能活两到四周，有些会在冬天休眠。它的天敌包括鸟类、爬行动物、昆虫和蜘蛛，一种致死真菌会在约五天内杀死感染的苍蝇。","en":"Adults normally live for two to four weeks and some hibernate in winter. Predators include birds, reptiles, amphibians, insects and spiders, and the fungus Entomophthora muscae kills infected flies in about five days.","refs":["wiki"]},"status":{"zh":"家蝇数量极多，不属于受威胁物种，但被视为害虫，因为它们会携带病原体并污染食物。","en":"Houseflies are highly abundant and not threatened or endangered. They are considered pests because they can carry pathogens and contaminate food.","refs":["adw","wiki"]}},"refs":{"wiki":{"title":"Housefly","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Housefly"},"adw":{"title":"Musca domestica","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Musca_domestica/"}}},"human":{"sci":"Homo sapiens","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["灵长目","Primates"],"family":["人科","Hominidae"],"genus":["人属","Homo"]},"sections":{"intro":{"zh":"人类（智人，Homo sapiens）是数量最多、分布最广的灵长类动物。人类用两条腿直立行走，体毛稀少，大脑大而结构复杂，能发展出复杂的技术、文化和语言。","en":"Humans (Homo sapiens) are the most abundant and widespread primate species. They walk upright on two legs, have little body hair, and have large, complex brains.","refs":["wiki"]},"habitat":{"zh":"人类分布在全球各地的陆地环境中，除南极洲以外的各大洲以及大多数适合居住的海岛上都有永久定居点。人类还大范围改造栖息地，使其他物种能生存的范围缩小。","en":"Humans live in all terrestrial habitats worldwide, with permanent settlements on every continent except Antarctica. They also modify habitats extensively, which leaves a much smaller set of other species able to live in those areas.","refs":["adw"]},"diet":{"zh":"人类是杂食动物，既吃植物也吃动物，饮食随当地的食物资源而有很大不同。有些文化只吃素，依靠植物蛋白质获取营养。人类还会用火烹饪食物。","en":"Humans are omnivores that eat a wide variety of plant and animal food, and they have used fire to cook it. Some cultures eat a vegetarian diet.","refs":["wiki","adw"]},"repro":{"zh":"人类全年都能繁殖。妊娠期平均约 40 周。新生儿出生时无法自理，父母双方通常都会共同照顾后代。","en":"Humans can breed throughout the year. Pregnancy lasts an average of 40 weeks, and newborns are helpless at birth, so both parents usually care for the young.","refs":["adw","wiki"]},"life":{"zh":"多数人能活到 50 至 80 岁，前提是能度过最脆弱的童年。人类几乎没有天敌，在一些地区的生态系统中常处于食物链的顶端。","en":"Most humans live 50 to 80 years, provided they survive childhood. Humans have few natural predators and often sit at or near the top of the food chain in regional ecosystems.","refs":["adw"]},"status":{"zh":"全球人口在 2026 年已超过八十亿，但一些地区或孤立的人群可能因经济、疾病、栖息地退化、迁移和文化消退而数量下降。","en":"Over 8.3 billion humans lived on Earth in 2026, although some regional or isolated populations may be in decline.","refs":["adw","wiki"]}},"refs":{"wiki":{"title":"Human","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Human"},"adw":{"title":"Homo sapiens","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Homo_sapiens/"}}},"krill":{"sci":"Euphausia superba","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["软甲纲","Malacostraca"],"order":["磷虾目","Euphausiacea"],"family":["磷虾科","Euphausiidae"],"genus":["磷虾属","Euphausia"]},"sections":{"intro":{"zh":"南极磷虾（Euphausia superba）是分布于南大洋南极水域的一种小型甲壳动物，常成群游动，是南极生态系统中的关键物种。","en":"Antarctic krill (Euphausia superba) is a small, swimming crustacean found in Antarctic waters of the Southern Ocean. It lives in large schools and is a key species in the Antarctic ecosystem.","refs":["wiki","adw"]},"body":{"zh":"成体体长约 5–6.5 厘米，平均体重约 2 克，身体呈粉红色，外壳坚硬。","en":"Adults are 5 to 6.5 centimetres long and weigh about 2 grams on average. The body is pink and slightly opaque, with a hard, calcified exoskeleton.","refs":["wiki","adw"]},"habitat":{"zh":"生活在南大洋和印度洋一侧的南极开阔海域，包括南极半岛一带，分布范围从南极大陆架边缘延伸到南极极锋带。成体多在表层至约 350 米深的水层活动。","en":"Antarctic krill live in open Antarctic waters, including the Antarctic Peninsula region. Their distribution spans the Antarctic continental shelf break to the Antarctic Polar Frontal Zone. Adults are found from the surface to depths of 350 metres.","refs":["adw"]},"diet":{"zh":"主要以浮游植物为食，尤其是很小的硅藻，它们用胸足组成的“摄食篮”从水中滤取食物。也会捕食桡足类等小型浮游动物。","en":"Antarctic krill feed mainly on phytoplankton, especially very small diatoms, which they filter from the water with a feeding basket. They can also catch copepods and other small zooplankton.","refs":["wiki"]},"repro":{"zh":"雌虫一次可产卵约 6000–10000 枚，多在深水中产卵，卵会在海底附近开始发育。达到成熟通常需要两到三年。","en":"Females lay about 6,000 to 10,000 eggs at a time, in deep water, and eggs begin development on the sea floor. Krill reach maturity after two to three years.","refs":["wiki","adw"]},"life":{"zh":"寿命平均约 5–7 年。它是许多海洋哺乳动物、鱼类和鸟类的食物，成群游动可减少个体被捕食的风险。","en":"The average lifespan of Antarctic krill is 5 to 7 years. It is prey for many marine mammals, fishes and birds, and schooling helps it avoid being singled out by predators.","refs":["adw"]},"status":{"zh":"是地球上数量最多的动物物种之一；过度捕捞受到一些保护团体的关注。","en":"It is one of the most abundant animal species on the planet. Overfishing is a concern to some conservation groups.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Antarctic krill","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Antarctic_krill"},"adw":{"title":"Euphausia superba (Antarctic krill)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Euphausia_superba/"}}},"lanternfish":{"sci":"Myctophidae","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["灯笼鱼目","Myctophiformes"],"family":["灯笼鱼科","Myctophidae"]},"sections":{"intro":{"zh":"灯笼鱼是灯笼鱼科（Myctophidae）的小型中层鱼类，因能发出生物荧光而得名，遍布全球大洋，是分布最广的脊椎动物之一。","en":"Lanternfish are small mesopelagic fish of the family Myctophidae. They are named after their conspicuous use of bioluminescence, are found in oceans worldwide, and are among the most widely distributed vertebrates.","refs":["wiki"]},"body":{"zh":"体长多为 2 至 30 厘米，多数不到 15 厘米。身体上的发光器呈成对排列，集中在身体两侧和头部，可发出微弱的蓝、绿或黄色光。","en":"Lanternfish are generally 2 to 30 centimetres long, with most under 15 centimetres. Their light-producing organs are arranged in rows on the body and head, and they emit a weak blue, green or yellow light.","refs":["wiki"]},"habitat":{"zh":"白天多数种类停留在 300 至 1500 米深的中层水域，黄昏后上升到 10 至 100 米深的表层水域。多数种类在大陆坡上方成群游动。","en":"By day most species stay between 300 and 1,500 metres deep, and at sundown they rise to between 10 and 100 metres. Most species remain near the coast, schooling over the continental slope.","refs":["wiki"]},"diet":{"zh":"夜间在表层水中取食浮游动物，黎明前又回到黑暗的深水中。它们黄昏上浮，被认为一定程度上是为了躲避捕食。","en":"At night they feed on zooplankton in the surface layers and return to the depths by daybreak. They rise at dusk partly to avoid predation.","refs":["wiki"]},"life":{"zh":"它们是许多海洋动物的重要食物，会被鲸、海豚、大型中上层鱼类、鲨鱼和海鸟（尤其是企鹅）等捕食。","en":"Lanternfish are a major source of food for many marine animals. They are heavily preyed upon by whales and dolphins, large pelagic fish such as salmon, tuna and sharks, and sea birds, notably penguins.","refs":["wiki"]},"status":{"zh":"是分布最广、数量最多的脊椎动物之一，估计生物量可达 1.8 至 16 千兆吨。南非近海、亚南极区和阿曼湾有商业捕捞。","en":"Lanternfish are among the most widely distributed and populous vertebrates, with an estimated global biomass of 1.8 to 16 gigatonnes. Commercial fisheries for them exist off South Africa, in the sub-Antarctic and in the Gulf of Oman.","refs":["wiki"]}},"refs":{"wiki":{"title":"Lanternfish","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Lanternfish"}}},"layer_hen":{"sci":"Gallus gallus domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["鸡形目","Galliformes"],"family":["雉科","Phasianidae"],"genus":["原鸡属","Gallus"]},"sections":{"intro":{"zh":"用于产蛋的鸡称为蛋鸡。蛋鸡产蛋量高，但通常在产蛋期结束后也会被宰杀作为肉用。","en":"Chickens kept for eggs are called layers. Flocks are usually slaughtered after about 12 months of egg production, when they are considered economically unviable.","refs":["wiki"]},"body":{"zh":"部分商品蛋鸡品种一年可产 300 多枚蛋。","en":"Some commercial breeds can produce over 300 eggs a year.","refs":["wiki"]},"habitat":{"zh":"许多国家的蛋鸡养在层架式铁笼中，每个笼子通常养 3 至 8 只鸡，每只鸡分到的空间常被形容为小于一张 A4 纸，约 623 平方厘米。","en":"Most hens in many countries are housed in battery cages of 3 to 8 hens, with less space per bird than a sheet of A4 paper (623 cm2).","refs":["wiki"]},"repro":{"zh":"商品蛋鸡通常在 16 至 21 周龄开始产蛋，约 25 周龄后产蛋率逐渐下降。","en":"Commercial hens usually begin laying at 16 to 21 weeks of age, and production gradually declines from about 25 weeks.","refs":["wiki"]},"life":{"zh":"鸡在自然状态下可以活 6 年以上，但商品蛋鸡通常在产蛋约 12 个月后就被淘汰宰杀。","en":"Chickens can naturally live 6 or more years, but commercial laying flocks are usually slaughtered after about 12 months of egg production.","refs":["wiki"]},"status":{"zh":"全球每年有六百多亿只鸡被宰杀食用。","en":"More than 60 billion chickens are killed for consumption each year.","refs":["wiki"]}},"refs":{"wiki":{"title":"Poultry farming","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Poultry_farming"}}},"lion":{"sci":"Panthera leo","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["猫科","Felidae"],"genus":["豹属","Panthera"]},"sections":{"intro":{"zh":"狮（Panthera leo）是豹属中的大型猫科动物，现今只分布在撒哈拉以南非洲和印度。狮是一种群居的猫科动物，它们组成的群体称为狮群。","en":"The lion (Panthera leo) is a large cat of the genus Panthera, living only in sub-Saharan Africa and India. It is a social species that forms groups called prides.","refs":["wiki"]},"body":{"zh":"雄狮比雌狮大，并有明显的鬃毛。成年雄狮通常体重约 189 公斤，有记录的最重雄狮重 272 公斤。","en":"Adult male lions are larger than females and have a prominent mane. Adult males typically weigh 189 kg, and the heaviest recorded male weighed 272 kg.","refs":["wiki","adw"]},"habitat":{"zh":"狮子生活在草原、稀树草原和灌丛中。非洲狮生活在有大量猎物的平原或稀树草原上。","en":"Lions inhabit grasslands, savannas and shrublands. African lions live in plains or savanna habitat with a large prey base, and they can also live in most habitats except tropical rainforests.","refs":["adw","wiki"]},"diet":{"zh":"狮子是顶级捕食者，主要捕食中型和大型有蹄类哺乳动物。雌狮通常结群共同狩猎。","en":"Lions are apex predators. Their prey consists mainly of medium-sized to large hooved mammals, particularly blue wildebeest, plains zebra, African buffalo, gemsbok and giraffe, and groups of females usually hunt together.","refs":["wiki"]},"repro":{"zh":"雌狮 4 岁起可以繁殖，雄狮 5 岁起可以繁殖。一胎生一到六只幼崽，妊娠期约 3.5 个月。","en":"Females breed from 4 years of age and males from 5 years. One to six cubs are born after a gestation of 3.5 months. Mother lions keep their cubs in hiding until they reach about 8 weeks of age.","refs":["adw"]},"life":{"zh":"雌狮通常比雄狮活得长。雄狮在五到九岁时最为强壮，但很少有雄狮能活过十岁。成年狮子除人类迫害外没有天敌。","en":"Female lions typically live longer than males. Males reach their prime between five and nine years, but few survive past ten years of age. Adult lions have no natural predators, apart from persecution by humans.","refs":["adw"]},"status":{"zh":"自 1996 年起，国际自然保护联盟红色名录将狮子列为易危。非洲各国的狮子数量自二十世纪九十年代初以来下降了约 43%。","en":"The IUCN has listed the lion as Vulnerable since 1996, because African populations have declined by about 43% since the early 1990s. African lions now live in scattered populations across sub-Saharan Africa.","refs":["wiki"]}},"refs":{"wiki":{"title":"Lion","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Lion"},"adw":{"title":"Panthera leo","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Panthera_leo/"}}},"mayfly":{"sci":"Ephemeroptera","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["蜉蝣目","Ephemeroptera"]},"sections":{"intro":{"zh":"蜉蝣是蜉蝣目（Ephemeroptera）的水生昆虫，已知全世界超过 3000 种。幼虫生活在淡水中，成虫阶段非常短暂。","en":"Mayflies are aquatic insects in the order Ephemeroptera. Over 3,000 species, grouped into over 400 genera, are known worldwide, and their immature stages live in fresh water.","refs":["wiki"]},"body":{"zh":"成虫有长尾丝，翅不能平放在腹部上方，静止时直立。幼虫体长约 3–30 毫米，随种类而不同。","en":"Adults have long tails, and their wings do not fold flat over the abdomen. Nymphs range from 3 to 30 millimetres long, depending on species.","refs":["wiki"]},"habitat":{"zh":"幼虫主要生活在溪流中石块下、腐烂植物或沉积物里，少数种类生活在湖泊中。幼虫的存在通常表示水体清洁、含氧量高。","en":"Nymphs mainly live in streams, under rocks, in decaying vegetation or in sediments. Few species live in lakes. Their presence indicates clean, highly oxygenated water.","refs":["wiki"]},"diet":{"zh":"多数幼虫以藻类、硅藻和碎屑为食，少数种类捕食摇蚊等小型昆虫幼虫。成虫不取食。","en":"Most nymphs eat algae, diatoms or detritus, while a few prey on midge larvae and other small insect larvae. Some can switch feeding groups as they grow. Adults do not feed.","refs":["wiki"]},"repro":{"zh":"雌虫通常产卵数百到三千枚，卵多落入水中并沉到底部。雄虫常在水面上方成群舞动，雌虫飞入其中，在空中交配。","en":"Females typically lay between four hundred and three thousand eggs, which usually sink to the bottom. Males swarm a few metres above the water, and mating takes place in the air.","refs":["wiki"]},"life":{"zh":"成虫寿命很短，有的种类只有几分钟。亚成虫阶段通常不超过 24 小时。鱼类是它们的主要捕食者之一。","en":"Adult lifespan is very short, and in some species lasts only minutes. The subimago stage rarely lasts more than 24 hours, and fish are among the main predators.","refs":["wiki"]},"status":{"zh":"在一两天的羽化期内数量极多，钓鱼者常选用仿照它的人造钓饵。幼虫是水生食物链中的重要环节。","en":"During a hatch, mayflies are extremely abundant, and fly fishermen use artificial flies that resemble them. Their nymphs form an important part of the aquatic food chain.","refs":["wiki"]}},"refs":{"wiki":{"title":"Mayfly","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Mayfly"}}},"mite":{"sci":"Oribatida","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["蛛形纲","Arachnida"],"order":["疥螨目","Sarcoptiformes"]},"sections":{"intro":{"zh":"甲螨（Oribatida）是螨类中的一个类群，也叫苔螨，是森林土壤中数量最多的节肢动物之一。","en":"Oribatid mites, or Oribatida, are a group of mites, also known as moss mites or beetle mites. They are by far the most prevalent arthropods in forest soils.","refs":["wiki"]},"body":{"zh":"体长约 0.2–1.4 毫米。许多成体具有矿化的外骨骼，有些种类还能把腿收到甲下。","en":"Oribatid mites range from 0.2 to 1.4 millimetres long. Many adults have a mineralized exoskeleton, and some can tuck their legs underneath their protective armour.","refs":["wiki"]},"habitat":{"zh":"多数种类生活在潮湿的林地表面和落叶层中，在有厚有机质层的森林中密度最高。少数种类生活在水生植物上，还有些种类适应干燥环境。","en":"Most species live on the moist forest floor and in its leaf litter, and their density is highest in forests with thick organic layers. A few species live on aquatic plants, and some are suited to dry conditions.","refs":["wiki"]},"diet":{"zh":"以活的或死亡的植物、真菌、地衣和腐肉等为食，有些种类会捕食其他小动物。同一种的幼体和成体取食习性可能不同。","en":"They feed on living and dead plant and fungal material, lichens and carrion, and some species are predatory. Feeding habits may differ between immatures and adults of the same species.","refs":["wiki"]},"repro":{"zh":"发育很慢，在温带森林土壤中从卵到成体可能需要几个月到两年，成体寿命相对较长。","en":"Development is slow. In temperate forest soils, it can take from several months to two years to go from egg to adult, and adults live a relatively long time.","refs":["wiki"]},"life":{"zh":"成体寿命相对较长。成体有硬化的外甲，部分种类能把腿收到甲下，以防御捕食。毒蛙会捕食部分甲螨。","en":"Adults live a relatively long time. They are protected by a hard armour, and some can tuck their legs beneath it. Poison dart frogs prey on some species.","refs":["wiki"]},"status":{"zh":"已知约 12000 种，全球总数估计在 60000 至 120000 种之间。它们是森林土壤中数量最多的节肢动物之一。","en":"About 12000 species have been identified, and the total number is estimated at 60000 to 120000. They are by far the most prevalent arthropods in forest soils.","refs":["wiki"]}},"refs":{"wiki":{"title":"Oribatida","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Oribatida"}}},"mosquito":{"sci":"Aedes albopictus","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["双翅目","Diptera"],"family":["蚊科","Culicidae"],"genus":["伊蚊属","Aedes"]},"sections":{"intro":{"zh":"白纹伊蚊分布于世界热带和亚热带地区。它的腿和身体上有白色条纹，因此常被称为虎纹蚊。","en":"The Asian tiger mosquito is found in the tropical and subtropical areas of the world. It has white bands on its legs and body, which is why it is often called a tiger mosquito.","refs":["wiki"]},"body":{"zh":"成虫体长不到 10 毫米，身体上有醒目的黑白相间斑纹。雄蚊比雌蚊小约 20%。","en":"Adults are less than 10 millimetres long and have a striking black and white pattern. Males are roughly 20% smaller than females.","refs":["wiki"]},"habitat":{"zh":"白纹伊蚊原产东南亚，现在热带和亚热带地区都有分布。它也能适应较凉爽的温带地区，并在那里越冬。","en":"The Asian tiger mosquito originally came from Southeast Asia and is now found in tropical and subtropical areas of the world. It has also adapted to cooler temperate regions, where it hibernates over winter.","refs":["wiki"]},"diet":{"zh":"只有雌蚊需要吸血，用来发育卵；雌雄蚊平时都以花蜜和植物汁液为食。","en":"Only females need a blood meal, which they use to develop their eggs. Both sexes otherwise feed on nectar and other sweet plant juices.","refs":["wiki"]},"repro":{"zh":"雌蚊把卵产在积水附近而不是直接产在水里，卵被水淹没后开始孵化。","en":"Females lay their eggs near water rather than directly in it. The eggs begin hatching once they are submerged in a stagnant pool of water.","refs":["wiki","adw"]},"life":{"zh":"在温带、湿度较高的环境里，成蚊的平均寿命约为 30 到 40 天。幼虫的天敌包括其他蚊子幼虫、扁虫和水生甲虫。","en":"In a temperate climate with relatively high humidity, average adult lifespan was 30 to 40 days. Its larvae are eaten by other mosquito larvae, flatworms and swimming beetles.","refs":["wiki","adw"]},"status":{"zh":"白纹伊蚊是重要的卫生害虫和病媒，能传播登革热、基孔肯雅热等病毒，白天也常在人群附近活动。","en":"It is an important disease vector and pest. It can transmit viruses such as dengue and Chikungunya fever, and it often flies and feeds in daytime near humans.","refs":["wiki"]}},"refs":{"wiki":{"title":"Aedes albopictus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Aedes_albopictus"},"adw":{"title":"Aedes albopictus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Aedes_albopictus/"}}},"nematode":{"sci":"Nematoda","lineage":{"phylum":["线虫动物门","Nematoda"]},"sections":{"intro":{"zh":"线虫是线虫动物门（Nematoda）的动物，身体呈细长的蠕虫状，表面有一层有弹性的角质层。它们已适应地球上几乎所有的生态系统。","en":"Nematodes, or roundworms, are worm-like animals covered by a flexible cuticle. They have adapted to nearly every ecosystem on Earth, from marine and fresh water to soils and the polar regions.","refs":["wiki","adw"]},"body":{"zh":"身体两侧对称，外面包着一层有弹性的角质层，身体结构简单。消化管为管状，两端都有开口。","en":"Their body is bilaterally symmetrical and their body plan is simple. The muscles run only lengthwise, and the digestive tube has openings at both ends.","refs":["wiki","adw"]},"habitat":{"zh":"生活在海水、淡水和土壤中，约 90% 的线虫生活在土壤表层 15 厘米以内。它们的分布从极地延伸到热带。","en":"Nematodes live in seas, fresh water and soils. About 90% of them live in the top 15 centimetres of soil, and they are found from the polar regions to the tropics.","refs":["wiki"]},"diet":{"zh":"自由生活的种类以细菌、藻类、真菌、腐殖质和小型动物为食。线虫可以每分钟吃掉多达 5000 个细菌，并帮助调节土壤中的细菌数量。","en":"Free-living species feed on bacteria, algae, fungi, small animals and dead matter. Nematodes may eat up to 5000 bacteria per minute, and they can effectively regulate soil bacterial populations.","refs":["wiki"]},"repro":{"zh":"多数种类为雌雄异体，通过交配受精。卵孵化出的幼虫外形与成虫基本相同，但生殖系统尚未发育。","en":"Most nematode species have separate sexes. In free-living species, eggs hatch into larvae that look essentially like the adults but have an underdeveloped reproductive system.","refs":["wiki"]},"life":{"zh":"许多种类是寄生者，会感染人、家畜和作物，部分植物寄生线虫会造成严重的作物损失。土壤中也有能捕食线虫的真菌。","en":"A number of nematodes are parasites of humans, livestock and crops. Plant-parasitic nematodes include several groups causing severe crop losses, and predatory fungi that trap them live in soil.","refs":["adw","wiki"]},"status":{"zh":"在许多生境中，线虫的个体数和物种数常超过其他动物，甚至能在地壳的很深处找到。","en":"They often outnumber other animals in both number of individuals and number of species. They are found in every part of the Earth's lithosphere, even at great depths.","refs":["wiki"]}},"refs":{"wiki":{"title":"Nematode","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Nematode"},"adw":{"title":"Nematoda (roundworms)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Nematoda/"}}},"octopus":{"sci":"Octopus vulgaris","lineage":{"phylum":["软体动物门","Mollusca"],"class":["头足纲","Cephalopoda"],"order":["八腕目","Octopoda"],"family":["章鱼科","Octopodidae"],"genus":["章鱼属","Octopus"]},"sections":{"intro":{"zh":"普通章鱼是一种软体动物，属于头足纲。它是研究最多的章鱼之一，也是最聪明的章鱼之一。","en":"The common octopus is a mollusk belonging to the class Cephalopoda. It is one of the most studied octopus species and also one of the most intelligent.","refs":["wiki"]},"body":{"zh":"成体胴长可达 25 厘米，腕长可达 1 米，体重最多约 9 千克。","en":"It grows to a mantle length of 25 centimetres, with arms up to 1 metre long, and may weigh up to 9 kilograms.","refs":["wiki"]},"habitat":{"zh":"普通章鱼分布于热带、亚热带和温带海域。它多生活在较浅、多岩石的近岸海底，通常不深于 200 米。","en":"The common octopus lives in tropical, subtropical and temperate waters worldwide. It prefers the floor of shallow, rocky coastal waters, often no deeper than 200 metres.","refs":["wiki"]},"diet":{"zh":"它主要以腹足类和双壳类为食，也偏爱螃蟹和龙虾，几乎能吃掉任何能抓到的猎物。","en":"It feeds mainly on gastropods and bivalves. Crabs and lobsters are also preferred prey, and it will eat almost anything it can catch.","refs":["adw","wiki"]},"repro":{"zh":"雌章鱼一生可产十万到五十万枚卵，卵附着在浅水的基质上。雌性在产卵和孵化期间很少离开卵群，幼体孵出后不久便死去。","en":"A female lays 100,000 to 500,000 eggs in her lifetime, attached to a substrate in shallow water. She rarely leaves the egg mass while brooding and usually dies shortly after the last embryos hatch.","refs":["adw"]},"life":{"zh":"普通章鱼的寿命约为 12 到 24 个月。","en":"The common octopus has a life span of 12 to 24 months.","refs":["adw"]},"status":{"zh":"普通章鱼是重要的渔业对象，每年捕捞量超过两万吨，主要由底拖网在非洲西北海岸捕获。目前没有被特别列为濒危，但存在过度捕捞的风险。","en":"The common octopus is a major fishery species, with more than 20,000 tonnes harvested annually, mainly by bottom trawls off northwest Africa. There is potential for overfishing, but at this time it is not at any specific risk.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Common octopus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Common_octopus"},"adw":{"title":"Octopus vulgaris","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Octopus_vulgaris/"}}},"panda":{"sci":"Ailuropoda melanoleuca","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["熊科","Ursidae"],"genus":["大熊猫属","Ailuropoda"]},"sections":{"intro":{"zh":"大熊猫（Ailuropoda melanoleuca）是中国特有的熊科物种。它的身体大部分是白色的，眼睛、耳朵、四肢和肩部有黑色斑块。","en":"The giant panda (Ailuropoda melanoleuca) is a bear species endemic to China. It is characterised by a white coat with black patches around the eyes, ears, legs and shoulders.","refs":["wiki"]},"body":{"zh":"大熊猫身体圆胖，成年个体通常体重 100 至 115 公斤，体长 1.2 至 1.9 米。前掌上有一个类似拇指的结构，帮助它抓住竹子。","en":"Giant pandas have a rotund body. Adults typically weigh 100 to 115 kg and are typically 1.2 to 1.9 m long. A thumb-like structure on the forepaw helps hold bamboo in place while feeding.","refs":["wiki"]},"habitat":{"zh":"大熊猫生活在有竹子的山地森林中。它们分布在中国六个山区的小而分散的种群中，主要在四川，也分布在陕西和甘肃。","en":"Giant pandas inhabit montane forests where bamboo is present. They live in small, fragmented populations in six mountainous regions, mainly in Sichuan, and also in Shaanxi and Gansu.","refs":["adw","wiki"]},"diet":{"zh":"大熊猫以竹子为主食，几乎全部食物都是竹子和竹笋。成年大熊猫每天约吃 9 至 14 公斤竹笋，每天可花 10 至 12 小时进食。","en":"Giant pandas are mostly herbivores, with a diet consisting almost entirely of bamboo and bamboo shoots. An average panda eats 9 to 14 kg of bamboo shoots per day and can spend 10 to 12 hours a day feeding.","refs":["wiki","adw"]},"repro":{"zh":"妊娠期在 95 至 160 天之间，变化较大。新生幼崽是粉红色的，眼睛看不见，没有牙齿，体重只有 90 至 130 克。母熊猫通常把幼崽抚养 18 至 24 个月，并可能每 2 年或更久才繁殖一次。","en":"The gestation period is somewhere between 95 and 160 days. A newborn cub is pink, blind and toothless, weighing 90 to 130 g. Females rear cubs for 18 to 24 months and may breed every 2 years or less often.","refs":["wiki","adw"]},"life":{"zh":"圈养条件下，正常的最长寿命约为 26 年，有一只大熊猫曾活到约 34 岁。成年大熊猫几乎没有天敌，但幼崽容易遭到雪豹、黄喉貂、鹰、野狗和亚洲黑熊等动物的攻击。","en":"In captivity, the normal maximum life expectancy is 26 years, and one panda lived to about 34 years. Adult giant pandas have few natural predators, but young cubs are vulnerable to attacks by snow leopards, yellow-throated martens, eagles, feral dogs and Asian black bears.","refs":["adw","wiki"]},"status":{"zh":"自 2016 年起，国际自然保护联盟红色名录将大熊猫列为易危。全国大熊猫调查估计，野生大熊猫的数量已增至 1864 只（1.5 岁以上，不含依赖母亲的幼崽）。","en":"The IUCN has listed the giant panda as Vulnerable since 2016. A national survey estimated the wild population, aged over 1.5 years, at 1,864 individuals.","refs":["wiki"]}},"refs":{"wiki":{"title":"Giant panda","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Giant_panda"},"adw":{"title":"Ailuropoda melanoleuca","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Ailuropoda_melanoleuca/"}}},"penguin":{"sci":"Aptenodytes forsteri","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["企鹅目","Sphenisciformes"],"family":["企鹅科","Spheniscidae"],"genus":["王企鹅属","Aptenodytes"]},"sections":{"intro":{"zh":"帝企鹅是现存企鹅中最高、最重的一种，只分布于南极洲。它是唯一在南极冬季繁殖的企鹅物种。","en":"The emperor penguin is the tallest and heaviest living penguin and lives only in Antarctica. It is the only penguin species that breeds during the Antarctic winter.","refs":["wiki","adw"]},"body":{"zh":"雌雄体形和羽色相近，体长可达 100 厘米，体重约 22 至 45 公斤。头部和背部是黑色，腹部是白色，胸部淡黄，耳斑亮黄。","en":"Males and females look alike in size and plumage. They reach about 100 cm in length and weigh 22 to 45 kg, with black heads and backs and white bellies.","refs":["wiki"]},"habitat":{"zh":"帝企鹅只生活在南极洲及其附近海域。它们几乎总在近岸的稳定海冰上繁殖，离岸最远约 18 公里。","en":"Emperor penguins live only in the Antarctic. They almost always breed on stable pack ice near the coast, up to 18 km offshore.","refs":["wiki","adw"]},"diet":{"zh":"主要吃鱼，也吃磷虾等甲壳类和鱿鱼等头足类。觅食时可在水下停留约 20 分钟，潜水深度最大可达 535 米。","en":"It feeds mainly on fish, along with crustaceans such as krill and cephalopods such as squid. While hunting, it can stay submerged for about 20 minutes and dive to 535 m.","refs":["wiki"]},"repro":{"zh":"雌雄企鹅要在冰面上跋涉 50 至 120 公里到达繁殖地，繁殖地可能有数千只个体。雌鸟只产一枚卵，由雄鸟孵化两个多月，雌鸟则回海里觅食。","en":"Emperor penguins walk 50 to 120 km over the ice to breeding colonies of up to several thousand birds. The female lays a single egg, which the male incubates for just over two months while the female feeds at sea.","refs":["wiki"]},"life":{"zh":"野外寿命通常约 20 年，少数个体可能活到 50 岁。主要的威胁包括饥饿、捕食者和恶劣天气。","en":"The typical lifespan in the wild is 20 years, and some individuals may live to 50. Main dangers include starvation, predators and harsh weather.","refs":["wiki","adw"]},"status":{"zh":"国际自然保护联盟在 2012 年把帝企鹅从无危调整为近危。主要风险是食物资源减少，原因包括气候变化和工业捕捞。","en":"The IUCN Red List moved the emperor penguin from least concern to near threatened in 2012. The main risks are declining food supply from climate change and industrial fishing.","refs":["wiki"]}},"refs":{"wiki":{"title":"Emperor penguin","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Emperor_penguin"},"adw":{"title":"Aptenodytes forsteri","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Aptenodytes_forsteri/"}}},"pig":{"sci":"Sus scrofa domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["猪科","Suidae"],"genus":["猪属","Sus"]},"sections":{"intro":{"zh":"猪是一种杂食性、已驯化的偶蹄类哺乳动物，人们主要饲养它来获取猪肉。","en":"The pig is an omnivorous, domesticated, even-toed hoofed mammal. It is farmed mainly for its meat, which is called pork.","refs":["wiki"]},"body":{"zh":"成年猪体重一般在 140 至 300 公斤之间，有些品种可以超过这个范围。","en":"Adult pigs generally weigh between 140 and 300 kg, though some breeds can exceed this range.","refs":["wiki"]},"habitat":{"zh":"在工业化国家，猪的饲养已大多转向大规模的集约化养殖。","en":"In industrialized nations, pig production has largely switched to large-scale intensive farming.","refs":["wiki"]},"repro":{"zh":"母猪 3 至 12 月龄达到性成熟，未配种时每 18 至 24 天发情一次。妊娠期平均 112 至 120 天。","en":"Female pigs reach sexual maturity at 3 to 12 months of age, and the gestation period averages 112 to 120 days.","refs":["wiki"]},"life":{"zh":"猪的最长寿命约 27 年。","en":"Pigs have a maximum life span of about 27 years.","refs":["wiki"]},"status":{"zh":"中国是世界上最大的猪肉生产国。","en":"China is the world's largest pork producer.","refs":["wiki"]}},"refs":{"wiki":{"title":"Pig","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Pig"}}},"pigeon":{"sci":"Columba livia","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["鸽形目","Columbiformes"],"family":["鸠鸽科","Columbidae"],"genus":["鸽属","Columba"]},"sections":{"intro":{"zh":"城市鸽由家养原鸽逃逸或被放生后野化形成，与原鸽是同一物种。它们以楼房代替崖壁筑巢，在世界上大部分城市都很常见。","en":"Feral pigeons descend from domesticated rock doves that escaped or were released and now live on their own. They are the same species as wild rock doves and are abundant in towns and cities throughout much of the world.","refs":["wiki"]},"body":{"zh":"体形和大小与野生原鸽基本相同，但羽色和斑纹的变化比原鸽丰富得多。城市里的鸽子羽色通常比乡村的更深。","en":"Feral pigeons are essentially the same size and shape as wild rock doves, with far more variation in colour and pattern. Urban pigeons tend to have darker plumage than rural ones.","refs":["wiki"]},"habitat":{"zh":"原鸽原产于欧洲、北非和亚洲西南部。城市野鸽则栖息在楼房等人造建筑上，代替了崖壁。","en":"Rock doves are native to Europe, North Africa and southwestern Asia. Feral pigeons live on man-made structures such as buildings in place of cliffs.","refs":["adw","wiki"]},"diet":{"zh":"它们主要吃种子。在城市里，还会吃爆米花、面包、花生等人类食物。","en":"They eat mainly seeds. In cities, feral pigeons also eat popcorn, cake, peanuts and bread.","refs":["adw"]},"repro":{"zh":"配对关系长期稳定，雄鸟筑巢，雌雄双方共同孵卵。卵在巢做好后不久产下，约 19 天孵化。","en":"Pairs are formed for life, and the male builds the nest. Both sexes incubate the eggs, which hatch about 19 days after being laid.","refs":["adw"]},"status":{"zh":"许多城市把它们视为有害动物，采取措施减少它们的数量。有的城市发现，停止喂食后，本地鸽群数量在几年内明显下降。","en":"Many cities treat feral pigeons as pests and take action to reduce their numbers. Some cities have found that stopping feeding causes a steady population decrease within a few years.","refs":["wiki"]}},"refs":{"wiki":{"title":"Feral pigeon","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Feral_pigeon"},"adw":{"title":"Columba livia","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Columba_livia/"}}},"rat":{"sci":"Rattus norvegicus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["啮齿目","Rodentia"],"family":["鼠科","Muridae"],"genus":["大鼠属","Rattus"]},"sections":{"intro":{"zh":"褐家鼠又称挪威鼠，是常见的城市野生鼠类，除南极洲外几乎遍布各大洲。它们善于记路，能在复杂的下水道和洞穴网络中往来。","en":"The brown rat, also called the Norway rat, is found on every continent except Antarctica. It can learn its way around complex sewer and burrow networks.","refs":["adw"]},"body":{"zh":"成年鼠体长（鼻尖到尾尖）接近 400 毫米，体重约 140 至 500 克。雄鼠通常比雌鼠大。","en":"Adults reach nearly 400 mm from nose to tail and weigh 140 to 500 g. Males are usually larger than females.","refs":["adw"]},"habitat":{"zh":"它们生活在垃圾场、下水道、开阔地和林地等多种环境中，几乎任何有食物和庇护的地方都能找到它们。","en":"They live in a variety of habitats, including garbage dumps, sewers, open fields and woodlands, and nearly anywhere that food and shelter can be found.","refs":["adw"]},"diet":{"zh":"它们主要吃植物，但在可以选择时更偏爱肉类。","en":"Most of the food found in their stomachs is plant material, but they prefer meat when given the option.","refs":["adw"]},"repro":{"zh":"一年四季都能繁殖，寒冷的月份里稍少。怀孕期 22 至 24 天，每胎约 8 只幼鼠，幼鼠 14 至 17 天后睁眼。","en":"Breeding occurs year round, less so in cold months. Gestation lasts 22 to 24 days, with litters of about 8 pups, and the young's eyes open at 14 to 17 days.","refs":["adw"]},"life":{"zh":"在野外，它们通常能活两年以上，圈养时最长可达 4 年。它们被食肉哺乳类、鸟类和爬行类捕食，人类也大量捕杀它们。","en":"In the wild they usually live more than 2 years, and the maximum lifespan in captivity is 4 years. They are preyed on by carnivorous mammals, birds and reptiles, and people kill large numbers of them.","refs":["adw"]},"status":{"zh":"有人认为，褐家鼠是有史以来最严重的哺乳动物害虫之一。","en":"Some consider the brown rat to be the greatest mammal pest of all time.","refs":["adw"]}},"refs":{"adw":{"title":"Rattus norvegicus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Rattus_norvegicus/"}}},"salmon":{"sci":"Oncorhynchus keta","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["鲑形目","Salmoniformes"],"family":["鲑科","Salmonidae"],"genus":["太平洋鲑属","Oncorhynchus"]},"sections":{"intro":{"zh":"大麻哈鱼是一种溯河洄游的鲑科鱼类，原产北太平洋和北极白令地区的沿岸河流。","en":"The chum salmon is an anadromous salmonid fish native to the coastal rivers of the North Pacific and the Beringian Arctic. It is also known as dog salmon or keta salmon.","refs":["wiki"]},"body":{"zh":"成鱼通常重 4.4 到 10.0 千克，平均体长约 60.0 厘米。它是太平洋鲑中仅次于帝王鲑的大型种类。","en":"Adults usually weigh 4.4 to 10.0 kilograms, with an average length of 60.0 centimetres. It is one of the largest Pacific salmon, second only to Chinook salmon.","refs":["wiki","noaa"]},"habitat":{"zh":"大麻哈鱼的自然分布范围是太平洋鲑中最大的，遍及北太平洋沿岸，包括日本、朝鲜、俄罗斯远东和北美的沿岸地区。","en":"Chum salmon have the largest natural range of any Pacific salmon. They are found all around the North Pacific, off the coasts of Japan, Korea and the Russian Far East.","refs":["wiki","noaa"]},"diet":{"zh":"幼鱼以浮游动物和昆虫为食，成鱼吃桡足类、鱼类、软体动物、鱿鱼和被囊动物。","en":"Juveniles eat zooplankton and insects. Adults eat copepods, fishes, mollusks, squid and tunicates.","refs":["wiki","noaa"]},"repro":{"zh":"大麻哈鱼通常从夏末持续产卵到三月，产卵后约两周内死去。雌鱼最多可产 4000 枚卵。","en":"Chum salmon spawn from late summer to March and die about two weeks after returning to fresh water. A female can lay up to 4000 eggs.","refs":["wiki","noaa"]},"life":{"zh":"大麻哈鱼平均能活三到五年，阿拉斯加的大麻哈鱼通常五年性成熟。成鱼的天敌包括鲨鱼、海狮、海豹和虎鲸，幼鱼也会被多种鱼类和鸟类捕食。","en":"Chum salmon live an average of three to five years, and those in Alaska mature at five. Sharks, sea lions, seals and orcas eat adults, while various fish and birds prey on juveniles.","refs":["wiki","noaa"]},"status":{"zh":"2010 年北太平洋大麻哈鱼的登记捕获量约为 313000 吨。其中两个种群被列为受威胁物种，受美国《濒危物种法》保护。","en":"The registered North Pacific harvest was some 313,000 tons in 2010. Two populations have been listed under the US Endangered Species Act as threatened.","refs":["wiki","noaa"]}},"refs":{"wiki":{"title":"Chum salmon","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Chum_salmon"},"noaa":{"title":"Chum Salmon","source":"NOAA Fisheries","url":"https://www.fisheries.noaa.gov/species/chum-salmon"}}},"sardine":{"sci":"Sardinops sagax","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["鲱形目","Clupeiformes"],"genus":["拟沙丁鱼属","Sardinops"]},"sections":{"intro":{"zh":"沙丁鱼是多种小型、富含油脂的饵料鱼的统称，属于鲱亚目。这里描述的是其中的太平洋沙丁鱼。","en":"Sardine and pilchard are common names for various species of small, oily forage fish in the herring suborder Clupeoidei. This entry describes the Pacific sardine.","refs":["wiki"]},"body":{"zh":"这一属的鱼体长最长可达 40 厘米。太平洋沙丁鱼背部呈蓝绿色，两侧白色，中线两侧有一到三组深色斑点。","en":"Sardinops species grow up to 40 centimetres long. Pacific sardines are blue-green on the back, with white flanks and one to three sets of dark spots along the middle.","refs":["sardinops","noaa"]},"habitat":{"zh":"太平洋沙丁鱼生活在沿岸和远海的水层中。本属分布于印度洋与太平洋、东太平洋、东南大西洋和西南印度洋。","en":"Pacific sardines live in the water column in nearshore and offshore areas along the coast. The genus is found in the Indo-Pacific, East Pacific, Southeastern Atlantic and southwestern Indian oceans.","refs":["noaa","sardinops"]},"diet":{"zh":"沙丁鱼几乎只吃浮游动物，并会聚集在浮游动物丰富的地方。","en":"Sardines feed almost exclusively on zooplankton and gather wherever it is abundant.","refs":["wiki"]},"status":{"zh":"2025 年的资源评估认为太平洋沙丁鱼已被过度捕捞，目前禁止商业捕捞。种群数量自然波动很大。2015 年，因资源急剧崩溃，相关机构叫停了当季的商业捕捞。","en":"The 2025 stock assessment found Pacific sardine overfished, and commercial fishing is prohibited because the population is below a precautionary level. Population size naturally swings widely, and in 2015 the fishing season was halted after a dramatic collapse in stocks.","refs":["noaa","wiki"]}},"refs":{"wiki":{"title":"Sardine","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Sardine"},"sardinops":{"title":"Sardinops","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Sardinops"},"noaa":{"title":"Pacific Sardine","source":"NOAA Fisheries","url":"https://www.fisheries.noaa.gov/species/pacific-sardine"}}},"sea_turtle":{"sci":"Chelonia mydas","lineage":{"phylum":["脊索动物门","Chordata"],"class":["爬行纲","Reptilia"],"order":["龟鳖目","Testudines"],"family":["海龟科","Cheloniidae"],"genus":["海龟属","Chelonia"]},"sections":{"intro":{"zh":"绿海龟是一种大型海龟，属于海龟科，是绿海龟属中唯一的物种。","en":"The green sea turtle is a species of large sea turtle of the family Cheloniidae. It is the only species in the genus Chelonia.","refs":["wiki"]},"body":{"zh":"成年绿海龟可长到约 1.5 米，成熟个体的平均体重为 68 到 190 千克。","en":"Adult green turtles grow to about 1.5 metres long, and mature individuals average 68 to 190 kilograms.","refs":["wiki"]},"habitat":{"zh":"绿海龟的分布遍及全球热带和亚热带海域。成年海龟大多生活在有茂密海草床的浅海近岸，幼龟的头五年多在开阔的大洋中生活。","en":"Its range extends throughout tropical and subtropical seas around the world. Mature turtles spend most of their time in shallow coastal waters with lush seagrass beds.","refs":["wiki","noaa"]},"diet":{"zh":"成年绿海龟主要吃海草和藻类，也可能吃海绵和其他无脊椎动物。幼龟更偏肉食。","en":"Adult green turtles are primarily herbivores, eating mostly seagrasses and algae, and may also eat sponges and other invertebrates. Juveniles are carnivorous.","refs":["noaa","wiki"]},"repro":{"zh":"雌龟在夜间爬上沙滩挖巢产卵，每窝约产 110 枚卵。卵在温暖的沙中孵化约两个月，雌龟约 25 到 35 年才性成熟。","en":"Females crawl onto beaches at night to dig nests and lay eggs. A nest holds about 110 eggs, which hatch after about two months in warm sand, and females reach maturity at 25 to 35 years.","refs":["wiki","noaa"]},"life":{"zh":"绿海龟可以活到 70 年以上，有的个体可能活到 90 年。虎鲨是绿海龟的主要天敌。","en":"Green turtles are long-lived and could live for at least 70 years, and some may live to 90 years in the wild. The tiger shark is the main predator of the green turtle.","refs":["noaa","wiki"]},"status":{"zh":"历史上，绿海龟因龟脂、龟肉和龟卵被大量捕捉，导致全球数量下降。在美国《濒危物种法》下，共有 11 个种群单元，其中三个为濒危，八个为受威胁。","en":"Historically, green turtles were exploited for their fat, meat and eggs, causing global population declines. Eleven population segments are listed under the US Endangered Species Act, three as endangered and eight as threatened.","refs":["noaa","wiki"]}},"refs":{"wiki":{"title":"Green sea turtle","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Green_sea_turtle"},"noaa":{"title":"Green Sea Turtle","source":"NOAA Fisheries","url":"https://www.fisheries.noaa.gov/species/green-sea-turtle"}}},"sheep":{"sci":"Ovis aries","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["牛科","Bovidae"],"genus":["绵羊属","Ovis"]},"sections":{"intro":{"zh":"家羊起源于中东和中亚一带，现在几乎在世界各地都与人类生活在一起。","en":"Domestic sheep live worldwide in association with humans. The first domesticated sheep lived mainly in the Middle East and Central Asia.","refs":["adw"]},"body":{"zh":"家羊品种众多，体形、毛被和有无角因品种而异，有的品种有羊毛，有的没有，有的有角，有的无角。","en":"The physical details of domestic sheep vary greatly among breeds, and selection has produced sheep with or without wool and horns.","refs":["adw"]},"habitat":{"zh":"家羊适应性很强，生活在从温带山林到沙漠的各种环境中。","en":"Domestic sheep live in a wide variety of habitats, from temperate mountain forests to deserts.","refs":["adw"]},"diet":{"zh":"羊主要在草场上吃草，也可以喂食各种干草和燕麦。","en":"Sheep feed mainly on grasses in pasture and can be fed many kinds of hay and oats.","refs":["adw"]},"repro":{"zh":"发情周期约 14 至 20 天，平均 17 天，妊娠期平均约 148 天。每胎通常产一到两只羔羊，羔羊出生几分钟内就能站立吮乳。","en":"Estrus cycles last 14 to 20 days, with 17 days on average. Gestation averages 148 days, and one or two lambs are born to each ewe.","refs":["adw"]},"status":{"zh":"全世界的绵羊数量超过十亿只。自 9000 至 11000 年前被驯化以来，它们为几乎每个国家提供肉、奶、羊毛和皮革。","en":"The world sheep population totals over a billion. Since domestication 9000 to 11000 years ago, sheep have supplied meat, milk, wool and hides in nearly every country.","refs":["adw"]}},"refs":{"adw":{"title":"Ovis aries","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Ovis_aries/"}}},"sparrow":{"sci":"Passer domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["雀形目","Passeriformes"],"family":["雀科","Passeridae"],"genus":["雀属","Passer"]},"sections":{"intro":{"zh":"家麻雀是雀科的一种小型鸟类，几乎分布于世界各地。它与人类居住地关系密切，在城市和乡村都能生活。","en":"The house sparrow is a small bird of the sparrow family Passeridae, found in most parts of the world. It is strongly associated with human habitation and lives in both urban and rural settings.","refs":["wiki"]},"body":{"zh":"体长约 16 厘米，体重约 24 至 39.5 克。雄鸟胸前有一块黑色的斑块，雌鸟没有，雌鸟和幼鸟的羽色偏棕和灰。","en":"The house sparrow is about 16 cm long and weighs 24 to 39.5 g. Males have white cheeks and a black bib, while females do not.","refs":["wiki","adw"]},"habitat":{"zh":"原产欧亚大陆和北非，后来被引入非洲南部、南北美洲和澳大利亚等地。它们多生活在农田、住宅区和城市，很少出现在无人居住的森林和沙漠中。","en":"It is native to Eurasia and North Africa, and was introduced to South America, Australia and other regions. It mostly lives in farms, residential areas and cities.","refs":["adw"]},"diet":{"zh":"它是杂食性鸟类，主要吃谷物和草籽，也捕食昆虫及其幼虫、毛虫等。它常在人类居住的地方取食。","en":"The house sparrow is an omnivore that mainly eats grain and plant seeds, and also catches insects and their larvae. It often feeds where people live.","refs":["wiki"]},"repro":{"zh":"每个繁殖季形成一对一夫一妻的配对。每窝一到八枚卵，一个繁殖季可能产多窝。孵化需要 10 至 14 天，雌雄双方都参与孵卵和喂养幼鸟。","en":"House sparrows form monogamous pairs for each breeding season. A clutch has one to eight eggs, and both sexes incubate them for 10 to 14 days.","refs":["adw"]},"life":{"zh":"野外记录的最长寿命是 13 年 4 个月，但多数个体只能活几年。","en":"The longest recorded wild individual lived 13 years and 4 months, though most live only several years.","refs":["adw"]},"status":{"zh":"国际自然保护联盟的红色名录将它列为无危。它分布广、数量多，但部分地区的数量有所下降。","en":"The IUCN Red List rates the house sparrow as least concern. It is widespread and abundant, although its numbers have declined in some areas.","refs":["wiki"]}},"refs":{"wiki":{"title":"House sparrow","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/House_sparrow"},"adw":{"title":"Passer domesticus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Passer_domesticus/"}}},"spider":{"sci":"Araneus ventricosus","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["蛛形纲","Arachnida"],"order":["蜘蛛目","Araneae"],"family":["园蛛科","Araneidae"],"genus":["园蛛属","Araneus"]},"sections":{"intro":{"zh":"大腹园蛛是一种夜行性圆网蛛，因夜间结网的习性而容易辨认。它的丝曾被广泛研究，具有多种独特的性质。","en":"Araneus ventricosus is a nocturnal orb-weaver spider that is easily identified by its nocturnal web-building behaviour. Its silk has been researched extensively and has several unique properties.","refs":["wiki"]},"body":{"zh":"属于中等体型的圆网蛛，身体常呈棕色、黑色或灰色。与同科其他种类一样，它结圆形的网来捕获猎物。","en":"Araneus ventricosus is a medium-sized orb-weaver, commonly brown, black or grey. Like other members of its family, it constructs circular webs to capture prey, building them throughout the night.","refs":["wiki"]},"habitat":{"zh":"分布于东亚，包括俄罗斯远东、朝鲜半岛、日本、中国大陆和台湾。主要栖息在花园、田野和森林的生态系统中。","en":"It is distributed across East Asia, including the Russian Far East, Korea, Japan, China and Taiwan. It lives mainly in gardens, fields and forest ecosystems.","refs":["wiki"]},"diet":{"zh":"成蛛主要捕食网上的飞行昆虫和其他小型节肢动物。它夜间结网，清晨拆除。","en":"Adults feed mainly on flying insects and small arthropods caught in their webs. It builds its web at night and takes it down each morning.","refs":["wiki"]},"repro":{"zh":"求偶时雄蛛会表演复杂的动作，这是其生殖行为的一部分。用于制作卵囊的丝只由雌蛛的腺体分泌。","en":"Males perform elaborate courtship displays as part of their reproductive behaviour. Only females produce the tubuliform silk used to develop egg coverings, and this silk is made only by glands in female spiders.","refs":["wiki"]}},"refs":{"wiki":{"title":"Araneus ventricosus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Araneus_ventricosus"}}},"springtail":{"sci":"Collembola","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["弹尾纲","Collembola"]},"sections":{"intro":{"zh":"跳虫（弹尾纲 Collembola）是六足动物中的一个大类群，已不再被视为昆虫。它们多为自由生活的小型动物，数量极多。","en":"Springtails (class Collembola) form the largest of the three lineages of modern hexapods that are no longer considered insects. They are free-living animals and among the most abundant macroscopic animals.","refs":["wiki"]},"body":{"zh":"多数种类体长不到 6 毫米，腹部节数不超过 6 节。腹部第一节下方有一个管状的腹管，可以翻出黏性囊。","en":"Most springtails are less than 6 millimetres long and have six or fewer abdominal segments. They have a tubular ventral tube, with reversible sticky vesicles, on the first abdominal segment.","refs":["wiki"]},"habitat":{"zh":"常见于落叶层和腐烂的有机物中，多数喜欢潮湿环境。许多洞穴也有适应洞穴生活的种类，因为洞穴的高湿度有利于它们。","en":"They are frequently found in leaf litter and decaying material, and prefer moist conditions. Many caves also have cave-adapted species, since the high humidity of caves favours springtails.","refs":["wiki"]},"diet":{"zh":"常以真菌的菌丝和孢子为食，也会吃植物材料、花粉、动物残体和细菌。植食性和食腐性的种类会把有机物碎裂，促进分解。","en":"They commonly eat fungal hyphae and spores, and also plant material, pollen, animal remains and bacteria. Herbivorous and detritivorous species fragment organic material, supporting decomposition.","refs":["wiki"]},"repro":{"zh":"有性生殖时由雄虫放置精子包完成受精。许多跳虫，尤其是生活在较深土层中的种类，通过孤雌生殖繁殖，这一过程受沃尔巴克氏菌属细菌控制。","en":"Sexual reproduction involves males depositing spermatophores. Many springtails, mostly those in deeper soil, reproduce by parthenogenesis, which is controlled by symbiotic Wolbachia bacteria. This favours reproduction over genetic diversity.","refs":["wiki"]},"life":{"zh":"主要天敌包括捕食性螨类和土壤中的蜈蚣类。它们主要靠弹器跳跃逃避捕食，并且对干燥非常敏感。","en":"Predators include mesostigmatan mites and soil centipedes. Jumping with the furcula is their most common way to avoid predation, and they are highly sensitive to drying out.","refs":["wiki"]},"status":{"zh":"据估计，地表每平方米可有约 100000 只，分布几乎遍及全球有土壤的地方。","en":"Estimates reach 100000 individuals per square metre of ground, essentially everywhere on Earth where soil and related habitats occur. Springtails are among the most abundant macroscopic animals.","refs":["wiki"]}},"refs":{"wiki":{"title":"Collembola","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Collembola"}}},"squid":{"sci":"Todarodes pacificus","lineage":{"phylum":["软体动物门","Mollusca"],"class":["头足纲","Cephalopoda"],"order":["开眼目","Oegopsida"],"family":["柔鱼科","Ommastrephidae"],"genus":["褶柔鱼属","Todarodes"]},"sections":{"intro":{"zh":"太平洋褶柔鱼是柔鱼科的一种鱿鱼，分布在北太平洋，主要在日本周围海域。","en":"The Japanese flying squid is a squid of the family Ommastrephidae. It lives in the northern Pacific Ocean, around Japan and along the coast of China up to Russia.","refs":["wiki"]},"body":{"zh":"雌性胴长可达 50 厘米，雄性较小；体重最大约 0.5 千克。","en":"Females have a mantle length of up to 50 centimetres, and males are smaller. The species can weigh up to 0.5 kilograms.","refs":["wiki"]},"habitat":{"zh":"它能适应 5 到 27 摄氏度的水温，多在海洋上层活动，分布范围从日本周围延伸到中国沿岸直至俄罗斯。","en":"It can live in water from 5 to 27 °C and tends to inhabit the upper layers of the ocean. It lives in the northern Pacific Ocean, around Japan and along the coast of China up to Russia.","refs":["wiki"]},"diet":{"zh":"幼体以浮游植物和浮游动物为食。成体主要吃鱼类和甲壳类，也会互相残食，尤其是在网中被困在一起时。","en":"Larvae are believed to feed on phytoplankton and zooplankton. Mature squid eat mainly fish and crustaceans, and will also eat each other, especially when trapped together in nets.","refs":["wiki"]},"repro":{"zh":"雄性先成熟，并把精荚转移给尚未成熟的雌性。雌性随后产下 300 到 4000 枚小卵，卵呈椭圆形或半球形。","en":"Males mature first and transfer their spermatophores to immature females. Females then spawn 300 to 4,000 small, elliptical or semi-spherical eggs.","refs":["wiki"]},"life":{"zh":"太平洋褶柔鱼通常只活一年，产卵后很快死亡。鱿鱼是许多脊椎动物的重要食物。","en":"The Japanese flying squid generally lives only one year and dies after spawning. Many vertebrate predators depend heavily on squid.","refs":["wiki"]},"status":{"zh":"日本、韩国和中国是主要捕捞国，捕捞量多年来有起伏。2010 年为 570427 吨，2012 年为 351229 吨。","en":"Japan, South Korea and, more recently, China are the major fishers of this squid. Catches have fluctuated over the years, from 570,427 tonnes in 2010 to 351,229 tonnes in 2012.","refs":["wiki"]}},"refs":{"wiki":{"title":"Japanese flying squid","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Japanese_flying_squid"}}},"swallow":{"sci":"Hirundo rustica","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["雀形目","Passeriformes"],"family":["燕科","Hirundinidae"],"genus":["燕属","Hirundo"]},"sections":{"intro":{"zh":"家燕是世界上分布最广的燕类。它的背部呈蓝色，尾羽长而深分叉，常在农舍和谷仓等人造建筑里筑巢。","en":"The barn swallow is the most widespread swallow in the world. It has blue upperparts and a long, deeply forked tail, and it normally nests in man-made structures.","refs":["wiki"]},"body":{"zh":"体长约 14.6 至 19.9 厘米，体重约 17 至 20 克。上体是有金属光泽的蓝黑色，下体偏浅米色，尾羽长而深分叉。","en":"Barn swallows are about 14.6 to 19.9 cm long and weigh 17 to 20 g. They are metallic blue-black above and pale beige below, with a long, deeply forked tail.","refs":["adw"]},"habitat":{"zh":"它们繁殖于北美、北欧、亚洲中北部、北非、中东、中国南部和日本，冬季飞往南美、南亚、印度尼西亚和密克罗尼西亚。它们常在农田和谷仓等建筑里活动，也会在桥下和老房子的屋檐下筑巢。","en":"They breed in North America, northern Europe, north-central Asia, northern Africa, the Middle East, southern China and Japan, and winter in South America, South Asia, Indonesia and Micronesia. They often nest in farm buildings and under bridges.","refs":["adw"]},"diet":{"zh":"它主要在空中捕捉昆虫为食。育雏时，亲鸟把昆虫压成团，用喉囊运回巢中喂给雏鸟。","en":"It feeds on insects caught in flight. Parents carry insects compressed into a pellet in the throat back to the nest to feed the chicks.","refs":["wiki","adw"]},"repro":{"zh":"雌雄双方共同筑巢，巢壳用泥建造，内衬草和羽毛。一年通常繁殖两窝，雌鸟每窝产 3 至 7 枚卵，孵化需要 13 至 15 天，雏鸟约 20 天后离巢。","en":"Both parents build the nest, and they usually raise two broods each summer. The female lays 3 to 7 eggs, which hatch in 13 to 15 days, and the young leave the nest at about 20 days.","refs":["adw"]},"life":{"zh":"平均寿命约 4 年。有记录的个体曾活到 8 岁，但这属于例外。","en":"The average lifespan is 4 years. Individuals of 8 years have been documented, but these are considered the exception.","refs":["adw"]},"status":{"zh":"国际自然保护联盟在 2019 年的红色名录中将它列为无危。种群总体稳定，但农田面积减少导致它们的数量有所下降。","en":"The species is rated least concern on the 2019 IUCN Red List. Populations are generally considered stable, but declines in farmland have reduced their numbers.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Barn swallow","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Barn_swallow"},"adw":{"title":"Hirundo rustica","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Hirundo_rustica/"}}},"termite":{"sci":"Coptotermes formosanus","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["蜚蠊目","Blattodea"],"family":["鼻白蚁科","Rhinotermitidae"],"genus":["乳白蚁属","Coptotermes"]},"sections":{"intro":{"zh":"台湾乳白蚁是一种地下筑巢的白蚁，原产于中国，后来被引入世界上许多地区。","en":"Coptotermes formosanus is a subterranean termite native to China. It has been introduced to many other regions, including Japan, Hawaii, Africa and the United States.","refs":["adw"]},"body":{"zh":"工蚁通常为乳白色，身体结构与蚂蚁相似。兵蚁头部呈橙棕色，前额有一个分泌防御液的腺体。有翅的繁殖蚁体长约 12–15 毫米。","en":"Workers are generally off-white, with an anatomy similar to ants. Soldiers have an orange-brown head and a gland that secretes defensive fluid when disturbed. Winged reproductives are about 12 to 15 mm long.","refs":["adw"]},"habitat":{"zh":"在地下筑巢，巢体由土壤、嚼碎的木材或植物物质，以及白蚁自身的唾液和粪便构成。多生活在潮湿环境中，也会侵入房屋墙壁等建筑。","en":"It nests underground, with nests made of soil, chewed wood or plant matter, saliva and faeces. It lives in moist places, including the walls of homes and buildings.","refs":["adw"]},"diet":{"zh":"以木材为食，肠道内的细菌帮助分解纤维素。不吃木材时，也可能啃食含纤维素的纸板和纸张。","en":"It feeds on wood, and bacteria in its gut help break down the cellulose. When it is not feeding on wood, it may consume other cellulose products such as cardboard and paper.","refs":["adw"]},"repro":{"zh":"有翅繁殖蚁多在黄昏成群飞出，随后脱去翅膀配对，另建新巢。蚁后最初一批产卵约 15–20 枚，几周内孵化。","en":"Winged reproductives swarm at dusk, shed their wings and pair up to start new colonies. The queen's first batch is about 15 to 20 eggs, which hatch within a few weeks.","refs":["adw"]},"life":{"zh":"蚁后寿命可达 15 年，工蚁寿命明显较短。主要天敌包括蚂蚁、蜥蜴、蟾蜍和鸟类，有翅繁殖蚁在飞行时尤其容易被捕食。","en":"A queen can live up to 15 years, while workers live much shorter lives. Ants, lizards, toads and birds are general predators, and swarming reproductives are especially vulnerable.","refs":["adw"]},"status":{"zh":"没有特殊的保护等级。它在许多地区是入侵物种，也被视为家居害虫，会损害树木、建筑和木质结构。","en":"It has no special conservation status. It is an invasive species in many areas, considered a household pest, and it can damage trees, buildings and wooden structures.","refs":["adw"]}},"refs":{"adw":{"title":"Coptotermes formosanus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Coptotermes_formosanus/"}}},"wolf":{"sci":"Canis lupus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["犬科","Canidae"],"genus":["犬属","Canis"]},"sections":{"intro":{"zh":"灰狼（Canis lupus）是原产于欧亚大陆和北美洲的犬科动物，是犬科中现存最大的野生成员。","en":"The grey wolf (Canis lupus) is a canine native to Eurasia and North America. It is the largest wild member of the dog family, Canidae.","refs":["wiki"]},"body":{"zh":"灰狼的体型因地区而异，南方种群通常比北方种群小。雄狼体重约 30 至 80 公斤，平均 55 公斤；雌狼体重约 23 至 55 公斤，平均 45 公斤。","en":"Gray wolves vary in size by region, and southern populations are generally smaller than northern ones. Males weigh 30 to 80 kg, averaging 55 kg, and females weigh 23 to 55 kg, averaging 45 kg.","refs":["adw"]},"habitat":{"zh":"灰狼分布范围很广，从北极苔原到森林、草原和干旱地区都有它们的踪迹。","en":"Gray wolves occupy a wide variety of habitats, from arctic tundra to forest, prairie and arid landscapes, and they are among the most widely ranging land animals.","refs":["adw"]},"diet":{"zh":"灰狼是肉食动物，也是顶级捕食者，主要捕食大型有蹄类哺乳动物，也吃小型动物、家畜、腐肉和垃圾。狼群通常捕杀大型猎物中最脆弱的个体。","en":"Wolves are carnivores and apex predators that feed on large hooved mammals, as well as smaller animals, livestock, carrion and garbage. Packs usually target the most vulnerable individuals of large prey.","refs":["wiki"]},"repro":{"zh":"狼群中通常只有占优势的一对成年狼繁殖。妊娠期为 60 至 63 天，每窝平均产六到七只幼崽。多数幼狼在 1 至 3 岁时离开出生的狼群。","en":"Only the dominant pair in a pack breeds. Gestation lasts 60 to 63 days, and a litter averages six or seven pups. Most young wolves leave their birth pack when they are 1 to 3 years old.","refs":["adw"]},"life":{"zh":"灰狼在野外最长可活十三年，但平均寿命只有 5 至 6 年。","en":"Gray wolves may live thirteen years in the wild, but the average lifespan is 5 to 6 years.","refs":["adw"]},"status":{"zh":"全球野生灰狼的数量估计约为三十万只，国际自然保护联盟将其评估为无危。","en":"The global wild grey wolf population is estimated at 300,000, and the IUCN has assessed the species as Least Concern. In Canada, 52,000 to 60,000 wolves live in 80% of their historical range.","refs":["wiki"]}},"refs":{"wiki":{"title":"Wolf","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Wolf"},"adw":{"title":"Canis lupus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Canis_lupus/"}}}};
+
+;
+// Sound and the timing bar. Nothing here decides who you become; the green part of the timing bar equals the stated odds.
 (() => {
   'use strict';
   const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ---------- pixel icons ----------
-  const PAL = { r: '#ff6b5e', R: '#b83a44', w: '#fff6e0', y: '#ffcf4a', Y: '#c98a1e', g: '#7ddc6a', G: '#3c8f4d', b: '#6fb7ff', B: '#3566b8', t: '#4fd1c0', k: '#14122b', p: '#c79bff', P: '#7a55c7', m: '#8f88c2', o: '#e8935a', O: '#9a5730' };
-  const ICONS = {
-    heart: ['.rr...rr..', 'rwrr.rrrr.', 'rwrrrrrrR.', 'rrrrrrrrR.', '.rrrrrrR..', '..rrrrR...', '...rrR....', '....R.....'],
-    food: ['......ww..', '.....oow..', '...ooooo..', '..oooooO..', '.oowoooO..', '.owoooO...', '.ooooO....', '..OOO.....'],
-    shield: ['bbbbbbbb..', 'bwwbbbBb..', 'bwbbbbBb..', 'bbbbbbBb..', 'bbbbbbBb..', '.bbbbBb...', '..bbBb....', '...BB.....'],
-    star: ['....y.....', '....y.....', '...ywy....', 'yyyywyyyy.', '.yywyyyY..', '..yyyyY...', '..yyyyY...', '.yyY.yyY..', '.Y.....Y..'],
-    starOff: ['....m.....', '....m.....', '...m.m....', 'mmmm.mmmm.', '.m.....m..', '..m...m...', '..m.m.m...', '.mm...mm..', '.m.....m..'],
-    instinct: ['.oo..oo...', '.oo..oo...', 'o......o..', 'oo.oo.oo..', '..oooo....', '.oooooo...', '.oooooo...', '..oo.oo...'],
-    forage: ['....G.....', '...GG.....', '..rrrr....', '.rwrrrr...', '.rrrrrR...', '.rrrrrR...', '.rrrrRR...', '..RRRR....'],
-    hide: ['....g.....', '..ggggg...', '.ggGgggg..', 'gggggGggg.', 'gGggggggG.', '.ggkggkg..', '..ggggG...', '....O.....'],
-    rest: ['...yyy....', '..yy......', '.yy....w..', '.yy..w....', '.yy.......', '.yyy...y..', '..yyyyy...', '...yyy....'],
-    explore: ['..wwwww...', '.w..r..w..', 'w..rr...w.', 'w.rrr...w.', 'w...bbb.w.', 'w...bb..w.', '.w..b..w..', '..wwwww...'],
-    mate: ['rr.rr.....', 'rrrrr.....', '.rrr.pp.pp', '..r..ppppp', '......ppp.', '.......p..'],
-    sound: ['...w......', '..ww..w...', 'wwww...w..', 'wwww.w.w..', 'wwww.w.w..', 'wwww...w..', '..ww..w...', '...w......'],
-    mute: ['...m......', '..mm......', 'mmmm.r..r.', 'mmmm..rr..', 'mmmm..rr..', 'mmmm.r..r.', '..mm......', '...m......'],
-    globe: ['..bbbb....', '.bggbbb...', 'bgggbbgb..', 'bbggbggb..', 'bbbbbggb..', 'bgbbbbgb..', '.bbgbbb...', '..bbbb....'],
-    book: ['PPPPPPPP..', 'PwwPPwwp..', 'PwwPPwwp..', 'PwwPPwwp..', 'PwwPPwwp..', 'PwwPPwwp..', 'PPPPPPPP..'],
-    home: ['....r.....', '...rrr....', '..rrrrr...', '.rrrrrrr..', '..wwwww...', '..wwOww...', '..wwOww...'],
-    data: ['......t...', '......t...', '...b..t...', '...b..t...', 'y..b..t...', 'y..b..t...', 'wwwwwwww..'],
-    skull: ['..wwww....', '.wwwwww...', '.wkwwkw...', '.wkwwkw...', '.wwwwww...', '..wkkw....', '..w..w....'],
-  };
-  const cache = {};
-  function iconUrl(name) {
-    if (cache[name]) return cache[name];
-    const rows = ICONS[name], w = Math.max(...rows.map((r) => r.replace(/\.+$/, '').length)), c = document.createElement('canvas');
-    c.width = w; c.height = rows.length; const g = c.getContext('2d');
-    rows.forEach((row, y) => [...row].forEach((ch, x) => { if (PAL[ch]) { g.fillStyle = PAL[ch]; g.fillRect(x, y, 1, 1); } }));
-    return (cache[name] = c.toDataURL());
-  }
-  const icon = (name, px = 20) => `<img class="spr" src="${iconUrl(name)}" alt="" style="height:${px}px;width:auto">`;
-
-  // ---------- pixelated creature from an emoji ----------
-  const pixCache = {};
-  function pix(emoji, n = 20) {
-    if (pixCache[emoji]) return pixCache[emoji];
-    const c = document.createElement('canvas'); c.width = c.height = n;
-    const g = c.getContext('2d', { willReadFrequently: true });
-    g.font = `${n - 4}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
-    g.fillText(emoji, n / 2, n / 2 + 1);
-    const im = g.getImageData(0, 0, n, n), d = im.data;
-    for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 120) { d[i + 3] = 0; continue; } d[i + 3] = 255; for (let k = 0; k < 3; k++) d[i + k] = Math.round(d[i + k] / 32) * 32; }
-    g.putImageData(im, 0, 0);
-    return (pixCache[emoji] = { canvas: c, url: c.toDataURL() });
-  }
-
-  // ---------- sound: short square-wave notes, nothing downloaded ----------
-  let ac = null, quiet = false, muted = false;
-  try { muted = JSON.parse(localStorage.getItem('lunhui.muted') || 'false'); } catch (e) { /* storage unavailable */ }
-  const SFX = {
-    blip: [[660, 0, 0.03, 0.02]], move: [[440, 0, 0.04, 0.04]], pick: [[523, 0, 0.06, 0.06], [784, 0.06, 0.09, 0.06]], tick: [[980, 0, 0.025, 0.03]],
-    hurt: [[190, 0, 0.1, 0.08], [120, 0.08, 0.16, 0.08]], heal: [[523, 0, 0.06, 0.05], [659, 0.06, 0.06, 0.05], [784, 0.12, 0.1, 0.05]],
-    alarm: [[880, 0, 0.09, 0.06], [622, 0.11, 0.09, 0.06], [880, 0.22, 0.09, 0.06], [622, 0.33, 0.12, 0.06]],
-    star: [[784, 0, 0.08, 0.06], [988, 0.08, 0.08, 0.06], [1175, 0.16, 0.08, 0.06], [1568, 0.24, 0.22, 0.06]],
-    born: [[392, 0, 0.1, 0.06], [523, 0.1, 0.1, 0.06], [659, 0.2, 0.1, 0.06], [1047, 0.3, 0.28, 0.06]],
-    dead: [[440, 0, 0.16, 0.07], [392, 0.17, 0.16, 0.07], [330, 0.34, 0.16, 0.07], [220, 0.51, 0.5, 0.07]],
-    safe: [[659, 0, 0.07, 0.06], [880, 0.07, 0.07, 0.06], [1319, 0.14, 0.16, 0.06]],
-  };
+  let ac = null, quiet = false, muted = true;   // sound is off until the player turns it on
+  try { muted = JSON.parse(localStorage.getItem('lunhui.muted') ?? 'true'); } catch (e) { /* storage unavailable */ }
+  const SFX = { pick: [[523, 0, 0.08, 0.05], [784, 0.06, 0.1, 0.05]], hurt: [[190, 0, 0.12, 0.07], [130, 0.09, 0.18, 0.07]], alarm: [[740, 0, 0.1, 0.05], [587, 0.13, 0.1, 0.05], [740, 0.26, 0.12, 0.05]],
+    star: [[784, 0, 0.1, 0.05], [988, 0.1, 0.1, 0.05], [1319, 0.2, 0.26, 0.05]], born: [[392, 0, 0.14, 0.05], [523, 0.13, 0.14, 0.05], [784, 0.26, 0.3, 0.05]], dead: [[392, 0, 0.25, 0.06], [330, 0.25, 0.25, 0.06], [262, 0.5, 0.6, 0.06]], safe: [[659, 0, 0.08, 0.05], [988, 0.08, 0.18, 0.05]] };
   function sfx(name) {
     if (quiet || muted) return;
     try {
-      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
-      if (ac.state === 'suspended') ac.resume();
-      (SFX[name] || []).forEach(([f, at, len, vol]) => {
-        const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + at;
-        o.type = 'square'; o.frequency.value = f; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0005, t + len);
-        o.connect(g).connect(ac.destination); o.start(t); o.stop(t + len + 0.02);
-      });
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)(); if (ac.state === 'suspended') ac.resume();
+      (SFX[name] || []).forEach(([f, at, len, vol]) => { const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + at; o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0005, t + len); o.connect(g).connect(ac.destination); o.start(t); o.stop(t + len + 0.02); });
     } catch (e) { /* no audio here */ }
   }
   function toggleMute() { muted = !muted; try { localStorage.setItem('lunhui.muted', JSON.stringify(muted)); } catch (e) { /* storage unavailable */ } if (!muted) sfx('pick'); return muted; }
-
-  // ---------- the wheel of rebirth ----------
-  const WN = 208, SLOTS = 12, STEP = Math.PI * 2 / SLOTS;
-  let geo = null;
-  function geometry() {
-    if (geo) return geo;
-    const ang = new Float32Array(WN * WN), rad = new Float32Array(WN * WN);
-    for (let y = 0; y < WN; y++) for (let x = 0; x < WN; x++) { const dx = x - WN / 2 + 0.5, dy = y - WN / 2 + 0.5; ang[y * WN + x] = Math.atan2(dy, dx) + Math.PI / 2; rad[y * WN + x] = Math.hypot(dx, dy); }
-    return (geo = { ang, rad });
-  }
-  const hex = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
-  const WC = { a: hex('#2f2a66'), b: hex('#3d3682'), hit: hex('#5b4fc0'), rim: hex('#ffcf4a'), rim2: hex('#c98a1e'), dark: hex('#14122b'), line: hex('#211d4b') };
-  // items: array of { canvas }; rot: radians. Slot 0 sits under the pointer at rot = 0.
-  function drawWheel(cv, items, rot) {
-    if (cv.width !== WN) { cv.width = cv.height = WN; }
-    const g = cv.getContext('2d'), { ang, rad } = geometry(), im = g.createImageData(WN, WN), d = im.data, TAU = Math.PI * 2;
-    const at = ((Math.round(-rot / STEP) % SLOTS) + SLOTS) % SLOTS;
-    for (let i = 0; i < ang.length; i++) {
-      const r = rad[i]; let c = null;
-      if (r > 101) continue;
-      if (r > 97) c = WC.rim2; else if (r > 93) c = WC.rim;
-      else if (r > 91) c = WC.dark;
-      else if (r > 51) { let a = (ang[i] - rot + STEP / 2) % TAU; if (a < 0) a += TAU; const s = Math.floor(a / STEP), f = (a / STEP - s) * STEP * r; c = f < 1.6 ? WC.line : s === at ? WC.hit : s % 2 ? WC.a : WC.b; }
-      else if (r > 49) c = WC.dark; else if (r > 46) c = WC.rim2;
-      else continue;
-      const k = i * 4; d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2]; d[k + 3] = 255;
-    }
-    g.putImageData(im, 0, 0); g.imageSmoothingEnabled = false;
-    for (let s = 0; s < SLOTS; s++) {
-      const a = s * STEP + rot - Math.PI / 2, x = WN / 2 + Math.cos(a) * 71, y = WN / 2 + Math.sin(a) * 71, it = items[s] && items[s].canvas; if (!it) continue;
-      const k = Math.min(26 / it.width, 26 / it.height), w = Math.round(it.width * k), h = Math.round(it.height * k);
-      g.drawImage(it, Math.round(x - w / 2), Math.round(y - h / 2), w, h);
-    }
-    // studs on the rim and the pointer
-    for (let s = 0; s < SLOTS; s++) { const a = (s + 0.5) * STEP + rot - Math.PI / 2; g.fillStyle = '#fff6e0'; g.fillRect(Math.round(WN / 2 + Math.cos(a) * 95) - 1, Math.round(WN / 2 + Math.sin(a) * 95) - 1, 3, 3); }
-    g.fillStyle = '#14122b'; [[-8, 0, 17, 5], [-7, 5, 15, 3], [-6, 8, 13, 3], [-4, 11, 9, 3], [-2, 14, 5, 4]].forEach(([x, y, w, h]) => g.fillRect(WN / 2 + x, y, w, h));
-    g.fillStyle = '#ff6b5e'; [[-6, 1, 13, 4], [-5, 5, 11, 3], [-4, 8, 9, 3], [-2, 11, 5, 3], [0, 14, 1, 2]].forEach(([x, y, w, h]) => g.fillRect(WN / 2 + x, y, w, h));
-  }
-  // slow idle spin; returns a stop function
-  function idleWheel(cv, items) {
-    let raf = 0, rot = 0, last = 0;
-    const loop = (ts) => { if (!cv.isConnected || cv.closest('[hidden]')) { raf = 0; return; } if (ts - last > 60) { last = ts; rot += 0.006; drawWheel(cv, items, rot); } raf = requestAnimationFrame(loop); };
-    drawWheel(cv, items, 0); if (!reduced()) raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }
-  // spins so that items[slot] ends under the pointer
-  function spinWheel(cv, items, slot, onSlot, done) {
-    const end = -slot * STEP + Math.PI * 2 * 5, from = 0, ms = reduced() ? 1 : 3400, t0 = performance.now(); let lastSlot = -1, raf = 0, over = false;
-    const frame = (ts) => {
-      const k = Math.min(1, (ts - t0) / ms), e = 1 - Math.pow(1 - k, 3.2), rot = from + (end - from) * e;
-      drawWheel(cv, items, rot);
-      const s = ((Math.round(-rot / STEP) % SLOTS) + SLOTS) % SLOTS;
-      if (s !== lastSlot) { lastSlot = s; onSlot(s); sfx('tick'); }
-      if (k < 1) raf = requestAnimationFrame(frame); else if (!over) { over = true; done(); }
-    };
-    raf = requestAnimationFrame(frame);
-    // a background tab pauses animation frames; finish on time anyway
-    const tm = setTimeout(() => { if (!over) { over = true; cancelAnimationFrame(raf); drawWheel(cv, items, end); onSlot(slot); done(); } }, ms + 900);
-    return () => { over = true; cancelAnimationFrame(raf); clearTimeout(tm); };
-  }
-
-  // ---------- timing bar: the safe part of the bar is exactly as wide as the stated odds ----------
   function timing(host, p, text, done) {
     const start = Math.random() * (1 - p), period = 1300, t0 = performance.now() - Math.random() * period;
     host.innerHTML = `<div class="tbar" aria-hidden="true"><i class="ok" style="left:${start * 100}%;width:${p * 100}%"></i><i class="mk"></i></div><button type="button" class="btn-primary tstop">${text}</button>`;
     const mk = host.querySelector('.mk'), btn = host.querySelector('.tstop'); let raf = 0, over = false, x = 0;
-    const pos = (ts) => { const k = ((ts - t0) % period) / period; return k < 0.5 ? k * 2 : 2 - k * 2; };
+    const pos = (ts) => { const k = (((ts - t0) % period) + period) % period / period; return k < 0.5 ? k * 2 : 2 - k * 2; };
     const loop = (ts) => { x = pos(ts); mk.style.left = `${x * 100}%`; raf = requestAnimationFrame(loop); };
     raf = requestAnimationFrame(loop);
-    const stop = () => {
-      if (over) return; over = true; cancelAnimationFrame(raf); clearTimeout(tm); x = pos(performance.now()); mk.style.left = `${x * 100}%`;
-      const ok = x >= start && x <= start + p; host.classList.add(ok ? 'hit' : 'miss'); btn.disabled = true; sfx(ok ? 'safe' : 'hurt');
-      setTimeout(() => done(ok), reduced() ? 150 : 700);
-    };
+    const stop = () => { if (over) return; over = true; cancelAnimationFrame(raf); clearTimeout(tm); x = pos(performance.now()); mk.style.left = `${x * 100}%`; const ok = x >= start && x <= start + p; host.classList.add(ok ? 'hit' : 'miss'); btn.disabled = true; sfx(ok ? 'safe' : 'hurt'); setTimeout(() => done(ok), reduced() ? 150 : 700); };
     btn.onclick = stop; btn.focus();
-    const tm = setTimeout(stop, 7000 + Math.random() * period);   // waiting too long stops it wherever it is
+    const tm = setTimeout(stop, 7000 + Math.random() * period);
     return stop;
   }
-
-  window.GAME = { icon, iconUrl, pix, sfx, toggleMute, isMuted: () => muted, quiet: (v) => { quiet = v; }, drawWheel, idleWheel, spinWheel, timing, reduced, SLOTS };
-})();
-
-;
-// Pixel habitat scenes. Drawn at 192×72 and scaled up with image-rendering: pixelated,
-// so emoji drawn at small sizes become chunky sprites too.
-(() => {
-  const W = 192, H = 72;
-
-  function seeded(seed) {
-    let s = seed >>> 0 || 1;
-    return () => { s ^= s << 13; s ^= s >>> 17; s ^= s << 5; return ((s >>> 0) % 10000) / 10000; };
-  }
-  const R = (c, x, y, w, h, col) => { c.fillStyle = col; c.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h)); };
-  function bands(c, y0, y1, cols) {
-    const n = cols.length, h = (y1 - y0) / n;
-    cols.forEach((col, i) => R(c, 0, y0 + i * h, W, Math.ceil(h) + 1, col));
-  }
-  function sky(c, y1, night) {
-    bands(c, 0, y1, night ? ['#0b1026', '#111a3a', '#1a2550'] : ['#7fb6e6', '#9cc8ee', '#bfdcf3']);
-  }
-  function stars(c, y1, rnd, t) {
-    for (let i = 0; i < 26; i++) {
-      const x = rnd() * W, y = rnd() * y1;
-      if ((i + Math.floor(t / 6)) % 5) R(c, x, y, 1, 1, '#e8ecff');
-    }
-  }
-  function sun(c, night, x = 160, y = 8) {
-    if (night) { R(c, x, y, 5, 5, '#e9e6c8'); R(c, x + 1, y - 1, 3, 1, '#e9e6c8'); R(c, x + 1, y + 5, 3, 1, '#e9e6c8'); }
-    else { R(c, x - 1, y - 1, 7, 7, '#ffe9a3'); R(c, x, y, 5, 5, '#fff4c9'); }
-  }
-  function clouds(c, t, y, rnd, n = 3) {
-    for (let i = 0; i < n; i++) {
-      const x = ((rnd() * W + t * (0.15 + i * 0.05)) % (W + 40)) - 30, yy = y + rnd() * 10;
-      R(c, x, yy, 22, 4, '#f4f8fb'); R(c, x + 4, yy - 3, 12, 3, '#f4f8fb');
-    }
-  }
-  function bubbles(c, t, rnd, x0, x1, y0, y1, col) {
-    for (let i = 0; i < 10; i++) {
-      const x = x0 + rnd() * (x1 - x0);
-      const sp = 0.3 + rnd() * 0.5;
-      const y = y1 - ((t * sp + rnd() * 200) % (y1 - y0));
-      R(c, x + Math.sin((t + i * 7) / 6), y, 1, 1, col);
-    }
-  }
-  function grassBlades(c, y, rnd, cols, t, tall = 10) {
-    for (let x = 0; x < W; x += 2) {
-      const h = 2 + Math.floor(rnd() * tall);
-      const sway = Math.round(Math.sin((t + x) / 9) * (h > 7 ? 1 : 0));
-      R(c, x + sway, y - h, 1, h, cols[Math.floor(rnd() * cols.length)]);
-    }
-  }
-
-  const SCENES = {
-    soil(c, o, rnd) {
-      sky(c, 10, o.night); if (o.night) stars(c, 10, rnd, o.t);
-      grassBlades(c, 13, rnd, ['#4f8a3a', '#62a046', '#3f7531'], o.t, 4);
-      R(c, 0, 12, W, 2, '#3f6b2c');
-      bands(c, 14, H, ['#5a3f2a', '#4d3523', '#432d1e', '#3a2619', '#311f14']);
-      for (let i = 0; i < 70; i++) R(c, rnd() * W, 15 + rnd() * (H - 15), 1 + (rnd() > 0.7), 1, rnd() > 0.5 ? '#6e5640' : '#2a1b11');
-      for (let i = 0; i < 9; i++) R(c, rnd() * W, 18 + rnd() * 50, 3 + rnd() * 3, 2, '#8a8478');
-      for (let r = 0; r < 5; r++) { let x = 10 + rnd() * 170; for (let y = 14; y < 14 + rnd() * 40; y++) { x += Math.round(rnd() * 2 - 1); R(c, x, y, 1, 1, '#a88b62'); } }
-      for (let i = 0; i < 18; i++) R(c, rnd() * W, 20 + rnd() * 48, 1, 1, '#d9cfa0');
-    },
-    ocean(c, o, rnd) {
-      sky(c, 6, o.night);
-      bands(c, 6, H, o.night ? ['#10304d', '#0d2840', '#0a2034', '#081a2a', '#061421']
-                             : ['#3b8ec4', '#2f7cb2', '#266a9c', '#1e5886', '#174770', '#11375a']);
-      R(c, 0, 6, W, 1, o.night ? '#2a5a80' : '#bfe4fa');
-      if (!o.night) for (let i = 0; i < 5; i++) { const x = (i * 44 + o.t * 0.2) % W; for (let y = 7; y < H; y += 2) R(c, x + (y - 7) * 0.35, y, 2, 1, 'rgba(200,235,255,0.10)'); }
-      bubbles(c, o.t, rnd, 0, W, 8, H, 'rgba(210,240,255,0.7)');
-      for (let i = 0; i < 30; i++) R(c, rnd() * W, 8 + rnd() * 60, 1, 1, 'rgba(180,220,200,0.45)');
-    },
-    deep(c, o, rnd) {
-      bands(c, 0, H, ['#06101f', '#050d1a', '#040a15', '#030811', '#02060c']);
-      for (let i = 0; i < 40; i++) { const y = (rnd() * H + o.t * (0.1 + rnd() * 0.2)) % H; R(c, rnd() * W, y, 1, 1, 'rgba(200,210,230,0.35)'); }
-      for (let i = 0; i < 16; i++) { if ((i + Math.floor(o.t / 4)) % 4 === 0) R(c, rnd() * W, rnd() * H, 1, 1, '#6ff0e0'); }
-    },
-    polar(c, o, rnd) {
-      sky(c, 8, o.night); if (o.night) stars(c, 8, rnd, o.t);
-      R(c, 0, 8, W, 6, '#e8f3f8'); R(c, 0, 14, W, 2, '#bcd8e6');
-      for (let x = 0; x < W; x += 6) R(c, x, 16, 3 + rnd() * 3, 1 + rnd() * 4, '#9cc2d6');
-      bands(c, 18, H, ['#1d4a63', '#173d54', '#123246', '#0d2738', '#0a1f2d']);
-      for (let i = 0; i < 26; i++) R(c, rnd() * W, 22 + rnd() * 48, 1, 1, 'rgba(160,230,190,0.6)');
-      bubbles(c, o.t, rnd, 0, W, 20, H, 'rgba(210,240,255,0.5)');
-    },
-    reef(c, o, rnd) {
-      sky(c, 6, o.night);
-      bands(c, 6, 58, ['#3fb3c9', '#36a2ba', '#2e90a9', '#287e97']);
-      R(c, 0, 6, W, 1, '#d9f6fb');
-      bands(c, 58, H, ['#d8c48e', '#c8b27c', '#b8a06b']);
-      for (let x = 4; x < W; x += 7) { const h = 6 + rnd() * 10; for (let y = 0; y < h; y++) R(c, x + Math.round(Math.sin((o.t + y * 3 + x) / 10)), 58 - y, 1, 1, '#4f9a55'); }
-      bubbles(c, o.t, rnd, 0, W, 8, 56, 'rgba(230,250,255,0.7)');
-    },
-    river(c, o, rnd) {
-      sky(c, 14, o.night); if (o.night) stars(c, 14, rnd, o.t); else clouds(c, o.t, 2, rnd, 2);
-      for (let x = 0; x < W; x += 3) { const h = 4 + rnd() * 9; R(c, x, 16 - h, 1, h, '#5f8f45'); }
-      R(c, 0, 16, W, 1, o.night ? '#3a5a70' : '#cfe8f0');
-      bands(c, 17, 62, o.night ? ['#1c3340', '#182c38', '#142530'] : ['#5f9fb0', '#548fa0', '#4a7f90']);
-      for (let i = 0; i < 24; i++) R(c, (rnd() * W + o.t * 0.6) % W, 18 + rnd() * 40, 3, 1, 'rgba(230,250,255,0.25)');
-      bands(c, 62, H, ['#7d6d58', '#6a5c49']);
-      for (let i = 0; i < 26; i++) R(c, rnd() * W, 61 + rnd() * 8, 3, 2, ['#9b9184', '#857a6c', '#b0a796'][i % 3]);
-    },
-    pond(c, o, rnd) {
-      sky(c, 12, o.night); if (!o.night) clouds(c, o.t, 2, rnd, 2);
-      R(c, 0, 12, W, 2, '#8a8a6e');
-      bands(c, 14, H, ['#5d7a4e', '#506c44', '#455e3b', '#3a5032', '#30432a']);
-      R(c, 0, 14, W, 1, '#a9bf8e');
-      for (let i = 0; i < 50; i++) R(c, rnd() * W, 16 + rnd() * 54, 1, 1, 'rgba(200,220,150,0.35)');
-      bubbles(c, o.t, rnd, 150, 170, 16, H, 'rgba(230,250,230,0.8)');
-      R(c, 158, 12, 6, 3, '#d0d0c0');
-    },
-    sky(c, o, rnd) {
-      bands(c, 0, 56, o.night ? ['#0b1026', '#0f1733', '#141f42', '#1a2850'] : ['#5aa2e0', '#72b2e8', '#8cc2ee', '#a8d2f2', '#c4e1f5']);
-      if (o.night) stars(c, 50, rnd, o.t); else { sun(c, false); clouds(c, o.t, 8, rnd, 4); }
-      for (let x = 0; x < W; x += 16) R(c, x, 56, 16, 16, ['#6f9a4a', '#88a85a', '#a7b56a', '#7c9e52'][Math.floor(rnd() * 4)]);
-      for (let x = 0; x < W; x += 24) R(c, x + 6, 50, 10, 6, '#9a8a78');
-      R(c, 0, 55, W, 1, '#55803a');
-    },
-    grass(c, o, rnd) {
-      sky(c, 30, o.night); if (o.night) stars(c, 30, rnd, o.t); else { sun(c, false); clouds(c, o.t, 4, rnd, 2); }
-      R(c, 0, 30, W, H - 30, '#4c7d34');
-      for (let i = 0; i < 14; i++) { const x = rnd() * W, h = 20 + rnd() * 30; R(c, x, H - h, 2, h, '#6aa34a'); R(c, x - 3, H - h + 6, 4, 2, '#7cb85a'); }
-      grassBlades(c, H, rnd, ['#5c9a3e', '#78b456', '#3f7a2e', '#8cc066'], o.t, 22);
-      for (let i = 0; i < 6; i++) { const x = rnd() * W, y = 34 + rnd() * 20; R(c, x, y, 3, 3, ['#f2d24b', '#e86a6a', '#f4f4f4'][i % 3]); }
-    },
-    forest(c, o, rnd) { SCENES.grass(c, o, rnd); for (let i = 0; i < 6; i++) { const x = rnd() * W; R(c, x, 0, 6, 50, '#5b4330'); R(c, x - 8, 0, 22, 14, '#2f5d2a'); } },
-    farm(c, o, rnd) {
-      sky(c, 34, o.night); if (o.night) stars(c, 34, rnd, o.t); else { sun(c, false, 30, 8); clouds(c, o.t, 6, rnd, 3); }
-      R(c, 0, 30, W, 4, '#7da35a');
-      R(c, 0, 34, W, H - 34, '#8db864');
-      for (let i = 0; i < 40; i++) R(c, rnd() * W, 36 + rnd() * 34, 1, 2, '#6f9c4a');
-      R(c, 140, 14, 34, 20, '#9c3b2e'); R(c, 137, 12, 40, 3, '#5e2a22'); R(c, 153, 24, 8, 10, '#3a1c16');
-      for (let x = 0; x < W; x += 10) R(c, x, 40, 2, 10, '#c9b48a');
-      R(c, 0, 42, W, 1, '#c9b48a'); R(c, 0, 47, W, 1, '#c9b48a');
-    },
-    barn(c, o, rnd) {
-      bands(c, 0, 44, ['#5a5048', '#615649', '#695d4e']);
-      for (let x = 0; x < W; x += 12) R(c, x, 0, 1, 44, '#4a4139');
-      for (let x = 20; x < W; x += 48) { R(c, x, 3, 14, 2, '#f5ecc0'); R(c, x + 2, 5, 10, 1, 'rgba(255,240,190,0.4)'); }
-      R(c, 0, 44, W, H - 44, '#b8a27a');
-      for (let i = 0; i < 160; i++) R(c, rnd() * W, 45 + rnd() * 27, 2, 1, rnd() > 0.5 ? '#a68f66' : '#cbb68d');
-      R(c, 0, 40, W, 4, '#8a7a62');
-      for (let x = 30; x < W; x += 60) { R(c, x, 38, 2, 8, '#9a9a9a'); R(c, x - 4, 46, 10, 3, '#c94a3a'); }
-    },
-    city(c, o, rnd) {
-      sky(c, 50, o.night); if (o.night) stars(c, 30, rnd, o.t); else clouds(c, o.t, 4, rnd, 2);
-      let x = 0;
-      while (x < W) {
-        const w = 14 + rnd() * 18, h = 20 + rnd() * 32, col = o.night ? '#1c2233' : ['#8a8f99', '#9aa0a8', '#7d838e'][Math.floor(rnd() * 3)];
-        R(c, x, 56 - h, w, h, col);
-        for (let wy = 56 - h + 3; wy < 52; wy += 5) for (let wx = x + 2; wx < x + w - 3; wx += 4) if (rnd() > 0.45) R(c, wx, wy, 2, 2, o.night ? '#f2d27a' : '#c9dbe6');
-        x += w + 1;
-      }
-      R(c, 0, 56, W, H - 56, '#4a4a4f'); R(c, 0, 56, W, 1, '#6a6a70');
-      for (let xx = 4; xx < W; xx += 18) R(c, xx, 63, 8, 1, '#d8d27a');
-    },
-    house(c, o, rnd) {
-      R(c, 0, 0, W, 50, '#d9cdb8');
-      for (let x = 0; x < W; x += 8) R(c, x, 0, 1, 50, '#d1c4ad');
-      R(c, 120, 8, 40, 26, o.night ? '#1a2550' : '#9cc8ee'); R(c, 139, 8, 2, 26, '#f4efe4'); R(c, 120, 20, 40, 2, '#f4efe4');
-      R(c, 118, 6, 44, 2, '#f4efe4'); R(c, 118, 34, 44, 2, '#f4efe4');
-      R(c, 0, 50, W, H - 50, '#9b7650');
-      for (let x = 0; x < W; x += 24) R(c, x, 50, 1, H - 50, '#86643f');
-      R(c, 16, 34, 60, 16, '#5b7a8c'); R(c, 16, 30, 60, 6, '#6c8ca0'); R(c, 14, 34, 4, 16, '#4d6a7a'); R(c, 74, 34, 4, 16, '#4d6a7a');
-    },
-    hive(c, o, rnd) {
-      R(c, 0, 0, W, H, '#7a4b12');
-      for (let y = 0, row = 0; y < H; y += 6, row++) {
-        for (let x = (row % 2) * 5; x < W; x += 10) {
-          const fill = rnd();
-          R(c, x + 1, y + 1, 8, 4, fill > 0.6 ? '#e8a22a' : fill > 0.3 ? '#f2c25a' : '#c98a1e');
-          R(c, x + 2, y, 6, 1, '#a8680f'); R(c, x + 2, y + 5, 6, 1, '#a8680f');
-          if (fill > 0.85) R(c, x + 4, y + 2, 2, 2, '#f7f1d8');
-        }
-      }
-    },
-    savanna(c, o, rnd) {
-      bands(c, 0, 38, o.night ? ['#0b1026', '#141f42', '#1f2b55'] : ['#f3c67a', '#f6d595', '#f8e2b2']);
-      if (o.night) stars(c, 36, rnd, o.t); else sun(c, false, 40, 12);
-      R(c, 0, 38, W, H - 38, '#c9a24f');
-      for (let i = 0; i < 90; i++) R(c, rnd() * W, 39 + rnd() * 32, 1, 2 + rnd() * 3, rnd() > 0.5 ? '#b38b3a' : '#dcb866');
-      R(c, 140, 22, 3, 18, '#4a3322'); R(c, 124, 18, 36, 4, '#5a6e2c'); R(c, 130, 15, 24, 3, '#5a6e2c');
-    },
-    mountain(c, o, rnd) {
-      sky(c, 40, o.night); if (o.night) stars(c, 30, rnd, o.t); else clouds(c, o.t, 6, rnd, 2);
-      for (let x = 0; x < W; x++) { const h = 18 + Math.abs(Math.sin(x / 23)) * 18 + Math.sin(x / 7) * 2; R(c, x, 52 - h, 1, h, '#5c7a6a'); }
-      for (let x = 0; x < W; x++) { const h = 10 + Math.abs(Math.sin(x / 15 + 1)) * 10; R(c, x, 56 - h, 1, h, '#3f6a4a'); }
-      R(c, 0, 54, W, H - 54, '#4a7a3a');
-      for (let i = 0; i < 12; i++) { const x = rnd() * W, h = 30 + rnd() * 40; R(c, x, H - h, 2, h, '#8fb84a'); for (let y = H - h; y < H; y += 7) R(c, x, y, 2, 1, '#5f8a2a'); R(c, x + 2, H - h + 4, 4, 1, '#7aa83a'); }
-    },
-  };
-
-  function drawSprite(c, emoji, x, y, size, alpha = 1, spr = null, flip = false, squash = 1) {
-    c.globalAlpha = alpha;
-    const pic = spr || (window.GAME && window.GAME.pix(emoji).canvas);
-    const k = size / Math.max(pic.width, pic.height) * 1.1, w = Math.max(1, Math.round(pic.width * k)), h = Math.max(1, Math.round(pic.height * k * squash));
-    c.save(); c.translate(Math.round(x), Math.round(y)); if (flip) c.scale(-1, 1); c.drawImage(pic, -Math.round(w / 2), -Math.round(h / 2), w, h); c.restore();
-    c.globalAlpha = 1;
-  }
-
-  // o: { scene, t, night, emoji, sibs, seed, dead }
-  window.drawScene = function (canvas, o) {
-    const c = canvas.getContext('2d');
-    c.imageSmoothingEnabled = false;
-    const fn = SCENES[o.scene] || SCENES.grass;
-    fn(c, o, seeded(o.seed || 7));
-    const rnd = seeded((o.seed || 7) * 31 + 5);
-    const n = Math.min(o.sibs || 0, 14);
-    for (let i = 0; i < n; i++) {
-      const x = 14 + rnd() * (W - 28), y = 30 + rnd() * 34;
-      drawSprite(c, o.emoji, x + Math.sin((o.t + i * 13) / 8) * 2, y, 8, 0.75, o.sprite);
-    }
-    // the creature: it paces when foraging, roams when exploring, hides, sleeps, courts
-    const t = o.t, act = o.quiet ? 'egg' : o.act, big = Math.round(15 + 10 * (o.grow ?? 1));
-    let x = W / 2, y = 44, flip = false, a = 1;
-    if (act === 'forage') { x += Math.sin(t / 9) * 24; flip = Math.cos(t / 9) < 0; y += Math.abs(Math.sin(t / 2)) * -2; }
-    else if (act === 'explore') { x += Math.sin(t / 14) * 66; flip = Math.cos(t / 14) < 0; y += Math.abs(Math.sin(t / 2)) * -3; }
-    else if (act === 'hide') { y += 4; a = 0.55; }
-    else if (act === 'rest') y += 4;
-    else if (act !== 'egg') { x += Math.sin(t / 20) * 10; y += Math.round(Math.sin(t / 5) * 1.5); }
-    if (o.threat) { x += (Math.floor(t) % 2 ? 1 : -1); flip = false; }
-    if (!o.dead) {
-      c.fillStyle = 'rgba(0,0,0,0.28)'; c.fillRect(Math.round(x - 9), Math.round(y + 12), 18, 2);
-      if (act === 'egg') { const s = Math.floor(t / 6) % 8 === 0 ? 1 : 0; [[-4, -8, 8], [-6, -6, 12], [-7, -3, 14], [-8, 0, 16], [-8, 3, 16], [-7, 6, 14], [-5, 9, 10]].forEach(([dx, dy, w]) => R(c, x + dx + s, y + dy, w, 3, '#efe3c8')); R(c, x - 4 + s, y - 4, 3, 5, '#fffaf0'); R(c, x + 2 + s, y + 4, 4, 3, '#cdbd98'); }
-      else if (act === 'rest') drawSprite(c, o.emoji, x, y, big, a, o.sprite, flip, 0.8); else drawSprite(c, o.emoji, x, y, big, a, o.sprite, flip);
-      if (act === 'hide') for (let i = 0; i < 12; i++) R(c, x - 16 + i * 3, y + 4 - (i * 7 % 9), 2, 10 + (i * 5 % 6), ['#3c8f4d', '#4fa85c', '#2f6f3c'][i % 3]);
-      if (act === 'rest') { const k = Math.floor(t / 5) % 3; for (let i = 0; i <= k; i++) { const zx = x + 12 + i * 6, zy = y - 8 - i * 6; R(c, zx, zy, 4, 1, '#fff6e0'); R(c, zx + 2, zy + 1, 1, 1, '#fff6e0'); R(c, zx + 1, zy + 2, 1, 1, '#fff6e0'); R(c, zx, zy + 3, 4, 1, '#fff6e0'); } }
-      if (act === 'mate') for (let i = 0; i < 3; i++) { const hy = y - 12 - ((t + i * 12) % 30) / 2, hx = x + Math.sin((t + i * 9) / 5) * 10; R(c, hx - 2, hy, 2, 2, '#ff6b9e'); R(c, hx + 1, hy, 2, 2, '#ff6b9e'); R(c, hx - 2, hy + 1, 5, 2, '#ff6b9e'); R(c, hx - 1, hy + 3, 3, 1, '#ff6b9e'); R(c, hx, hy + 4, 1, 1, '#ff6b9e'); }
-      const py = Math.round(y - 19 + (Math.floor(t / 4) % 2)); R(c, x - 2, py, 5, 1, '#ffcf4a'); R(c, x - 1, py + 1, 3, 1, '#ffcf4a'); R(c, x, py + 2, 1, 1, '#ffcf4a');
-    }
-    if (o.threat) {   // something dark closes in
-      const d = 46 + Math.sin(t / 6) * 8; [-1, 1].forEach((k) => { const ex = x + k * d; R(c, ex - 12, 24, 24, 40, 'rgba(10,6,24,0.62)'); R(c, ex - 9, 20, 18, 4, 'rgba(10,6,24,0.62)'); R(c, ex - 6, 32, 4, 3, '#ff4a4a'); R(c, ex + 3, 32, 4, 3, '#ff4a4a'); });
-      if (Math.floor(t / 3) % 2) { R(c, x - 1, y - 32, 3, 8, '#ff4a4a'); R(c, x - 1, y - 22, 3, 3, '#ff4a4a'); }
-    }
-    if (o.dead) { c.fillStyle = 'rgba(10,8,28,0.6)'; c.fillRect(0, 0, W, H); drawSprite(c, o.emoji, W / 2, 40 - Math.min(26, (o.deadT || 0)), big, 0.55, o.sprite); }
-    if (o.night) { c.fillStyle = 'rgba(5,10,30,0.25)'; c.fillRect(0, 0, W, H); }
-  };
+  window.GAME = { sfx, toggleMute, isMuted: () => muted, quiet: (v) => { quiet = v; }, timing, reduced };
 })();
 
 ;
@@ -15925,7 +16049,7 @@ window.ROLL_RULES = {
   const Tn = (k, n, v) => { const arr = T(k); return fmt(arr[(n - 1) % arr.length], v); };
   const UNITNAME = T('unit');
   const KIND = T('kind');
-  const EN = LANG !== 'zh', G = window.GAME, SEP = EN ? ': ' : '：';
+  const EN = LANG !== 'zh', G = window.GAME, SEP = EN ? ': ' : '：', ASSET = window.ASSET || '';
   function boot() {
     document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : LANG;
     if (EN && !(window.I18N_SP && window.I18N_SP[LANG])) {
@@ -15995,22 +16119,13 @@ window.ROLL_RULES = {
   function link(sp, key) { const r = sp._ev.refs[key]; return r ? `<a class="src" target="_blank" rel="noopener" href="${esc(r.u)}">${esc(cite(r))} ↗</a>` : ''; }
   const badge = (b) => `<span class="ev ev-${b}">${T(`basis.${b}`)}</span>`;
   const evLine = (sp, o) => `<p class="evline">${badge(o.basis)} ${esc(txt(o))} ${link(sp, o.ref)}</p>`;
-  const sprCache = {};
-  function sprite(sp) {
-    if (!sp.sprite) return null;
-    if (sprCache[sp.id]) return sprCache[sp.id];
-    const h = sp.sprite.length, w = Math.max(...sp.sprite.map((r) => r.length));
-    const c = document.createElement('canvas'); c.width = w; c.height = h;
-    const x = c.getContext('2d');
-    sp.sprite.forEach((row, y) => [...row].forEach((ch, i) => { if (ch !== '.' && sp.pal[ch]) { x.fillStyle = sp.pal[ch]; x.fillRect(i, y, 1, 1); } }));
-    return (sprCache[sp.id] = { url: c.toDataURL(), canvas: c });
-  }
-  // HTML for a species' picture: its pixel sprite if it has one, otherwise its emoji.
-  function icon(sp, px = 24) {
-    const s = sprite(sp);
-    return `<img class="spr" src="${(s || G.pix(sp.emoji)).url}" alt="" style="width:${Math.round(px * 1.2)}px">`;
-  }
-  const art0 = (sp) => (sprite(sp) || G.pix(sp.emoji)).canvas;
+  const PH = window.PHOTOS || {};
+  const licName = (x) => (EN ? x : x.replace('Public domain', '公有领域'));
+  const photo = (sp) => PH[sp.id] || null;
+  const photoUrl = (sp) => (PH[sp.id] ? `${ASSET}img/${sp.id}.webp` : '');
+  const credit = (sp) => { const p = PH[sp.id]; return p ? `<a class="credit" target="_blank" rel="noopener" href="${esc(p.page)}">${T('photoBy', { a: esc(p.artist), l: esc(licName(p.lic)) })}</a>` : ''; };
+  // a small square photograph of the species
+  const icon = (sp, px = 24) => (PH[sp.id] ? `<img class="ph" loading="lazy" src="${ASSET}img/t/${sp.id}.webp" alt="" style="width:${px}px;height:${px}px">` : `<span class="ph" style="width:${px}px;height:${px}px"></span>`);
   const ALL_ODDS = window.ODDS || [];
   const TOTAL = ALL_ODDS.reduce((a, o) => a + o.pop, 0);
   const ODDS = ALL_ODDS.filter((o) => SP[o.id]).sort((a, b) => b.pop - a.pop);
@@ -16150,8 +16265,7 @@ window.ROLL_RULES = {
   const VIEWS = ['home', 'reveal', 'birth', 'life', 'death', 'book', 'friend', 'src'];
   function show(v) {
     VIEWS.forEach((k) => { $('#v-' + k).hidden = k !== v; });
-    document.body.classList.toggle('at-home', v === 'home'); document.body.classList.toggle('in-life', v === 'life');
-    window.scrollTo(0, 0);
+    document.body.classList.toggle('at-home', v === 'home'); window.scrollTo(0, 0);
   }
 
   // ---------- modes ----------
@@ -16169,12 +16283,6 @@ window.ROLL_RULES = {
   function shareIn(m, id) { const p = pool(m); const t = p.reduce((a, o) => a + weightOf(m, o), 0); const o = p.find((x) => x.id === id); return o ? weightOf(m, o) / t : 0; }
 
   // ---------- home ----------
-  let stopIdle = null;
-  // twelve creatures on the wheel; the given ids come first
-  function wheelItems(ids) {
-    const rest = ODDS.map((o) => o.id).filter((x) => !ids.includes(x)).sort(() => rand() - 0.5);
-    return ids.concat(rest).slice(0, G.SLOTS).map((id) => ({ id, canvas: art0(SP[id]) }));
-  }
   function renderHome() {
     const digits = (BigInt(Math.round(TOTAL / 1e15)) * 1000000000000000n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     $('#bignum').innerHTML = T('bignum', { digits: digits.replace(/,/g, ',<wbr>') });
@@ -16190,24 +16298,23 @@ window.ROLL_RULES = {
     const hum = oddsOf('human');
     $('#oddsnote').textContent = T('oddsNote', { n: top.length - 2, rest: pct(rest), human: oneIn(hum.pop / TOTAL) });
 
-    $('#whats').innerHTML = top.slice(0, 2).map((o) => { const sp = SP[o.id]; return `<div class="what"><span class="em">${icon(sp, 56)}</span><div><h3>${esc(T('whatTitle', { art: art(sp.name), sp: lc(sp.name) }))}</h3><p>${esc(about(o.id))}</p></div></div>`; }).join('');
+    $('#whats').innerHTML = top.slice(0, 2).map((o) => { const sp = SP[o.id]; return `<button type="button" class="what" data-sp="${o.id}"><span class="em">${icon(sp, 84)}</span><div><h3>${esc(T('whatTitle', { art: art(sp.name), sp: lc(sp.name) }))}</h3><p>${esc(about(o.id))}</p><span class="morelink">${T('bio.open')}</span></div></button>`; }).join('');
     $('#modes').innerHTML = MODES.map(([k, label]) => `<button class="btn" type="button" data-mode="${k}" aria-pressed="${k === mode}">${label}</button>`).join('');
     $('#pick').innerHTML = ODDS.map((o) => `<option value="${o.id}">${esc(SP[o.id].name)}</option>`).join('');
     const lastPick = store.get('lunhui.pick', null); if (lastPick && SP[lastPick]) $('#pick').value = lastPick;
     updateMode();
 
-    if (stopIdle) stopIdle(); stopIdle = G.idleWheel($('#wheel0'), wheelItems(top.slice(0, 1).map((o) => o.id)));
     const maxL = Math.log10(top[0].pop), minL = 3;
     $('#oddslist').innerHTML = top.map((o) => {
       const s = SP[o.id];
       const confLabel = T('conf')[o.conf];
       const w = clamp((Math.log10(o.pop) - minL) / (maxL - minL), 0.01, 1) * 100;
-      return `<div class="oddsrow" title="${esc(o.src)}">
-        <span class="em">${s ? icon(s, 24) : '·'}</span>
+      return `<${s ? `button type="button" data-sp="${o.id}"` : 'div'} class="oddsrow" title="${esc(o.src)}">
+        <span class="em">${s ? icon(s, 44) : '·'}</span>
         <span class="nm">${esc(s ? s.name : o.id)} <span class="conf ${o.conf}">${confLabel}</span><small class="mono">${cnNum(o.pop)}</small>${s ? `<span class="wh">${esc(about(o.id))}</span>` : ''}</span>
         <span class="bar"><i style="width:${w}%"></i></span>
         <span class="od">${oneIn(o.pop / TOTAL)}</span>
-      </div>`;
+      </${s ? 'button' : 'div'}>`;
     }).join('') + `<p class="small muted" style="padding-top:8px">${T('logScale')}</p>`;
   }
   function updateMode() {
@@ -16220,24 +16327,24 @@ window.ROLL_RULES = {
   $('#pick').addEventListener('change', () => store.set('lunhui.pick', $('#pick').value));
 
   // ---------- reveal ----------
-  let revealTimer = null, stopSpin = null;
+  let revealTimer = null;
   function reveal() {
-    clearTimeout(revealTimer); if (stopSpin) stopSpin();
-    const final = draw(mode), only = pool(mode).length === 1;
-    const ids = [...new Set(Array.from({ length: 5 }, () => wpick(pool(mode), (o) => weightOf(mode, o)).id))].filter((x) => x !== final.id);
-    const items = wheelItems(only ? [] : ids).filter((x) => x.id !== final.id).sort(() => rand() - 0.5);
-    const slot = Math.floor(rand() * Math.min(items.length + 1, G.SLOTS));
-    items.splice(slot, 0, { id: final.id, canvas: art0(SP[final.id]) }); items.length = Math.min(items.length, G.SLOTS);
-    show('reveal'); $('#rv').classList.remove('won');
-    const ls = T('revealLines'); $('#rv-line').textContent = ls[Math.floor(rand() * ls.length)];
-    $('#rv-nm').textContent = ''; $('#rv-od').textContent = ''; $('#rv-em').innerHTML = '';
-    G.sfx('move');
-    stopSpin = G.spinWheel($('#wheel1'), items, slot, (k) => { if (items[k]) $('#rv-em').innerHTML = icon(SP[items[k].id], 76); }, () => {
-      const s = SP[final.id];
-      $('#rv-em').innerHTML = icon(s, 96); $('#rv').classList.add('won'); $('#rv-nm').textContent = s.name; $('#rv-od').textContent = T('odds', { p: oneIn(shareIn(mode, final.id)) });
-      G.sfx('born');
-      revealTimer = setTimeout(() => { if (!$('#v-reveal').hidden) birth(final.id); }, G.reduced() ? 500 : 1500);
-    });
+    const final = draw(mode);
+    show('reveal');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const steps = reduce ? 1 : 18;
+    let i = 0;
+    const tick = () => {
+      const o = i < steps - 1 ? ODDS[Math.floor(rand() * ODDS.length)] : final;
+      const s = SP[o.id];
+      $('#rv-em').innerHTML = icon(s, 200); $('#rv-nm').textContent = s.name;
+      if (i % 4 === 0) { const ls = T('revealLines'); $('#rv-line').textContent = ls[Math.floor(rand() * ls.length)]; }
+      $('#rv-od').textContent = T('odds', { p: oneIn(shareIn(mode, o.id)) });
+      i++;
+      if (i < steps) revealTimer = setTimeout(tick, 50 + i * i * 1.6);
+      else revealTimer = setTimeout(() => birth(final.id), reduce ? 400 : 1100);
+    };
+    tick();
   }
 
   // ---------- life state ----------
@@ -16311,6 +16418,7 @@ window.ROLL_RULES = {
     return String(text || '').replace(/\{([^}]+)\}/g, (m, k) => (k in vars ? vars[k] : m));
   }
 
+  const latin = (sp) => (window.BIO && window.BIO[sp.id] && window.BIO[sp.id].sci) || (String(sp.sci || '').match(/[A-Z][a-z]+(?: [a-z]+)?/) || [''])[0];
   // ---------- three goals per life ----------
   function makeGoals(sp) {
     const out = [{ k: 'half', ok: () => S(sp, L.age) <= 0.5 }], last = sp.stages[sp.stages.length - 1];
@@ -16319,37 +16427,25 @@ window.ROLL_RULES = {
     out.push(canBreed(sp) ? { k: 'kids', ok: () => L.stats.offspring > 0 } : { k: 'stage', v: { s: last.name }, ok: () => L.age >= last.from });
     return out.map((g) => ({ ...g, t: T(`goal.${g.k}`, g.v), done: false }));
   }
-  const goalsHTML = () => L.goals.map((g) => `<div class="goal${g.done ? ' on' : ''}">${G.icon(g.done ? 'star' : 'starOff', 22)}<span>${esc(g.t)}</span></div>`).join('');
-  const starRow = (n, px = 22) => [0, 1, 2].map((i) => G.icon(i < n ? 'star' : 'starOff', px)).join('');
+  const STAR = (on) => `<svg class="star${on ? ' on' : ''}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>`;
+  const goalsHTML = () => L.goals.map((g) => `<div class="goal${g.done ? ' on' : ''}">${STAR(g.done)}<span>${esc(g.t)}</span></div>`).join('');
+  const starRow = (n) => `<span class="stars">${[0, 1, 2].map((i) => STAR(i < n)).join('')}</span>`;
   const starCount = () => L.goals.filter((g) => g.done).length;
   function checkGoals() {
-    L.goals.forEach((g) => { if (!g.done && g.ok()) { g.done = true; if (!L.auto) { G.sfx('star'); toast(`${G.icon('star', 22)}<span>${esc(T('goalDone', { g: g.t }))}</span>`); } } });
+    L.goals.forEach((g) => { if (!g.done && g.ok()) { g.done = true; if (!L.auto) { G.sfx('star'); toast(`${STAR(true)}<span>${esc(T('goalDone', { g: g.t }))}</span>`); } } });
   }
   function toast(html) { const old = $('#toast'); if (old) old.remove(); const el = document.createElement('div'); el.id = 'toast'; el.innerHTML = html; $('#stage').append(el); setTimeout(() => el.remove(), 2900); }
-  // numbers that float off the creature when its state jumps
+  // numbers that rise over the photograph when the animal's state jumps
   function feedback() {
-    const s = L.stats, o = L.lastStats; L.lastStats = { ...s };
+    const st = L.stats, o = L.lastStats; L.lastStats = { ...st };
     if (!o || L.auto || L.dead || $('#v-life').hidden) return;
-    const col = { health: 'var(--bad)', food: 'var(--warn)', safety: 'var(--cyan)', offspring: 'var(--accent)' }, ic = { health: 'heart', food: 'food', safety: 'shield', offspring: 'mate' };
     let k = 0;
     ['health', 'food', 'safety', 'offspring'].forEach((x) => {
-      const d = Math.round(s[x] - o[x]); if (Math.abs(d) < (x === 'offspring' ? 1 : 5)) return;
-      const el = document.createElement('span'); el.style.color = d > 0 ? col[x] : 'var(--bad)'; el.style.marginLeft = `${(k++ % 3) * 80 - 60}px`; el.innerHTML = `${G.icon(ic[x], 18)} ${d > 0 ? '+' : ''}${cnNum(Math.abs(d)) === String(Math.abs(d)) ? d : (d > 0 ? '' : '-') + cnNum(Math.abs(d))}`;
-      $('#floats').append(el); setTimeout(() => el.remove(), 1400);
+      const d = Math.round(st[x] - o[x]); if (Math.abs(d) < (x === 'offspring' ? 1 : 5)) return;
+      const el = document.createElement('span'); el.className = d > 0 ? 'up' : 'down'; el.style.marginLeft = `${(k++ % 3) * 96 - 96}px`; el.textContent = `${T(`stat.${x}`)} ${d > 0 ? '+' : '−'}${cnNum(Math.abs(d))}`;
+      $('#floats').append(el); setTimeout(() => el.remove(), 1500);
     });
-    const dh = s.health - o.health;
-    if (dh <= -8) { hurt(); G.sfx('hurt'); } else if (dh >= 8) G.sfx('heal');
-    if (s.offspring > o.offspring) G.sfx('heal');
-  }
-  function hurt() { const c = $('#scene'), st = $('#stage'); c.classList.remove('shake'); st.classList.remove('hurt'); void c.offsetWidth; c.classList.add('shake'); st.classList.add('hurt'); setTimeout(() => { c.classList.remove('shake'); st.classList.remove('hurt'); }, 400); }
-  // the latest line, typed into the dialogue box
-  let sayRaf = 0;
-  function say(text, extra = '') {
-    const box = $('#lf-say'); cancelAnimationFrame(sayRaf);
-    if (L.speed >= 4 || L.ff || G.reduced() || document.hidden) { box.innerHTML = `${esc(text)} ${extra}`; return; }
-    const ms = Math.min(700, text.length * 22), t0 = performance.now(); let last = 0;
-    const tick = (ts) => { const n = Math.min(text.length, Math.ceil(Math.max(0, ts - t0) / ms * text.length)); if (n !== last) { if (n - last > 0 && n % 3 === 0) G.sfx('blip'); last = n; box.textContent = text.slice(0, n); } if (n < text.length) sayRaf = requestAnimationFrame(tick); else box.innerHTML = `${esc(text)} ${extra}`; };
-    sayRaf = requestAnimationFrame(tick);
+    if (st.health - o.health <= -8) { const c = $('#stage'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); setTimeout(() => c.classList.remove('shake'), 400); G.sfx('hurt'); }
   }
 
   // ---------- birth card ----------
@@ -16382,12 +16478,13 @@ window.ROLL_RULES = {
       </table>` : '';
     $('#v-birth').innerHTML = `
       <div class="card">
+        ${photo(sp) ? `<figure class="hero-ph"><img src="${photoUrl(sp)}" alt="${esc(sp.name)}" style="object-position:${photo(sp).focus}"><figcaption>${credit(sp)}</figcaption></figure>` : ''}
         <div class="card-head"><span>${T('birthHead')}</span><span>${T('no', { n: L.no })}</span></div>
         <div class="card-body">
-          <div class="specname"><span class="em">${icon(sp, 60)}</span><div><h2>${esc(sp.name)}</h2>${EN ? `<div class="sci">${esc(sp.sci || '')}</div>` : ''}${sp.taxon ? `<div class="small muted">${esc(EN ? sp.taxon : sp.taxon.replace(/（[A-Za-z ]+）/g, ''))}</div>` : ''}</div></div>
+          <div class="specname"><div><h2>${esc(sp.name)}</h2><div class="sci">${esc(latin(sp))}</div>${sp.taxon ? `<div class="small muted">${esc(EN ? sp.taxon : sp.taxon.replace(/（[A-Za-z ]+）/g, ''))}</div>` : ''}</div></div>
           <p style="font-size:16.5px">${esc(fill(sp.birth.intro))}</p>
-          <div class="whatis"><b>${esc(T('whatIs', { art: art(sp.name), sp: lc(sp.name) }))}</b><p>${esc(about(sp.id))}</p>${sp.note ? `<p class="small muted">${esc(sp.note)}</p>` : ''}</div>
-          <div><h3 style="font-size:22px;color:var(--accent)">${T('goalTitle')}</h3><div class="goals">${goalsHTML()}</div></div>
+          <div class="whatis"><b>${esc(T('whatIs', { art: art(sp.name), sp: lc(sp.name) }))}</b><p>${esc(about(sp.id))}</p>${sp.note ? `<p class="small muted">${esc(sp.note)}</p>` : ''}<button class="linkbtn" type="button" data-sp="${sp.id}">${T('bio.open')}</button></div>
+          <div class="goalbox"><b>${T('goalTitle')}</b><div class="goals">${goalsHTML()}</div></div>
           <div class="row"><button class="btn-primary" id="begin" type="button">${T('begin')}</button><button class="btn" id="reroll" type="button">${T('reroll')}</button></div>
           <div class="fields">${fields.map(([k, v]) => `<div class="field"><span class="eyebrow">${esc(k)}</span><div class="v">${String(v).startsWith('<') ? v : esc(v)}</div></div>`).join('')}</div>
           ${cmp}
@@ -16405,13 +16502,12 @@ window.ROLL_RULES = {
   let timer = null, raf = null;
   function startLife() {
     show('life');
-    $('#lf-log').innerHTML = ''; $('#floats').innerHTML = ''; L.lastStats = { ...L.stats };
-    G.sfx('born');
+    $('#lf-log').innerHTML = ''; $('#floats').innerHTML = ''; L.lastStats = { ...L.stats }; G.sfx('born');
+    { const p = photo(L.sp), im = $('#scene'); im.src = photoUrl(L.sp); im.alt = L.sp.name; im.hidden = !p; im.style.objectPosition = p ? p.focus : ''; $('#lf-credit').innerHTML = credit(L.sp); }
     addLog(fill(L.sp.birth.intro), 'stage');
     renderControls();
     renderLife();
     renderActs();
-    animate();
     if (L.sp.opening) openDecision({ ...L.sp.opening, id: '__opening', eyebrow: T('openingEyebrow') });
     else schedule();
   }
@@ -16711,8 +16807,7 @@ window.ROLL_RULES = {
       addLog(T('autoChose', { d: d.title, o: opt.t }), 'choice');
       return choose(d, opt);
     }
-    L.ff = false; renderControls(); window.scrollTo({ top: 0 });
-    G.sfx(d.crisis ? 'alarm' : 'pick'); $('#stage').classList.toggle('danger', !!d.crisis); L.threat = !!d.crisis; $('#dlg').className = `dlg${d.crisis ? ' crisis' : ''}`;
+    L.ff = false; renderControls(); G.sfx(d.crisis ? 'alarm' : 'pick'); $('#dlg').className = `dlg${d.crisis ? ' crisis' : ''}`;
     const [n, u] = bigAge(L.cal, L.unit || stageAt(L.sp, L.age).unit);
     $('#dlg').innerHTML = `
       <div class="head"><span class="eyebrow" style="color:${d.crisis ? 'var(--bad)' : 'var(--accent)'}">${esc(d.eyebrow || T('decision'))}</span><span class="eyebrow">${n} ${u} · ${esc(stageAt(L.sp, L.age).name)}</span></div>
@@ -16744,7 +16839,6 @@ window.ROLL_RULES = {
   }
   function choose(d, opt, interactive = false, fate = null) {
     if (opt.eff) opt = { ...opt, eff: Object.fromEntries(Object.entries(opt.eff).map(([k, v]) => [k, k === 'set' ? v : val(v)])) };
-    $('#stage').classList.remove('danger'); L.threat = false;
     L.choices.push(`${d.title} → ${opt.t}`); L.lastChoice = L.ticks;
     if (opt.act) L.act = opt.act;
     applyEff(opt.eff, L.stats, L.flags);
@@ -16782,15 +16876,15 @@ window.ROLL_RULES = {
       ${opt.result ? `<p>${esc(fill(opt.result))}</p>` : ''}
       ${chips || riskNote ? `<div class="row">${chips}${riskNote}</div>` : ''}
       ${opt.risk || (opt.kill && !opt.crisis) ? `<p class="small muted">${badge('rule')} ${[opt.risk ? T('why.ruleRisk', { x: opt.risk.toFixed(2) }) : '', opt.kill && !opt.crisis ? T('why.ruleKill', { p: pct(opt.kill) }) : ''].filter(Boolean).join(EN ? '; ' : '；')}</p>` : ''}
-      <div class="opts"><button class="opt" type="button" id="dlg-go"><span class="k">▶</span><span class="tt">${T('continue')}</span></button></div>`;
-    $('#dlg').className = 'dlg';
-    $('#dlg-go').focus();
-    $('#dlg-go').onclick = () => { G.sfx('move'); $('#overlay').hidden = true; schedule(); };
+      <div class="opts"><button class="opt" type="button" id="dlg-go"><span class="k">→</span><span class="tt">${T('continue')}</span></button></div>`;
+    $('#dlg').className = 'dlg'; $('#dlg-go').focus();
+    $('#dlg-go').onclick = () => { $('#overlay').hidden = true; schedule(); };
   }
   document.addEventListener('keydown', (e) => {
+    if (!$('#bio').hidden) { if (e.key === 'Escape') closeBio(); return; }
     if (!$('#overlay').hidden) {
       if (L && L.stopTiming) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!e.repeat) L.stopTiming(); } return; }
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { const os = [...$('#dlg').querySelectorAll('.opt')], i = os.indexOf(document.activeElement); if (os.length) { os[(i + (e.key === 'ArrowDown' ? 1 : os.length - 1) + os.length) % os.length].focus(); G.sfx('move'); } e.preventDefault(); return; }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { const os = [...$('#dlg').querySelectorAll('.opt')], i = os.indexOf(document.activeElement); if (os.length) os[(i + (e.key === 'ArrowDown' ? 1 : os.length - 1) + os.length) % os.length].focus(); e.preventDefault(); return; }
       const b = $('#dlg').querySelector(`.opt[data-i="${+e.key - 1}"]`);
       if (b) { b.click(); e.preventDefault(); }
       return;
@@ -16819,7 +16913,6 @@ window.ROLL_RULES = {
     el.innerHTML = `<span class="t">${esc(stamp(L.cal, unit))}</span><span class="tx">${esc(text)}${fact ? `<span class="fact">${esc(fact)} ${ev && ev.ref ? link(L.sp, ev.ref) : ''}</span>` : ''}${ev && ev.basis ? `<span class="fact plain">${badge(ev.basis)} ${link(L.sp, ev.ref)}</span>` : ''}</span>`;
     const log = $('#lf-log');
     log.prepend(el);
-    if (!L.auto || !L.quietSim) say(text, ev && ev.ref ? link(L.sp, ev.ref) : '');
     while (log.children.length > 300) log.lastChild.remove();
   }
   function renderControls() {
@@ -16847,7 +16940,7 @@ window.ROLL_RULES = {
     const st = stageAt(L.sp, L.age);
     if (!acts.includes(L.act)) L.act = 'instinct';
     $('#lf-acts').innerHTML = acts.length
-      ? acts.map((k, i) => { const A = actionDef(k); return `<button class="act" type="button" data-act="${k}" aria-pressed="${L.act === k}"><span>${G.icon(k, 28)}</span><b>${esc(A.name)}</b><span class="k">${i + 1}</span><span class="hints">${actHints(A)}</span></button>`; }).join('')
+      ? acts.map((k, i) => { const A = actionDef(k); return `<button class="act" type="button" data-act="${k}" aria-pressed="${L.act === k}"><span class="k">${i + 1}</span><b>${esc(A.name)}</b><span class="hints">${actHints(A)}</span></button>`; }).join('')
       : `<p class="muted">${esc(T('cantAct', { s: st.name }))}</p>`;
     $('#lf-act-desc').textContent = acts.length ? actionDef(L.act).desc : '';
     const next = $('#lf-next');
@@ -16861,7 +16954,7 @@ window.ROLL_RULES = {
   $('#lf-next').addEventListener('click', () => { if (L && !L.dead && $('#overlay').hidden) step(); });
   function setAct(k) {
     if (L.act === k) return;
-    L.act = k; G.sfx('pick');
+    L.act = k;
     const nm = actionDef(k).name;
     L.actSwitch = (L.actSwitch || 0) + 1;
     addLog(k === 'instinct' ? Tn('toInstinct', L.actSwitch) : Tn('toAction', L.actSwitch, { a: EN ? nm.toLowerCase() : nm }), 'choice');
@@ -16880,8 +16973,8 @@ window.ROLL_RULES = {
     renderControls(); schedule();
   });
 
-  function statRow(ic, label, v, col) {
-    return `<div class="stat${v < 25 ? ' low' : ''}" title="${esc(label)}" role="img" aria-label="${esc(label)} ${Math.round(v)}">${G.icon(ic, 18)}<span class="track"><i style="width:${v}%;background-color:${col}"></i></span><span class="n">${Math.round(v)}</span></div>`;
+  function statRow(label, v, col) {
+    return `<div class="stat"><span>${label}</span><span class="track"><i style="width:${v}%;background:${col}"></i></span><span class="n">${Math.round(v)}</span></div>`;
   }
   function sibsAlive() {
     if (L.sibsN <= 1) return L.dead ? 0 : 1;
@@ -16897,7 +16990,7 @@ window.ROLL_RULES = {
     $('#lf-sub').textContent = T('sub', { sp: sp.name, st: st.name, u: UNITNAME[unit], y: BIRTH_YEAR + Math.floor(L.cal / 365), bio });
     $('#lf-prog').style.width = `${clamp(L.age / sp.maxAge, 0, 1) * 100}%`;
     $('#lf-id').innerHTML = `
-      <h3>${esc(sp.name)}</h3><div class="small muted">${T('no', { n: L.no })}</div>
+      <button type="button" class="top" data-sp="${sp.id}"><span class="em">${icon(sp, 56)}</span><div><h3>${esc(sp.name)}</h3><div class="small muted">${T('no', { n: L.no })}</div><span class="morelink">${T('bio.open')}</span></div></button>
       <dl class="kv">
         ${L.sex ? `<dt>${T('fSex')}</dt><dd>${esc(L.sex)}</dd>` : ''}
         ${Object.entries(L.rolls).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
@@ -16907,13 +17000,12 @@ window.ROLL_RULES = {
         <dt>${T('fKids')}</dt><dd class="mono">${L.stats.offspring.toLocaleString('en-US')}</dd>
       </dl>`;
     const s = L.stats;
-    checkGoals(); feedback();
-    $('#lf-who').innerHTML = `${icon(sp, 34)}<div><b>${esc(sp.name)}</b><small>${esc(st.name)}</small></div>`;
-    $('#lf-stars').innerHTML = starRow(starCount()); $('#lf-goals').innerHTML = goalsHTML();
+    checkGoals(); feedback(); $('#lf-goals').innerHTML = goalsHTML();
+    $('#stage').classList.toggle('night', isNight()); $('#stage').classList.toggle('dead', L.dead);
     $('#lf-stats').innerHTML =
-      statRow('heart', T('stat.health'), s.health, 'var(--bad)') +
-      statRow('food', T('stat.food'), s.food, 'var(--warn)') +
-      statRow('shield', T('stat.safety'), s.safety, 'var(--cyan)');
+      statRow(T('stat.health'), s.health, s.health < 30 ? 'var(--bad)' : 'var(--good)') +
+      statRow(T('stat.food'), s.food, s.food < 20 ? 'var(--bad)' : 'var(--warn)') +
+      statRow(T('stat.safety'), s.safety, 'var(--cyan)');
     $('#lf-sibl').textContent = T('sibsLeft', { label: sp.birth.siblingsLabel || T('sibsDefault') });
     const alive = sibsAlive();
     $('#lf-sibn').textContent = `${alive.toLocaleString('en-US')} / ${L.sibsN.toLocaleString('en-US')}`;
@@ -16929,29 +17021,15 @@ window.ROLL_RULES = {
     const h = ((L.cal * 24) + 6) % 24;
     return unit === 'hour' ? (h < 6 || h >= 19) : (L.ticks % 2 === 1 && rand() < 0.02);
   }
-  function animate() {
-    cancelAnimationFrame(raf);
-    let last = 0;
-    const loop = (ts) => {
-      if ($('#v-life').hidden || !L) return;
-      if (ts - last > 90) {
-        last = ts; L.t++;
-        window.drawScene($('#scene'), { scene: L.sp.scene, t: L.t, night: isNight(), emoji: L.sp.emoji, sprite: art0(L.sp), act: L.act, grow: clamp(L.age / (Math.min(L.sp.maturity || 0, L.sp.maxAge * 0.5) || 1), 0, 1), quiet: stageAt(L.sp, L.age)._quiet, threat: L.threat, hurt: $('#stage').classList.contains('hurt'), sibs: sibsAlive() - (L.dead ? 0 : 1), seed: L.seed, dead: L.dead });
-      }
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-  }
-
   // ---------- final moment + death record ----------
   function openFinal() {
-    if (!L.quietSim) G.sfx('dead'); $('#dlg').className = 'dlg crisis'; $('#stage').classList.remove('danger');
+    G.sfx('dead'); $('#dlg').className = 'dlg';
     $('#dlg').innerHTML = `
       <div class="head"><span class="eyebrow" style="color:var(--bad)">${T('ended')}</span><span class="eyebrow">${esc(stageAt(L.sp, L.age).name)}</span></div>
       <h2 id="dlg-title">${T('lived', { d: dur(L.cal) })}</h2>
       <p class="cause">${esc(L.cause.short)}</p>
       <p>${esc(fill(L.cause.text))}</p>
-      <div class="opts"><button class="opt" type="button" id="to-death"><span class="k">▶</span><span class="tt">${T('toRecord')}</span></button></div>`;
+      <div class="opts"><button class="opt" type="button" id="to-death"><span class="k">→</span><span class="tt">${T('toRecord')}</span></button></div>`;
     $('#overlay').hidden = false;
     $('#to-death').focus();
     $('#to-death').onclick = () => { $('#overlay').hidden = true; renderDeath(); show('death'); };
@@ -16965,7 +17043,8 @@ window.ROLL_RULES = {
     const c = age >= sp.maxAge * 0.98 ? (sp.causes || []).find((x) => x.id === 'old') : (ok.length ? wpick(ok, (x) => x.w ?? 1) : null);
     return { sp, age, cause: c ? c.short : T('death.short') };
   }
-  function curveSVG(sp, age) {
+  function curveSVG(sp, age0) {
+    const age = age0 ?? 0;
     const W = 600, H = 200, pl = 44, pr = 12, pt = 12, pb = 30;
     const xmax = sp.maxAge;
     const X = (t) => pl + (t / xmax) * (W - pl - pr);
@@ -16981,9 +17060,9 @@ window.ROLL_RULES = {
       <path d="${d}" fill="none" stroke="var(--cyan)" stroke-width="1.5" stroke-dasharray="4 3"/>
       ${(sp._ev.survival || []).map((a) => { let q = ''; for (let i = 0; i <= 24; i++) { const t = a.from + (a.to - a.from) * i / 24; q += `${i ? 'L' : 'M'}${X(t).toFixed(1)},${Y(S(sp, t)).toFixed(1)}`; } return `<path d="${q}" fill="none" stroke="var(--good)" stroke-width="3.5"/>`; }).join('')}
       ${ticks.map((t, i) => `<text x="${X(t)}" y="${H - 10}" text-anchor="${i === 0 ? 'start' : i === 4 ? 'end' : 'middle'}" font-size="11" fill="var(--muted)" font-family="var(--font-mono)">${t === 0 ? '0' : dur(t)}</text>`).join('')}
-      <line x1="${X(you)}" x2="${X(you)}" y1="${pt}" y2="${H - pb}" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 3"/>
+      ${age0 == null ? '' : `<line x1="${X(you)}" x2="${X(you)}" y1="${pt}" y2="${H - pb}" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="3 3"/>
       <circle cx="${X(you)}" cy="${Y(S(sp, you))}" r="5" fill="var(--accent)"/>
-      <text x="${X(you) + (X(you) > W * 0.7 ? -8 : 8)}" y="${pt + 12}" text-anchor="${X(you) > W * 0.7 ? 'end' : 'start'}" font-size="12" fill="var(--accent)">${T('you')}</text>
+      <text x="${X(you) + (X(you) > W * 0.7 ? -8 : 8)}" y="${pt + 12}" text-anchor="${X(you) > W * 0.7 ? 'end' : 'start'}" font-size="12" fill="var(--accent)">${T('you')}</text>`}
     </svg>`;
   }
   function lifeMapHTML() {
@@ -17033,7 +17112,7 @@ window.ROLL_RULES = {
     const R = ACTIONS;
     $('#v-src').innerHTML = `<div style="display:grid;gap:8px"><h2 style="font-size:30px">${T('src.title')}</h2><p>${T('src.intro', { refs: sum('refs'), n: cov.filter((x) => x.c.refs).length, all: cov.length })}</p></div>
       <div class="panel"><h3>${T('src.how')}</h3><p>${badge('measured')} ${T('src.measured')}</p><p>${badge('official')} ${T('src.official')}</p><p>${badge('related')} ${T('src.related')}</p><p>${badge('est')} ${T('src.est')}</p><p>${badge('rule')} ${T('src.rule', { forage: R.forage.risk, hide: R.hide.risk, rest: R.rest.risk, explore: R.explore.risk, mate: R.mate.risk })}</p></div>
-      ${cov.map(({ sp, c }) => `<details class="panel srcsp" id="src-${sp.id}" ${focus === sp.id ? 'open' : ''}><summary><span class="em">${icon(sp, 24)}</span> <b>${esc(sp.name)}</b> <span class="small muted">${T('src.line', { surv: c.surv, causes: c.causes, all: c.allCauses, refs: c.refs })}</span></summary>
+      ${cov.map(({ sp, c }) => `<details class="panel srcsp" id="src-${sp.id}" ${focus === sp.id ? 'open' : ''}><summary><span class="em">${icon(sp, 32)}</span> <b>${esc(sp.name)}</b> <span class="small muted">${T('src.line', { surv: c.surv, causes: c.causes, all: c.allCauses, refs: c.refs })}</span></summary>
         <p class="small muted">${T('fAlive')}${EN ? ': ' : '：'}${esc(oddsOf(sp.id).src)}</p>
         ${(sp._ev.survival || []).length ? `<h4>${T('src.surv')}</h4>${sp._ev.survival.map((a) => evLine(sp, a)).join('')}` : `<p class="evline">${badge('est')} ${T('src.noSurv')}</p>`}
         ${(sp._ev.causes || []).length || Object.keys(sp._ev.causeNotes || {}).length ? `<h4>${T('fCause')}</h4>${(sp._ev.causes || []).concat(Object.values(sp._ev.causeNotes || {})).map((a) => evLine(sp, a)).join('')}` : ''}
@@ -17070,7 +17149,7 @@ window.ROLL_RULES = {
     return { name: sp.name, about: about(d.id), lived: T('lived', { d: dur(d.cal) }).replace(/^你/, ''), cause: `${T('fCause')}${EN ? ': ' : '：'}${causeOf(d)}`,
       stat: T('outlived', { p: pct(1 - S(sp, Math.min(d.cal, sp.maxAge))) }).replace(/我的?/, ''), statNote: T('outlivedNote'), evidence: e ? txt(e) : '', evidenceSrc: r ? cite(r) : '', evidenceLabel: T('evData'),
       strip: d.strip, odds: T('odds', { p: oneIn(o.pop / TOTAL) }), head: T('deathHead'), lead: T('cardLead'),
-      scene: sp.scene, emoji: sp.emoji, sprite: art0(sp), seed: 7 + sp.name.length, foot: T('title'), en: EN, stars: d.awards && d.awards.length ? d.awards[0] : null, url: window.SOCIAL.url(codeOf(d)) };
+      photo: photoUrl(sp), focus: photo(sp) ? photo(sp).focus : '', credit: photo(sp) ? T('photoBy', { a: photo(sp).artist, l: licName(photo(sp).lic) }) : '', foot: T('title'), en: EN, stars: d.awards && d.awards.length ? d.awards[0] : null, url: window.SOCIAL.url(codeOf(d)) };
   }
   function shareText(d) {
     const sp = SP[d.id], strip = [...d.strip].map((c) => ({ g: '🟩', y: '🟨', r: '🟥', z: '💤' }[c])).join('') + '⬛';
@@ -17124,7 +17203,7 @@ window.ROLL_RULES = {
   }
   function openLife(d, mine) {
     $('#v-friend').innerHTML = `
-      <div style="display:grid;gap:6px;text-align:center"><div class="eyebrow">${T(mine ? 'myLife' : 'friendHead')}</div><h2 style="font-size:30px">${esc(SP[d.id].name)}</h2><p class="muted">${esc(about(d.id))}</p></div>
+      <div style="display:grid;gap:6px;text-align:center"><div class="eyebrow">${T(mine ? 'myLife' : 'friendHead')}</div><h2 style="font-size:30px">${esc(SP[d.id].name)}</h2><p class="muted">${esc(about(d.id))}</p><button class="linkbtn" type="button" data-sp="${d.id}">${T('bio.open')}</button></div>
       ${mine ? '' : `<div class="row" style="justify-content:center"><button class="btn-primary" type="button" id="f-go">${T('friendGo')}</button><button class="btn" type="button" id="f-home">${T('friendHome')}</button></div>`}
       ${sharePanel(d, !mine)}`;
     if (!mine) { $('#f-go').onclick = () => reveal(); $('#f-home').onclick = () => { renderHome(); show('home'); }; }
@@ -17146,9 +17225,9 @@ window.ROLL_RULES = {
     const humanLine = hum && hum !== sp ? `<p>${T('humanSame', { d: dur(L.cal), p: pct(S(hum, L.cal)) })}</p>` : '';
     const d = L.life;
     $('#v-death').innerHTML = `
-      <div class="panel over"><h1>${T('over')}</h1><div class="em">${icon(sp, 84)}</div><div class="big">${esc(sp.name)}${SEP}${T('lived', { d: dur(L.cal) }).replace(/^你/, '')}</div><p class="cause">${esc(L.cause.short)}</p>
-        <div class="stars">${starRow(starCount(), 44)}</div><div class="goals">${goalsHTML()}</div>
-        <div class="row" style="justify-content:center"><button class="btn-primary" type="button" data-again="${L.mode}">${T('again')}</button><button class="btn" type="button" id="d-book">${T('navBook')}</button><button class="btn" type="button" id="d-home">${T('home')}</button></div></div>
+      <div class="panel over"><div class="overhead">${icon(sp, 96)}<div><span class="eyebrow">${T('over')}</span><h2>${esc(sp.name)}</h2><p>${T('lived', { d: dur(L.cal) }).replace(/^你/, '')}</p><p class="cause">${esc(L.cause.short)}</p></div></div>
+        <div class="goals">${goalsHTML()}</div>
+        <div class="row"><button class="btn-primary" type="button" data-again="${L.mode}">${T('again')}</button><button class="btn" type="button" data-sp="${sp.id}">${T('bio.about', { sp: esc(EN ? lc(sp.name) : sp.name) })}</button><button class="btn" type="button" id="d-book">${T('navBook')}</button><button class="btn" type="button" id="d-home">${T('home')}</button></div></div>
       ${whyPanel()}
       ${sharePanel(d)}
       ${versus(d)}
@@ -17156,7 +17235,7 @@ window.ROLL_RULES = {
       <div class="card deathcard">
         <div class="card-head"><span>${T('deathHead')}</span><span>${T('no', { n: L.no })}</span></div>
         <div class="card-body">
-          <div class="specname"><span class="em">${icon(sp, 60)}</span><div><h2>${esc(sp.name)}</h2>${EN ? `<div class="sci">${esc(sp.sci || '')}</div>` : ''}</div></div>
+          <div class="specname"><span class="em">${icon(sp, 72)}</span><div><h2>${esc(sp.name)}</h2><div class="sci">${esc(latin(sp))}</div></div></div>
           <p class="mono small muted">${esc(T('deathLine', { y0: BIRTH_YEAR, y1: BIRTH_YEAR + Math.floor(L.cal / 365), d: dur(L.cal), bio: Math.abs(L.cal - L.age) > 0.5 ? T('deathBio', { d: dur(L.age) }) : '', st: stageAt(sp, L.age).name }))}</p>
           <div><span class="eyebrow">${T('fCause')}</span><p class="cause">${esc(L.cause.short)}</p><p>${esc(fill(L.cause.text))}</p></div>
           <div class="fields">
@@ -17194,12 +17273,12 @@ window.ROLL_RULES = {
 
       <div class="panel">
         <div class="row" style="justify-content:space-between"><h3>${T('sameSecond')}</h3><span class="eyebrow">${T('byRealOdds')}</span></div>
-        <div class="companions">${others.map((x) => `<div class="comp"><span class="em">${icon(x.sp, 20)}</span><span>${T('companion', { art: art(x.sp.name), Art: art(x.sp.name) === 'an' ? 'An' : 'A', mw: mw(x.sp.id), sp: esc(lc(x.sp.name)), d: dur(x.age), c: esc(x.cause) })}</span></div>`).join('')}</div>
+        <div class="companions">${others.map((x) => `<div class="comp"><span class="em">${icon(x.sp, 30)}</span><span>${T('companion', { art: art(x.sp.name), Art: art(x.sp.name) === 'an' ? 'An' : 'A', mw: mw(x.sp.id), sp: esc(lc(x.sp.name)), d: dur(x.age), c: esc(x.cause) })}</span></div>`).join('')}</div>
       </div>
 
       </details>
 
-      ${sp.epitaph ? `<p style="font-family:var(--font-display);font-size:24px;text-align:center;padding-block:10px">${esc(sp.epitaph)}</p>` : ''}
+      ${sp.epitaph ? `<p style="font-family:var(--font-display);font-size:22px;text-align:center;padding-block:10px">${esc(sp.epitaph)}</p>` : ''}
 
       <div class="panel">
         <h3>${T('nextLife')}</h3>
@@ -17228,31 +17307,65 @@ window.ROLL_RULES = {
       <div style="display:grid;gap:6px">
         <h2 style="font-size:34px">${T('navBook')}</h2>
         <p class="muted">${T('bookIntro', { n: lives.length, got, all: ODDS.length })}</p>
-        <div class="meter"><i style="width:${got / ODDS.length * 100}%"></i></div>
       </div>
-      <div class="book">${ODDS.map((o) => { const s = SP[o.id]; const n = count[o.id] || 0; return `<div class="bk ${n ? 'got' : 'locked'}"><span class="em">${icon(s, 46)}</span><b>${n ? esc(s.name) : '???'}</b><span class="od">${oneIn(o.pop / TOTAL)}</span><span class="od">${n ? T('livedN', { n }) : T('notYet')}</span>${n ? `<span class="stars">${starRow(best[o.id], 16)}</span>` : ''}</div>`; }).join('')}</div>
+      <div class="book">${ODDS.map((o) => { const s = SP[o.id]; const n = count[o.id] || 0; return `<button type="button" class="bk ${n ? '' : 'locked'}" ${n ? `data-sp="${o.id}"` : 'disabled'}><span class="em">${icon(s, 96)}</span><b>${n ? esc(s.name) : '???'}</b><span class="od">${oneIn(o.pop / TOTAL)}</span><span class="od">${n ? T('livedN', { n }) : T('notYet')}</span>${n ? starRow(best[o.id]) : ''}</button>`; }).join('')}</div>
       <div class="panel">
         <h3>${T('pastLives')}</h3>
-        <div class="pastlives">${lives.length ? lives.slice(0, 60).map((l) => { const s = SP[l.id]; if (!s) return ''; return `<div class="pl"><span style="font-size:20px">${icon(s, 20)}</span><span>${esc(s.name)}${l.roll ? ` · <span class="muted">${esc(l.roll)}</span>` : ''}<br><span class="small muted">${T('livedFor', { d: dur(l.cal) })} · ${esc(l.cause)}${l.off ? ` · ${T('kidsN', { n: l.off.toLocaleString('en-US') })}` : ''}</span></span><span class="mono small muted">${l.code ? `<button class="btn" type="button" data-life="${esc(l.code)}">${T('bookShare')}</button> ` : ''}${new Date(l.at).toLocaleDateString(EN ? 'en-US' : 'zh-CN')}</span></div>`; }).join('') : `<p class="muted">${T('noLives')}</p>`}</div>
+        <div class="pastlives">${lives.length ? lives.slice(0, 60).map((l) => { const s = SP[l.id]; if (!s) return ''; return `<div class="pl"><span>${icon(s, 30)}</span><span>${esc(s.name)}${l.roll ? ` · <span class="muted">${esc(l.roll)}</span>` : ''}<br><span class="small muted">${T('livedFor', { d: dur(l.cal) })} · ${esc(l.cause)}${l.off ? ` · ${T('kidsN', { n: l.off.toLocaleString('en-US') })}` : ''}</span></span><span class="mono small muted">${l.code ? `<button class="btn" type="button" data-life="${esc(l.code)}">${T('bookShare')}</button> ` : ''}${new Date(l.at).toLocaleDateString(EN ? 'en-US' : 'zh-CN')}</span></div>`; }).join('') : `<p class="muted">${T('noLives')}</p>`}</div>
       </div>`;
     $('#v-book').onclick = (e) => { const b = e.target.closest('[data-life]'); if (!b) return; const d = window.SOCIAL.decode(b.dataset.life, Object.keys(SP)); if (d) openLife(d, true); };
     show('book');
   }
 
+  // ---------- species introduction ----------
+  let bioResume = false, bioBack = null;
+  function openBio(id) {
+    const sp = SP[id], b = (window.BIO || {})[id], o = oddsOf(id), p = photo(sp); if (!sp) return;
+    if ($('#bio').hidden) { bioBack = document.activeElement; bioResume = !!(L && !L.dead && !L.paused && !$('#v-life').hidden); if (bioResume) { L.paused = true; clearTimeout(timer); } }
+    const facts = [[T('bio.latin'), `<i>${esc(latin(sp))}</i>`], sp.size && [T('fSize'), esc(sp.size)], [T('fMax'), dur(sp.maxAge)], [T('fAlive'), `${cnNum(o.pop)} <span class="conf ${o.conf}">${T('conf')[o.conf]}</span>`], sp.maturity && sp.maturity < sp.maxAge ? [T('bio.mature'), dur(sp.maturity)] : null].filter(Boolean);
+    const lin = b && b.lineage ? Object.entries(b.lineage).map(([r, [zh, la]]) => `<span><small>${T(`bio.rank.${r}`)}</small>${esc(EN ? la : zh)}</span>`).join('') : (sp.taxon ? `<span>${esc(sp.taxon)}</span>` : '');
+    const secs = b ? Object.entries(b.sections).map(([k, x]) => `<section><h3>${T(`bio.sec.${k}`)}</h3><p>${esc(EN ? x.en : x.zh)}</p><p class="bsrc">${x.refs.map((r) => b.refs[r] && `<a class="src" target="_blank" rel="noopener" href="${esc(b.refs[r].url)}">${esc(EN ? b.refs[r].source : (SRCZH[b.refs[r].source] || b.refs[r].source))} ↗</a>`).filter(Boolean).join(' ')}</p></section>`).join('') : `<p>${esc(about(id))}</p>`;
+    const cs = (sp.causes || []).filter((c) => (c.w ?? 1) > 0), tot = cs.reduce((t, c) => t + (c.w ?? 1), 0);
+    const life = `<section><h3>${T('bio.stages')}</h3><ol class="stagebar">${sp.stages.map((s, i) => `<li><b>${esc(s.name)}</b><small>${s.from ? T('bio.from', { d: dur(s.from) }) : T('bio.birth')}</small></li>`).join('')}</ol></section>
+      <section><h3>${T('curveTitle')}</h3>${curveSVG(sp, null)}<p class="small muted">${T('src.curveKey')}</p>${(sp._ev.survival || []).map((a) => evLine(sp, a)).join('')}</section>
+      <section><h3>${T('bio.causes')}</h3><ul class="parts">${cs.slice().sort((x, y) => (y.w ?? 1) - (x.w ?? 1)).slice(0, 6).map((c) => `<li><span>${esc(c.short)}</span></li>`).join('')}</ul><p class="small muted">${T('bio.causesNote')}</p>${Object.values(sp._ev.causeNotes || {}).slice(0, 4).map((a) => evLine(sp, a)).join('')}</section>
+      ${(sp._ev.facts || []).length ? `<section><h3>${T('bio.research')}</h3>${sp._ev.facts.slice(0, 8).map((a) => evLine(sp, a)).join('')}</section>` : ''}`;
+    $('#bio').innerHTML = `<article class="biocard" role="dialog" aria-modal="true" aria-labelledby="bio-t">
+      <button type="button" class="btn bioclose" aria-label="${T('bio.close')}">×</button>
+      ${p ? `<figure class="hero-ph big"><img src="${photoUrl(sp)}" alt="${esc(sp.name)}" style="object-position:${p.focus}"><figcaption>${credit(sp)}</figcaption></figure>` : ''}
+      <div class="biobody">${p && p.taxon && p.taxon !== latin(sp) ? `<p class="small muted">${T('bio.pictured', { t: esc(p.taxon) })}</p>` : ''}<h2 id="bio-t">${esc(sp.name)}</h2><p class="lineage">${lin}</p>
+      <dl class="kv biofacts">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>
+      ${secs}${life}
+      <div class="row"><button type="button" class="btn-primary sm" data-be="${id}">${T('bio.be')}</button><button type="button" class="btn" data-src="${id}">${T('why.allSources')}</button></div></div></article>`;
+    $('#bio').hidden = false; $('#bio').scrollTop = 0; document.body.classList.add('noscroll'); $('#bio .bioclose').focus();
+  }
+  function closeBio() {
+    if ($('#bio').hidden) return; $('#bio').hidden = true; document.body.classList.remove('noscroll');
+    if (bioResume && L && !L.dead) { L.paused = false; renderControls(); schedule(); } bioResume = false;
+    if (bioBack && bioBack.focus) bioBack.focus();
+  }
+  const SRCZH = { Wikipedia: '维基百科', 'Animal Diversity Web': '动物多样性网', NOAA: '美国国家海洋和大气管理局', 'NOAA Fisheries': '美国国家海洋渔业局', FAO: '联合国粮农组织', IUCN: '世界自然保护联盟', BTO: '英国鸟类学信托', 'British Trust for Ornithology': '英国鸟类学信托', 'Cornell Lab of Ornithology': '康奈尔鸟类学实验室', AmphibiaWeb: '两栖动物网', FishBase: '鱼类数据库', WHO: '世界卫生组织' };
+  document.addEventListener('click', (e) => {
+    const s = e.target.closest('[data-sp]'); if (s) { e.preventDefault(); return openBio(s.dataset.sp); }
+    if (e.target.closest('.bioclose') || e.target === $('#bio')) return closeBio();
+    const be = e.target.closest('[data-be]'); if (be) { bioResume = false; closeBio(); if (L) { clearTimeout(timer); L.paused = true; } $('#overlay').hidden = true; mode = 'pick'; store.set('lunhui.mode', mode); store.set('lunhui.pick', be.dataset.be); $('#pick').value = be.dataset.be; birth(be.dataset.be); }
+    if (e.target.closest('#bio [data-src]')) { bioResume = false; $('#bio').hidden = true; document.body.classList.remove('noscroll'); }
+  });
+
   // ---------- nav ----------
   $('#go').onclick = reveal;
-  const sndBtn = $('#nav-sound'), drawSnd = () => { sndBtn.innerHTML = `${G.icon(G.isMuted() ? 'mute' : 'sound', 18)}<span>${T(G.isMuted() ? 'soundOff' : 'soundOn')}</span>`; sndBtn.setAttribute('aria-label', T(G.isMuted() ? 'soundOff' : 'soundOn')); };
+  const sndBtn = $('#nav-sound'), drawSnd = () => { sndBtn.textContent = T(G.isMuted() ? 'soundOff' : 'soundOn'); };
   sndBtn.onclick = () => { G.toggleMute(); drawSnd(); }; drawSnd();
-  $('#nav-home').onclick = () => { clearTimeout(revealTimer); if (stopSpin) stopSpin(); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderHome(); show('home'); };
-  $('#nav-book').onclick = () => { clearTimeout(revealTimer); if (stopSpin) stopSpin(); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderBook(); };
+  $('#nav-home').onclick = () => { clearTimeout(revealTimer); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderHome(); show('home'); };
+  $('#nav-book').onclick = () => { clearTimeout(revealTimer); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderBook(); };
 
   // test hook: lets an automated check play lives quickly
   window.__lunhui = {
-    crisis: () => { const c = L.sp.causes.find((x) => x.escape && inStage(x, stageAt(L.sp, L.age))) || L.sp.causes.find((x) => x.escape); clearTimeout(timer); openCrisis(c); },
+    crisis: () => { const c = L.sp.causes.find((x) => x.escape && inStage(x, stageAt(L.sp, L.age))) || L.sp.causes.find((x) => x.escape); clearTimeout(timer); openCrisis(c); }, bio: (id) => openBio(id),
     SP, ODDS, S, invS, birth: (id) => birth(id), state: () => L, start: () => startLife(),
     // plays one full life synchronously with random choices; returns a summary
     sim(id, randomActs = false) {
-      G.quiet(true); birth(id); L.auto = true; L.quietSim = true; L.stepMode = false; startLife();
+      G.quiet(true); birth(id); L.auto = true; L.stepMode = false; startLife();
       let i = 0;
       while (!L.dead && i++ < 20000) {
         clearTimeout(timer);
@@ -17270,9 +17383,8 @@ window.ROLL_RULES = {
   document.querySelectorAll('[data-th]').forEach((el) => { el.innerHTML = T(el.dataset.th); });
   const langBtn = $('#nav-lang');
   const other = Object.keys(window.UI).find((k) => k !== LANG);
-  langBtn.innerHTML = `${G.icon('globe', 18)}<span>${T('langSwitch')}</span>`; langBtn.setAttribute('aria-label', T('langSwitch'));
+  langBtn.textContent = T('langSwitch');
   langBtn.onclick = () => { try { localStorage.setItem('lunhui.lang', JSON.stringify(other)); } catch (e) { /* storage unavailable */ } if (window.LANG_PATH) location.href = window.LANG_PATH[other] + location.hash; else location.reload(); };
-  document.querySelectorAll('[data-tl]').forEach((el) => { el.innerHTML = `${G.icon(el.dataset.ic, 18)}<span>${T(el.dataset.tl)}</span>`; el.setAttribute('aria-label', T(el.dataset.tl)); });
   $('#boot').remove(); $('#app').hidden = false;
 
   renderHome();
