@@ -13727,7 +13727,7 @@ window.SPECIES.push({
 // UI strings for every language. Species text lives in i18n/<lang>/<id>.json (bundled into i18n/<lang>.js).
 window.UI = {
  "zh": {
-  "title": "轮回 · Next Life",
+  "title": "轮回",
   "langName": "中文",
   "heroSub": "",
   "navBook": "轮回簿",
@@ -14034,7 +14034,7 @@ window.UI = {
   "copyLink": "复制链接",
   "linkCopied": "链接已复制",
   "sysShare": "分享给朋友",
-  "toX": "发 X",
+  "toX": "发推特",
   "toWeibo": "发微博",
   "imgSaved": "已保存",
   "imgHold": "长按或右键图片即可保存",
@@ -14371,12 +14371,32 @@ window.UI = {
    "official": "政府或国际组织公布的统计。",
    "related": "来自近缘物种、实验室或另一类环境，只能参考。",
    "est": "没有找到可靠数据，由制作者估计。",
-   "rule": "为了能玩而设定的规则。例如死亡率倍数：觅食 ×{forage}、躲藏 ×{hide}、休息 ×{rest}、探索 ×{explore}、繁殖 ×{mate}；前 5 个抉择内不会死；出生境遇、体质和性格的影响。",
+   "rule": "为了能玩而设定的规则。例如死亡率倍数：觅食 ×{forage}、躲藏 ×{hide}、休息 ×{rest}、探索 ×{explore}、繁殖 ×{mate}；前 5 个抉择内不会死；出生境遇、体质和性格的影响；遇险时由你按停指针，绿色宽度等于逃生概率，反应快的人会比统计活得久。",
    "line": "存活率有数据 {surv} 段 · 死因有依据 {causes}/{all} · 来源 {refs} 条",
    "surv": "存活率",
    "noSurv": "没有找到可靠的存活率，整条曲线是估计。",
    "facts": "事实",
    "curveKey": "绿色实线：有研究数据的年龄段，类型见下方标签。虚线：估计。"
+  },
+  "langSwitch": "切换英文",
+  "soundOn": "声音开",
+  "soundOff": "声音关",
+  "no": "编号 {n}",
+  "wheelNote": "轮盘只是动画，抽到谁由活着的数量决定。",
+  "over": "此生终了",
+  "moreLife": "这一生的完整记录",
+  "goalTitle": "这一世的目标",
+  "goalDone": "目标达成：{g}",
+  "goal": {
+   "half": "活过一半的同类",
+   "adult": "长到成年",
+   "kids": "留下后代",
+   "stage": "活到「{s}」"
+  },
+  "timing": {
+   "title": "看准时机",
+   "body": "让指针停在绿色里就能活下来。绿色占 {p}，正好是逃生的概率。",
+   "btn": "停"
   }
  },
  "en": {
@@ -15024,17 +15044,35 @@ window.UI = {
    "official": "Statistics published by a government or international body.",
    "related": "From a related species, a laboratory or a different setting; a guide only.",
    "est": "No reliable data found; estimated by the makers.",
-   "rule": "A rule made so the game can be played. For example, death-rate multipliers: forage ×{forage}, hide ×{hide}, rest ×{rest}, explore ×{explore}, breed ×{mate}; no death before the fifth choice; the effects of birth circumstances, constitution and temperament.",
+   "rule": "A rule made so the game can be played. For example, death-rate multipliers: forage ×{forage}, hide ×{hide}, rest ×{rest}, explore ×{explore}, breed ×{mate}; no death before the fifth choice; the effects of birth circumstances, constitution and temperament. In a crisis you stop a marker; the green part is as wide as the odds, so a quick player can outlive the statistics.",
    "line": "{surv} survival intervals with data · {causes}/{all} causes with evidence · {refs} sources",
    "surv": "Survival",
    "noSurv": "No reliable survival data found; the whole curve is an estimate.",
    "facts": "Facts",
    "curveKey": "Solid green: ages backed by published data (see the label below). Dashed: estimate."
+  },
+  "langSwitch": "Switch to Chinese",
+  "soundOn": "Sound on",
+  "soundOff": "Sound off",
+  "no": "No. {n}",
+  "wheelNote": "The wheel is only for show. Who you become depends on living numbers.",
+  "over": "Life over",
+  "moreLife": "The full record of this life",
+  "goalTitle": "Goals for this life",
+  "goalDone": "Goal reached: {g}",
+  "goal": {
+   "half": "Outlive half your kind",
+   "adult": "Reach adulthood",
+   "kids": "Leave offspring",
+   "stage": "Reach the stage: {s}"
+  },
+  "timing": {
+   "title": "Time it",
+   "body": "Stop the marker in the green to survive. Green covers {p}, exactly your odds of escape.",
+   "btn": "Stop"
   }
  }
 };
-
-// Population sources in English (the Chinese ones live in odds.js).
 window.ODDS_SRC_EN = {
  "copepod": "Widely repeated order-of-magnitude estimate (Geoff Boxshall gives ~1.3×10²¹); no peer-reviewed census",
  "nematode": "van den Hoogen et al. 2019, Nature (soil nematodes)",
@@ -15287,7 +15325,7 @@ window.LUNHUI_URL = "https://nextlife.top/";
   'use strict';
   const FRAMED = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
   const CLAUDE_URL = '';
-  const base = () => window.LUNHUI_URL || (location.origin + location.pathname);
+  const base = () => (window.LUNHUI_URL ? window.LUNHUI_URL + (document.documentElement.lang === 'en' ? 'en/' : '') : '') || (location.origin + location.pathname);
   const isPublic = () => !!window.LUNHUI_URL || (!FRAMED && !/^(localhost|127\.|\[::1\])/.test(location.hostname));
 
   // ---------- link codec: only lowercase letters, digits and hyphens ----------
@@ -15295,7 +15333,7 @@ window.LUNHUI_URL = "https://nextlife.top/";
   const b36 = (n) => Math.max(0, Math.round(n)).toString(36);
   const num = (s, max) => { const n = parseInt(s, 36); return Number.isFinite(n) ? Math.min(n, max) : 0; };
   function encode(d) {
-    return ['life', d.id.replace(/_/g, ''), b36(d.cal * 1440), d.cause, b36(d.off), b36(d.esc), `${d.con}${d.tem}`, d.strip || 'x', d.rolls.length ? d.rolls.map(b36).join('') : 'x', d.awards.map(b36).join('') || 'x', b36(d.ch)].join('-');
+    return ['life', d.id.replace(/_/g, ''), b36(d.cal * 1440), d.cause, b36(d.off), b36(d.esc), `${d.con}${d.tem}`, d.strip || 'x', d.rolls.length ? d.rolls.map(b36).join('') : 'x', d.awards.length ? `s${d.awards[0]}` : 'x', b36(d.ch)].join('-');
   }
   function decode(hash, ids) {
     const p = String(hash || '').split('-');
@@ -15305,7 +15343,7 @@ window.LUNHUI_URL = "https://nextlife.top/";
     return {
       id, cal: num(p[2], 1e10) / 1440, cause: p[3].slice(0, 2), off: num(p[4], 1e12), esc: num(p[5], 999),
       con: Math.min(+p[6][0] || 0, 2), tem: Math.min(+p[6][1] || 0, 3), strip: p[7] === 'x' ? '' : p[7].replace(/[^gyrz]/g, '').slice(0, 12),
-      rolls: p[8] === 'x' ? [] : [...p[8]].slice(0, 6).map((c) => num(c, 35)), awards: [], ch: num(p[10], 9999),
+      rolls: p[8] === 'x' ? [] : [...p[8]].slice(0, 6).map((c) => num(c, 35)), awards: /^s[0-3]$/.test(p[9]) ? [+p[9][1]] : [], ch: num(p[10], 9999),
     };
   }
 
@@ -15350,7 +15388,7 @@ window.LUNHUI_URL = "https://nextlife.top/";
   }
 
   // ---------- image card ----------
-  const DISPLAY = '"Noto Serif SC","Songti SC","STSong",serif', BODY = '"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif', MONO = '"IBM Plex Mono",Menlo,monospace', BRUSH = '"Ma Shan Zheng","STKaiti","KaiTi",serif';
+  const BODY = '"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif';
   function wrap(g, text, max) {
     const toks = String(text).match(/[⺀-鿿　-ヿ＀-￯‘-”…]|\s+|[^\s⺀-鿿　-ヿ＀-￯‘-”…]+/g) || [];
     const lines = []; let cur = '';
@@ -15366,43 +15404,41 @@ window.LUNHUI_URL = "https://nextlife.top/";
   }
   function fit(g, text, font, size, max, min = 34) { let s = size; do { g.font = font.replace('%', s); if (g.measureText(text).width <= max) break; s -= 3; } while (s > min); return s; }
   async function card(d) {
-    const W = 1080, P = 72, C = { bg: '#0c1514', panel: '#16231f', ink: '#e6eee9', mute: '#93a49d', line: '#2a3c36', acc: '#ff7a4d', cyan: '#6cc6c0', bad: '#ef7560', good: '#7fc58a', warn: '#e6b450' };
-    const text = [d.name, d.about, d.evidence, d.stat, d.cause, d.lived].join('');
-    const want = ['900 90px "Noto Serif SC"', '600 60px "Noto Serif SC"', '400 34px "Noto Sans SC"', '500 34px "Noto Sans SC"', '400 60px "Ma Shan Zheng"', '400 28px "IBM Plex Mono"'];
-    if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled(want.map((f) => document.fonts.load(f, text + '轮回'))), new Promise((r) => setTimeout(r, 2500))]);
-    const c = document.createElement('canvas'); c.width = W; c.height = 1800; const g = c.getContext('2d');
-    g.fillStyle = C.bg; g.fillRect(0, 0, W, 1800);
+    const W = 1080, P = 84, PX = d.en ? '"Jersey 15",monospace' : '"Fusion Pixel","PingFang SC","Microsoft YaHei",sans-serif';
+    const C = { bg: '#14122b', panel: '#2c2760', ink: '#fff6e0', mute: '#aaa3d6', line: '#433c86', acc: '#ffcf4a', cyan: '#4fd1c0', bad: '#ff6b5e', good: '#7ddc6a', warn: '#ffb347', frame: '#f3e6c4' };
+    const text = [d.name, d.about, d.evidence, d.stat, d.cause, d.lived, d.foot, d.head, d.lead].join('');
+    if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled([`400 60px ${d.en ? '"Jersey 15"' : '"Fusion Pixel"'}`, '400 34px "Noto Sans SC"', '500 34px "Noto Sans SC"'].map((f) => document.fonts.load(f, text))), new Promise((r) => setTimeout(r, 4000))]);
+    const c = document.createElement('canvas'); c.width = W; c.height = 1900; const g = c.getContext('2d'); g.imageSmoothingEnabled = false;
+    g.fillStyle = C.bg; g.fillRect(0, 0, W, 1900);
+    g.fillStyle = '#2a2558'; for (let yy = 20; yy < 1900; yy += 40) for (let xx = 20; xx < W; xx += 40) g.fillRect(xx, yy, 4, 4);
+    const frame = (x, y, w, h, fill, edge = C.frame, t = 8) => { g.fillStyle = edge; g.fillRect(x, y - t, w, h + t * 2); g.fillRect(x - t, y, w + t * 2, h); g.fillStyle = fill; g.fillRect(x, y, w, h); };
     const sc = document.createElement('canvas'); sc.width = 192; sc.height = 72;
-    window.drawScene(sc, { scene: d.scene, t: 10, night: false, emoji: d.emoji, sprite: d.sprite, sibs: 5, seed: d.seed || 7, dead: false });
-    g.imageSmoothingEnabled = false; g.drawImage(sc, 0, 0, W, 405);
-    g.fillStyle = C.acc; g.fillRect(0, 405, W, 54);
-    g.fillStyle = '#1a0d07'; g.font = `500 26px ${MONO}`; g.textBaseline = 'middle'; g.textAlign = 'left'; g.fillText(d.head, P, 433);
-    g.textAlign = 'right'; g.fillText(d.odds, W - P, 433); g.textAlign = 'left'; g.textBaseline = 'alphabetic';
-    let y = 540;
-    g.fillStyle = C.mute; g.font = `400 34px ${BODY}`; g.fillText(d.lead, P, y);
-    y += 98; fit(g, d.name, `900 %px ${DISPLAY}`, 92, W - P * 2); g.fillStyle = C.ink; g.fillText(d.name, P, y);
-    g.font = `400 28px ${BODY}`; g.fillStyle = C.mute; y += 50; wrap(g, d.about, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 40; }); y -= 18;
-    y += 92; fit(g, d.lived, `600 %px ${DISPLAY}`, 64, W - P * 2); g.fillStyle = C.ink; g.fillText(d.lived, P, y);
-    y += 52; g.font = `400 34px ${BODY}`; g.fillStyle = C.bad; wrap(g, d.cause, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 44; });
-    // life strip
-    y += 4; const cells = d.strip.split(''); const cw = Math.min(64, (W - P * 2) / (cells.length + 1) - 8);
-    cells.concat('x').forEach((s, i) => { g.fillStyle = { g: C.good, y: C.warn, r: C.bad, z: C.line, x: C.ink }[s]; g.fillRect(P + i * (cw + 8), y, cw, 26); });
-    y += 66;
-    const panel = (h) => { g.fillStyle = C.panel; g.beginPath(); if (g.roundRect) g.roundRect(P, y, W - P * 2, h, 16); else g.rect(P, y, W - P * 2, h); g.fill(); };
-    panel(132); fit(g, d.stat, `600 %px ${DISPLAY}`, 46, W - P * 2 - 72); g.fillStyle = C.cyan; g.fillText(d.stat, P + 36, y + 66);
-    g.fillStyle = C.mute; g.font = `400 24px ${BODY}`; g.fillText(d.statNote, P + 36, y + 108); y += 152;
+    window.drawScene(sc, { scene: d.scene, t: 10, night: false, emoji: d.emoji, sprite: d.sprite, sibs: 5, seed: d.seed || 7, act: 'instinct', dead: false });
+    frame(44, 44, W - 88, 372, '#000'); g.drawImage(sc, 44, 44, W - 88, 372);
+    g.fillStyle = C.acc; g.fillRect(44, 416, W - 88, 56); g.fillStyle = '#2a1b00'; g.textBaseline = 'middle'; g.textAlign = 'left'; fit(g, d.odds, `400 %px ${PX}`, 30, 560, 20); g.fillText(d.odds, P, 446);
+    if (d.stars !== null && d.stars !== undefined) { g.fillStyle = '#14122b'; g.fillRect(W - P - 162, 416, 166, 56); const im = await Promise.all(['star', 'starOff'].map((k) => new Promise((r) => { const x = new Image(); x.onload = () => r(x); x.onerror = () => r(null); x.src = window.GAME.iconUrl(k); }))); for (let k = 0; k < 3; k++) { const x = k < d.stars ? im[0] : im[1]; if (x) g.drawImage(x, W - P - 150 + k * 52, 424, 42, 42 * x.height / x.width); } }
+    g.textBaseline = 'alphabetic';
+    let y = 548;
+    g.fillStyle = C.mute; g.font = `400 34px ${PX}`; g.fillText(d.lead, P, y);
+    y += 104; fit(g, d.name, `400 %px ${PX}`, 96, W - P * 2); g.fillStyle = '#7a4413'; g.fillText(d.name, P, y + 8); g.fillStyle = C.acc; g.fillText(d.name, P, y);
+    g.font = `400 28px ${BODY}`; g.fillStyle = C.mute; y += 56; wrap(g, d.about, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 40; }); y -= 18;
+    y += 86; fit(g, d.lived, `400 %px ${PX}`, 60, W - P * 2); g.fillStyle = C.ink; g.fillText(d.lived, P, y);
+    y += 56; g.font = `400 36px ${PX}`; g.fillStyle = C.bad; wrap(g, d.cause, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 46; });
+    y += 6; const cells = d.strip.split(''), cw = Math.min(64, (W - P * 2) / (cells.length + 1) - 8);
+    cells.concat('x').forEach((k, i) => { g.fillStyle = { g: C.good, y: C.warn, r: C.bad, z: C.line, x: C.ink }[k]; g.fillRect(P + i * (cw + 8), y, cw, 28); });
+    y += 76;
+    frame(P - 8, y, W - P * 2 + 16, 124, C.panel, C.line, 6); fit(g, d.stat, `400 %px ${PX}`, 44, W - P * 2 - 60); g.fillStyle = C.cyan; g.fillText(d.stat, P + 24, y + 60);
+    g.fillStyle = C.mute; g.font = `400 24px ${BODY}`; g.fillText(d.statNote, P + 24, y + 100); y += 152;
     if (d.evidence) {
-      g.font = `400 30px ${BODY}`; const ev = wrap(g, d.evidence, W - P * 2 - 72).slice(0, 4), h = 118 + ev.length * 44; panel(h);
-      g.fillStyle = C.good; g.font = `500 26px ${BODY}`; g.fillText(d.evidenceLabel, P + 36, y + 50);
-      g.fillStyle = C.ink; g.font = `400 30px ${BODY}`; ev.forEach((l, i) => g.fillText(l, P + 36, y + 100 + i * 44));
-      fit(g, d.evidenceSrc, `400 %px ${BODY}`, 24, W - P * 2 - 72, 16); g.fillStyle = C.mute; g.fillText(d.evidenceSrc, P + 36, y + h - 22); y += h;
+      g.font = `400 30px ${BODY}`; const ev = wrap(g, d.evidence, W - P * 2 - 60).slice(0, 4), h = 112 + ev.length * 44; frame(P - 8, y, W - P * 2 + 16, h, C.panel, C.line, 6);
+      g.fillStyle = C.good; g.font = `400 28px ${PX}`; g.fillText(d.evidenceLabel, P + 24, y + 46);
+      g.fillStyle = C.ink; g.font = `400 30px ${BODY}`; ev.forEach((l, i) => g.fillText(l, P + 24, y + 94 + i * 44));
+      fit(g, d.evidenceSrc, `400 %px ${BODY}`, 24, W - P * 2 - 60, 16); g.fillStyle = C.mute; g.fillText(d.evidenceSrc, P + 24, y + h - 20); y += h;
     }
-    // footer sits below whatever the text needed
-    const H = Math.max(1440, Math.ceil(y + 210)), fy = H - 70; g.fillStyle = C.ink; g.font = `400 72px ${BRUSH}`; g.fillText('轮回', P, fy);
-    g.fillStyle = C.mute; g.font = `400 28px ${BODY}`; g.fillText(d.foot, P + 190, fy - 8);
+    const H = Math.max(1440, Math.ceil(y + 230)), fy = H - 84; fit(g, d.foot, `400 %px ${PX}`, 84, 560); g.fillStyle = '#7a4413'; g.fillText(d.foot, P, fy + 7); g.fillStyle = C.acc; g.fillText(d.foot, P, fy);
     const m = isPublic() ? qr(d.url) : null;
-    if (m) { const q = 150, x0 = W - P - q, y0 = H - q - 30, u = q / (m.length + 4); g.fillStyle = '#fff'; g.fillRect(x0, y0, q, q); g.fillStyle = '#000'; m.forEach((r, yy) => r.forEach((on, xx) => { if (on) g.fillRect(x0 + (xx + 2) * u, y0 + (yy + 2) * u, u + 0.4, u + 0.4); })); }
-    const out = document.createElement('canvas'); out.width = W; out.height = H; out.getContext('2d').drawImage(c, 0, 0);
+    if (m) { const q = 160, x0 = W - P - q, y0 = H - q - 52, u = q / (m.length + 4); frame(x0, y0, q, q, '#fff', C.frame, 6); g.fillStyle = '#000'; m.forEach((r, yy) => r.forEach((on, xx) => { if (on) g.fillRect(x0 + (xx + 2) * u, y0 + (yy + 2) * u, u + 0.4, u + 0.4); })); }
+    const out = document.createElement('canvas'); out.width = W; out.height = H; const o = out.getContext('2d'); o.drawImage(c, 0, 0);
     return out;
   }
 
@@ -15419,7 +15455,7 @@ window.LUNHUI_URL = "https://nextlife.top/";
   }
   async function sysShare(canvas, text, url) {
     const blob = await new Promise((r) => canvas.toBlob(r, 'image/png'));
-    const file = new File([blob], 'next-life.png', { type: 'image/png' });
+    const file = new File([blob], 'life.png', { type: 'image/png' });
     const withFile = navigator.canShare && navigator.canShare({ files: [file] });
     await navigator.share(withFile ? { files: [file], text } : { text, url });
   }
@@ -15467,6 +15503,166 @@ window.ROLL_RULES = {
   greenland_shark: [[1, 2, 0, [2, 3]]],
   ant: [[2, 1, 1, [0]]],
 };
+
+;
+// Game feel: pixel icons, pixelated creatures, the wheel of rebirth, sound, the timing bar and floating numbers.
+// Nothing here decides who you become or how you die, except the timing bar, whose green part equals the stated odds.
+(() => {
+  'use strict';
+  const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---------- pixel icons ----------
+  const PAL = { r: '#ff6b5e', R: '#b83a44', w: '#fff6e0', y: '#ffcf4a', Y: '#c98a1e', g: '#7ddc6a', G: '#3c8f4d', b: '#6fb7ff', B: '#3566b8', t: '#4fd1c0', k: '#14122b', p: '#c79bff', P: '#7a55c7', m: '#8f88c2', o: '#e8935a', O: '#9a5730' };
+  const ICONS = {
+    heart: ['.rr...rr..', 'rwrr.rrrr.', 'rwrrrrrrR.', 'rrrrrrrrR.', '.rrrrrrR..', '..rrrrR...', '...rrR....', '....R.....'],
+    food: ['......ww..', '.....oow..', '...ooooo..', '..oooooO..', '.oowoooO..', '.owoooO...', '.ooooO....', '..OOO.....'],
+    shield: ['bbbbbbbb..', 'bwwbbbBb..', 'bwbbbbBb..', 'bbbbbbBb..', 'bbbbbbBb..', '.bbbbBb...', '..bbBb....', '...BB.....'],
+    star: ['....y.....', '....y.....', '...ywy....', 'yyyywyyyy.', '.yywyyyY..', '..yyyyY...', '..yyyyY...', '.yyY.yyY..', '.Y.....Y..'],
+    starOff: ['....m.....', '....m.....', '...m.m....', 'mmmm.mmmm.', '.m.....m..', '..m...m...', '..m.m.m...', '.mm...mm..', '.m.....m..'],
+    instinct: ['.oo..oo...', '.oo..oo...', 'o......o..', 'oo.oo.oo..', '..oooo....', '.oooooo...', '.oooooo...', '..oo.oo...'],
+    forage: ['....G.....', '...GG.....', '..rrrr....', '.rwrrrr...', '.rrrrrR...', '.rrrrrR...', '.rrrrRR...', '..RRRR....'],
+    hide: ['....g.....', '..ggggg...', '.ggGgggg..', 'gggggGggg.', 'gGggggggG.', '.ggkggkg..', '..ggggG...', '....O.....'],
+    rest: ['...yyy....', '..yy......', '.yy....w..', '.yy..w....', '.yy.......', '.yyy...y..', '..yyyyy...', '...yyy....'],
+    explore: ['..wwwww...', '.w..r..w..', 'w..rr...w.', 'w.rrr...w.', 'w...bbb.w.', 'w...bb..w.', '.w..b..w..', '..wwwww...'],
+    mate: ['rr.rr.....', 'rrrrr.....', '.rrr.pp.pp', '..r..ppppp', '......ppp.', '.......p..'],
+    sound: ['...w......', '..ww..w...', 'wwww...w..', 'wwww.w.w..', 'wwww.w.w..', 'wwww...w..', '..ww..w...', '...w......'],
+    mute: ['...m......', '..mm......', 'mmmm.r..r.', 'mmmm..rr..', 'mmmm..rr..', 'mmmm.r..r.', '..mm......', '...m......'],
+    globe: ['..bbbb....', '.bggbbb...', 'bgggbbgb..', 'bbggbggb..', 'bbbbbggb..', 'bgbbbbgb..', '.bbgbbb...', '..bbbb....'],
+    book: ['PPPPPPPP..', 'PwwPPwwp..', 'PwwPPwwp..', 'PwwPPwwp..', 'PwwPPwwp..', 'PwwPPwwp..', 'PPPPPPPP..'],
+    home: ['....r.....', '...rrr....', '..rrrrr...', '.rrrrrrr..', '..wwwww...', '..wwOww...', '..wwOww...'],
+    data: ['......t...', '......t...', '...b..t...', '...b..t...', 'y..b..t...', 'y..b..t...', 'wwwwwwww..'],
+    skull: ['..wwww....', '.wwwwww...', '.wkwwkw...', '.wkwwkw...', '.wwwwww...', '..wkkw....', '..w..w....'],
+  };
+  const cache = {};
+  function iconUrl(name) {
+    if (cache[name]) return cache[name];
+    const rows = ICONS[name], w = Math.max(...rows.map((r) => r.replace(/\.+$/, '').length)), c = document.createElement('canvas');
+    c.width = w; c.height = rows.length; const g = c.getContext('2d');
+    rows.forEach((row, y) => [...row].forEach((ch, x) => { if (PAL[ch]) { g.fillStyle = PAL[ch]; g.fillRect(x, y, 1, 1); } }));
+    return (cache[name] = c.toDataURL());
+  }
+  const icon = (name, px = 20) => `<img class="spr" src="${iconUrl(name)}" alt="" style="height:${px}px;width:auto">`;
+
+  // ---------- pixelated creature from an emoji ----------
+  const pixCache = {};
+  function pix(emoji, n = 20) {
+    if (pixCache[emoji]) return pixCache[emoji];
+    const c = document.createElement('canvas'); c.width = c.height = n;
+    const g = c.getContext('2d', { willReadFrequently: true });
+    g.font = `${n - 4}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle';
+    g.fillText(emoji, n / 2, n / 2 + 1);
+    const im = g.getImageData(0, 0, n, n), d = im.data;
+    for (let i = 0; i < d.length; i += 4) { if (d[i + 3] < 120) { d[i + 3] = 0; continue; } d[i + 3] = 255; for (let k = 0; k < 3; k++) d[i + k] = Math.round(d[i + k] / 32) * 32; }
+    g.putImageData(im, 0, 0);
+    return (pixCache[emoji] = { canvas: c, url: c.toDataURL() });
+  }
+
+  // ---------- sound: short square-wave notes, nothing downloaded ----------
+  let ac = null, quiet = false, muted = false;
+  try { muted = JSON.parse(localStorage.getItem('lunhui.muted') || 'false'); } catch (e) { /* storage unavailable */ }
+  const SFX = {
+    blip: [[660, 0, 0.03, 0.02]], move: [[440, 0, 0.04, 0.04]], pick: [[523, 0, 0.06, 0.06], [784, 0.06, 0.09, 0.06]], tick: [[980, 0, 0.025, 0.03]],
+    hurt: [[190, 0, 0.1, 0.08], [120, 0.08, 0.16, 0.08]], heal: [[523, 0, 0.06, 0.05], [659, 0.06, 0.06, 0.05], [784, 0.12, 0.1, 0.05]],
+    alarm: [[880, 0, 0.09, 0.06], [622, 0.11, 0.09, 0.06], [880, 0.22, 0.09, 0.06], [622, 0.33, 0.12, 0.06]],
+    star: [[784, 0, 0.08, 0.06], [988, 0.08, 0.08, 0.06], [1175, 0.16, 0.08, 0.06], [1568, 0.24, 0.22, 0.06]],
+    born: [[392, 0, 0.1, 0.06], [523, 0.1, 0.1, 0.06], [659, 0.2, 0.1, 0.06], [1047, 0.3, 0.28, 0.06]],
+    dead: [[440, 0, 0.16, 0.07], [392, 0.17, 0.16, 0.07], [330, 0.34, 0.16, 0.07], [220, 0.51, 0.5, 0.07]],
+    safe: [[659, 0, 0.07, 0.06], [880, 0.07, 0.07, 0.06], [1319, 0.14, 0.16, 0.06]],
+  };
+  function sfx(name) {
+    if (quiet || muted) return;
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      if (ac.state === 'suspended') ac.resume();
+      (SFX[name] || []).forEach(([f, at, len, vol]) => {
+        const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + at;
+        o.type = 'square'; o.frequency.value = f; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0005, t + len);
+        o.connect(g).connect(ac.destination); o.start(t); o.stop(t + len + 0.02);
+      });
+    } catch (e) { /* no audio here */ }
+  }
+  function toggleMute() { muted = !muted; try { localStorage.setItem('lunhui.muted', JSON.stringify(muted)); } catch (e) { /* storage unavailable */ } if (!muted) sfx('pick'); return muted; }
+
+  // ---------- the wheel of rebirth ----------
+  const WN = 208, SLOTS = 12, STEP = Math.PI * 2 / SLOTS;
+  let geo = null;
+  function geometry() {
+    if (geo) return geo;
+    const ang = new Float32Array(WN * WN), rad = new Float32Array(WN * WN);
+    for (let y = 0; y < WN; y++) for (let x = 0; x < WN; x++) { const dx = x - WN / 2 + 0.5, dy = y - WN / 2 + 0.5; ang[y * WN + x] = Math.atan2(dy, dx) + Math.PI / 2; rad[y * WN + x] = Math.hypot(dx, dy); }
+    return (geo = { ang, rad });
+  }
+  const hex = (h) => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  const WC = { a: hex('#2f2a66'), b: hex('#3d3682'), hit: hex('#5b4fc0'), rim: hex('#ffcf4a'), rim2: hex('#c98a1e'), dark: hex('#14122b'), line: hex('#211d4b') };
+  // items: array of { canvas }; rot: radians. Slot 0 sits under the pointer at rot = 0.
+  function drawWheel(cv, items, rot) {
+    if (cv.width !== WN) { cv.width = cv.height = WN; }
+    const g = cv.getContext('2d'), { ang, rad } = geometry(), im = g.createImageData(WN, WN), d = im.data, TAU = Math.PI * 2;
+    const at = ((Math.round(-rot / STEP) % SLOTS) + SLOTS) % SLOTS;
+    for (let i = 0; i < ang.length; i++) {
+      const r = rad[i]; let c = null;
+      if (r > 101) continue;
+      if (r > 97) c = WC.rim2; else if (r > 93) c = WC.rim;
+      else if (r > 91) c = WC.dark;
+      else if (r > 51) { let a = (ang[i] - rot + STEP / 2) % TAU; if (a < 0) a += TAU; const s = Math.floor(a / STEP), f = (a / STEP - s) * STEP * r; c = f < 1.6 ? WC.line : s === at ? WC.hit : s % 2 ? WC.a : WC.b; }
+      else if (r > 49) c = WC.dark; else if (r > 46) c = WC.rim2;
+      else continue;
+      const k = i * 4; d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2]; d[k + 3] = 255;
+    }
+    g.putImageData(im, 0, 0); g.imageSmoothingEnabled = false;
+    for (let s = 0; s < SLOTS; s++) {
+      const a = s * STEP + rot - Math.PI / 2, x = WN / 2 + Math.cos(a) * 71, y = WN / 2 + Math.sin(a) * 71, it = items[s] && items[s].canvas; if (!it) continue;
+      const k = Math.min(26 / it.width, 26 / it.height), w = Math.round(it.width * k), h = Math.round(it.height * k);
+      g.drawImage(it, Math.round(x - w / 2), Math.round(y - h / 2), w, h);
+    }
+    // studs on the rim and the pointer
+    for (let s = 0; s < SLOTS; s++) { const a = (s + 0.5) * STEP + rot - Math.PI / 2; g.fillStyle = '#fff6e0'; g.fillRect(Math.round(WN / 2 + Math.cos(a) * 95) - 1, Math.round(WN / 2 + Math.sin(a) * 95) - 1, 3, 3); }
+    g.fillStyle = '#14122b'; [[-8, 0, 17, 5], [-7, 5, 15, 3], [-6, 8, 13, 3], [-4, 11, 9, 3], [-2, 14, 5, 4]].forEach(([x, y, w, h]) => g.fillRect(WN / 2 + x, y, w, h));
+    g.fillStyle = '#ff6b5e'; [[-6, 1, 13, 4], [-5, 5, 11, 3], [-4, 8, 9, 3], [-2, 11, 5, 3], [0, 14, 1, 2]].forEach(([x, y, w, h]) => g.fillRect(WN / 2 + x, y, w, h));
+  }
+  // slow idle spin; returns a stop function
+  function idleWheel(cv, items) {
+    let raf = 0, rot = 0, last = 0;
+    const loop = (ts) => { if (!cv.isConnected || cv.closest('[hidden]')) { raf = 0; return; } if (ts - last > 60) { last = ts; rot += 0.006; drawWheel(cv, items, rot); } raf = requestAnimationFrame(loop); };
+    drawWheel(cv, items, 0); if (!reduced()) raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+  }
+  // spins so that items[slot] ends under the pointer
+  function spinWheel(cv, items, slot, onSlot, done) {
+    const end = -slot * STEP + Math.PI * 2 * 5, from = 0, ms = reduced() ? 1 : 3400, t0 = performance.now(); let lastSlot = -1, raf = 0, over = false;
+    const frame = (ts) => {
+      const k = Math.min(1, (ts - t0) / ms), e = 1 - Math.pow(1 - k, 3.2), rot = from + (end - from) * e;
+      drawWheel(cv, items, rot);
+      const s = ((Math.round(-rot / STEP) % SLOTS) + SLOTS) % SLOTS;
+      if (s !== lastSlot) { lastSlot = s; onSlot(s); sfx('tick'); }
+      if (k < 1) raf = requestAnimationFrame(frame); else if (!over) { over = true; done(); }
+    };
+    raf = requestAnimationFrame(frame);
+    // a background tab pauses animation frames; finish on time anyway
+    const tm = setTimeout(() => { if (!over) { over = true; cancelAnimationFrame(raf); drawWheel(cv, items, end); onSlot(slot); done(); } }, ms + 900);
+    return () => { over = true; cancelAnimationFrame(raf); clearTimeout(tm); };
+  }
+
+  // ---------- timing bar: the safe part of the bar is exactly as wide as the stated odds ----------
+  function timing(host, p, text, done) {
+    const start = Math.random() * (1 - p), period = 1300, t0 = performance.now() - Math.random() * period;
+    host.innerHTML = `<div class="tbar" aria-hidden="true"><i class="ok" style="left:${start * 100}%;width:${p * 100}%"></i><i class="mk"></i></div><button type="button" class="btn-primary tstop">${text}</button>`;
+    const mk = host.querySelector('.mk'), btn = host.querySelector('.tstop'); let raf = 0, over = false, x = 0;
+    const pos = (ts) => { const k = ((ts - t0) % period) / period; return k < 0.5 ? k * 2 : 2 - k * 2; };
+    const loop = (ts) => { x = pos(ts); mk.style.left = `${x * 100}%`; raf = requestAnimationFrame(loop); };
+    raf = requestAnimationFrame(loop);
+    const stop = () => {
+      if (over) return; over = true; cancelAnimationFrame(raf); clearTimeout(tm); x = pos(performance.now()); mk.style.left = `${x * 100}%`;
+      const ok = x >= start && x <= start + p; host.classList.add(ok ? 'hit' : 'miss'); btn.disabled = true; sfx(ok ? 'safe' : 'hurt');
+      setTimeout(() => done(ok), reduced() ? 150 : 700);
+    };
+    btn.onclick = stop; btn.focus();
+    const tm = setTimeout(stop, 7000 + Math.random() * period);   // waiting too long stops it wherever it is
+    return stop;
+  }
+
+  window.GAME = { icon, iconUrl, pix, sfx, toggleMute, isMuted: () => muted, quiet: (v) => { quiet = v; }, drawWheel, idleWheel, spinWheel, timing, reduced, SLOTS };
+})();
 
 ;
 // Pixel habitat scenes. Drawn at 192×72 and scaled up with image-rendering: pixelated,
@@ -15658,18 +15854,11 @@ window.ROLL_RULES = {
     },
   };
 
-  function drawSprite(c, emoji, x, y, size, alpha = 1, spr = null) {
+  function drawSprite(c, emoji, x, y, size, alpha = 1, spr = null, flip = false, squash = 1) {
     c.globalAlpha = alpha;
-    if (spr) {
-      const k = size / Math.max(spr.width, spr.height) * 1.1;
-      const w = Math.max(1, Math.round(spr.width * k)), h = Math.max(1, Math.round(spr.height * k));
-      c.drawImage(spr, Math.round(x - w / 2), Math.round(y - h / 2), w, h);
-      c.globalAlpha = 1;
-      return;
-    }
-    c.font = `${size}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`;
-    c.textAlign = 'center'; c.textBaseline = 'middle';
-    c.fillText(emoji, Math.round(x), Math.round(y));
+    const pic = spr || (window.GAME && window.GAME.pix(emoji).canvas);
+    const k = size / Math.max(pic.width, pic.height) * 1.1, w = Math.max(1, Math.round(pic.width * k)), h = Math.max(1, Math.round(pic.height * k * squash));
+    c.save(); c.translate(Math.round(x), Math.round(y)); if (flip) c.scale(-1, 1); c.drawImage(pic, -Math.round(w / 2), -Math.round(h / 2), w, h); c.restore();
     c.globalAlpha = 1;
   }
 
@@ -15685,12 +15874,29 @@ window.ROLL_RULES = {
       const x = 14 + rnd() * (W - 28), y = 30 + rnd() * 34;
       drawSprite(c, o.emoji, x + Math.sin((o.t + i * 13) / 8) * 2, y, 8, 0.75, o.sprite);
     }
+    // the creature: it paces when foraging, roams when exploring, hides, sleeps, courts
+    const t = o.t, act = o.quiet ? 'egg' : o.act, big = Math.round(15 + 10 * (o.grow ?? 1));
+    let x = W / 2, y = 44, flip = false, a = 1;
+    if (act === 'forage') { x += Math.sin(t / 9) * 24; flip = Math.cos(t / 9) < 0; y += Math.abs(Math.sin(t / 2)) * -2; }
+    else if (act === 'explore') { x += Math.sin(t / 14) * 66; flip = Math.cos(t / 14) < 0; y += Math.abs(Math.sin(t / 2)) * -3; }
+    else if (act === 'hide') { y += 4; a = 0.55; }
+    else if (act === 'rest') y += 4;
+    else if (act !== 'egg') { x += Math.sin(t / 20) * 10; y += Math.round(Math.sin(t / 5) * 1.5); }
+    if (o.threat) { x += (Math.floor(t) % 2 ? 1 : -1); flip = false; }
     if (!o.dead) {
-      const bob = Math.round(Math.sin(o.t / 5) * 1.5);
-      drawSprite(c, o.emoji, W / 2, 44 + bob, o.sprite ? 18 : 15, 1, o.sprite);
-      c.fillStyle = 'rgba(255,122,77,0.9)';
-      c.fillRect(W / 2 - 1, 32 + bob, 3, 2);
+      c.fillStyle = 'rgba(0,0,0,0.28)'; c.fillRect(Math.round(x - 9), Math.round(y + 12), 18, 2);
+      if (act === 'egg') { const s = Math.floor(t / 6) % 8 === 0 ? 1 : 0; [[-4, -8, 8], [-6, -6, 12], [-7, -3, 14], [-8, 0, 16], [-8, 3, 16], [-7, 6, 14], [-5, 9, 10]].forEach(([dx, dy, w]) => R(c, x + dx + s, y + dy, w, 3, '#efe3c8')); R(c, x - 4 + s, y - 4, 3, 5, '#fffaf0'); R(c, x + 2 + s, y + 4, 4, 3, '#cdbd98'); }
+      else if (act === 'rest') drawSprite(c, o.emoji, x, y, big, a, o.sprite, flip, 0.8); else drawSprite(c, o.emoji, x, y, big, a, o.sprite, flip);
+      if (act === 'hide') for (let i = 0; i < 12; i++) R(c, x - 16 + i * 3, y + 4 - (i * 7 % 9), 2, 10 + (i * 5 % 6), ['#3c8f4d', '#4fa85c', '#2f6f3c'][i % 3]);
+      if (act === 'rest') { const k = Math.floor(t / 5) % 3; for (let i = 0; i <= k; i++) { const zx = x + 12 + i * 6, zy = y - 8 - i * 6; R(c, zx, zy, 4, 1, '#fff6e0'); R(c, zx + 2, zy + 1, 1, 1, '#fff6e0'); R(c, zx + 1, zy + 2, 1, 1, '#fff6e0'); R(c, zx, zy + 3, 4, 1, '#fff6e0'); } }
+      if (act === 'mate') for (let i = 0; i < 3; i++) { const hy = y - 12 - ((t + i * 12) % 30) / 2, hx = x + Math.sin((t + i * 9) / 5) * 10; R(c, hx - 2, hy, 2, 2, '#ff6b9e'); R(c, hx + 1, hy, 2, 2, '#ff6b9e'); R(c, hx - 2, hy + 1, 5, 2, '#ff6b9e'); R(c, hx - 1, hy + 3, 3, 1, '#ff6b9e'); R(c, hx, hy + 4, 1, 1, '#ff6b9e'); }
+      const py = Math.round(y - 19 + (Math.floor(t / 4) % 2)); R(c, x - 2, py, 5, 1, '#ffcf4a'); R(c, x - 1, py + 1, 3, 1, '#ffcf4a'); R(c, x, py + 2, 1, 1, '#ffcf4a');
     }
+    if (o.threat) {   // something dark closes in
+      const d = 46 + Math.sin(t / 6) * 8; [-1, 1].forEach((k) => { const ex = x + k * d; R(c, ex - 12, 24, 24, 40, 'rgba(10,6,24,0.62)'); R(c, ex - 9, 20, 18, 4, 'rgba(10,6,24,0.62)'); R(c, ex - 6, 32, 4, 3, '#ff4a4a'); R(c, ex + 3, 32, 4, 3, '#ff4a4a'); });
+      if (Math.floor(t / 3) % 2) { R(c, x - 1, y - 32, 3, 8, '#ff4a4a'); R(c, x - 1, y - 22, 3, 3, '#ff4a4a'); }
+    }
+    if (o.dead) { c.fillStyle = 'rgba(10,8,28,0.6)'; c.fillRect(0, 0, W, H); drawSprite(c, o.emoji, W / 2, 40 - Math.min(26, (o.deadT || 0)), big, 0.55, o.sprite); }
     if (o.night) { c.fillStyle = 'rgba(5,10,30,0.25)'; c.fillRect(0, 0, W, H); }
   };
 })();
@@ -15708,7 +15914,7 @@ window.ROLL_RULES = {
 
   // ---------- language ----------
   const lsGet = (k) => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } };
-  let LANG = lsGet('lunhui.lang') || ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
+  let LANG = lsGet('lunhui.lang') || window.PAGE_LANG || ((navigator.language || '').toLowerCase().startsWith('zh') ? 'zh' : 'en');
   if (!window.UI || !window.UI[LANG]) LANG = 'zh';
   // Chinese fonts draw curly quotes full-width, so other languages use straight ones
   const straight = (x) => (typeof x === 'string' ? x.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"') : Array.isArray(x) ? x.map(straight) : x && typeof x === 'object' ? Object.fromEntries(Object.entries(x).map(([k, v]) => [k, straight(v)])) : x);
@@ -15719,12 +15925,12 @@ window.ROLL_RULES = {
   const Tn = (k, n, v) => { const arr = T(k); return fmt(arr[(n - 1) % arr.length], v); };
   const UNITNAME = T('unit');
   const KIND = T('kind');
-  const EN = LANG !== 'zh';
+  const EN = LANG !== 'zh', G = window.GAME, SEP = EN ? ': ' : '：';
   function boot() {
     document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : LANG;
     if (EN && !(window.I18N_SP && window.I18N_SP[LANG])) {
       const sc = document.createElement('script');
-      sc.src = `i18n/${LANG}.js?v=619f1644`; sc.onload = run; sc.onerror = run;
+      sc.src = `${window.ASSET || ''}i18n/${LANG}.js?v=619f1644`; sc.onload = run; sc.onerror = run;
       document.head.appendChild(sc);
     } else run();
   }
@@ -15784,7 +15990,9 @@ window.ROLL_RULES = {
     sp.events.forEach((e, i) => set(e, `events.${i}`)); sp.decisions.forEach((e, i) => set(e, `decisions.${i}`)); sp.causes.forEach((e, i) => set(e, `causes.${i}`)); set(sp.opening, 'opening');
   });
   const txt = (o) => (EN ? straight(o.en) : o.zh);
-  function link(sp, key) { const r = sp._ev.refs[key]; return r ? `<a class="src" target="_blank" rel="noopener" href="${esc(r.u)}">${esc(`${r.a} ${r.y}`)}${r.s ? ` · ${esc(r.s)}` : ''} ↗</a>` : ''; }
+  const ORG = { WHO: '世界卫生组织', 'World Bank': '世界银行', BTO: '英国鸟类学信托', 'NOAA Fisheries': '美国国家海洋渔业局', 'UN News': '联合国新闻', ILO: '国际劳工组织', ITU: '国际电信联盟' };
+  const cite = (r) => (EN ? `${r.a} ${r.y}${r.s ? ` · ${r.s}` : ''}` : `来源：${ORG[r.a] || String(r.a).replace(/ et al\.?/, ' 等').replace(' & ', '、')}，${r.y}`);
+  function link(sp, key) { const r = sp._ev.refs[key]; return r ? `<a class="src" target="_blank" rel="noopener" href="${esc(r.u)}">${esc(cite(r))} ↗</a>` : ''; }
   const badge = (b) => `<span class="ev ev-${b}">${T(`basis.${b}`)}</span>`;
   const evLine = (sp, o) => `<p class="evline">${badge(o.basis)} ${esc(txt(o))} ${link(sp, o.ref)}</p>`;
   const sprCache = {};
@@ -15800,8 +16008,9 @@ window.ROLL_RULES = {
   // HTML for a species' picture: its pixel sprite if it has one, otherwise its emoji.
   function icon(sp, px = 24) {
     const s = sprite(sp);
-    return s ? `<img class="spr" src="${s.url}" alt="" style="width:${Math.round(px * 1.15)}px">` : sp.emoji;
+    return `<img class="spr" src="${(s || G.pix(sp.emoji)).url}" alt="" style="width:${Math.round(px * 1.2)}px">`;
   }
+  const art0 = (sp) => (sprite(sp) || G.pix(sp.emoji)).canvas;
   const ALL_ODDS = window.ODDS || [];
   const TOTAL = ALL_ODDS.reduce((a, o) => a + o.pop, 0);
   const ODDS = ALL_ODDS.filter((o) => SP[o.id]).sort((a, b) => b.pop - a.pop);
@@ -15941,6 +16150,7 @@ window.ROLL_RULES = {
   const VIEWS = ['home', 'reveal', 'birth', 'life', 'death', 'book', 'friend', 'src'];
   function show(v) {
     VIEWS.forEach((k) => { $('#v-' + k).hidden = k !== v; });
+    document.body.classList.toggle('at-home', v === 'home'); document.body.classList.toggle('in-life', v === 'life');
     window.scrollTo(0, 0);
   }
 
@@ -15959,6 +16169,12 @@ window.ROLL_RULES = {
   function shareIn(m, id) { const p = pool(m); const t = p.reduce((a, o) => a + weightOf(m, o), 0); const o = p.find((x) => x.id === id); return o ? weightOf(m, o) / t : 0; }
 
   // ---------- home ----------
+  let stopIdle = null;
+  // twelve creatures on the wheel; the given ids come first
+  function wheelItems(ids) {
+    const rest = ODDS.map((o) => o.id).filter((x) => !ids.includes(x)).sort(() => rand() - 0.5);
+    return ids.concat(rest).slice(0, G.SLOTS).map((id) => ({ id, canvas: art0(SP[id]) }));
+  }
   function renderHome() {
     const digits = (BigInt(Math.round(TOTAL / 1e15)) * 1000000000000000n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     $('#bignum').innerHTML = T('bignum', { digits: digits.replace(/,/g, ',<wbr>') });
@@ -15976,17 +16192,18 @@ window.ROLL_RULES = {
 
     $('#whats').innerHTML = top.slice(0, 2).map((o) => { const sp = SP[o.id]; return `<div class="what"><span class="em">${icon(sp, 56)}</span><div><h3>${esc(T('whatTitle', { art: art(sp.name), sp: lc(sp.name) }))}</h3><p>${esc(about(o.id))}</p></div></div>`; }).join('');
     $('#modes').innerHTML = MODES.map(([k, label]) => `<button class="btn" type="button" data-mode="${k}" aria-pressed="${k === mode}">${label}</button>`).join('');
-    $('#pick').innerHTML = ODDS.map((o) => `<option value="${o.id}">${esc((SP[o.id].sprite ? '' : SP[o.id].emoji + ' ') + SP[o.id].name)}</option>`).join('');
+    $('#pick').innerHTML = ODDS.map((o) => `<option value="${o.id}">${esc(SP[o.id].name)}</option>`).join('');
     const lastPick = store.get('lunhui.pick', null); if (lastPick && SP[lastPick]) $('#pick').value = lastPick;
     updateMode();
 
+    if (stopIdle) stopIdle(); stopIdle = G.idleWheel($('#wheel0'), wheelItems(top.slice(0, 1).map((o) => o.id)));
     const maxL = Math.log10(top[0].pop), minL = 3;
     $('#oddslist').innerHTML = top.map((o) => {
       const s = SP[o.id];
       const confLabel = T('conf')[o.conf];
       const w = clamp((Math.log10(o.pop) - minL) / (maxL - minL), 0.01, 1) * 100;
       return `<div class="oddsrow" title="${esc(o.src)}">
-        <span class="em">${s ? icon(s, 18) : '·'}</span>
+        <span class="em">${s ? icon(s, 24) : '·'}</span>
         <span class="nm">${esc(s ? s.name : o.id)} <span class="conf ${o.conf}">${confLabel}</span><small class="mono">${cnNum(o.pop)}</small>${s ? `<span class="wh">${esc(about(o.id))}</span>` : ''}</span>
         <span class="bar"><i style="width:${w}%"></i></span>
         <span class="od">${oneIn(o.pop / TOTAL)}</span>
@@ -16003,24 +16220,24 @@ window.ROLL_RULES = {
   $('#pick').addEventListener('change', () => store.set('lunhui.pick', $('#pick').value));
 
   // ---------- reveal ----------
-  let revealTimer = null;
+  let revealTimer = null, stopSpin = null;
   function reveal() {
-    const final = draw(mode);
-    show('reveal');
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const steps = reduce ? 1 : 18;
-    let i = 0;
-    const tick = () => {
-      const o = i < steps - 1 ? ODDS[Math.floor(rand() * ODDS.length)] : final;
-      const s = SP[o.id];
-      $('#rv-em').innerHTML = icon(s, 64); $('#rv-nm').textContent = s.name;
-      if (i % 4 === 0) { const ls = T('revealLines'); $('#rv-line').textContent = ls[Math.floor(rand() * ls.length)]; }
-      $('#rv-od').textContent = T('odds', { p: oneIn(shareIn(mode, o.id)) });
-      i++;
-      if (i < steps) revealTimer = setTimeout(tick, 50 + i * i * 1.6);
-      else revealTimer = setTimeout(() => birth(final.id), reduce ? 400 : 1100);
-    };
-    tick();
+    clearTimeout(revealTimer); if (stopSpin) stopSpin();
+    const final = draw(mode), only = pool(mode).length === 1;
+    const ids = [...new Set(Array.from({ length: 5 }, () => wpick(pool(mode), (o) => weightOf(mode, o)).id))].filter((x) => x !== final.id);
+    const items = wheelItems(only ? [] : ids).filter((x) => x.id !== final.id).sort(() => rand() - 0.5);
+    const slot = Math.floor(rand() * Math.min(items.length + 1, G.SLOTS));
+    items.splice(slot, 0, { id: final.id, canvas: art0(SP[final.id]) }); items.length = Math.min(items.length, G.SLOTS);
+    show('reveal'); $('#rv').classList.remove('won');
+    const ls = T('revealLines'); $('#rv-line').textContent = ls[Math.floor(rand() * ls.length)];
+    $('#rv-nm').textContent = ''; $('#rv-od').textContent = ''; $('#rv-em').innerHTML = '';
+    G.sfx('move');
+    stopSpin = G.spinWheel($('#wheel1'), items, slot, (k) => { if (items[k]) $('#rv-em').innerHTML = icon(SP[items[k].id], 76); }, () => {
+      const s = SP[final.id];
+      $('#rv-em').innerHTML = icon(s, 96); $('#rv').classList.add('won'); $('#rv-nm').textContent = s.name; $('#rv-od').textContent = T('odds', { p: oneIn(shareIn(mode, final.id)) });
+      G.sfx('born');
+      revealTimer = setTimeout(() => { if (!$('#v-reveal').hidden) birth(final.id); }, G.reduced() ? 500 : 1500);
+    });
   }
 
   // ---------- life state ----------
@@ -16054,6 +16271,7 @@ window.ROLL_RULES = {
       choices: [], dead: false, cause: null, paused: false, speed: store.get('lunhui.speed', 1), auto: false, ff: false,
       sibsN: b.siblings || 1, stageId: null, escapes: 0, lastCrisis: -99, seen: {}, lastSeen: {}, usedText: new Set(), idleBag: [], idleRefills: 0, quietFrom: null, act: 'instinct', actTicks: {}, stepMode: store.get('lunhui.step', false), mateCd: 0, saves: 0, saveLogs: 0, lastChoice: 0, moved: false, encUsed: new Set(), quips: new Set(), lastQuip: -9, streak: 0, diedQuiet: false, t: 0, seed: Math.floor(rand() * 1e6) + 1,
     };
+    L.goals = makeGoals(sp);
     renderBirth();
     show('birth');
   }
@@ -16093,6 +16311,47 @@ window.ROLL_RULES = {
     return String(text || '').replace(/\{([^}]+)\}/g, (m, k) => (k in vars ? vars[k] : m));
   }
 
+  // ---------- three goals per life ----------
+  function makeGoals(sp) {
+    const out = [{ k: 'half', ok: () => S(sp, L.age) <= 0.5 }], last = sp.stages[sp.stages.length - 1];
+    if (sp.maturity && sp.maturity < sp.maxAge * 0.95) out.push({ k: 'adult', ok: () => L.age >= sp.maturity });
+    else { const mid = sp.stages[Math.max(1, sp.stages.length - 2)] || last; out.push({ k: 'stage', v: { s: mid.name }, ok: () => L.age >= mid.from }); }
+    out.push(canBreed(sp) ? { k: 'kids', ok: () => L.stats.offspring > 0 } : { k: 'stage', v: { s: last.name }, ok: () => L.age >= last.from });
+    return out.map((g) => ({ ...g, t: T(`goal.${g.k}`, g.v), done: false }));
+  }
+  const goalsHTML = () => L.goals.map((g) => `<div class="goal${g.done ? ' on' : ''}">${G.icon(g.done ? 'star' : 'starOff', 22)}<span>${esc(g.t)}</span></div>`).join('');
+  const starRow = (n, px = 22) => [0, 1, 2].map((i) => G.icon(i < n ? 'star' : 'starOff', px)).join('');
+  const starCount = () => L.goals.filter((g) => g.done).length;
+  function checkGoals() {
+    L.goals.forEach((g) => { if (!g.done && g.ok()) { g.done = true; if (!L.auto) { G.sfx('star'); toast(`${G.icon('star', 22)}<span>${esc(T('goalDone', { g: g.t }))}</span>`); } } });
+  }
+  function toast(html) { const old = $('#toast'); if (old) old.remove(); const el = document.createElement('div'); el.id = 'toast'; el.innerHTML = html; $('#stage').append(el); setTimeout(() => el.remove(), 2900); }
+  // numbers that float off the creature when its state jumps
+  function feedback() {
+    const s = L.stats, o = L.lastStats; L.lastStats = { ...s };
+    if (!o || L.auto || L.dead || $('#v-life').hidden) return;
+    const col = { health: 'var(--bad)', food: 'var(--warn)', safety: 'var(--cyan)', offspring: 'var(--accent)' }, ic = { health: 'heart', food: 'food', safety: 'shield', offspring: 'mate' };
+    let k = 0;
+    ['health', 'food', 'safety', 'offspring'].forEach((x) => {
+      const d = Math.round(s[x] - o[x]); if (Math.abs(d) < (x === 'offspring' ? 1 : 5)) return;
+      const el = document.createElement('span'); el.style.color = d > 0 ? col[x] : 'var(--bad)'; el.style.marginLeft = `${(k++ % 3) * 80 - 60}px`; el.innerHTML = `${G.icon(ic[x], 18)} ${d > 0 ? '+' : ''}${cnNum(Math.abs(d)) === String(Math.abs(d)) ? d : (d > 0 ? '' : '-') + cnNum(Math.abs(d))}`;
+      $('#floats').append(el); setTimeout(() => el.remove(), 1400);
+    });
+    const dh = s.health - o.health;
+    if (dh <= -8) { hurt(); G.sfx('hurt'); } else if (dh >= 8) G.sfx('heal');
+    if (s.offspring > o.offspring) G.sfx('heal');
+  }
+  function hurt() { const c = $('#scene'), st = $('#stage'); c.classList.remove('shake'); st.classList.remove('hurt'); void c.offsetWidth; c.classList.add('shake'); st.classList.add('hurt'); setTimeout(() => { c.classList.remove('shake'); st.classList.remove('hurt'); }, 400); }
+  // the latest line, typed into the dialogue box
+  let sayRaf = 0;
+  function say(text, extra = '') {
+    const box = $('#lf-say'); cancelAnimationFrame(sayRaf);
+    if (L.speed >= 4 || L.ff || G.reduced() || document.hidden) { box.innerHTML = `${esc(text)} ${extra}`; return; }
+    const ms = Math.min(700, text.length * 22), t0 = performance.now(); let last = 0;
+    const tick = (ts) => { const n = Math.min(text.length, Math.ceil(Math.max(0, ts - t0) / ms * text.length)); if (n !== last) { if (n - last > 0 && n % 3 === 0) G.sfx('blip'); last = n; box.textContent = text.slice(0, n); } if (n < text.length) sayRaf = requestAnimationFrame(tick); else box.innerHTML = `${esc(text)} ${extra}`; };
+    sayRaf = requestAnimationFrame(tick);
+  }
+
   // ---------- birth card ----------
   function renderBirth() {
     const sp = L.sp, o = oddsOf(sp.id);
@@ -16123,17 +16382,18 @@ window.ROLL_RULES = {
       </table>` : '';
     $('#v-birth').innerHTML = `
       <div class="card">
-        <div class="card-head"><span>${T('birthHead')}</span><span>No. ${L.no}</span></div>
+        <div class="card-head"><span>${T('birthHead')}</span><span>${T('no', { n: L.no })}</span></div>
         <div class="card-body">
-          <div class="specname"><span class="em">${icon(sp, 52)}</span><div><h2>${esc(sp.name)}</h2><div class="sci">${esc(sp.sci || '')}${EN ? '' : ` · ${esc(sp.en || '')}`}</div>${sp.taxon ? `<div class="mono small muted">${esc(sp.taxon)}</div>` : ''}</div></div>
+          <div class="specname"><span class="em">${icon(sp, 60)}</span><div><h2>${esc(sp.name)}</h2>${EN ? `<div class="sci">${esc(sp.sci || '')}</div>` : ''}${sp.taxon ? `<div class="small muted">${esc(EN ? sp.taxon : sp.taxon.replace(/（[A-Za-z ]+）/g, ''))}</div>` : ''}</div></div>
           <p style="font-size:16.5px">${esc(fill(sp.birth.intro))}</p>
           <div class="whatis"><b>${esc(T('whatIs', { art: art(sp.name), sp: lc(sp.name) }))}</b><p>${esc(about(sp.id))}</p>${sp.note ? `<p class="small muted">${esc(sp.note)}</p>` : ''}</div>
+          <div><h3 style="font-size:22px;color:var(--accent)">${T('goalTitle')}</h3><div class="goals">${goalsHTML()}</div></div>
+          <div class="row"><button class="btn-primary" id="begin" type="button">${T('begin')}</button><button class="btn" id="reroll" type="button">${T('reroll')}</button></div>
           <div class="fields">${fields.map(([k, v]) => `<div class="field"><span class="eyebrow">${esc(k)}</span><div class="v">${String(v).startsWith('<') ? v : esc(v)}</div></div>`).join('')}</div>
           ${cmp}
           <p class="small muted">${esc(T('sources', { src: o.src, note: sp.survivalNote || '' }))} <button class="linkbtn" type="button" data-src="${sp.id}">${T('why.allSources')}</button></p>
           ${(sp._ev.survival || []).slice(0, 3).map((a) => evLine(sp, a)).join('')}
           <p class="small muted">${esc(T('protectNote'))}</p>
-          <div class="row"><button class="btn-primary" id="begin" type="button">${T('begin')}</button><button class="btn" id="reroll" type="button">${T('reroll')}</button></div>
         </div>
       </div>`;
     $('#begin').onclick = startLife;
@@ -16145,7 +16405,8 @@ window.ROLL_RULES = {
   let timer = null, raf = null;
   function startLife() {
     show('life');
-    $('#lf-log').innerHTML = '';
+    $('#lf-log').innerHTML = ''; $('#floats').innerHTML = ''; L.lastStats = { ...L.stats };
+    G.sfx('born');
     addLog(fill(L.sp.birth.intro), 'stage');
     renderControls();
     renderLife();
@@ -16450,7 +16711,8 @@ window.ROLL_RULES = {
       addLog(T('autoChose', { d: d.title, o: opt.t }), 'choice');
       return choose(d, opt);
     }
-    L.ff = false; renderControls();
+    L.ff = false; renderControls(); window.scrollTo({ top: 0 });
+    G.sfx(d.crisis ? 'alarm' : 'pick'); $('#stage').classList.toggle('danger', !!d.crisis); L.threat = !!d.crisis; $('#dlg').className = `dlg${d.crisis ? ' crisis' : ''}`;
     const [n, u] = bigAge(L.cal, L.unit || stageAt(L.sp, L.age).unit);
     $('#dlg').innerHTML = `
       <div class="head"><span class="eyebrow" style="color:${d.crisis ? 'var(--bad)' : 'var(--accent)'}">${esc(d.eyebrow || T('decision'))}</span><span class="eyebrow">${n} ${u} · ${esc(stageAt(L.sp, L.age).name)}</span></div>
@@ -16463,16 +16725,26 @@ window.ROLL_RULES = {
     $('#dlg').onclick = (e) => {
       const b = e.target.closest('.opt[data-i]'); if (!b) return;
       const opt = d.options[+b.dataset.i];
+      $('#dlg').onclick = null; G.sfx('pick');
       addLog(T('youChose', { d: d.title, o: opt.t }), 'choice');
+      if (d.crisis && opt.kill) return runTiming(d, opt);
       choose(d, opt, true);
     };
+  }
+  // A crisis is settled by stopping the marker: the green part is as wide as the odds.
+  function runTiming(d, opt) {
+    const p = 1 - opt.kill;
+    $('#dlg').innerHTML = `<div class="head"><span class="eyebrow" style="color:var(--bad)">${esc(opt.t)}</span></div><h2 id="dlg-title">${T('timing.title')}</h2><p>${T('timing.body', { p: pct(p) })}</p><div class="tzone" id="tzone"></div>`;
+    L.stopTiming = G.timing($('#tzone'), p, T('timing.btn'), (ok) => { L.stopTiming = null; choose(d, opt, true, ok); });
   }
   function decisionEvidence(d) {
     if (d.fact) return `<div class="fact">${esc(d.fact)} ${link(L.sp, d.ref)}</div>`;
     const id = d.id === '__opening' ? 'opening' : d.id, f = (L.sp._ev.facts || []).find((x) => (x.decisions || []).includes(id));
     return f ? `<div class="fact">${badge(f.basis)} ${esc(txt(f))} ${link(L.sp, f.ref)}</div>` : '';
   }
-  function choose(d, opt, interactive = false) {
+  function choose(d, opt, interactive = false, fate = null) {
+    if (opt.eff) opt = { ...opt, eff: Object.fromEntries(Object.entries(opt.eff).map(([k, v]) => [k, k === 'set' ? v : val(v)])) };
+    $('#stage').classList.remove('danger'); L.threat = false;
     L.choices.push(`${d.title} → ${opt.t}`); L.lastChoice = L.ticks;
     if (opt.act) L.act = opt.act;
     applyEff(opt.eff, L.stats, L.flags);
@@ -16484,7 +16756,7 @@ window.ROLL_RULES = {
       L.map.push({ skip: true });
       addLog(T('dormant', { d: dur(days) }), 'idle');
     }
-    if (opt.kill && rand() < opt.kill) {
+    if (opt.kill && (fate === null ? rand() < opt.kill : !fate)) {
       if (opt.crisis && L.why) L.why.crisis = { t: opt.t, p: 1 - opt.kill }; else L.why = { kind: 'choice', t: `${d.title}${EN ? ': ' : '：'}${opt.t}`, p: opt.kill, age: L.age, stage: stageAt(L.sp, L.age) };
       if (L.choices.length > MIN_CHOICES - 1) return die(opt.causeObj || opt.cause || null);
       // protected: hurt instead of dead
@@ -16510,12 +16782,15 @@ window.ROLL_RULES = {
       ${opt.result ? `<p>${esc(fill(opt.result))}</p>` : ''}
       ${chips || riskNote ? `<div class="row">${chips}${riskNote}</div>` : ''}
       ${opt.risk || (opt.kill && !opt.crisis) ? `<p class="small muted">${badge('rule')} ${[opt.risk ? T('why.ruleRisk', { x: opt.risk.toFixed(2) }) : '', opt.kill && !opt.crisis ? T('why.ruleKill', { p: pct(opt.kill) }) : ''].filter(Boolean).join(EN ? '; ' : '；')}</p>` : ''}
-      <div class="opts"><button class="opt" type="button" id="dlg-go"><span class="k">→</span><span class="tt">${T('continue')}</span></button></div>`;
+      <div class="opts"><button class="opt" type="button" id="dlg-go"><span class="k">▶</span><span class="tt">${T('continue')}</span></button></div>`;
+    $('#dlg').className = 'dlg';
     $('#dlg-go').focus();
-    $('#dlg-go').onclick = () => { $('#overlay').hidden = true; schedule(); };
+    $('#dlg-go').onclick = () => { G.sfx('move'); $('#overlay').hidden = true; schedule(); };
   }
   document.addEventListener('keydown', (e) => {
     if (!$('#overlay').hidden) {
+      if (L && L.stopTiming) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!e.repeat) L.stopTiming(); } return; }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { const os = [...$('#dlg').querySelectorAll('.opt')], i = os.indexOf(document.activeElement); if (os.length) { os[(i + (e.key === 'ArrowDown' ? 1 : os.length - 1) + os.length) % os.length].focus(); G.sfx('move'); } e.preventDefault(); return; }
       const b = $('#dlg').querySelector(`.opt[data-i="${+e.key - 1}"]`);
       if (b) { b.click(); e.preventDefault(); }
       return;
@@ -16544,6 +16819,7 @@ window.ROLL_RULES = {
     el.innerHTML = `<span class="t">${esc(stamp(L.cal, unit))}</span><span class="tx">${esc(text)}${fact ? `<span class="fact">${esc(fact)} ${ev && ev.ref ? link(L.sp, ev.ref) : ''}</span>` : ''}${ev && ev.basis ? `<span class="fact plain">${badge(ev.basis)} ${link(L.sp, ev.ref)}</span>` : ''}</span>`;
     const log = $('#lf-log');
     log.prepend(el);
+    if (!L.auto || !L.quietSim) say(text, ev && ev.ref ? link(L.sp, ev.ref) : '');
     while (log.children.length > 300) log.lastChild.remove();
   }
   function renderControls() {
@@ -16571,7 +16847,7 @@ window.ROLL_RULES = {
     const st = stageAt(L.sp, L.age);
     if (!acts.includes(L.act)) L.act = 'instinct';
     $('#lf-acts').innerHTML = acts.length
-      ? acts.map((k, i) => { const A = actionDef(k); return `<button class="act" type="button" data-act="${k}" aria-pressed="${L.act === k}"><span class="k">${i + 1}</span><b>${esc(A.name)}</b><span class="hints">${actHints(A)}</span></button>`; }).join('')
+      ? acts.map((k, i) => { const A = actionDef(k); return `<button class="act" type="button" data-act="${k}" aria-pressed="${L.act === k}"><span>${G.icon(k, 28)}</span><b>${esc(A.name)}</b><span class="k">${i + 1}</span><span class="hints">${actHints(A)}</span></button>`; }).join('')
       : `<p class="muted">${esc(T('cantAct', { s: st.name }))}</p>`;
     $('#lf-act-desc').textContent = acts.length ? actionDef(L.act).desc : '';
     const next = $('#lf-next');
@@ -16585,7 +16861,7 @@ window.ROLL_RULES = {
   $('#lf-next').addEventListener('click', () => { if (L && !L.dead && $('#overlay').hidden) step(); });
   function setAct(k) {
     if (L.act === k) return;
-    L.act = k;
+    L.act = k; G.sfx('pick');
     const nm = actionDef(k).name;
     L.actSwitch = (L.actSwitch || 0) + 1;
     addLog(k === 'instinct' ? Tn('toInstinct', L.actSwitch) : Tn('toAction', L.actSwitch, { a: EN ? nm.toLowerCase() : nm }), 'choice');
@@ -16604,8 +16880,8 @@ window.ROLL_RULES = {
     renderControls(); schedule();
   });
 
-  function statRow(label, v, col) {
-    return `<div class="stat"><span>${label}</span><span class="track"><i style="width:${v}%;background:${col}"></i></span><span class="n">${Math.round(v)}</span></div>`;
+  function statRow(ic, label, v, col) {
+    return `<div class="stat${v < 25 ? ' low' : ''}" title="${esc(label)}" role="img" aria-label="${esc(label)} ${Math.round(v)}">${G.icon(ic, 18)}<span class="track"><i style="width:${v}%;background-color:${col}"></i></span><span class="n">${Math.round(v)}</span></div>`;
   }
   function sibsAlive() {
     if (L.sibsN <= 1) return L.dead ? 0 : 1;
@@ -16621,7 +16897,7 @@ window.ROLL_RULES = {
     $('#lf-sub').textContent = T('sub', { sp: sp.name, st: st.name, u: UNITNAME[unit], y: BIRTH_YEAR + Math.floor(L.cal / 365), bio });
     $('#lf-prog').style.width = `${clamp(L.age / sp.maxAge, 0, 1) * 100}%`;
     $('#lf-id').innerHTML = `
-      <div class="top"><span class="em">${icon(sp, 40)}</span><div><h3>${esc(sp.name)}</h3><div class="mono small muted">No. ${L.no}</div></div></div>
+      <h3>${esc(sp.name)}</h3><div class="small muted">${T('no', { n: L.no })}</div>
       <dl class="kv">
         ${L.sex ? `<dt>${T('fSex')}</dt><dd>${esc(L.sex)}</dd>` : ''}
         ${Object.entries(L.rolls).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
@@ -16631,10 +16907,13 @@ window.ROLL_RULES = {
         <dt>${T('fKids')}</dt><dd class="mono">${L.stats.offspring.toLocaleString('en-US')}</dd>
       </dl>`;
     const s = L.stats;
+    checkGoals(); feedback();
+    $('#lf-who').innerHTML = `${icon(sp, 34)}<div><b>${esc(sp.name)}</b><small>${esc(st.name)}</small></div>`;
+    $('#lf-stars').innerHTML = starRow(starCount()); $('#lf-goals').innerHTML = goalsHTML();
     $('#lf-stats').innerHTML =
-      statRow(T('stat.health'), s.health, s.health < 30 ? 'var(--bad)' : 'var(--good)') +
-      statRow(T('stat.food'), s.food, s.food < 20 ? 'var(--bad)' : 'var(--warn)') +
-      statRow(T('stat.safety'), s.safety, 'var(--cyan)');
+      statRow('heart', T('stat.health'), s.health, 'var(--bad)') +
+      statRow('food', T('stat.food'), s.food, 'var(--warn)') +
+      statRow('shield', T('stat.safety'), s.safety, 'var(--cyan)');
     $('#lf-sibl').textContent = T('sibsLeft', { label: sp.birth.siblingsLabel || T('sibsDefault') });
     const alive = sibsAlive();
     $('#lf-sibn').textContent = `${alive.toLocaleString('en-US')} / ${L.sibsN.toLocaleString('en-US')}`;
@@ -16655,9 +16934,9 @@ window.ROLL_RULES = {
     let last = 0;
     const loop = (ts) => {
       if ($('#v-life').hidden || !L) return;
-      if (ts - last > 120) {
+      if (ts - last > 90) {
         last = ts; L.t++;
-        window.drawScene($('#scene'), { scene: L.sp.scene, t: L.t, night: isNight(), emoji: L.sp.emoji, sprite: sprite(L.sp)?.canvas, sibs: sibsAlive() - (L.dead ? 0 : 1), seed: L.seed, dead: L.dead });
+        window.drawScene($('#scene'), { scene: L.sp.scene, t: L.t, night: isNight(), emoji: L.sp.emoji, sprite: art0(L.sp), act: L.act, grow: clamp(L.age / (Math.min(L.sp.maturity || 0, L.sp.maxAge * 0.5) || 1), 0, 1), quiet: stageAt(L.sp, L.age)._quiet, threat: L.threat, hurt: $('#stage').classList.contains('hurt'), sibs: sibsAlive() - (L.dead ? 0 : 1), seed: L.seed, dead: L.dead });
       }
       raf = requestAnimationFrame(loop);
     };
@@ -16666,12 +16945,13 @@ window.ROLL_RULES = {
 
   // ---------- final moment + death record ----------
   function openFinal() {
+    if (!L.quietSim) G.sfx('dead'); $('#dlg').className = 'dlg crisis'; $('#stage').classList.remove('danger');
     $('#dlg').innerHTML = `
       <div class="head"><span class="eyebrow" style="color:var(--bad)">${T('ended')}</span><span class="eyebrow">${esc(stageAt(L.sp, L.age).name)}</span></div>
       <h2 id="dlg-title">${T('lived', { d: dur(L.cal) })}</h2>
       <p class="cause">${esc(L.cause.short)}</p>
       <p>${esc(fill(L.cause.text))}</p>
-      <div class="opts"><button class="opt" type="button" id="to-death"><span class="k">→</span><span class="tt">${T('toRecord')}</span></button></div>`;
+      <div class="opts"><button class="opt" type="button" id="to-death"><span class="k">▶</span><span class="tt">${T('toRecord')}</span></button></div>`;
     $('#overlay').hidden = false;
     $('#to-death').focus();
     $('#to-death').onclick = () => { $('#overlay').hidden = true; renderDeath(); show('death'); };
@@ -16767,7 +17047,7 @@ window.ROLL_RULES = {
     const i = (L.sp.causes || []).findIndex((x) => x.id === L.cause.id), n = L.map.length, cells = Math.min(10, n), strip = [];
     for (let k = 0; k < cells; k++) { const c = L.map[Math.floor((k + 0.5) * n / cells)]; strip.push(c.skip ? 'z' : c.h >= 66 ? 'g' : c.h >= 33 ? 'y' : 'r'); }
     return { id: L.id, cal: L.cal, cause: i >= 0 ? i.toString(36) : { starve: 'zs', old: 'zo' }[L.cause.id] || 'zd', off: L.stats.offspring, esc: L.escapes,
-      con: TRAITS.con.indexOf(L.traits.con), tem: TRAITS.tem.indexOf(L.traits.tem), strip: strip.join(''), rolls: L.rollIdx.slice(0, 6), awards: [], ch: L.choices.length };
+      con: TRAITS.con.indexOf(L.traits.con), tem: TRAITS.tem.indexOf(L.traits.tem), strip: strip.join(''), rolls: L.rollIdx.slice(0, 6), awards: [starCount()], ch: L.choices.length };
   }
   function causeOf(d) {
     const g = { zs: 'starve', zo: 'oldAge', zd: 'death' }[d.cause];
@@ -16788,14 +17068,14 @@ window.ROLL_RULES = {
   function cardData(d) {
     const sp = SP[d.id], o = oddsOf(d.id), e = causeEvidence(d.id, causeObj(d)), r = e && sp._ev.refs[e.ref];
     return { name: sp.name, about: about(d.id), lived: T('lived', { d: dur(d.cal) }).replace(/^你/, ''), cause: `${T('fCause')}${EN ? ': ' : '：'}${causeOf(d)}`,
-      stat: T('outlived', { p: pct(1 - S(sp, Math.min(d.cal, sp.maxAge))) }).replace(/我的?/, ''), statNote: T('outlivedNote'), evidence: e ? txt(e) : '', evidenceSrc: r ? `${r.a} ${r.y} · ${r.s}` : '', evidenceLabel: T('evData'),
+      stat: T('outlived', { p: pct(1 - S(sp, Math.min(d.cal, sp.maxAge))) }).replace(/我的?/, ''), statNote: T('outlivedNote'), evidence: e ? txt(e) : '', evidenceSrc: r ? cite(r) : '', evidenceLabel: T('evData'),
       strip: d.strip, odds: T('odds', { p: oneIn(o.pop / TOTAL) }), head: T('deathHead'), lead: T('cardLead'),
-      scene: sp.scene, emoji: sp.emoji, sprite: sprite(sp)?.canvas, seed: 7 + sp.name.length, foot: 'Next Life', url: window.SOCIAL.url(codeOf(d)) };
+      scene: sp.scene, emoji: sp.emoji, sprite: art0(sp), seed: 7 + sp.name.length, foot: T('title'), en: EN, stars: d.awards && d.awards.length ? d.awards[0] : null, url: window.SOCIAL.url(codeOf(d)) };
   }
   function shareText(d) {
     const sp = SP[d.id], strip = [...d.strip].map((c) => ({ g: '🟩', y: '🟨', r: '🟥', z: '💤' }[c])).join('') + '⬛';
     const e = causeEvidence(d.id, causeObj(d)), r = e && sp._ev.refs[e.ref];
-    return T('share', { art: art(sp.name), mw: mw(d.id), sp: lc(sp.name), d: dur(d.cal), c: causeOf(d), strip, data: dataLine(d) + (e ? `\n${txt(e)}（${r.a} ${r.y}）`.replace(/（(.*)）$/, EN ? ' ($1)' : '（$1）') : ''), url: window.SOCIAL.url(codeOf(d)) });
+    return T('share', { art: art(sp.name), mw: mw(d.id), sp: lc(sp.name), d: dur(d.cal), c: causeOf(d), strip, data: dataLine(d) + (e ? `\n${txt(e)}${EN ? ` (${cite(r)})` : `（${cite(r)}）`}` : ''), url: window.SOCIAL.url(codeOf(d)) });
   }
   function sharePanel(d, cardOnly = false) {
     const tx = shareText(d);
@@ -16828,7 +17108,7 @@ window.ROLL_RULES = {
       if (k === 'text') return copy(shareText(d), T('copied'));
       if (k === 'link') return copy(window.SOCIAL.url(codeOf(d)), T('linkCopied'));
       if (!cv) cv = await made;
-      if (k === 'img') { const r = await window.SOCIAL.saveImage(cv, `next-life-${d.id}.png`).catch(() => 'hold'); msg(r === 'saved' ? T('imgSaved') : r === 'hold' ? T('imgHold') : ''); }
+      if (k === 'img') { const r = await window.SOCIAL.saveImage(cv, `${T('title')}-${SP[d.id].name}.png`).catch(() => 'hold'); msg(r === 'saved' ? T('imgSaved') : r === 'hold' ? T('imgHold') : ''); }
       if (k === 'sys') window.SOCIAL.sysShare(cv, shareText(d), window.SOCIAL.url(codeOf(d))).catch(() => {});
     });
   }
@@ -16866,13 +17146,17 @@ window.ROLL_RULES = {
     const humanLine = hum && hum !== sp ? `<p>${T('humanSame', { d: dur(L.cal), p: pct(S(hum, L.cal)) })}</p>` : '';
     const d = L.life;
     $('#v-death').innerHTML = `
-      ${sharePanel(d)}
+      <div class="panel over"><h1>${T('over')}</h1><div class="em">${icon(sp, 84)}</div><div class="big">${esc(sp.name)}${SEP}${T('lived', { d: dur(L.cal) }).replace(/^你/, '')}</div><p class="cause">${esc(L.cause.short)}</p>
+        <div class="stars">${starRow(starCount(), 44)}</div><div class="goals">${goalsHTML()}</div>
+        <div class="row" style="justify-content:center"><button class="btn-primary" type="button" data-again="${L.mode}">${T('again')}</button><button class="btn" type="button" id="d-book">${T('navBook')}</button><button class="btn" type="button" id="d-home">${T('home')}</button></div></div>
       ${whyPanel()}
+      ${sharePanel(d)}
       ${versus(d)}
+      <details class="more"><summary>${T('moreLife')}</summary>
       <div class="card deathcard">
-        <div class="card-head"><span>${T('deathHead')}</span><span>No. ${L.no}</span></div>
+        <div class="card-head"><span>${T('deathHead')}</span><span>${T('no', { n: L.no })}</span></div>
         <div class="card-body">
-          <div class="specname"><span class="em">${icon(sp, 52)}</span><div><h2>${esc(sp.name)}</h2><div class="sci">${esc(sp.sci || '')}</div></div></div>
+          <div class="specname"><span class="em">${icon(sp, 60)}</span><div><h2>${esc(sp.name)}</h2>${EN ? `<div class="sci">${esc(sp.sci || '')}</div>` : ''}</div></div>
           <p class="mono small muted">${esc(T('deathLine', { y0: BIRTH_YEAR, y1: BIRTH_YEAR + Math.floor(L.cal / 365), d: dur(L.cal), bio: Math.abs(L.cal - L.age) > 0.5 ? T('deathBio', { d: dur(L.age) }) : '', st: stageAt(sp, L.age).name }))}</p>
           <div><span class="eyebrow">${T('fCause')}</span><p class="cause">${esc(L.cause.short)}</p><p>${esc(fill(L.cause.text))}</p></div>
           <div class="fields">
@@ -16913,7 +17197,9 @@ window.ROLL_RULES = {
         <div class="companions">${others.map((x) => `<div class="comp"><span class="em">${icon(x.sp, 20)}</span><span>${T('companion', { art: art(x.sp.name), Art: art(x.sp.name) === 'an' ? 'An' : 'A', mw: mw(x.sp.id), sp: esc(lc(x.sp.name)), d: dur(x.age), c: esc(x.cause) })}</span></div>`).join('')}</div>
       </div>
 
-      ${sp.epitaph ? `<p style="font-family:var(--font-display);font-size:22px;text-align:center;padding-block:10px">${esc(sp.epitaph)}</p>` : ''}
+      </details>
+
+      ${sp.epitaph ? `<p style="font-family:var(--font-display);font-size:24px;text-align:center;padding-block:10px">${esc(sp.epitaph)}</p>` : ''}
 
       <div class="panel">
         <h3>${T('nextLife')}</h3>
@@ -16921,12 +17207,7 @@ window.ROLL_RULES = {
         <div class="modes">${MODES.filter(([k]) => k !== 'pick').map(([k, label]) => `<button class="btn" type="button" data-again="${k}" aria-pressed="${k === L.mode}">${label}</button>`).join('')}</div>
       </div>
 
-      <div class="row" style="justify-content:center;padding-block:10px">
-        <button class="btn-primary" type="button" id="again">${T('again')}</button>
-        <button class="btn" type="button" id="d-book">${T('navBook')}</button>
-        <button class="btn" type="button" id="d-home">${T('home')}</button>
-      </div>`;
-    $('#again').onclick = () => { mode = L.mode; reveal(); };
+`;
     $('#v-death').querySelectorAll('[data-again]').forEach((b) => { b.onclick = () => { mode = b.dataset.again; store.set('lunhui.mode', mode); reveal(); }; });
     $('#d-book').onclick = renderBook;
     $('#d-home').onclick = () => { renderHome(); show('home'); };
@@ -16936,19 +17217,20 @@ window.ROLL_RULES = {
   // ---------- book ----------
   function saveLife() {
     const lives = store.get('lunhui.lives', []);
-    lives.unshift({ id: L.id, cal: L.cal, cause: L.cause.short, off: L.stats.offspring, at: Date.now(), roll: Object.values(L.rolls)[0] || '', code: codeOf(L.life) });
+    lives.unshift({ id: L.id, cal: L.cal, cause: L.cause.short, off: L.stats.offspring, at: Date.now(), roll: Object.values(L.rolls)[0] || '', code: codeOf(L.life), st: starCount() });
     store.set('lunhui.lives', lives.slice(0, 200));
   }
   function renderBook() {
     const lives = store.get('lunhui.lives', []);
     const count = {}; lives.forEach((l) => { count[l.id] = (count[l.id] || 0) + 1; });
-    const got = ODDS.filter((o) => count[o.id]).length;
+    const got = ODDS.filter((o) => count[o.id]).length, best = {}; lives.forEach((l) => { best[l.id] = Math.max(best[l.id] || 0, l.st || 0); });
     $('#v-book').innerHTML = `
       <div style="display:grid;gap:6px">
         <h2 style="font-size:34px">${T('navBook')}</h2>
         <p class="muted">${T('bookIntro', { n: lives.length, got, all: ODDS.length })}</p>
+        <div class="meter"><i style="width:${got / ODDS.length * 100}%"></i></div>
       </div>
-      <div class="book">${ODDS.map((o) => { const s = SP[o.id]; const n = count[o.id] || 0; return `<div class="bk ${n ? '' : 'locked'}"><span class="em">${icon(s, 28)}</span><b>${n ? esc(s.name) : '???'}</b><span class="od">${oneIn(o.pop / TOTAL)}</span><span class="od">${n ? T('livedN', { n }) : T('notYet')}</span></div>`; }).join('')}</div>
+      <div class="book">${ODDS.map((o) => { const s = SP[o.id]; const n = count[o.id] || 0; return `<div class="bk ${n ? 'got' : 'locked'}"><span class="em">${icon(s, 46)}</span><b>${n ? esc(s.name) : '???'}</b><span class="od">${oneIn(o.pop / TOTAL)}</span><span class="od">${n ? T('livedN', { n }) : T('notYet')}</span>${n ? `<span class="stars">${starRow(best[o.id], 16)}</span>` : ''}</div>`; }).join('')}</div>
       <div class="panel">
         <h3>${T('pastLives')}</h3>
         <div class="pastlives">${lives.length ? lives.slice(0, 60).map((l) => { const s = SP[l.id]; if (!s) return ''; return `<div class="pl"><span style="font-size:20px">${icon(s, 20)}</span><span>${esc(s.name)}${l.roll ? ` · <span class="muted">${esc(l.roll)}</span>` : ''}<br><span class="small muted">${T('livedFor', { d: dur(l.cal) })} · ${esc(l.cause)}${l.off ? ` · ${T('kidsN', { n: l.off.toLocaleString('en-US') })}` : ''}</span></span><span class="mono small muted">${l.code ? `<button class="btn" type="button" data-life="${esc(l.code)}">${T('bookShare')}</button> ` : ''}${new Date(l.at).toLocaleDateString(EN ? 'en-US' : 'zh-CN')}</span></div>`; }).join('') : `<p class="muted">${T('noLives')}</p>`}</div>
@@ -16959,23 +17241,26 @@ window.ROLL_RULES = {
 
   // ---------- nav ----------
   $('#go').onclick = reveal;
-  $('#nav-home').onclick = () => { clearTimeout(revealTimer); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderHome(); show('home'); };
-  $('#nav-book').onclick = () => { clearTimeout(revealTimer); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderBook(); };
+  const sndBtn = $('#nav-sound'), drawSnd = () => { sndBtn.innerHTML = `${G.icon(G.isMuted() ? 'mute' : 'sound', 18)}<span>${T(G.isMuted() ? 'soundOff' : 'soundOn')}</span>`; sndBtn.setAttribute('aria-label', T(G.isMuted() ? 'soundOff' : 'soundOn')); };
+  sndBtn.onclick = () => { G.toggleMute(); drawSnd(); }; drawSnd();
+  $('#nav-home').onclick = () => { clearTimeout(revealTimer); if (stopSpin) stopSpin(); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderHome(); show('home'); };
+  $('#nav-book').onclick = () => { clearTimeout(revealTimer); if (stopSpin) stopSpin(); if (L && !L.dead) { L.paused = true; clearTimeout(timer); } renderBook(); };
 
   // test hook: lets an automated check play lives quickly
   window.__lunhui = {
+    crisis: () => { const c = L.sp.causes.find((x) => x.escape && inStage(x, stageAt(L.sp, L.age))) || L.sp.causes.find((x) => x.escape); clearTimeout(timer); openCrisis(c); },
     SP, ODDS, S, invS, birth: (id) => birth(id), state: () => L, start: () => startLife(),
     // plays one full life synchronously with random choices; returns a summary
     sim(id, randomActs = false) {
-      birth(id); L.auto = true; L.stepMode = false; startLife();
+      G.quiet(true); birth(id); L.auto = true; L.quietSim = true; L.stepMode = false; startLife();
       let i = 0;
       while (!L.dead && i++ < 20000) {
         clearTimeout(timer);
         if (randomActs && rand() < 0.1) { const a = availableActions(); if (a.length) L.act = a[Math.floor(rand() * a.length)]; }
         step();
       }
-      clearTimeout(timer); $('#overlay').hidden = true;
-      return { id, escapes: L.escapes, acts: { ...L.actTicks }, ticks: L.ticks, lived: dur(L.cal), cause: L.cause && L.cause.short, stage: stageAt(L.sp, L.age).name, kids: L.stats.offspring, choices: L.choices.length, logs: L.log.length };
+      clearTimeout(timer); $('#overlay').hidden = true; G.quiet(false);
+      return { id, stars: starCount(), escapes: L.escapes, acts: { ...L.actTicks }, ticks: L.ticks, lived: dur(L.cal), cause: L.cause && L.cause.short, stage: stageAt(L.sp, L.age).name, kids: L.stats.offspring, choices: L.choices.length, logs: L.log.length };
     },
   };
 
@@ -16985,8 +17270,10 @@ window.ROLL_RULES = {
   document.querySelectorAll('[data-th]').forEach((el) => { el.innerHTML = T(el.dataset.th); });
   const langBtn = $('#nav-lang');
   const other = Object.keys(window.UI).find((k) => k !== LANG);
-  langBtn.textContent = window.UI[other].langName;
-  langBtn.onclick = () => { try { localStorage.setItem('lunhui.lang', JSON.stringify(other)); } catch (e) { /* storage unavailable */ } location.reload(); };
+  langBtn.innerHTML = `${G.icon('globe', 18)}<span>${T('langSwitch')}</span>`; langBtn.setAttribute('aria-label', T('langSwitch'));
+  langBtn.onclick = () => { try { localStorage.setItem('lunhui.lang', JSON.stringify(other)); } catch (e) { /* storage unavailable */ } if (window.LANG_PATH) location.href = window.LANG_PATH[other] + location.hash; else location.reload(); };
+  document.querySelectorAll('[data-tl]').forEach((el) => { el.innerHTML = `${G.icon(el.dataset.ic, 18)}<span>${T(el.dataset.tl)}</span>`; el.setAttribute('aria-label', T(el.dataset.tl)); });
+  $('#boot').remove(); $('#app').hidden = false;
 
   renderHome();
   show('home');
