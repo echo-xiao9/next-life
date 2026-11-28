@@ -49,6 +49,23 @@ window.ODDS = [
   { id: 'wolf',           pop: 2.25e5,  conf: 'mid',  group: 'mammal', src: 'IUCN 2018（转引）：灰狼约 20–25 万只' },
   { id: 'chimpanzee',     pop: 2.0e5,   conf: 'mid',  group: 'mammal', src: 'WWF：野生黑猩猩约 15–25 万只' },
   { id: 'lion',           pop: 2.3e4,   conf: 'mid',  group: 'mammal', src: 'CMS（引 African Lion Database 2023）：非洲约 2.3 万只成年与亚成年狮子' },
+  // ---------- 植物 ----------
+  { id: 'moss', pop: 1e+17, conf: 'low', group: 'plant', src: '没有全球计数；按北方苔藓覆盖面积（约 10¹³ 平方米量级）和每平方米约 1 万条茎粗算，以泥炭藓为代表' },
+  { id: 'grass', pop: 1e+16, conf: 'low', group: 'plant', src: '没有全球计数；按全球草地面积（约 4×10¹³ 平方米）和每平方米数百株粗算，以早熟禾为代表' },
+  { id: 'wheat', pop: 5e+14, conf: 'low', group: 'plant', src: '按全球小麦收获面积约 2.2 亿公顷（联合国粮农组织）、每公顷约 200–300 万株粗算' },
+  { id: 'rice', pop: 1e+14, conf: 'low', group: 'plant', src: '按全球水稻收获面积约 1.65 亿公顷（联合国粮农组织）、每平方米约 60 株粗算' },
+  { id: 'duckweed', pop: 1e+14, conf: 'low', group: 'plant', src: '没有全球计数；按静水水面常见密度粗算的数量级' },
+  { id: 'dandelion', pop: 1e+12, conf: 'low', group: 'plant', src: '没有全球计数；示意性的数量级' },
+  { id: 'eelgrass', pop: 1e+12, conf: 'low', group: 'plant', src: '没有全球计数；按大叶藻海草床面积和每平方米数百条枝粗算' },
+  { id: 'arabidopsis', pop: 1e+11, conf: 'low', group: 'plant', src: '没有全球计数；示意性的数量级' },
+  { id: 'spruce', pop: 1e+11, conf: 'low', group: 'plant', src: '全球约 3.04 万亿棵树，其中北方林约 0.74 万亿棵（Crowther 等 2015）；欧洲云杉所占份额为粗估' },
+  { id: 'bamboo', pop: 1.4e+10, conf: 'low', group: 'plant', src: '按中国毛竹林约 467 万公顷、每公顷约 3000 根粗算' },
+  { id: 'mangrove', pop: 1e+10, conf: 'low', group: 'plant', src: '按全球红树林约 14.7 万平方公里和每公顷数千棵粗算，红树属所占份额为粗估' },
+  { id: 'oak', pop: 1e+10, conf: 'low', group: 'plant', src: '全球约 3.04 万亿棵树（Crowther 等 2015）；夏栎所占份额为粗估' },
+  { id: 'acai', pop: 5.2e+09, conf: 'mid', group: 'plant', src: 'ter Steege 等 2013，Science：亚马孙最常见的树种，估计约 52 亿棵' },
+  { id: 'saguaro', pop: 1e+08, conf: 'low', group: 'plant', src: '没有完整普查；按分布面积和样地密度粗估的数量级' },
+  { id: 'bristlecone', pop: 1e+06, conf: 'low', group: 'plant', src: '没有完整普查；示意性的数量级' },
+  { id: 'flytrap', pop: 3e+05, conf: 'mid', group: 'plant', src: '2019 年野外调查估计约 30.2 万株（北卡罗来纳州植物保护项目）' },
 ];
 
 window.GROUPS = {
@@ -58,6 +75,7 @@ window.GROUPS = {
   mammal:  '哺乳动物',
   reptile: '爬行动物',
   amphibian: '两栖动物',
+  plant: '植物',
 };
 
 ;
@@ -3385,7 +3403,7 @@ window.SPECIES.push({
       { label: '寄主植物', options: [
         ['一株长得很密的豌豆苗，叶子上挤满了同类', 3, { food: -5, safety: -5, set: 'crowded_plant' }],
         ['一株刚开花的豌豆，韧皮部的汁液很多', 3, { food: +15, set: 'flowering' }],
-        ['一株有蚂蚁照看的植物', 2, { safety: +10, set: 'ant_plant' }],
+        ['一株长在背风处的植物', 2, { safety: +10, set: 'ant_plant' }],
         ['一株营养不足、叶子发黄的老植株', 1, { food: -10, health: -5, set: 'old_leaf' }],
       ]},
     ],
@@ -8606,7 +8624,7 @@ window.SPECIES.push({
     { stages: ['youth','adult'], w: 2, act: 'explore', text: '你在一家大医院门口遇上了同乡。他说城里的工资比家乡高一倍。', eff: { food: +10 } },
     { stages: ['youth','adult'], w: 2, act: 'mate', text: '你们为了婚礼的钱吵了一架，最后谁也没有退让。', eff: { food: -8, safety: -3 } },
     { stages: ['adult'], w: 1, once: true, act: 'mate', text: '你们的孩子出生了。你抱着他，看了很久，一句话也说不出来。', eff: { offspring: [1, 1] } },
-    { stages: ['child','school'], need: 'eldest', w: 2, text: '你在家里是大的那个。母亲出门干活时，你要背着弟妹去河边洗衣服。', eff: { safety: -2 } },
+    { stages: ['school'], need: 'eldest', w: 2, text: '你在家里是大的那个。母亲出门干活时，你要背着弟妹去河边洗衣服。', eff: { safety: -2 } },
     { stages: ['school'], need: 'eldest', w: 2, text: '你的书本是崭新的，是家里第一次为一个孩子买的。' },
     { stages: ['youth'], need: 'eldest', w: 2, text: '家里的钱要你来管。你每个月把工资分成几份：一份给父母，一份给弟妹的学费，剩下的留给自己。', eff: { food: -5, safety: +3 } },
     { stages: ['child'], need: 'middle', w: 2, text: '你总是夹在大的和小的中间。大的可以出去玩，小的要人抱，你常常被落在中间。', eff: { safety: -3 } },
@@ -8616,7 +8634,7 @@ window.SPECIES.push({
     { stages: ['child'], need: 'youngest', w: 2, text: '哥哥姐姐都上学去了，家里只剩你和母亲。你每天一个人在院子里玩，等他们回来。', eff: { safety: -3 } },
     { stages: ['school'], need: 'youngest', w: 2, text: '你的课本是别人用过的旧书。上面写着哥哥的名字，你擦了好几次，还是擦不掉。' },
     { stages: ['infant'], need: 'low_edu', w: 2, text: '母亲不知道该怎么给你喂奶，也不知道要把水烧开。你的肚子常常胀着，哭了很久。', eff: { health: -5 } },
-    { stages: ['child','school'], need: 'low_edu', w: 2, text: '家里没有人能帮你看作业。你写不出来，就一直坐在桌前，直到天黑。', eff: { safety: -3 } },
+    { stages: ['school'], need: 'low_edu', w: 2, text: '家里没有人能帮你看作业。你写不出来，就一直坐在桌前，直到天黑。', eff: { safety: -3 } },
     { stages: ['adult'], need: 'low_edu', w: 2, text: '你的工资单上，每一项都要别人念给你听。你不敢签字，怕签错了。' },
     { stages: ['infant'], need: 'mid_edu', w: 2, text: '母亲记得在医院里学过的话：每次喂奶后要拍拍后背。她一直照着做，你很少呛到。', eff: { health: +3 } },
     { stages: ['school'], need: 'mid_edu', w: 2, text: '父亲会帮你查字典，也会在晚饭后给你讲他读过的书。', eff: { safety: +3 } },
@@ -13724,6 +13742,4397 @@ window.SPECIES.push({
 });
 
 ;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'moss',
+  kingdom: 'plant',
+  name: '泥炭藓',
+  en: 'Sphagnum moss',
+  sci: 'Sphagnum（泥炭藓属）',
+  emoji: '🌱',
+  taxon: '苔藓植物门 › 泥炭藓纲 › 泥炭藓目 › 泥炭藓科',
+  size: '配子体枝丛高几厘米到二十多厘米（依种类而定）；孢子直径约 20–25 微米（粗估）',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你是一颗泥炭藓的孢子，比一粒尘埃还小。泥炭藓没有真正的根，它的每一代都从孢子开始。',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['北方泥炭沼泽中一块积水的凹地，周围是泥炭藓丘', 3, { food: +5, set: 'bog' }],
+        ['林下湿润的腐殖质土，树荫下的一层苔藓', 2, { set: 'forest' }],
+        ['一条被排水沟切开的泥炭地边缘，原来的沼泽已经被排干', 1, { food: -10, risk: 1.2, set: 'drained' }],
+      ]},
+      { label: '水位', options: [
+        ['一个多雨的春天，地表长期积水', 2, { food: +5, set: 'wet' }],
+        ['一个干燥的夏天，水位低于地表好几厘米', 2, { food: -5, risk: 1.1, set: 'dry' }],
+      ]},
+      { label: '周围的环境', options: [
+        ['周围的泥炭藓已经覆盖了大片地面，光只能从缝隙里漏下来', 3, { food: -3, set: 'crowded' }],
+        ['周围是裸露的泥炭，没有其他植物遮挡', 2, { food: +3, set: 'bare' }],
+      ]},
+    ],
+    siblings: 10000,
+    siblingsLabel: '同一个孢子囊里的孢子',
+    intro: '你是一颗泥炭藓的孢子。{出生地}。{水位}。{周围的环境}。你和同一个孢子囊里的其他孢子一起，被风带到了这里。',
+  },
+
+  stages: [
+    { id: 'spore', name: '孢子',                   from: 0,    unit: 'day'   },
+    { id: 'proto', name: '原丝体（绿色丝状体）',    from: 1,    unit: 'week'  },
+    { id: 'young', name: '幼嫩的芽丛',              from: 90,   unit: 'week'  },
+    { id: 'adult', name: '成体枝丛',                from: 365,  unit: 'month' },
+    { id: 'old',   name: '下部枯死，转入泥炭层',     from: 2920, unit: 'year'  },
+  ],
+  maturity: 365,
+  maxAge: 4380,
+
+  survival: [[0,1],[7,0.35],[30,0.15],[90,0.08],[365,0.04],[1460,0.02],[2920,0.008],[4380,0]],
+  survivalNote: '泥炭藓早期死亡率的数据很少。此曲线按孢子萌发和原丝体阶段的高死亡率粗估；成体茎的寿命按几年到十几年估计，粗估。',
+
+  init: { health: 70, food: 50, safety: 45 },
+  foodDrain: 3,
+
+  causes: [
+    { id: 'drought', escape: true, w: 3, stages: ['proto','young','adult'], short: '干旱，茎叶失水',
+      text: '连续几周没有降雨，水位降到了你的枝丛以下。你的叶片在干燥中收紧，颜色从绿变成灰白，再也没有重新展开。' },
+    { id: 'frost', escape: true, w: 2, stages: ['proto','young','adult'], short: '冻伤',
+      text: '夜里的霜冻来得很突然。细胞之间的水结成冰晶，解冻之后，你的枝尖变成了深褐色。' },
+    { id: 'trample', escape: true, w: 1, short: '被踩进泥里',
+      text: '一只靴子踩进了你所在的泥坑。你被压进湿泥，几根枝条断在了泥里。' },
+    { id: 'fire', escape: true, w: 2, stages: ['adult','old'], short: '地表火烧',
+      text: '一场雷雨之后，附近的枯草起了火。火线沿着干燥的地表推过来，你的湿润茎叶没能挡住它。' },
+    { id: 'harvest', escape: false, w: 3, stages: ['adult','old'], short: '被泥炭开采机收走',
+      text: '一台履带机器把你和下面的泥炭一起刮走了。你被送进了一个堆场，此后不再有你的枝条。' },
+    { id: 'shade', escape: false, w: 2, stages: ['young','adult'], short: '长期遮荫，光合作用不足',
+      text: '树冠一年比一年密，光线落到你的枝丛上只剩下一层薄薄的绿。新枝一条条变黄，最后不再伸长。' },
+    { id: 'starve', escape: false, w: 2, short: '长期缺水，光合产物耗尽',
+      text: '水位连续几年低于你的表层。你没有足够的水和光合产物维持新的枝条，整个枝丛停止了生长。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '下部的茎已经枯死，只剩上端的几簇枝条还在生长。这一段也终于停止了。' },
+  ],
+
+  events: [
+    // 原丝体
+    { stages: ['proto'], w: 3, act: 'instinct', text: '孢子在湿润的表面上萌发，先长出一根绿色的细丝，细丝上有一节一节的细胞。' },
+    { stages: ['proto'], w: 2, act: 'explore', text: '原丝体向四周蔓延，一根分枝沿着湿泥的表面伸出去一小段。', eff: { food: +3 } },
+    { stages: ['proto'], w: 2, text: '表层的水膜变薄了。原丝体在湿泥里收缩了一小段，直到下一次降雨。', eff: { health: -2 } },
+    { stages: ['proto'], w: 2, act: 'rest', text: '天气转凉，代谢慢下来。丝状体的颜色变浅，细胞的分裂停了下来。', eff: { health: +3 } },
+    { stages: ['proto'], w: 1, need: 'bog', text: '水面上浮着一层褐色的有机物，你的丝状体从它们中间穿过去。' },
+    { stages: ['proto'], w: 1, need: 'bog', text: '沼泽水面下的泥炭很软，你的丝状体紧紧贴着它向前长。' },
+    { stages: ['proto'], w: 1, need: 'drained', text: '排水沟的水已经被抽干，你的丝状体悬在干燥的泥炭上，只有夜里的露水让它保持湿润。', eff: { health: -3 } },
+    { stages: ['proto'], w: 1, need: 'drained', text: '泥炭地边缘的草刚被割过，裸露的表层很快晒干了。你的丝状体在一个中午收缩成了几段。', eff: { health: -5 } },
+    { stages: ['proto'], w: 2, need: 'wet', text: '一场连续三天的雨让地表重新积满了水。原丝体的分枝在水里舒展开。', eff: { food: +5 } },
+    { stages: ['proto'], w: 2, need: 'dry', text: '夏天的干燥持续了两周，你的丝状体失去了大部分水分，只剩下几段完整的细胞。', eff: { health: -5, food: -3 } },
+    { stages: ['proto'], w: 2, need: 'crowded', text: '周围的泥炭藓已经覆盖了地表，光只能从缝隙里漏下来。你的分枝只能向上长，才能找到一小块光。', eff: { food: -3 } },
+    { stages: ['proto'], w: 2, need: 'bare', text: '周围没有别的植物，裸露的泥炭表面整个白天都能被阳光晒到。你的丝状体在光下快速分裂。', eff: { food: +5 } },
+    { stages: ['proto'], w: 1, need: 'bare', text: '裸露的泥炭表面在午后很烫，表层的水分蒸发得很快。你的分枝缩回到湿度更高的一侧。', eff: { health: -2 } },
+    { stages: ['proto'], w: 2, need: 'forest', text: '林下的光很弱，落叶层遮住了大部分地面。你的丝状体在落叶的缝隙里延伸，颜色深绿。', eff: { food: -3 } },
+    { stages: ['proto'], w: 1, need: 'forest', text: '一片树叶落在你身上，它腐烂时渗出的水顺着湿泥流过你的分枝。', eff: { food: +2 } },
+
+    // 幼嫩的芽丛
+    { stages: ['young'], w: 3, act: 'forage', text: '一簇幼芽从原丝体上长了出来，叶片还很薄，中间的绿色细胞排列得很整齐。', eff: { food: +5 } },
+    { stages: ['young'], w: 2, act: 'instinct', text: '你的新枝一节一节地向上长，每一节的叶片都比下一节小。' },
+    { stages: ['young'], w: 2, act: 'rest', text: '秋天的雨停了，你的叶片收紧，颜色变深。芽的生长几乎停止。', eff: { health: +3 } },
+    { stages: ['young'], w: 2, act: 'explore', text: '一根侧枝从你的茎基部长出来，贴着湿泥向外延伸。', eff: { food: +3 } },
+    { stages: ['young'], w: 2, text: '一层薄雪覆盖在枝丛上，雪下的水分慢慢渗进叶片之间的透明细胞。', eff: { health: +2 } },
+    { stages: ['young'], w: 1, text: '一只小虫在你的叶片间爬过，留下了一些碎屑，碎屑很快被雨水冲散。', eff: { food: +2 } },
+    { stages: ['young'], w: 2, need: 'bog', text: '沼泽的水位降下去一点，你的顶端露在空气里，颜色变成了浅绿。', eff: { food: +2 } },
+    { stages: ['young'], w: 1, need: 'bog', text: '你的芽丛在水面附近扩展开，邻近的几丛也在同一片湿泥上生长。' },
+    { stages: ['young'], w: 2, need: 'wet', text: '持续的降水让水位保持在地表之上，你的每一片叶子都充满了水。', eff: { health: +5, food: +3 } },
+    { stages: ['young'], w: 1, need: 'wet', text: '过量的水让下面的茎缺氧，几簇老枝开始发黑。', eff: { health: -3 } },
+    { stages: ['young'], w: 2, need: 'dry', text: '干燥的几周里，你的叶片紧紧贴住茎，每一片都收缩成窄小的形状。', eff: { food: -5 } },
+    { stages: ['young'], w: 2, need: 'crowded', text: '你和周围的泥炭藓挤在一起，争夺同一层的光和水。你的新枝朝上长得更高。', eff: { food: -4 } },
+    { stages: ['young'], w: 1, need: 'crowded', text: '邻近的一丛已经死去，它的枝条在你旁边变成了褐色。', eff: { safety: -3 } },
+    { stages: ['young'], w: 2, need: 'drained', text: '排水沟边的水位比去年低了几厘米，你的顶端开始变干。', eff: { health: -4 } },
+
+    // 成体枝丛
+    { stages: ['adult'], w: 3, act: 'forage', text: '你的叶片张开，把雨后的光尽量接住。叶绿体在透明细胞之间的绿色细胞里进行光合作用。', eff: { food: +15 } },
+    { stages: ['adult'], w: 2, act: 'hide', text: '一阵干燥的风吹过来，你的叶片收紧，贴住茎，表面的水分被留在里面。', eff: { food: -5, safety: +5 } },
+    { stages: ['adult'], w: 2, act: 'rest', text: '夏末气温高，你的多数代谢过程都停了下来，等待下一场雨。', eff: { health: +5 } },
+    { stages: ['adult'], w: 2, act: 'explore', text: '一根侧枝从上一年的枯枝下面长出来，它向外爬了一小段。', eff: { food: +3 } },
+    { stages: ['adult'], w: 1, act: 'mate', text: '夏天，枝顶长出了雄器官（精子器）和雌器官（颈卵器）。它们需要一层水膜，精子才能游到雌器官里。',
+      fact: '泥炭藓的精子需要借助水膜游动到颈卵器中完成受精（Rydin & Jeglum，2013，《Biology of Peatlands》）' },
+    { stages: ['adult'], w: 1, act: 'mate', text: '秋天，雌器官的顶端出现了一小撮孢子囊。它们在空气里慢慢长出一根细柄。' },
+    { stages: ['adult'], w: 2, text: '一阵风吹过泥炭地，夜里的冷空气下降，露水在你的叶片上结成一层细珠。', eff: { health: +2 } },
+    { stages: ['adult'], w: 1, text: '一只鸟停在你的枝丛上，它的爪印在湿泥上留下了几道凹痕。' },
+    { stages: ['adult'], w: 2, act: 'forage', need: 'bog', text: '沼泽的水面很稳定，你的叶片在水位线附近把光和水都接住了。', eff: { food: +8 } },
+    { stages: ['adult'], w: 2, act: 'hide', need: 'forest', text: '林下的落叶越积越厚，你的叶片在它们下面几乎看不见。', eff: { food: -2, safety: +3 } },
+    { stages: ['adult'], w: 1, act: 'rest', need: 'drained', text: '排水沟旁的湿地已经变成了草地。你关闭了多数代谢，等待下一次降雨。', eff: { health: +3 } },
+    { stages: ['adult'], w: 2, act: 'forage', need: 'wet', text: '夏天的降水让水位保持在地表以上，你的叶片每一个细胞都充满了水。', eff: { food: +10 } },
+    { stages: ['adult'], w: 2, act: 'hide', need: 'dry', text: '夏天的干旱让水位降到了你的枝丛以下，你收缩到只剩下紧贴茎的一层叶片。', eff: { food: -8, safety: +4 } },
+    { stages: ['adult'], w: 1, need: 'crowded', text: '相邻的一丛也在长。你们的枝条交织在一起，谁也抢不到更多的光。', eff: { food: -3 } },
+    { stages: ['adult'], w: 1, act: 'forage', need: 'bare', text: '没有遮挡的泥炭表面，午后的光很强。你的叶片向着光的方向倾斜。', eff: { food: +4 } },
+    { stages: ['adult'], w: 2, text: '一场冰冻之后，你的枝尖变成了暗褐色。春天的雨一来，新的叶子又从下面长出来。', eff: { health: -5 } },
+    { stages: ['adult'], w: 2, act: 'explore', need: 'wet', text: '水位上升，一根侧枝顺着水面漂移，在另一处扎下了新的一丛。', eff: { food: +3 } },
+    { stages: ['adult'], w: 2, need: 'forest', text: '林下的阴影一年比一年重。你向林缘的空隙伸展，寻找一点直射的光。', eff: { food: -2 } },
+
+    // 下部枯死，转入泥炭层
+    { stages: ['old'], w: 3, text: '你的下部茎已经枯死，颜色变成了褐色，透明细胞不再吸水。', eff: { food: -8 } },
+    { stages: ['old'], w: 2, act: 'rest', text: '上端的几簇枝条还保持着绿色，它们的光合作用只能维持很少的生长。', eff: { health: -3 } },
+    { stages: ['old'], w: 2, need: 'bog', text: '沼泽里的泥炭层一层一层地向下累积。你的枯死部分也在其中，慢慢被压实。',
+      fact: '泥炭藓通过阳离子交换释放氢离子，使泥炭地的水变酸（Clymo，1963，Annals of Botany）' },
+    { stages: ['old'], w: 1, act: 'explore', text: '一根新枝从你的旧枯枝旁边长出来，它又开始向外伸展。', eff: { food: +3 } },
+    { stages: ['old'], w: 1, once: true, text: '你下面的茎已经被埋进了泥炭层，在那里被压实，分不清哪里是茎，哪里是叶。' },
+  ],
+
+  opening: {
+    title: '孢子落在哪里',
+    body: '你还没有萌发。你是一颗泥炭藓的孢子，刚从孢子囊里被风带出来。落点决定了你接下来的水分和光照，也决定了你会不会萌发。',
+    options: [
+      { t: '落在潮湿的裸露泥炭表面', hint: '光照充足 · 水膜会很快变干', eff: { food: +5 }, risk: 1.2, riskDays: 14,
+        result: '你落在一层潮湿的泥炭表面上。第二天，水膜已经变薄了一半。' },
+      { t: '落进一片积水的小洼地', hint: '水分充足 · 光线弱', eff: { health: +3 }, risk: 0.9, riskDays: 14,
+        result: '你落进了一片积水，水很清，表面漂着几片落叶。' },
+      { t: '落在林下的落叶层上', hint: '阴凉 · 水分不稳定', eff: { food: -5 }, risk: 0.8, riskDays: 14,
+        result: '你落在一片落叶的缝隙里，那里有一层薄薄的水膜。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '随季节生长', desc: '顺着降雨和气温的节律生长，不做额外的调整。' },
+    forage: { name: '展叶抢光', desc: '张开叶片，尽量多地接收光照，进行光合作用。叶片越多，失水和被踩的机会也越多。', text: [
+      '你的叶片在雨后的光里慢慢展开。',
+      '午后的光很强，你把叶面转向它。',
+      '叶片在雨水里慢慢地舒展，颜色加深了一些。',
+    ]},
+    hide: { name: '收拢保水', desc: '收紧叶片贴住茎，减少表面的水分蒸发。光合作用随之下降。', text: [
+      '你的叶片一片一片地收紧，贴住了茎。',
+      '风吹过枝丛，水分被留在了叶片之间。',
+    ]},
+    rest: { name: '休眠', desc: '失水后代谢几乎停止，等待下一场降雨。泥炭藓可以在干燥中停留很长时间。', text: [
+      '你的颜色变成了灰白，细胞的活动几乎停止了。',
+      '……',
+    ]},
+    explore: { name: '向外扩展', desc: '从茎基部或断裂的枝段长出新的分枝，贴着湿泥向外爬。', text: [
+      '一根新的分枝沿着湿泥向外伸出去。',
+      '分枝的尖端找到了一块空的湿地，开始分叉。',
+    ]},
+    mate: { name: '产孢', desc: '在枝顶形成雄器官和雌器官，依靠水膜完成受精。成熟后形成孢子囊，孢子随风散开。', done: '你的孢子囊释放了 {n} 颗孢子。' },
+  },
+  brood: [100, 400],
+
+  decisions: [
+    {
+      id: 'dry_spell', at: 30,
+      title: '一个没有雨的星期',
+      body: '地表的水膜在变薄，原丝体的分枝开始收缩。你可以停止分裂，保存水分，也可以把分枝伸向低处的水面。',
+      options: [
+        { t: '停止分裂，收缩保水', hint: '存活↑ 生长↓', eff: { food: -5, health: +3 }, risk: 0.7, riskDays: 30,
+          result: '你停止了分裂，丝状体收缩成一团绿色的细胞，等待降雨。' },
+        { t: '把分枝伸向低处的水面', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.4, riskDays: 14,
+          result: '分枝沿着湿泥伸向低处，过了几天，才找到一层浅水。' },
+      ],
+    },
+    {
+      id: 'frost', at: 200,
+      title: '秋天的第一次霜',
+      body: '夜里的温度降到零度以下，云层散开了。你的新芽还很嫩。你可以在枝顶形成休眠的芽，也可以继续长出新叶。',
+      options: [
+        { t: '形成休眠的芽，收紧叶片', hint: '健康↑ 生长↓', eff: { health: +3, food: -5 }, risk: 0.8, riskDays: 60,
+          result: '你的枝顶收成一个小球，叶片紧贴着茎，冰冷的夜晚慢慢过去。' },
+        { t: '继续长出新叶', hint: '养分↑ 霜冻风险↑', eff: { food: +10 }, risk: 1.3, riskDays: 30,
+          result: '新叶在霜里伸展开，几天后，它们的边缘开始发黑。' },
+      ],
+    },
+    {
+      id: 'drain_ditch', at: 600, need: 'drained',
+      title: '排水沟的水位',
+      body: '排水沟把水抽走了，水位比去年低了一大截，你的一半枝条已经干枯。你可以把有限的水集中到剩下的枝条上，也可以向低处的湿地扩展。',
+      options: [
+        { t: '把有限的水集中到剩下的枝条', hint: '健康↑ 养分↓', eff: { health: +3, food: -3 }, risk: 0.9, riskDays: 90,
+          result: '你停止了向外扩展，只保留了靠近水面的几簇枝条。' },
+        { t: '向低处的湿地扩展', hint: '新的湿地 · 风险↑', eff: { food: -3 }, risk: 1.35, riskDays: 60,
+          result: '一根分枝沿着排水沟的边缘向下伸去，在低处的湿地找到了水。' },
+      ],
+    },
+    {
+      id: 'crowd', at: 900, need: 'crowded',
+      title: '地表被挤满了',
+      body: '周围的泥炭藓挤满了地表，光只能从上方的枝叶间漏下来。你可以向上长，争取光照，也可以向侧面的空地扩展。',
+      options: [
+        { t: '向上长，争取光照', hint: '养分↑ 风险↑', eff: { food: +8 }, risk: 1.2, riskDays: 60,
+          result: '你的枝条比周围的同伴高出了一截，光在你的叶片上闪了一下。' },
+        { t: '向侧面的空地扩展', hint: '新的空间 · 养分↓', eff: { food: -3 }, risk: 1.35, riskDays: 30,
+          result: '一根分枝从同伴的缝隙里穿了过去，在一小块空地上扎下了新的一丛。' },
+      ],
+    },
+    {
+      id: 'tree_canopy', at: 1095, need: 'forest',
+      title: '树冠合拢',
+      body: '林子里的树冠一年比一年密，落到地面上的光越来越少。你可以向林缘的空隙伸展，也可以收缩枝叶，减少消耗。',
+      options: [
+        { t: '向林缘的空隙伸展，寻找光', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 180,
+          result: '你的分枝在林缘的一道光斑里伸展开，慢慢变绿。' },
+        { t: '收缩枝叶，减少消耗', hint: '健康↑ 养分↓', eff: { food: -5, health: +3 }, risk: 0.9, riskDays: 180,
+          result: '你把枝叶收缩到最紧，等待林子里的光重新变强。' },
+      ],
+    },
+    {
+      id: 'mate_choice', at: 1900,
+      title: '孢子囊的时机',
+      body: '枝顶已经有了孢子囊的雏形。产孢要消耗大量光合产物，也需要一层水膜让精子游到雌器官。你可以产孢，也可以把养分留给茎。',
+      options: [
+        { t: '形成孢子囊，散出孢子', hint: '后代↑ 养分↓', eff: { food: -5 }, risk: 1.1, riskDays: 30,
+          result: '一簇孢子囊在枝顶张开，孢子被风一点一点地带走了。' },
+        { t: '把养分留给茎，继续营养生长', hint: '健康↑ 后代↓', eff: { health: +5 }, risk: 0.95, riskDays: 30,
+          result: '你停止了形成孢子囊，把养分送进了茎和叶。' },
+      ],
+    },
+    {
+      id: 'fire_season', at: 1500,
+      title: '雷雨之后的火',
+      body: '一场雷雨过后，附近的枯草着了火。火线还在远处，风把烟吹了过来。你可以收紧叶片，停止光合作用，也可以留在原地继续进行光合作用。',
+      options: [
+        { t: '收紧叶片，停止光合作用', hint: '安全↑ 养分↓', eff: { health: -3, safety: +5 }, risk: 0.7, riskDays: 10,
+          result: '你把叶片收到最紧，烟从枝丛上方掠过去了。' },
+        { t: '留在原处，继续光合作用', hint: '养分↑ 火烧的风险', eff: { food: +5 }, kill: 0.1, cause: 'fire',
+          result: '你的叶片继续张开。火线推到了边上，热风吹过你的枝丛，有几簇叶子烧焦了。' },
+      ],
+    },
+    {
+      id: 'peat_cutter', at: 2600,
+      title: '开采机来了',
+      body: '一台机器开始在泥炭地的边缘刮泥炭，下面的泥炭层被切成了一块一块。你的枝丛正在刮走的那一带。你可以留在原地，也可以把枝丛缩到还没被刮的一侧。',
+      options: [
+        { t: '留在原地，等待', hint: '养分不变 · 被收走的风险', eff: {}, kill: 0.25, cause: 'harvest',
+          result: '机器的履带碾过泥炭层，你的枝丛被刮起来，装进了一辆卡车。' },
+        { t: '把枝丛缩到还没被刮的一侧', hint: '安全↑ 养分↓', eff: { food: -5 }, risk: 0.8, riskDays: 90,
+          result: '你的分枝一根一根地缩回去，留在了机器没有到的一侧。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '你的分枝在湿泥的表面上缓慢地伸展。',
+    '雨水从枝叶之间流过，一部分被透明细胞留住了。',
+    '泥炭地的水很凉，水面反射着天空的灰色。',
+    '一小片落叶贴在你的表面，慢慢地变成褐色。',
+    '空气中有一股湿润的酸味，来自下面的泥炭层。',
+    '风吹过枝丛，叶片轻轻地晃了一下，又停了下来。',
+    '表层的水膜慢慢变薄，你的颜色也随之变浅。',
+    '地下的泥炭一层一层地压实，你的茎埋在其中。',
+  ],
+
+  epitaph: '你的茎埋在泥炭层里。在那样的环境里，它们可以保存很久。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'grass',
+  kingdom: 'plant',
+  name: '早熟禾',
+  en: 'Annual bluegrass',
+  sci: 'Poa annua L.（一年生早熟禾，禾本科 Poaceae）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 单子叶植物纲 › 禾本目 › 禾本科 › 早熟禾属',
+  size: '一株植物通常高 5–30 厘米；在经常修剪的草坪里只有 2–5 厘米，根系为细密的须根',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你是一株一年生的早熟禾，草坪、路边和牧场上到处都是和你一样的植株',
+
+  birth: {
+    rolls: [
+      { label: '生境', options: [
+        ['一块每周修剪一次的草坪里', 3, { food: -5, risk: 1.1, set: 'lawn' }],
+        ['公路边的路肩上，盖着一层尘土', 2, { food: -5, risk: 1.2, set: 'roadside' }],
+        ['一片放牧的牧场里', 2, { food: +5, risk: 1.2, set: 'pasture' }],
+        ['北温带林缘的一片草甸上', 2, { food: +5, set: 'meadow' }],
+      ]},
+      { label: '萌发时节', options: [
+        ['这粒种子的母株在春天开花，种子在秋天遇到雨水就会萌发（冬季一年生型）', 3, { food: +5, set: 'winter' }],
+        ['这粒种子的母株在夏天结实，种子会在早春化雪之后萌发（春季一年生型）', 2, { set: 'spring' }],
+      ]},
+      { label: '土壤', options: [
+        ['疏松的壤土，保水也透气', 3, { food: +5, set: 'loam' }],
+        ['黏重的土壤，冬天常年积水', 2, { risk: 1.1, set: 'wet' }],
+      ]},
+    ],
+    intro: '你是一粒早熟禾的种子，躺在{生境}。{萌发时节}。{土壤}。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（土壤种子库）', from: 0,   unit: 'day'  },
+    { id: 'seedling', name: '幼苗',               from: 14,  unit: 'day'  },
+    { id: 'tiller',   name: '分蘖与营养生长',     from: 60,  unit: 'week' },
+    { id: 'flower',   name: '抽穗开花',           from: 180, unit: 'week' },
+    { id: 'senesce',  name: '结实后衰老',         from: 270, unit: 'week' },
+  ],
+  maturity: 180,
+  maxAge: 400,
+
+  survival: [[0,1],[14,0.55],[60,0.35],[180,0.3],[270,0.2],[330,0.1],[400,0]],
+  survivalNote: '一年生草本的种子到幼苗阶段死亡率很高，本株的整体曲线按草坪与路边的常见情况粗估，没有专门的追踪数据。',
+
+  init: { health: 70, food: 50, safety: 40 },
+  foodDrain: 3,
+
+  causes: [
+    { id: 'mow', escape: false, w: 4, stages: ['tiller','flower','senesce'], short: '被割草机割掉',
+      text: '割草机的刀片从地面上方掠过。叶鞘和分蘖被一起切断，光合作用的叶面积一下子少了一大半。' },
+    { id: 'trample', escape: true, w: 2, stages: ['tiller','flower'], short: '被踩倒',
+      text: '一群人穿过草地，鞋底压在你的叶片和叶鞘上。叶鞘在压力下折断，靠近基部的生长点还在，下一场雨之后你会再长出叶来。' },
+    { id: 'frost', escape: true, w: 2, stages: ['seedling','tiller'], short: '霜冻伤叶',
+      text: '夜里气温降到零度以下，叶细胞里的水结成冰晶，细胞膜被刺破。白天叶片变成水渍状的灰绿色。' },
+    { id: 'drought', escape: true, w: 2, short: '短期干旱萎蔫',
+      text: '连续三周没有降雨，土壤表层干透了。叶片卷起来，减少水分蒸腾，生长停了下来。' },
+    { id: 'rust', escape: true, w: 1, stages: ['tiller','flower'], short: '锈病',
+      text: '锈菌的夏孢子落在叶面上，叶片上长出一排排橘黄色的孢子堆，叶绿体被逐渐破坏。' },
+    { id: 'graze', escape: true, w: 2, stages: ['tiller','flower'], short: '被牛羊啃食',
+      text: '一群羊在草地上缓慢移动，嘴唇一片一片地咬下你的叶子。生长点还在，它会重新发出新叶。' },
+    { id: 'herbicide', escape: false, w: 1, short: '除草剂',
+      text: '喷雾的药液附着在叶面上，被叶片吸收，并随韧皮部运往根和生长点。几天之内，根的新生组织停止了分裂。' },
+    { id: 'starve', escape: false, w: 2, short: '长期缺光缺肥',
+      text: '树荫越来越浓，落叶也没有人耙走。你的叶子颜色逐渐变淡，分蘖一个一个停止生长，最后只剩下几片枯叶。' },
+    { id: 'old', escape: false, w: 0, short: '衰老',
+      text: '种子已经成熟并落下，母株的叶片从下往上逐渐变黄。养分回流到种子里，你的植株慢慢干枯。' },
+  ],
+
+  events: [
+    { stages: ['seed'], w: 3, text: '土壤表层的湿度升高了。种皮吸水，胚开始膨大。' },
+    { stages: ['seed'], w: 2, text: '地温还没有降下来，种子在土缝里等待合适的时机。' },
+    { stages: ['seed'], w: 2, text: '一条蚯蚓从旁边钻过，把一部分表层土翻到了地面。你被土粒轻轻压住了。' },
+    { stages: ['seed'], w: 1, text: '一场秋雨之后，土壤里的空气被水挤走，种子周围的氧气变少了一些。' },
+    { stages: ['seedling'], w: 3, text: '胚根向下伸长，根毛开始形成。第一片初生叶从胚芽鞘里伸出来。' },
+    { stages: ['seedling'], w: 2, text: '子叶里储存的淀粉被分解成糖，运往新生的叶片。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '新叶展开后，你把叶面转向光照最强的方向。叶绿素合成加快，叶色变深。', eff: { food: +8 } },
+    { stages: ['seedling'], w: 1, text: '雨点落在幼叶上，水膜顺着叶脉滑下，在叶尖上聚成一颗小水珠。' },
+    { stages: ['seedling'], w: 1, text: '子叶在地表被雨水冲得倒向一侧，但第一片真叶仍然朝着上方。' },
+    { stages: ['tiller'], w: 3, text: '叶腋里的芽开始发育，形成分蘖。每一个分蘖都会长出自己的根。', eff: { food: +5 } },
+    { stages: ['tiller'], w: 2, act: 'explore', text: '根系向土壤深处和四周伸展，根毛贴着土粒，吸收水分和矿质离子。', eff: { food: +10 } },
+    { stages: ['tiller'], w: 2, text: '叶鞘下方的节间很短，几乎没有拉长。分蘖一层一层地挤在基部。' },
+    { stages: ['tiller'], w: 2, act: 'forage', text: '叶片接收的光很充足，光合产物在根和新分蘖之间分配。', eff: { food: +10 } },
+    { stages: ['tiller'], w: 1, act: 'rest', text: '夜里温度降下来，呼吸消耗减少，叶片的颜色暗了一些。' },
+    { stages: ['tiller'], w: 2, act: 'hide', text: '叶表皮的角质层加厚，减少了水分从叶面散失。', eff: { health: +3 } },
+    { stages: ['tiller'], w: 2, text: '叶鞘内侧的分生组织不断分裂，新叶的基部每天增加一截。' },
+    { stages: ['flower'], w: 3, text: '穗状花序从顶端的叶鞘里抽出。小穗在微风里轻轻摆动。' },
+    { stages: ['flower'], w: 2, text: '风把花粉吹过草坪，有一些落在了别的植株的柱头上。' },
+    { stages: ['flower'], w: 2, text: '穗轴被夜里的露水压得弯了一点，清晨阳光升起后，它又慢慢挺直。' },
+    { stages: ['flower'], w: 2, act: 'mate', text: '柱头在开花后几天内接受花粉，子房开始膨大。' },
+    { stages: ['flower'], w: 1, act: 'mate', text: '小穗的颖片张开，花药伸出。授粉之后，你结下了 {n} 粒种子。', eff: { offspring: [300, 1200] } },
+    { stages: ['senesce'], w: 3, text: '下部的叶片从叶尖开始变黄，氮素被运往种子。' },
+    { stages: ['senesce'], w: 2, text: '种子成熟，颖壳逐渐松开。一阵风经过，几粒种子从花序上散落在地面。' },
+    { stages: ['senesce'], w: 2, act: 'rest', text: '你停止向新的部位输送水分，只把剩下的糖分留给种子。', eff: { food: -5 } },
+    { stages: ['senesce'], w: 1, text: '一只鸟落到草丛里，啄食了几粒种子。' },
+    { stages: ['senesce'], w: 2, text: '最后的叶片失去了叶绿素，颜色像干草。' },
+
+    { stages: ['tiller','flower'], w: 2, need: 'lawn', text: '割草机每周经过一次，每次切掉最上面的叶片。分蘖会从基部再长出新叶。' },
+    { stages: ['tiller'], w: 2, need: 'lawn', act: 'hide', text: '修剪的高度很低，生长点贴着地面，被割掉的叶片很快由基部补上。' },
+    { stages: ['tiller'], w: 2, need: 'roadside', text: '路边的尘土落在叶面上，气孔被堵住了一部分，光合速率下降。', eff: { health: -3 } },
+    { stages: ['tiller','flower'], w: 2, need: 'roadside', act: 'explore', text: '路基的碎石之间有一条缝，你的根顺着缝伸过去，找到了一点湿土。' },
+    { stages: ['tiller'], w: 2, need: 'pasture', text: '牛在草地上踩出了一条小路。你的叶子被压弯，之后又慢慢直立起来。' },
+    { stages: ['tiller','flower'], w: 2, need: 'pasture', act: 'forage', text: '牲畜的粪便落在附近，分解后释放的氮被根吸收。', eff: { food: +10 } },
+    { stages: ['tiller','flower'], w: 2, need: 'meadow', text: '林缘的遮阴在下午到来，叶片颜色变深，光合效率随之下降。' },
+    { stages: ['flower'], w: 2, need: 'meadow', text: '林下的草甸比路边潮湿，开花的时间比路边的植株晚了两周。' },
+    { stages: ['seed'], w: 2, need: 'winter', text: '秋天的低温逐渐解除了种子的休眠，吸水之后胚的细胞开始分裂。' },
+    { stages: ['seedling'], w: 2, need: 'winter', text: '冬天到来，幼苗的叶片贴着地面排成莲座状，不再伸长。' },
+    { stages: ['seed'], w: 2, need: 'spring', text: '冬末土壤解冻，表层的湿度和温度都在上升，种子周围的水膜变厚了。' },
+    { stages: ['seedling'], w: 2, need: 'spring', text: '春天的第一场雨过后，幼苗的叶片在几天内长高了一倍。' },
+    { stages: ['seedling','tiller'], w: 2, need: 'wet', text: '黏土里积着水，根在缺氧的环境里变短变粗，吸水能力下降。', eff: { health: -5 } },
+    { stages: ['tiller'], w: 2, need: 'wet', act: 'hide', text: '土壤长期湿冷，你把养分留在根茎里，地上部分长得很慢。' },
+    { stages: ['tiller'], w: 2, need: 'loam', act: 'explore', text: '疏松的壤土让根很容易向下伸展，根系密集地分布在表层十厘米里。', eff: { food: +8 } },
+    { stages: ['tiller','flower'], w: 2, need: 'loam', text: '土壤保水性好，几周没有降雨时，叶片仍然挺立。' },
+  ],
+
+  decisions: [
+    {
+      id: 'tiller_or_flower',
+      at: 150,
+      title: '分蘖还是抽穗',
+      body: '气温和日照长度都在变化。分蘖能扩大叶面积，抽穗则会把养分转向花序。',
+      options: [
+        { t: '继续分蘖，扩大叶面积', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 20, result: '新的分蘖一个接一个地长出，叶面积增加，被踩和被啃的机会也增加了。' },
+        { t: '停止分蘖，把养分集中到茎基', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.85, riskDays: 20, result: '你停止发出新分蘖，把糖分存在茎基和根里，地上的叶片慢慢变少。' },
+      ],
+    },
+    {
+      id: 'drought_stomata',
+      at: 120,
+      when: { food: '<45' },
+      title: '土壤表层干了',
+      body: '连续几天没有降雨，表层土壤已经干透，深层根系还能取到一些水。',
+      options: [
+        { t: '关闭大部分气孔', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.85, riskDays: 14, result: '你关闭了大部分气孔，叶片开始卷起，光合速率降低。' },
+        { t: '保持气孔开放，继续光合', hint: '养分↑ 风险↑', eff: { food: +10 }, risk: 1.4, riskDays: 14, result: '气孔保持开放，水分从叶肉里一点点减少，叶尖开始发白。' },
+      ],
+    },
+    {
+      id: 'seed_timing',
+      stage: 'flower',
+      title: '种子现在成熟，还是再等等',
+      body: '穗上的小穗已经开花，种子还没有充实。种子越早成熟，越早脱落到土壤里。',
+      options: [
+        { t: '尽早结实，让种子落地', hint: '养分↓ 风险↓', eff: { food: -5 }, risk: 0.9, riskDays: 10, result: '种子在花序上很快充实，颖壳松开，成熟的种子开始脱落。' },
+        { t: '延迟成熟，继续积累养分', hint: '养分↑ 风险↑', eff: { food: +10 }, risk: 1.2, riskDays: 15, result: '你把更多的光合产物留在茎和叶里，种子的成熟推迟了几周。' },
+      ],
+    },
+    {
+      id: 'mow_regrowth',
+      at: 90,
+      need: 'lawn',
+      title: '又一次修剪',
+      body: '割草机下周还会再来。被割掉的叶片需要从基部重新长出，代价是消耗储存的糖分。',
+      options: [
+        { t: '动用储存的糖分，快速再长叶', hint: '养分↓ 健康↑', eff: { food: -5, health: +5 }, risk: 1.0, riskDays: 7, result: '基部的生长点开始分裂，新叶从叶鞘中一片一片露出来。' },
+        { t: '暂缓长叶，等修剪过后再长', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 7, result: '你把储存的糖分留在根里，地上只留下了短短的叶鞘。' },
+      ],
+    },
+    {
+      id: 'grazing_reserve',
+      at: 100,
+      need: 'pasture',
+      title: '牛群在附近吃草',
+      body: '牛群每天在牧场上走动，啃掉大片叶子。叶子被啃得越低，光合面积越小。',
+      options: [
+        { t: '在地下贮存养分，等待再生', hint: '健康↑ 风险↓', eff: { food: +5, health: +5 }, risk: 0.85, riskDays: 10, result: '你把糖分贮存在根和茎基，地上被啃掉的叶片慢慢由基部补上。' },
+        { t: '抽出更多叶片，抢先覆盖地面', hint: '养分↑ 风险↑', eff: { food: +10 }, risk: 1.3, riskDays: 10, result: '新叶一片一片地向上展开，很快又会被牛群啃到。' },
+      ],
+    },
+    {
+      id: 'wet_root_choice',
+      at: 80,
+      need: 'wet',
+      title: '地下积水',
+      body: '黏土里的水排不出去，根的周围缺氧。根的组织需要通气，而地上部分也需要水分和养分。',
+      options: [
+        { t: '在根里形成通气组织', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.9, riskDays: 12, result: '根的皮层里形成了充满空气的细胞间隙，根的呼吸得以维持。' },
+        { t: '地上部分继续生长', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 12, result: '地上的叶片继续伸长，根的吸水能力却在一天天下降。' },
+      ],
+    },
+    {
+      id: 'winter_rosette',
+      stage: 'seedling',
+      need: 'winter',
+      title: '冬天快到了',
+      body: '气温一天比一天低，日照变短。幼苗的叶片越长越高，霜冻的危险也越来越大。',
+      options: [
+        { t: '贴地形成莲座叶，降低受冻面积', hint: '健康↑ 风险↓', eff: { health: +5 }, risk: 0.8, riskDays: 60, result: '叶片贴着地面展开，生长点被叶鞘和土壤包住，霜冻只碰到了外层的叶片。' },
+        { t: '继续伸长，争取冬季的光', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.4, riskDays: 60, result: '叶片继续向上生长，但冬天的低温让它们的颜色变得发暗。' },
+      ],
+    },
+    {
+      id: 'roadside_dust',
+      at: 50,
+      need: 'roadside',
+      title: '路边的尘土',
+      body: '车辆经过时扬起的尘土落在叶面上，阻塞气孔，也会减少光照。',
+      options: [
+        { t: '加厚叶表皮，抵抗尘土', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.9, riskDays: 14, result: '叶表面分泌了一层蜡质，尘土不容易附着在上面。' },
+        { t: '把叶片拉长，让尘土远离生长点', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 14, result: '叶片伸得更高，但更容易被车辆的风和尘土击打。' },
+      ],
+    },
+  ],
+
+  opening: {
+    title: '种子落地之后',
+    body: '你还是一粒种子，刚从母株的花序上落到地面。秋雨和春雨都可能让你萌发，但冬天的霜冻会冻坏刚出土的幼苗，夏天的干旱会让根系来不及伸长。',
+    options: [
+      { t: '秋雨之后萌发，在冬天前长成莲座', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 30, result: '你在秋雨后吸水萌发，在冬天到来之前长出了几片贴地的叶。' },
+      { t: '留在土缝里，等待春天的湿润', hint: '稳固↑ 养分↓', eff: { food: -5 }, risk: 0.9, riskDays: 30, result: '你保持休眠，等待土温回升。春天到来之前，你一直停在种子的状态。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '按季节进行生长：萌发、分蘖、抽穗、结实。', text: ['你按照日照长度和温度的变化，逐步进入下一个发育阶段。', '没有额外的投入，光合产物按照常规比例分配给根、叶和生长点。'] },
+    forage: { name: '展叶抢光', desc: '多展叶、扩大光合面积，养分增加，但叶片更容易被啃食、折断和失水。', text: ['叶片一片接一片地展开，叶绿体在阳光下持续工作。', '叶面越大，蒸腾失水越多，被割掉和被踩到的部分也越多。'] },
+    hide: { name: '加固防御', desc: '加厚叶表皮和叶鞘，合成酚类化合物，减少被啃食和失水的损失。', text: ['叶表皮的角质层加厚，细胞壁里的木质素增加。', '一部分碳被用来合成防御化合物，生长因此变慢。'] },
+    rest: { name: '减缓生长', desc: '关闭部分气孔，降低呼吸消耗，把养分留在根和茎基部。', text: ['夜里降温之后，你的代谢速率降到最低。', '叶片的颜色变淡，分蘖的生长也停了下来。'] },
+    explore: { name: '扩展根系', desc: '根系向外和向深处伸展，通过分蘖和匍匐茎占据更大的面积。', text: ['新根不断长出来，沿着土缝向外延伸。', '分蘖在靠近地面的节点上发出新芽，它们很快有了自己的根。'] },
+    mate: { name: '开花结实', desc: '抽穗、开花、授粉，形成颖果（种子）。', done: '花序上的小穗充实，你结下了 {n} 粒种子。', text: ['花药散出花粉，风把它们带到其他植株的柱头上。', '种子在颖壳里慢慢充实，颜色从绿色变成淡黄。'] },
+  },
+
+  idle: [
+    '叶片上的露水在清晨慢慢蒸发。',
+    '草丛里的土壤颗粒被雨水打湿，颜色变深。',
+    '一片落叶盖在你的叶鞘上，阳光透过它变得黄绿。',
+    '气温回升，分蘖的节间开始拉长一点。',
+    '蚂蚁在根际来回穿行，把土粒翻松。',
+    '午后的风吹过草坪，叶片一齐向同一侧弯了下去。',
+    '根际的微生物在雨后变得活跃起来。',
+    '白天变长了，叶尖的颜色比昨天更绿。',
+    '一株相邻的草把叶尖伸进了你的光照范围。',
+    '阴影移过来，又移过去。',
+  ],
+
+  epitaph: '你在秋天的草坪上结了种子。种子落进土里，就是你留下的全部。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'wheat',
+  kingdom: 'plant',
+  name: '小麦',
+  en: 'Wheat (winter wheat)',
+  sci: 'Triticum aestivum L.（普通小麦，冬小麦生态型，禾本科 Poaceae）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 单子叶植物纲 › 禾本目 › 禾本科 › 小麦属',
+  size: '田间株高约 0.6–1.0 米；一株可形成数个有效分蘖，每个分蘖顶端有一个麦穗',
+  scene: 'grass',
+  kind: 'farmed',
+  tagline: '你是一株冬小麦。秋天播下，冬天在低温里完成春化，初夏被收割，你的一生在收割机到来之前结束',
+
+  birth: {
+    rolls: [
+      { label: '播种地点', options: [
+        ['华北平原的一块水浇地', 3, { food: +5, set: 'irrigated' }],
+        ['黄淮海的一块旱地，只靠雨水越冬', 2, { food: -5, risk: 1.2, set: 'dryland' }],
+        ['关中平原的一块高产田，底肥施得足', 2, { food: +10, set: 'fertile' }],
+        ['长江中下游的稻茬田，土壤黏重', 2, { risk: 1.1, set: 'paddy' }],
+      ]},
+      { label: '播期', options: [
+        ['十月上旬播下，出苗早，冬前能分蘖较多', 3, { food: +5, set: 'early' }],
+        ['十月下旬播下，是这一带的适期播种', 3, { set: 'timely' }],
+        ['十一月中旬才播下，播种偏晚', 2, { food: -5, risk: 1.1, set: 'late' }],
+      ]},
+      { label: '品种', options: [
+        ['一个半冬性品种，春化需要的低温时间较短', 2, { set: 'semiwinter' }],
+        ['一个冬性很强的品种，需要更长时间的低温', 1, { health: +5, set: 'hardy' }],
+      ]},
+    ],
+    intro: '你是一粒冬小麦的种子，刚播进{播种地点}。{播期}。{品种}。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（播种后未萌发）', from: 0,   unit: 'day'  },
+    { id: 'seedling', name: '出苗与冬前分蘖',       from: 7,   unit: 'week' },
+    { id: 'winter',   name: '越冬（低温春化）',     from: 90,  unit: 'week' },
+    { id: 'jointing', name: '返青与拔节',           from: 150, unit: 'week' },
+    { id: 'heading',  name: '抽穗开花',             from: 190, unit: 'day'  },
+    { id: 'grain',    name: '灌浆与成熟',           from: 220, unit: 'day'  },
+  ],
+  maturity: 190,
+  maxAge: 250,
+
+  survival: [[0,1],[7,0.9],[30,0.8],[90,0.72],[150,0.68],[190,0.64],[220,0.6],[245,0.56],[249,0.5],[250,0]],
+  survivalNote: '大田小麦从出苗到收获的存活率取决于播种质量、越冬条件和病虫害；此曲线按一般大田粗估。收获前的断崖来自收割，不是自然死亡。',
+
+  init: { health: 75, food: 55, safety: 50 },
+  foodDrain: 3,
+
+  causes: [
+    { id: 'harvest', escape: false, w: 10, stages: ['grain'], short: '被收割',
+      text: '联合收割机的割台压过麦田，麦秆被切断，穗子连同籽粒被送进了滚筒。' },
+    { id: 'frost', escape: true, w: 2, stages: ['seedling','winter'], short: '冻害',
+      text: '一场寒流把地表温度压到零下很多度。叶片被冻成白色，但生长点埋在地下，部分植株会从基部重新发出新叶。' },
+    { id: 'lodging', escape: true, w: 2, stages: ['jointing','heading','grain'], short: '大风暴雨倒伏',
+      text: '暴雨之后又刮起大风，茎秆在基部弯折，穗子压在湿润的地面上，籽粒开始发霉。' },
+    { id: 'stripe_rust', escape: true, w: 2, stages: ['jointing','heading'], short: '条锈病',
+      text: '锈菌的夏孢子落在叶片上，叶面出现一条条黄色的孢子堆，叶绿体被逐渐破坏。' },
+    { id: 'dry_wind', escape: true, w: 1, stages: ['heading','grain'], short: '干热风失水',
+      text: '干热风从南面吹来，叶片失水卷曲，灌浆中的籽粒因为供水不足变得瘪小。' },
+    { id: 'starve', escape: false, w: 2, short: '长期缺氮缺水',
+      text: '土壤里的氮素长期不足，叶片由下向上逐渐发黄，分蘖一个接一个地停止生长。' },
+    { id: 'virus', escape: true, w: 1, stages: ['seedling','jointing'], short: '黄矮病',
+      text: '蚜虫在叶片上取食时把病毒传给了你。叶片变黄、变硬，新生的分蘖矮小，穗数减少。' },
+    { id: 'old', escape: false, w: 0, short: '成熟与衰老',
+      text: '籽粒完成灌浆，茎秆和叶片全部枯黄。养分全部转入籽粒，你的植株在夏天的田里干枯。' },
+  ],
+
+  events: [
+    { stages: ['seed'], w: 2, text: '播种后的土壤湿润，种子吸水膨胀，胚芽鞘开始伸出。' },
+    { stages: ['seed'], w: 2, text: '土温还比较高，种子的萌发很快。' },
+    { stages: ['seedling'], w: 3, text: '第一片叶从胚芽鞘中伸出，叶尖卷着，像一根细针。' },
+    { stages: ['seedling'], w: 2, text: '种子根和初生根同时长出，它们在土壤里向下伸展。' },
+    { stages: ['seedling'], w: 2, text: '分蘖节位于地表下几厘米，第一个分蘖从这里长出来。' },
+    { stages: ['seedling'], w: 2, text: '叶片开始进行光合作用，干物质在叶片和根之间分配。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '叶片展开得很快，你在冬前扩大了绿叶的面积。', eff: { food: +8 } },
+    { stages: ['seedling'], w: 1, text: '秋天的日照变短，叶片的颜色深了一些。' },
+    { stages: ['winter'], w: 3, text: '低温持续了几天，叶片边缘开始发紫，光合速率下降。' },
+    { stages: ['winter'], w: 2, act: 'rest', text: '气温降到零度以下，你的生长几乎停止，只保留着基部的分蘖。' },
+    { stages: ['winter'], w: 2, act: 'hide', text: '叶片表皮增厚，角质层的蜡质增加，减少冬季的水分散失。', eff: { health: +3 } },
+    { stages: ['winter'], w: 2, text: '地表被雪覆盖，雪下的温度比空气温度稳定得多。' },
+    { stages: ['winter'], w: 1, text: '寒流过后，叶尖枯了一段，生长点仍埋在土下。' },
+    { stages: ['winter'], w: 2, text: '积雪融化时，土壤里的水分增加，根的吸水能力恢复。' },
+    { stages: ['jointing'], w: 3, text: '茎节开始伸长，第一节间离开地面，生长点随之抬高。' },
+    { stages: ['jointing'], w: 2, act: 'forage', text: '叶片一片接一片地展开，光合产物被运往正在拔节的茎秆。', eff: { food: +10 } },
+    { stages: ['jointing'], w: 2, act: 'explore', text: '根系继续向深处延伸，去取深层土壤中的水分。', eff: { food: +5 } },
+    { stages: ['jointing'], w: 2, text: '分蘖之间开始竞争光和养分，弱小的分蘖逐渐枯萎。' },
+    { stages: ['jointing'], w: 2, text: '春季气温回升，叶色由暗绿变为鲜绿。' },
+    { stages: ['heading'], w: 3, text: '穗子从顶部叶鞘里抽出，颜色是浅绿色。' },
+    { stages: ['heading'], w: 2, act: 'mate', text: '小麦的小花大多闭花授粉，花药在开花前后就把花粉撒在柱头上。',
+      fact: '普通小麦以自花授粉为主（Briggs & Knowles, 1967）' },
+    { stages: ['heading'], w: 2, act: 'mate', text: '小花受精后，颖果开始形成，你的穗上结下了 {n} 粒籽粒。', eff: { offspring: [40, 120] } },
+    { stages: ['heading'], w: 2, text: '干热风从南面吹来，穗子的温度升高，叶片失水。' },
+    { stages: ['heading'], w: 1, text: '麦穗的颖壳在风中互相摩擦，发出细小的响声。' },
+    { stages: ['grain'], w: 3, text: '籽粒的胚乳开始充实，白天的灌浆速度最快。' },
+    { stages: ['grain'], w: 2, text: '叶片从下部开始变黄，它们的光合产物被运往籽粒。' },
+    { stages: ['grain'], w: 2, act: 'rest', text: '你减少了对新分蘖的供应，把养分集中给籽粒。', eff: { food: -5 } },
+    { stages: ['grain'], w: 2, text: '籽粒的颜色由绿变黄，表面渐渐变硬。' },
+    { stages: ['grain'], w: 1, text: '灌浆期的一场降雨使穗子湿透，有几粒籽粒在穗上发了芽。' },
+    { stages: ['grain'], w: 1, text: '籽粒的含水量逐渐下降，穗子失去了绿色。' },
+
+    { stages: ['seedling'], w: 2, need: 'irrigated', text: '冬前灌溉之后，土壤里的水分充足，叶片保持着翠绿色。' },
+    { stages: ['jointing'], w: 2, need: 'irrigated', text: '拔节前的灌水让根系的吸水能力保持在较高水平。', eff: { food: +5 } },
+    { stages: ['winter'], w: 2, need: 'dryland', text: '秋雨不够，土壤里的水分只能维持一段时间，你的长势比灌溉田慢。' },
+    { stages: ['jointing','heading'], w: 2, need: 'dryland', act: 'hide', text: '土壤干旱，你减少叶面积，降低水分的散失。', eff: { health: +3 } },
+    { stages: ['jointing'], w: 2, need: 'fertile', act: 'forage', text: '施入的氮肥被根吸收，叶片颜色浓绿，分蘖增加。', eff: { food: +10 } },
+    { stages: ['grain'], w: 2, need: 'fertile', text: '灌浆期间，充足的氮素让叶片保持绿色的时间更长。' },
+    { stages: ['seedling','winter'], w: 2, need: 'paddy', text: '稻茬田的土壤黏重，排水不畅，根在冬季的湿冷中发育变慢。', eff: { health: -3 } },
+    { stages: ['jointing'], w: 2, need: 'paddy', act: 'explore', text: '土壤表层是稻茬留下的硬壳，根从裂缝里挤出去，才找到向下的路。' },
+    { stages: ['seedling'], w: 2, need: 'early', text: '早播让你在冬前长出了较多的分蘖，叶片数量超过了同龄的植株。', eff: { food: +5 } },
+    { stages: ['winter'], w: 2, need: 'early', text: '分蘖过多的群体在冬季互相遮光，下部叶片开始枯黄。', eff: { food: -5 } },
+    { stages: ['seedling'], w: 2, need: 'timely', text: '适期播种让你在越冬前形成了壮实的主茎和几个分蘖。' },
+    { stages: ['heading'], w: 2, need: 'timely', text: '穗子的发育和春天的温度同步，抽穗期比较整齐。' },
+    { stages: ['seedling'], w: 2, need: 'late', text: '晚播的你出苗较慢，冬前只长出了一两片叶。', eff: { food: -5 } },
+    { stages: ['winter'], w: 2, need: 'late', text: '冬前的生长量不够，根系较浅，寒流来时更难固定在土里。', eff: { safety: -5 } },
+    { stages: ['winter'], w: 2, need: 'semiwinter', act: 'rest', text: '半冬性品种需要的低温时间较短，几个冷期就能满足春化。' },
+    { stages: ['jointing'], w: 2, need: 'semiwinter', text: '春化完成后，茎节开始伸长，这个类型的植株在春天起身较早。' },
+    { stages: ['winter'], w: 2, need: 'hardy', text: '冬性品种能耐受较低的温度，叶片在寒流中的受冻面积较小。', eff: { health: +3 } },
+    { stages: ['heading'], w: 2, need: 'hardy', text: '冬性品种的抽穗需要持续的低温累积，春天到来后，穗子才慢慢抽出。' },
+  ],
+
+  decisions: [
+    {
+      id: 'autumn_tillering',
+      at: 60,
+      title: '冬前分蘖',
+      body: '秋天的光照和温度还适合生长。分蘖越多，群体越大，但冬前的群体越大，越容易在低温里互相遮光。',
+      options: [
+        { t: '多分蘖，扩大群体', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 40, result: '新的分蘖陆续长出，叶面积扩大，越冬时的地表覆盖也更厚。' },
+        { t: '控制分蘖，保护主茎', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.9, riskDays: 40, result: '你停止发出新的分蘖，把养分留在主茎的生长点附近。' },
+      ],
+    },
+    {
+      id: 'vernal_accumulation',
+      stage: 'winter',
+      title: '低温的累积',
+      body: '春化需要一段时间的低温。低温的时间还不够，你的生长点仍然停留在营养生长的状态。',
+      fact: '小麦需要经历低温（春化）才能由营养生长转入生殖生长（Chouard, 1960）',
+      options: [
+        { t: '留在低温下累积春化', hint: '健康↑ 风险↓', eff: { health: +5 }, risk: 0.85, riskDays: 45, result: '你停止了大部分生长，在低温里一天一天累积春化所需的天数。' },
+        { t: '提前起身，抢春季的光', hint: '养分↑ 风险↑', eff: { food: +10 }, risk: 1.4, riskDays: 20, result: '你在低温未足时开始伸长，幼嫩的茎节被后来的寒流打伤。' },
+      ],
+    },
+    {
+      id: 'cold_snap',
+      at: 120,
+      title: '寒流将至',
+      body: '气象预报中说会有一场寒流，地表温度会降到零下很多度。生长点的位置决定了它能否躲过这场寒流。',
+      options: [
+        { t: '把生长点保持在地表下', hint: '健康↑ 风险↓', eff: { health: +5 }, risk: 0.8, riskDays: 14, result: '分蘖节留在土层里，寒流过后，叶片的受冻部分慢慢更新。' },
+        { t: '继续伸展叶片，抢占光照', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 14, result: '叶片伸展得更快，寒流之后，较多的叶片变白干枯。' },
+      ],
+    },
+    {
+      id: 'late_sowing_catchup',
+      at: 90,
+      need: 'late',
+      title: '晚播的追赶',
+      body: '你比同田的植株晚出苗，冬前的积累少。春天到来之前，只有加快分蘖才能弥补差距，但这会消耗越冬的储备。',
+      options: [
+        { t: '加快分蘖，追赶同伴', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 30, result: '你发出了几个分蘖，但它们在寒流中的存活率较低。' },
+        { t: '节省养分，等待春天', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.9, riskDays: 30, result: '你保留了根和主茎的养分，冬天的生长几乎停止。' },
+      ],
+    },
+    {
+      id: 'jointing_allocation',
+      stage: 'jointing',
+      need: 'fertile',
+      title: '拔节期的养分分配',
+      body: '施下的氮肥已经被根吸收。它可以用来加粗茎秆，也可以用来延长叶片和分蘖。',
+      options: [
+        { t: '优先供给主茎，加粗茎秆', hint: '稳固↑ 养分↓', eff: { safety: +5 }, risk: 0.9, riskDays: 20, result: '主茎的节间变得粗壮，倒伏的风险降低了。' },
+        { t: '优先供给分蘖和叶片', hint: '养分↑ 风险↑', eff: { food: +10 }, risk: 1.2, riskDays: 20, result: '分蘖增加了，叶片变得更宽，茎秆却相对细弱。' },
+      ],
+    },
+    {
+      id: 'dry_wind_stomata',
+      stage: 'heading',
+      need: 'dryland',
+      title: '干热风到了',
+      body: '干热风连续几天吹过麦田，空气湿度很低。开放的气孔会让水分迅速散失，关闭气孔则会减少光合。',
+      options: [
+        { t: '关闭大部分气孔，保护穗子', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.8, riskDays: 7, result: '你关闭了大部分气孔，叶片的水分保持住了，灌浆的速度变慢。' },
+        { t: '继续蒸腾，维持灌浆的水分流', hint: '养分↑ 风险↑', eff: { food: +10 }, risk: 1.4, riskDays: 7, result: '水分流过叶片，但穗子的温度升高，籽粒的充实期缩短。' },
+      ],
+    },
+    {
+      id: 'paddy_rooting',
+      stage: 'seedling',
+      need: 'paddy',
+      title: '稻茬田的积水',
+      body: '稻茬田里的水排得慢，根周围的氧气不足。根可以向浅层伸展，也可以穿过裂缝向深层生长。',
+      options: [
+        { t: '根系向浅层伸展，靠表土吸水', hint: '健康↑ 风险↑', eff: { health: +3 }, risk: 1.1, riskDays: 30, result: '浅层根系变多，表土干湿变化的时候，植株的水分供应不稳定。' },
+        { t: '根系穿过裂缝，伸向深层', hint: '养分↑ 风险↓', eff: { food: +5 }, risk: 0.9, riskDays: 30, result: '你的根从土缝里伸向深处，深层土壤的湿度比表层稳定。' },
+      ],
+    },
+    {
+      id: 'grain_source',
+      stage: 'grain',
+      title: '灌浆期的养分',
+      body: '籽粒需要大量的糖分和氮素。叶片是养分的来源，但叶片的光合作用也需要养分维持。',
+      options: [
+        { t: '把叶片的糖分优先送到籽粒', hint: '养分↓ 健康↓', eff: { food: -5 }, risk: 0.9, riskDays: 10, result: '叶片的糖分被运向穗子，下部叶片加速变黄。' },
+        { t: '保留叶片，维持光合', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 10, result: '叶片保持绿色，籽粒的充实却比预期慢。' },
+      ],
+    },
+  ],
+
+  opening: {
+    title: '播种之前',
+    body: '你还是一粒麦种，播种机把你放进了秋天的土里。播深、播期和品种都会影响你能否安全越冬。播得太深，出苗会变慢；播得太浅，越冬时根系不稳，容易受冻。',
+    options: [
+      { t: '播在三到五厘米深，出苗整齐', hint: '稳固↑ 养分↓', eff: { safety: +5 }, risk: 0.9, riskDays: 30, result: '你在适宜的深度发芽，出苗整齐，根系稳固地扎进土里。' },
+      { t: '播在一到两厘米深，出苗快', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 30, result: '你很快出苗，但根系浅，冬天的寒流会直接触到你的分蘖节。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '按照季节的光照和温度，依次进入出苗、分蘖、越冬、拔节、抽穗和灌浆。', text: ['你随着日照和温度的变化，一步一步地进入下一个发育阶段。', '光合产物按照常规比例分配给根、叶、茎和穗。'] },
+    forage: { name: '扩叶抢光', desc: '多展叶、扩大光合面积，养分增加，但叶片更容易受冻、倒伏和失水。', text: ['叶片一片接一片地展开，叶绿体在阳光下持续工作。', '叶面越大，失水越多，寒流中受冻的面积也越大。'] },
+    hide: { name: '加固防御', desc: '加厚叶表皮的角质层，增强茎秆的木质化，减少失水、倒伏和病害的损失。', text: ['叶表皮的蜡质层加厚，减少了水分的散失。', '茎秆的细胞壁木质化，节间变得更加坚韧。'] },
+    rest: { name: '减缓生长', desc: '低温时停止分蘖和伸长，降低呼吸消耗，把养分留在分蘖节和根里。', text: ['低温下，你的生长几乎停止，代谢速率降到很低。', '养分被存在分蘖节和根里，等待春天的回暖。'] },
+    explore: { name: '扩展根系', desc: '根系向深层和四周伸展，增加吸水和吸收矿质的范围。', text: ['新的根从分蘖节不断长出，在土壤中向外伸展。', '深层根系的吸水能力在干旱时比浅层根系更稳定。'] },
+    mate: { name: '抽穗开花', desc: '穗子抽出，小花闭花授粉，颖果开始形成和充实。', done: '穗子上的小花受精，你结下了 {n} 粒籽粒。', text: ['花药在开花前后释放花粉，花粉落到同一朵小花的柱头上。', '颖果从子房膨大起，经过灌浆，逐渐变得饱满。'] },
+  },
+
+  idle: [
+    '麦田的土壤在白天吸收热量，夜里慢慢放出。',
+    '叶片上的露珠在清晨被阳光蒸发掉。',
+    '一只麻雀落在麦秆上，秆子轻轻弯了一下。',
+    '田埂上的杂草与你争夺一部分光照。',
+    '远处的水渠里有水流过，地表的湿度升高了一点。',
+    '风从北面吹来，麦浪一起向南倾斜。',
+    '土壤里的蚯蚓在根际之间穿行，把土翻松。',
+    '夜里的气温降低，叶片的边缘收紧。',
+    '白天一天比一天长，叶片的颜色逐渐变深。',
+  ],
+
+  epitaph: '你的籽粒被磨成面粉，秸秆还回了田里。下一季的麦种会从某一块地里挑出来。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'rice',
+  kingdom: 'plant',
+  name: '水稻',
+  en: 'Rice (paddy)',
+  sci: 'Oryza sativa L.（亚洲栽培稻，禾本科 Poaceae）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 单子叶植物纲 › 禾本目 › 禾本科 › 稻属',
+  size: '大田株高约 0.8–1.2 米，品种间差异大；移栽后每穴可形成十几个有效分蘖，每个分蘖顶端有一个稻穗',
+  scene: 'grass',
+  kind: 'farmed',
+  tagline: '你是一株水稻。春末育秧，初夏移栽进水田，秋天在水排干之后被收割',
+
+  birth: {
+    rolls: [
+      { label: '田块', options: [
+        ['长江中下游的一块双季稻田，灌溉方便', 3, { food: +5, set: 'irrigated' }],
+        ['东北平原的一块中稻田，夏天日照长，夜间温度低', 2, { food: -5, set: 'cool' }],
+        ['珠江三角洲的一块河网田，夏季雨水多', 2, { risk: 1.2, set: 'flooded' }],
+        ['四川盆地的一块丘陵梯田，灌溉水量有限', 1, { food: -5, risk: 1.1, set: 'terrace' }],
+      ]},
+      { label: '移栽', options: [
+        ['四月下旬育秧，五月中旬移栽，分蘖期正值适宜的温度', 3, { food: +5, set: 'timely' }],
+        ['三月就育了秧，但遇到倒春寒，秧苗的长势较弱', 2, { risk: 1.2, set: 'coldseedbed' }],
+        ['六月才移栽，生育期偏短', 1, { food: -5, risk: 1.1, set: 'late' }],
+      ]},
+      { label: '品种', options: [
+        ['一个粳稻品种，株型紧凑，穗型较大', 3, { safety: +5, set: 'japonica' }],
+        ['一个籼稻品种，分蘖力强，株型松散', 2, { set: 'indica' }],
+      ]},
+    ],
+    intro: '你是一粒催过芽的水稻种子，播在{田块}。{移栽}。{品种}。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（浸种催芽后）', from: 0,   unit: 'day'  },
+    { id: 'seedling', name: '秧苗与移栽',         from: 7,   unit: 'day'  },
+    { id: 'tillering',name: '返青与分蘖',         from: 30,  unit: 'week' },
+    { id: 'panicle',  name: '拔节与孕穗',         from: 70,  unit: 'week' },
+    { id: 'heading',  name: '抽穗开花',           from: 100, unit: 'day'  },
+    { id: 'grain',    name: '灌浆与成熟',         from: 115, unit: 'day'  },
+  ],
+  maturity: 100,
+  maxAge: 150,
+
+  survival: [[0,1],[7,0.85],[30,0.78],[70,0.74],[100,0.7],[115,0.68],[140,0.62],[145,0.56],[149,0.5],[150,0]],
+  survivalNote: '大田水稻的个体存活率取决于移栽成活、水分管理和病虫害；此曲线按一般大田粗估。收割前的断崖来自收割，不代表自然死亡。',
+
+  init: { health: 70, food: 55, safety: 45 },
+  foodDrain: 3,
+
+  causes: [
+    { id: 'harvest', escape: false, w: 10, stages: ['grain'], short: '被收割',
+      text: '收割机的割台伸过来，稻秆被切断，你的穗子落进了脱粒滚筒。' },
+    { id: 'cold_damage', escape: true, w: 2, stages: ['seedling','tillering'], short: '低温冷害',
+      text: '一股冷空气压下来，夜间温度连续低于十几度。叶片发黄，分蘖停止，根的吸收能力下降。' },
+    { id: 'blast', escape: true, w: 2, stages: ['tillering','panicle','heading'], short: '稻瘟病',
+      text: '稻瘟菌的孢子落在叶片上，叶面出现梭形的褐色病斑。病斑扩大之后，叶片和穗颈相继坏死。' },
+    { id: 'lodging', escape: true, w: 2, stages: ['panicle','heading','grain'], short: '风雨倒伏',
+      text: '暴雨和大风把稻秆压弯，穗子浸在泥水里，茎基部的节间受伤，你再也无法直立。' },
+    { id: 'submergence', escape: true, w: 1, stages: ['seedling','tillering'], short: '洪水淹没',
+      text: '一场洪水漫过田面，水淹没了你的全部叶片。叶鞘伸长露出水面，但能量很快耗尽，叶片随之枯死。' },
+    { id: 'planthopper', escape: true, w: 2, stages: ['tillering','panicle'], short: '稻飞虱',
+      text: '稻飞虱群集在茎基部吸食汁液，叶鞘变黄，植株成片地矮下去。' },
+    { id: 'starve', escape: false, w: 2, short: '长期光照不足与缺氮',
+      text: '阴雨连绵，光照不足，叶片颜色变淡，分蘖一个接一个地停止生长。' },
+    { id: 'old', escape: false, w: 0, short: '成熟衰老',
+      text: '谷粒完成灌浆，叶鞘和茎秆由下向上变黄。养分全部转入谷粒，你的植株在田里枯萎。' },
+  ],
+
+  events: [
+    { stages: ['seed'], w: 2, text: '浸种之后，种子吸水膨胀，胚芽开始伸出颖壳。' },
+    { stages: ['seed'], w: 2, text: '胚乳里的淀粉在酶的作用下分解成糖，供给胚的生长。' },
+    { stages: ['seedling'], w: 3, text: '第一片叶从叶鞘中伸出，叶片细长，颜色浅绿。' },
+    { stages: ['seedling'], w: 2, text: '秧苗的根在水里伸展，根毛逐渐形成。' },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '叶片的光合速率提高，秧苗的叶色逐渐变深。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, text: '移栽时根系受伤，几天之内，叶片的水分平衡慢慢恢复。' },
+    { stages: ['seedling'], w: 1, text: '田水随着白天的日照升温，秧苗的生长加快。' },
+    { stages: ['tillering'], w: 3, text: '分蘖节位于水面以下，第一个分蘖从叶腋中长出。' },
+    { stages: ['tillering'], w: 2, act: 'explore', text: '根系通过通气组织把氧气输送到根尖，根的周围形成一层氧化铁膜。', eff: { food: +8 } },
+    { stages: ['tillering'], w: 2, act: 'forage', text: '叶片数量迅速增加，每一个分蘖都在进行光合作用。', eff: { food: +10 } },
+    { stages: ['tillering'], w: 2, act: 'hide', text: '叶表面的硅质沉积增加，叶片变得坚硬，病菌不容易侵入。', eff: { health: +3 } },
+    { stages: ['tillering'], w: 2, text: '夜间的水温较低，分蘖的增长明显变慢。' },
+    { stages: ['tillering'], w: 1, act: 'rest', text: '夜里的呼吸消耗降低，叶片的颜色暗了一些。' },
+    { stages: ['panicle'], w: 3, text: '茎秆里的节间开始伸长，剑叶的叶鞘里出现了幼穗。' },
+    { stages: ['panicle'], w: 2, act: 'forage', text: '幼穗在叶鞘里发育，需要大量的糖分和氮素。', eff: { food: +8 } },
+    { stages: ['panicle'], w: 2, text: '穗分化期间，茎秆变粗，节间变得坚实。' },
+    { stages: ['panicle'], w: 1, text: '一场冷雨在孕穗期降下，花粉的发育受到影响。' },
+    { stages: ['panicle'], w: 1, text: '剑叶的叶尖开始卷曲，叶面积的增长放缓。' },
+    { stages: ['heading'], w: 3, text: '穗子从剑叶的叶鞘里抽出，颖花一朵一朵地张开。' },
+    { stages: ['heading'], w: 2, act: 'mate', text: '稻花开放时，花药散出花粉，花粉落在同一朵花的柱头上。',
+      fact: '水稻以自花授粉为主（Yoshida, 1981）' },
+    { stages: ['heading'], w: 2, act: 'mate', text: '受精之后，颖果开始形成，你的穗上结下了 {n} 粒谷粒。', eff: { offspring: [800, 2000] } },
+    { stages: ['heading'], w: 2, text: '穗子沉甸甸地压弯了穗颈。' },
+    { stages: ['heading'], w: 1, text: '晴热的午后，花粉的活力有所下降。' },
+    { stages: ['grain'], w: 3, text: '籽粒的胚乳开始充实，颜色由青转黄。' },
+    { stages: ['grain'], w: 2, text: '叶片从下部开始变黄，光合产物运往籽粒。' },
+    { stages: ['grain'], w: 2, act: 'rest', text: '你减少了对新分蘖的供应，把养分集中给穗子。', eff: { food: -5 } },
+    { stages: ['grain'], w: 2, text: '灌浆期的夜温偏高，籽粒的充实速度变慢。' },
+    { stages: ['grain'], w: 1, text: '穗子的颖壳变硬，颜色由绿转黄。' },
+
+    { stages: ['tillering'], w: 2, need: 'irrigated', text: '田里的水位由灌溉控制，水深适宜，分蘖发育平稳。' },
+    { stages: ['panicle'], w: 2, need: 'irrigated', text: '穗分化期灌溉充足，你的茎秆和叶片保持着较快的生长速度。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, need: 'cool', text: '夏天日照长，但夜间温度低，你的分蘖增加得比较慢。' },
+    { stages: ['heading','grain'], w: 2, need: 'cool', text: '夜温偏低，籽粒的灌浆速度变慢，但充实的时间较长。' },
+    { stages: ['tillering'], w: 2, need: 'flooded', text: '雨季的大水漫过田埂，水深超过叶鞘的高度，叶片暂时淹没。', eff: { health: -3 } },
+    { stages: ['panicle','heading'], w: 2, need: 'flooded', act: 'hide', text: '田里的水深和水流不稳定，叶鞘加厚，茎基部的通气组织变得更加发达。' },
+    { stages: ['seedling','tillering'], w: 2, need: 'terrace', text: '梯田的水从上一级流下来，灌水量少，田面时常见底。' },
+    { stages: ['heading'], w: 2, need: 'terrace', text: '丘陵的风大，穗子在风里剧烈摇晃，颖花容易脱落。' },
+    { stages: ['tillering'], w: 2, need: 'timely', text: '适期移栽，秧苗在分蘖期遇到适宜的温度，分蘖数较多。' },
+    { stages: ['heading'], w: 2, need: 'timely', text: '抽穗期天气正常，颖花的受精率较高。' },
+    { stages: ['seedling'], w: 2, need: 'coldseedbed', text: '倒春寒来了，秧苗的叶片卷起，叶尖发白。', eff: { health: -5 } },
+    { stages: ['tillering'], w: 2, need: 'coldseedbed', act: 'rest', text: '秧苗在低温之后恢复得慢，分蘖的数量比同田的植株少。' },
+    { stages: ['seedling'], w: 2, need: 'late', text: '移栽偏晚，生育期缩短，你的生长在夏天的高温里加速进行。', eff: { food: +5 } },
+    { stages: ['grain'], w: 2, need: 'late', text: '生育期较短，灌浆还没有结束，秋天的气温就已经降下来了。', eff: { food: -5 } },
+    { stages: ['panicle'], w: 2, need: 'japonica', text: '粳稻的穗子较大，颖花数多，穗分化的时间比较长。' },
+    { stages: ['grain'], w: 2, need: 'japonica', text: '粳稻籽粒的充实速度稳定，灌浆期的养分分配比较均匀。' },
+    { stages: ['tillering'], w: 2, need: 'indica', act: 'explore', text: '籼稻的分蘖力强，分蘖在田面上密集地展开。', eff: { food: +5 } },
+    { stages: ['panicle'], w: 2, need: 'indica', text: '籼稻的茎秆较细，株型松散，穗分化期间容易被风吹歪。', eff: { safety: -3 } },
+  ],
+
+  decisions: [
+    {
+      id: 'midseason_drain',
+      stage: 'panicle',
+      title: '晒田还是保水',
+      body: '分蘖数已经超过穗数所需。排去田水晒田可以控制无效分蘖，同时让根系得到氧气，但水分不足时幼穗的发育也会受影响。',
+      options: [
+        { t: '晒田，控制无效分蘖', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.9, riskDays: 15, result: '田面干裂之后，无效分蘖停止生长，根系的氧气供应增加。' },
+        { t: '保水，维持分蘖', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 15, result: '田里保持水层，分蘖继续增加，但茎基部的生长更加柔弱。' },
+      ],
+    },
+    {
+      id: 'blast_season',
+      at: 80,
+      title: '稻瘟病的侵染条件',
+      body: '田间的空气湿度高，夜间有露水，叶片上的水膜持续很久。稻瘟病的侵染条件已经具备。',
+      options: [
+        { t: '加厚叶表皮，减少侵入', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.85, riskDays: 20, result: '叶表面的硅质层加厚，病菌的附着点变少。' },
+        { t: '继续展叶，扩大光合', hint: '养分↑ 风险↑', eff: { food: +10 }, risk: 1.4, riskDays: 20, result: '新叶不断展开，每一片新叶都是病菌可以落脚的地方。' },
+      ],
+    },
+    {
+      id: 'japonica_panicle',
+      stage: 'panicle',
+      need: 'japonica',
+      title: '穗分化的养分',
+      body: '粳稻的穗分化时间长，穗上的颖花数取决于这段时间的养分供应。养分优先给穗，穗数就会减少。',
+      options: [
+        { t: '优先供给穗，增加颖花数', hint: '养分↓ 健康↑', eff: { food: -5, health: +3 }, risk: 0.9, riskDays: 10, result: '穗的分化变得充分，颖花的数目增加了，但分蘖停止了增长。' },
+        { t: '优先供给分蘖，增加穗数', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 10, result: '分蘖增多，穗数增加，但每个穗上的颖花数少了一些。' },
+      ],
+    },
+    {
+      id: 'cool_flowering',
+      stage: 'heading',
+      need: 'cool',
+      title: '低温中的开花',
+      body: '夜温降到较低的水平，花粉在低温下的活力下降。颖花在气温回升之后再开放，可以保护花粉。',
+      options: [
+        { t: '不开颖，等待气温回升', hint: '健康↑ 风险↓', eff: { health: +3 }, risk: 0.9, riskDays: 7, result: '颖壳保持闭合，花粉留在花药里，等待气温回升。' },
+        { t: '在低温中开颖，尽快受精', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 7, result: '颖壳张开，花粉在低温中失去了一部分活力，受精率下降。' },
+      ],
+    },
+    {
+      id: 'terrace_water',
+      at: 60,
+      need: 'terrace',
+      title: '灌水量有限',
+      body: '梯田的灌溉水量有限，田面每隔几天就会见底。节水可以维持根系，但分蘖会减少。',
+      options: [
+        { t: '节水，减少分蘖', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.9, riskDays: 20, result: '田里的水位保持在较低的水平，分蘖的数目停止增加。' },
+        { t: '尽量多留水，维持分蘖', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.1, riskDays: 20, result: '每次灌溉后水深都能维持几天，分蘖保持增长，但有几天根系缺氧。' },
+      ],
+    },
+    {
+      id: 'flood_leaves',
+      at: 50,
+      need: 'flooded',
+      title: '洪水漫过田面',
+      body: '洪水的水位超过了叶片的高度。叶片可以伸长露出水面，但伸长会消耗大量的糖分。',
+      options: [
+        { t: '伸长叶鞘，露出水面', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 5, result: '叶鞘伸长，叶尖露出水面，但你的糖分在几天里迅速减少。' },
+        { t: '保留养分，减少伸长', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.9, riskDays: 5, result: '你停止伸长，等待水位下降，叶片在水下的时间变长。' },
+      ],
+    },
+    {
+      id: 'indica_tillers',
+      at: 40,
+      need: 'indica',
+      title: '分蘖的数量',
+      body: '籼稻的分蘖力强，分蘖的数量会远远超过最终能够抽穗的数量。多余的分蘖会在中期死亡。',
+      options: [
+        { t: '多发分蘖，扩大群体', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 20, result: '分蘖数目迅速增加，群体变大，但中期有相当一部分分蘖会死亡。' },
+        { t: '少发分蘖，集中养分', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.9, riskDays: 20, result: '你减少新分蘖的发生，把养分留给已有的分蘖和主茎。' },
+      ],
+    },
+    {
+      id: 'grain_drainage',
+      stage: 'grain',
+      title: '断水的时间',
+      body: '灌浆期的田水保持时间越长，灌浆的时间就越长，但成熟会推迟。提早断水，籽粒会更早成熟。',
+      options: [
+        { t: '提早断水，让籽粒成熟', hint: '养分↓ 风险↓', eff: { food: -5 }, risk: 0.9, riskDays: 10, result: '田面逐渐变干，籽粒的水分减少，颜色很快转黄。' },
+        { t: '继续保持水层，延长灌浆', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 10, result: '田里的水层保持不变，灌浆持续了更长时间，但收割前的雨水增加了霉变的风险。' },
+      ],
+    },
+  ],
+
+  opening: {
+    title: '插秧之前',
+    body: '你还是一粒稻种，浸过水，催了芽，等待播进秧田。秧苗什么时候移栽进大田，决定了你的生育期有多长，也决定了你能不能在水田里站稳。',
+    options: [
+      { t: '早移栽，争取更长的生育期', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 30, result: '秧苗在春末的低温里移栽，返青较慢，但生育期更长。' },
+      { t: '等气温稳定后再移栽', hint: '稳固↑ 养分↓', eff: { food: -5 }, risk: 0.9, riskDays: 30, result: '秧苗在气温稳定后移栽，缓苗很快，但生育期缩短了。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '随气温和日长依次进入返青、分蘖、拔节、抽穗和灌浆。', text: ['你随着气温和日照的变化，逐步进入下一个发育阶段。', '光合产物按照常规比例分配给根、叶、茎和穗。'] },
+    forage: { name: '多发分蘖', desc: '多发分蘖、扩大叶面积，光合增加，但叶片更容易倒伏、病害和被淹没。', text: ['分蘖一个接一个地发出，叶片在水面上方展开。', '叶面积越大，群体越密，病菌和风的危害也越大。'] },
+    hide: { name: '加固防御', desc: '加厚叶表皮的硅质层，增强茎秆的机械强度，减少病害和倒伏的损失。', text: ['叶表面的硅质沉积增加，叶片变得坚硬。', '茎节的组织变得更加紧实，抵抗风雨的能力增强。'] },
+    rest: { name: '减缓生长', desc: '停止发出新分蘖，降低呼吸消耗，把养分留在茎基部。', text: ['夜间代谢降到很低，你的生长几乎停止。', '养分被存在茎基部和根里，等待气温回升。'] },
+    explore: { name: '扩展根系', desc: '根系在水田土壤中向外伸展，通过通气组织把氧气送到根尖。', text: ['新根从分蘖节不断长出，在泥土里向四周延伸。', '通气组织让根在缺氧的水田里保持呼吸。'] },
+    mate: { name: '抽穗开花', desc: '穗子抽出，颖花受精，颖果逐渐充实成谷粒。', done: '穗子上的颖花受精，你结下了 {n} 粒谷粒。', text: ['花药散出花粉，花粉落在同一朵花的柱头上。', '颖果从子房膨大起，经过灌浆，逐渐变得饱满。'] },
+  },
+
+  idle: [
+    '田水在阳光下形成一层薄薄的温度差。',
+    '田埂的草丛里，青蛙的叫声在夜里断续地响起。',
+    '水面上浮着一片碎叶，随着水流慢慢转动。',
+    '白天的水温比夜里高出几度。',
+    '水田里的蚊子幼虫在水下扭动，搅动了一点泥。',
+    '风吹过稻田，叶片泛起一阵浅色的波纹。',
+    '灌溉渠的水流进田里，水位缓慢上升了一寸。',
+    '土壤里的氧化铁颜色在阳光下显得更红。',
+    '一只白鹭在田埂上站了一会儿，又飞走了。',
+    '夜里的露水落在叶片上，叶尖挂着细小的水珠。',
+  ],
+
+  epitaph: '收割之后，你的谷粒被脱粒、晾晒、入仓。秸秆留在田里，腐烂成下一季的养分。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'duckweed',
+  kingdom: 'plant',
+  name: '浮萍',
+  en: 'Common duckweed (Lemna minor)',
+  sci: 'Lemna minor（小浮萍）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 单子叶植物纲 › 泽泻目 › 浮萍科',
+  size: '叶状体长约 2–4 毫米，厚度不到 1 毫米（粗估）',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你是一片浮萍，只有几毫米宽。它很少开花，主要靠从母体的囊里长出新的叶状体来繁殖。',
+
+  birth: {
+    rolls: [
+      { label: '水体', options: [
+        ['一个富营养化的池塘，水面几乎被浮萍盖满', 3, { food: +10, set: 'rich' }],
+        ['一条缓流的河湾，水面有风吹过的波纹', 2, { food: +3, risk: 1.2, set: 'flowing' }],
+        ['一个贫营养的山间湖，水很清，磷很少', 1, { food: -10, set: 'poor' }],
+        ['一块稻田的灌溉水，每隔几周会被放干', 2, { risk: 1.3, set: 'paddy' }],
+      ]},
+      { label: '水温', options: [
+        ['春天的水面，水温在十几度，慢慢升高', 2, { set: 'spring' }],
+        ['炎热的夏天，水温超过三十度，水面开始发黄', 2, { food: -5, risk: 1.2, set: 'hot' }],
+        ['寒冷的秋天，水温降到十度以下', 1, { food: -10, set: 'cold' }],
+      ]},
+      { label: '母体', options: [
+        ['母体健康，叶片深绿，囊里的芽发育得很快', 2, { food: +5, set: 'healthy' }],
+        ['母体的一半叶片已经发黄，囊里的芽发育得很慢', 2, { food: -5, set: 'weak' }],
+      ]},
+    ],
+    siblings: 4,
+    siblingsLabel: '同一个母体上的芽',
+    intro: '你是一片浮萍叶状体边缘囊里的一个芽。{水体}。{水温}。{母体}。',
+  },
+
+  stages: [
+    { id: 'bud',   name: '母体囊中的芽',         from: 0,  unit: 'hour' },
+    { id: 'young', name: '刚脱离母体的叶状体',    from: 2,  unit: 'day'  },
+    { id: 'adult', name: '成熟的叶状体（出芽）',   from: 7,  unit: 'day'  },
+    { id: 'old',   name: '衰老的叶状体',          from: 21, unit: 'day'  },
+  ],
+  maturity: 7,
+  maxAge: 35,
+
+  survival: [[0,1],[2,0.75],[7,0.5],[14,0.3],[21,0.12],[28,0.04],[35,0]],
+  survivalNote: '浮萍的叶状体寿命以周计。此曲线按一片叶状体在自然水体中通常维持几周、之后分解的情况粗估，未见精确的普查数据。',
+
+  init: { health: 70, food: 50, safety: 45 },
+  foodDrain: 3,
+
+  causes: [
+    { id: 'starve', escape: false, w: 2, short: '水里的氮和磷耗尽',
+      text: '水里的氮和磷被用完了。你的叶片失去颜色，分裂停了下来，最后沉进了水底。' },
+    { id: 'frost', escape: true, w: 2, stages: ['young','adult'], short: '霜冻',
+      text: '霜冻在夜里落在水面上。你的边缘变白，之后的几天，叶片一片一片地变黑。' },
+    { id: 'eaten', escape: true, w: 2, stages: ['young','adult','old'], short: '被水鸟啄食',
+      text: '一只水鸟的喙啄住了你的叶片。一小块叶子被它带走了，剩下的部分也没能再长回来。' },
+    { id: 'drained', escape: false, w: 2, stages: ['young','adult'], short: '稻田放水，搁浅在干泥上',
+      text: '田里的水被放干，你搁浅在湿泥上。几个小时之后，叶状体的边缘干成了一层薄膜。' },
+    { id: 'shade', escape: false, w: 1, stages: ['young','adult'], short: '藻类覆盖，长期遮光',
+      text: '池塘里的藻类一层一层地覆盖在你的叶面上。光被挡住，叶绿素慢慢分解，你不能再进行光合作用。' },
+    { id: 'heat', escape: true, w: 1, stages: ['adult','old'], short: '高温灼伤',
+      text: '水温超过了三十多度，你的叶片边缘变成了褐色，叶绿体的结构被破坏了。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '你的叶片边缘开始发黄，光合作用慢慢下降。最后你沉进了水底，和池塘的泥混在一起。' },
+  ],
+
+  events: [
+    // 母体囊中的芽
+    { stages: ['bud'], w: 3, act: 'instinct', text: '囊壁包着你，里面的细胞一天天分裂，慢慢形成一个很小的叶状体。' },
+    { stages: ['bud'], w: 2, text: '你的根原基在囊的底部形成，它还没有伸出来。' },
+    { stages: ['bud'], w: 2, text: '母体的叶状体在水面上轻轻地摇。你的囊紧贴着它，被水轻轻地压着。' },
+    { stages: ['bud'], w: 2, need: 'healthy', text: '母体的叶绿素很绿，它的光合作用让囊里的细胞分裂得很快。', eff: { food: +5 } },
+    { stages: ['bud'], w: 2, need: 'weak', text: '母体的一半叶片已经发黄，养分供应不足，你的囊发育得很慢。', eff: { food: -5, health: -3 } },
+    { stages: ['bud'], w: 1, need: 'rich', text: '池塘的水很绿，藻类遮住了光。你周围的水里漂着很多碎屑。', eff: { food: +3 } },
+    { stages: ['bud'], w: 1, need: 'poor', text: '水很清，几乎看不到漂浮的有机物。你的囊在这样的水里慢慢发育。', eff: { food: -3 } },
+    { stages: ['bud'], w: 1, need: 'cold', text: '水温很低，你的分裂几乎停了下来，囊里的细胞只是缓慢地增厚。', eff: { food: -5 } },
+    { stages: ['bud'], w: 1, need: 'flowing', text: '水流带着母体慢慢移动，你的囊被推向岸边的一侧。' },
+    { stages: ['bud'], w: 1, need: 'paddy', text: '傍晚，灌溉渠的水带着泥沙流进田里，母体的边缘被泥水盖住了一部分。' },
+
+    // 刚脱离母体的叶状体
+    { stages: ['young'], w: 3, act: 'forage', text: '你从母体上分离出来，漂在水面上。叶片下面的细胞开始吸收水里的铵和硝酸盐。', eff: { food: +8 } },
+    { stages: ['young'], w: 2, act: 'instinct', text: '你的根伸出来，伸进水里，根冠在水中轻轻地摆动。' },
+    { stages: ['young'], w: 2, act: 'rest', text: '夜里水温下降，你的分裂慢下来，叶片的颜色变深。', eff: { health: +2 } },
+    { stages: ['young'], w: 2, act: 'explore', text: '风吹过水面，你漂向了池塘的另一侧，那里的水面更空。', eff: { food: -2 } },
+    { stages: ['young'], w: 2, need: 'rich', text: '池塘的藻类在你周围越聚越多，它们遮住了你的一小部分光。', eff: { food: -3 } },
+    { stages: ['young'], w: 1, need: 'rich', text: '池塘里的养分很足，你的叶片很快变厚，颜色深绿。', eff: { food: +8 } },
+    { stages: ['young'], w: 2, need: 'flowing', text: '水流把你推向河湾的边缘，你在岸边的水草旁停了下来。' },
+    { stages: ['young'], w: 1, need: 'flowing', text: '河湾的水面有波纹，一阵风把你推进了水草的缝隙里。', eff: { safety: -2 } },
+    { stages: ['young'], w: 2, need: 'poor', text: '水很清，磷很少。你的叶片变得窄小，颜色偏浅。', eff: { food: -5 } },
+    { stages: ['young'], w: 1, need: 'poor', text: '山间湖的水很冷，夜里的水温降得很低，你停止了分裂一段时间。', eff: { food: -3 } },
+    { stages: ['young'], w: 2, need: 'paddy', text: '田里的水被放干的那天，你和周围的浮萍一起被留在了湿泥上。', eff: { health: -8 } },
+    { stages: ['young'], w: 1, need: 'paddy', text: '一台拖拉机压过田埂，水面的浮萍被搅到了一起。', eff: { health: -2 } },
+    { stages: ['young'], w: 2, need: 'spring', text: '春天的阳光变强，水温慢慢升高，你的叶片开始成对地长出新芽。', eff: { food: +5 } },
+    { stages: ['young'], w: 1, need: 'spring', text: '早春的水面上还有残冰，你的边缘被冻得发白。', eff: { health: -3 } },
+    { stages: ['young'], w: 2, need: 'hot', text: '水温超过三十度，你的叶片边缘开始发黄，光合作用下降。', eff: { health: -4, food: -3 } },
+    { stages: ['young'], w: 1, need: 'hot', text: '夜里水面起了一层薄雾，白天的高温让你的分裂停了下来。', eff: { food: -5 } },
+    { stages: ['young'], w: 1, need: 'healthy', text: '你的叶绿体很多，叶片又厚又绿，光合作用很有效。', eff: { food: +6 } },
+    { stages: ['young'], w: 1, need: 'weak', text: '你的叶片比周围的同伴更薄，光合作用不足。', eff: { food: -5 } },
+
+    // 成熟的叶状体（出芽）
+    { stages: ['adult'], w: 3, act: 'mate', text: '你边缘的一个囊里长出了一片新的叶状体。它和你之间还有一条短短的连接。', eff: { offspring: [1, 3] },
+      fact: '浮萍主要通过叶状体边缘的囊出芽进行无性繁殖，开花在自然中很少见（Landolt，1986，《Biosystematic Investigations on the Family of Duckweeds》）' },
+    { stages: ['adult'], w: 2, act: 'forage', text: '你的叶片在阳光下铺展开，叶绿素把光转化成糖，水里的铵和硝酸盐被你吸收。', eff: { food: +12 } },
+    { stages: ['adult'], w: 2, act: 'hide', text: '你的叶片收成一个较小的形状，贴着水面，下面的根缩在一起。', eff: { food: -5, safety: +4 } },
+    { stages: ['adult'], w: 2, act: 'rest', text: '夜里水温低，你的叶绿素分解得慢，叶片颜色变深。', eff: { health: +3 } },
+    { stages: ['adult'], w: 2, act: 'explore', text: '风把你推向池塘的另一侧，那里的水面更空。', eff: { food: +3 } },
+    { stages: ['adult'], w: 2, act: 'mate', text: '你的囊里又长出一个新的叶状体，它很快和你分开，漂向了水面。', eff: { offspring: [1, 3] } },
+    { stages: ['adult'], w: 2, text: '一只水鸟落在池塘边，它的脚把一片叶状体压进了水里。', eff: { health: -5 } },
+    { stages: ['adult'], w: 2, text: '一阵风把池塘的浮萍聚在一起，你和周围的同伴挤成一片。', eff: { food: -3 } },
+    { stages: ['adult'], w: 1, act: 'forage', need: 'rich', text: '池塘的水很肥，你的叶片又厚又绿，一片新叶很快接着一片新叶长出来。', eff: { food: +12 } },
+    { stages: ['adult'], w: 2, act: 'explore', need: 'flowing', text: '水流把你带出了河湾，你漂过了几段水草，最后停在一块静水里。', eff: { food: +2 } },
+    { stages: ['adult'], w: 1, act: 'hide', need: 'poor', text: '水里的磷很少，你的叶片变得很小，收缩得几乎看不出形状。', eff: { food: -8, safety: +3 } },
+    { stages: ['adult'], w: 2, act: 'forage', need: 'paddy', text: '田里的水在傍晚被放进来，你重新展开，在新水里铺满了一小块水面。', eff: { food: +8 } },
+    { stages: ['adult'], w: 1, act: 'explore', need: 'paddy', text: '稻田的水被放进来，你随着水流漂进了相邻的一块田。' },
+    { stages: ['adult'], w: 2, need: 'spring', text: '春天的第一场雨后，水面的泡沫越来越多，雨滴打在你的叶面上，把你轻轻地压进水里。', eff: { food: +5 } },
+    { stages: ['adult'], w: 1, act: 'rest', need: 'hot', text: '炎热的中午，水面的光很强，你的叶片收拢，颜色变深，分裂停了下来。', eff: { health: +3, food: -3 } },
+    { stages: ['adult'], w: 2, need: 'cold', text: '秋天的水温下降，你的一部分细胞开始积累淀粉，外层变硬，形成了一个越冬的冬芽。', eff: { food: -5 } },
+    { stages: ['adult'], w: 1, need: 'cold', text: '水温降到十度以下，你的叶片颜色变淡，光合作用降低。', eff: { food: -3 } },
+    { stages: ['adult'], w: 2, act: 'forage', need: 'healthy', text: '你身边的叶片都还绿，你的光合作用效率很高。', eff: { food: +6 } },
+    { stages: ['adult'], w: 1, need: 'weak', text: '你的叶片边缘开始变黄，根少了一半。', eff: { health: -5 } },
+
+    // 衰老的叶状体
+    { stages: ['old'], w: 3, text: '你的叶片边缘开始发黄，光合作用慢慢下降。', eff: { food: -8 } },
+    { stages: ['old'], w: 2, act: 'rest', text: '你的叶片颜色变浅，有些部分变成了透明的薄膜。', eff: { health: -5 } },
+    { stages: ['old'], w: 2, text: '你的一片分叶已经脱落，它沉进了水底。' },
+    { stages: ['old'], w: 1, once: true, text: '你的叶面上长满了细小的斑点，那是藻类在你的表面附着生长。', eff: { health: -3 } },
+    { stages: ['old'], w: 1, need: 'rich', text: '池塘的水里有大量的腐殖质，你沉下去的部分很快腐烂。', eff: { health: -5 } },
+    { stages: ['old'], w: 1, need: 'healthy', text: '你的叶片还有一点绿色，它们会把最后的养分留给下一代的芽。', eff: { food: +3 } },
+    { stages: ['old'], w: 1, act: 'mate', text: '你的囊里还有一片新的叶状体在发育，它比你晚一步开始。', eff: { offspring: [1, 2] } },
+  ],
+
+  opening: {
+    title: '芽在哪一面',
+    body: '你还没有脱离母体。你是母体叶状体边缘囊里的一个芽。芽的位置和周围的水，决定了你能不能长到足够大，独自漂在水面上。',
+    options: [
+      { t: '在母体的向阳一侧发育', hint: '光照足 · 水温变化快', eff: { food: +5 }, risk: 1.2, riskDays: 2,
+        result: '你在向阳的一侧发育，白天的光很快让你的囊变暖。' },
+      { t: '在母体背阴的一侧发育', hint: '水温稳定 · 光照少', eff: { food: -5 }, risk: 0.85, riskDays: 2,
+        result: '你在背阴的一侧发育，水的温度变化比较慢。' },
+      { t: '在母体的边缘，靠近水流', hint: '养分流动 · 容易被冲散', eff: { health: -2 }, risk: 1.1, riskDays: 2,
+        result: '水流从你的囊旁边经过，带来了溶解的养分，也带走了几片碎屑。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '随季节生长', desc: '顺着水温和光照的节律分裂、长叶，不做额外的调整。' },
+    forage: { name: '铺展叶面', desc: '把叶片铺满水面，接收更多的光，吸收水中的铵和硝酸盐。叶面越大，被水鸟和风推动的机会也越多。', text: [
+      '你的叶片在阳光下慢慢展开。',
+      '水里的养分被你的根一点一点地吸收。',
+    ]},
+    hide: { name: '收缩叶面', desc: '把叶片收成较小的形状，贴着水面。光合作用随之下降，但减少了被啃食和被风吹散的机会。', text: [
+      '你的叶片收拢了，下面的根缩在一起。',
+      '风吹过水面，你贴得更紧了。',
+    ]},
+    rest: { name: '安静地漂', desc: '夜里或水温低的时候，减少分裂，让叶绿素慢慢分解，等待下一段温暖的时间。', text: [
+      '水面很安静，你的颜色慢慢变深。',
+      '……',
+    ]},
+    explore: { name: '随水漂移', desc: '借风和水流漂到池塘的另一侧，寻找更空、更干净的水面。', text: [
+      '你随着水流漂向池塘的另一侧。',
+      '一块静水漂在你前面，那里的水面比较空。',
+    ]},
+    mate: { name: '出芽', desc: '在叶状体边缘的囊里长出新的叶状体。新的叶状体很快和母体分开，单独漂在水面上。这是浮萍最常见的繁殖方式。', done: '你的囊里长出了 {n} 片新的叶状体。' },
+  },
+  brood: [1, 3],
+
+  decisions: [
+    {
+      id: 'split', at: 2,
+      title: '和母体分开',
+      body: '你的根已经长出来，叶片也开始张开。你可以现在脱离母体，独自漂在水面上，也可以留在母体的囊里，靠母体的养分慢慢长大。',
+      options: [
+        { t: '现在脱离，独自漂在水面上', hint: '独立 · 风险↑', eff: { food: +3 }, risk: 1.3, riskDays: 3,
+          result: '你的囊壁裂开，你和母体分开了，漂向水面的一侧。' },
+        { t: '留在母体上，直到叶片长厚', hint: '稳妥 · 长得慢', eff: { health: +5 }, risk: 0.8, riskDays: 5,
+          result: '你继续留在母体的囊里，靠母体的养分慢慢长大。' },
+      ],
+    },
+    {
+      id: 'algae', at: 10, need: 'rich',
+      title: '池塘里的藻类',
+      body: '池塘的水面被绿色的藻类盖住了一半。你可以向没有藻的一侧漂，也可以留在原地，等风把藻类吹走。',
+      options: [
+        { t: '向水面空的一侧漂', hint: '光↑ 养分↓', eff: { food: -3 }, risk: 1.1, riskDays: 3,
+          result: '你随着风漂向水面空的一侧，那里的光很亮。' },
+        { t: '留在原地，等风把藻类吹走', hint: '养分↑ 遮光风险↑', eff: { food: +3 }, risk: 1.3, riskDays: 5,
+          result: '藻类在你周围越聚越多，你的一部分叶面被挡住了。' },
+      ],
+    },
+    {
+      id: 'poor_water', at: 9, need: 'poor',
+      title: '水里的磷不够',
+      body: '水很清，但是磷很少。你的叶片变得小而薄。你可以把有限的养分留给现在的叶片，也可以漂向有机质多一点的岸边。',
+      options: [
+        { t: '留在原地，保存养分', hint: '养分↓ 风险低', eff: { food: -2 }, risk: 0.9, riskDays: 7,
+          result: '你停止了长新叶，把养分留给现有的叶片。' },
+        { t: '漂向有机质多的岸边', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 5,
+          result: '你漂向岸边，那里的落叶和碎屑慢慢分解，释放出一些养分。' },
+      ],
+    },
+    {
+      id: 'paddy_drain', at: 12, need: 'paddy',
+      title: '田里的水要放了',
+      body: '农民开始放田里的水，水位一天之内降了好几厘米。你可以随着水流漂向灌渠，也可以紧贴湿泥，等下一次灌水再来。',
+      options: [
+        { t: '随水流漂向灌渠', hint: '可能找到新水体 · 途中风险', eff: {}, kill: 0.15, cause: 'drained',
+          result: '你随着水流漂进了灌渠，灌渠的水流很急，你的一部分叶片被冲散了。' },
+        { t: '紧贴湿泥，等下一次灌水', hint: '安全↑ 养分↓', eff: { health: -3, food: -3 }, risk: 1.0, riskDays: 3,
+          result: '你贴在湿泥上，叶片的边缘慢慢变干，等待灌水。' },
+      ],
+    },
+    {
+      id: 'winter_bud', at: 14, need: 'cold',
+      title: '水温降下来了',
+      body: '水温一天比一天低，叶绿素在分解，你的边缘开始发白。你可以形成冬芽，沉到水底的泥里越冬，也可以留在水面上，直到第一场霜。',
+      options: [
+        { t: '形成冬芽，沉到水底越冬', hint: '越冬 · 生长暂停', eff: { food: -5 }, risk: 0.5, riskDays: 60,
+          result: '你的一部分细胞积累了淀粉，外层变硬，你的一边慢慢向水底沉下去。' },
+        { t: '留在水面，直到第一场霜', hint: '养分↑ 霜冻风险↑', eff: { food: +3 }, kill: 0.2, cause: 'frost',
+          result: '你的叶片保持绿色。第一场霜降下来的那天晚上，你的边缘变成了白色。' },
+      ],
+    },
+    {
+      id: 'hot_water', at: 16, need: 'hot',
+      title: '三十度以上的水',
+      body: '水温超过三十度，你的叶片边缘开始发黄。你可以把叶片收拢，减少光合作用，也可以把叶片铺满水面，接受更多的阳光。',
+      options: [
+        { t: '收拢叶片，减少光照', hint: '健康↑ 养分↓', eff: { health: +3, food: -5 }, risk: 0.8, riskDays: 10,
+          result: '你把叶片收拢，高温的水面在你的周围慢慢地降了温。' },
+        { t: '铺满水面，接受阳光', hint: '养分↑ 热伤风险↑', eff: { food: +8 }, risk: 1.4, riskDays: 5,
+          result: '你的叶片铺满了一块水面，边缘的褐色一片一片地加深了。' },
+      ],
+    },
+    {
+      id: 'bud_timing', at: 18,
+      title: '出芽还是留住养分',
+      body: '你的囊里已经有一片新的叶状体在发育。出芽会消耗你的养分，母体的叶片会变薄。你可以继续出芽，也可以把养分留给自己。',
+      options: [
+        { t: '继续出芽', hint: '后代↑ 养分↓', eff: { food: -5 }, risk: 1.1, riskDays: 5,
+          result: '新的叶状体在你的囊里长出来，它的边缘贴着你。' },
+        { t: '暂停出芽，把养分留给自己', hint: '健康↑ 后代↓', eff: { health: +5 }, risk: 0.95, riskDays: 5,
+          result: '你停止了出芽，把养分送进了自己的叶片。' },
+      ],
+    },
+    {
+      id: 'waterbird', at: 24,
+      title: '水鸟的脚印',
+      body: '水鸟的脚在岸边的水面上留下了印子，它的喙正朝着你这一片叶状体。你可以躲到岸边的水草下面，也可以留在水面上。',
+      options: [
+        { t: '躲到水草下面', hint: '安全↑ 光照↓', eff: { safety: +5, food: -3 }, risk: 0.8, riskDays: 2,
+          result: '你漂进了水草下面，水鸟的喙从你的上方擦了过去。' },
+        { t: '保持在水面上', hint: '养分↑ 被啄食的风险↑', eff: { food: +3 }, kill: 0.2, cause: 'eaten',
+          result: '你的叶片还留在水面上，水鸟低下头，把你连着一块水面一起啄了起来。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '水面的风很轻，你和周围的同伴一起慢慢地漂。',
+    '水下的根在水里轻轻摆动，随着水流一起一伏。',
+    '一片碎落的叶子从你旁边漂过，它的边缘已经发黑。',
+    '池塘边的草影落在水面上，你的一半被遮住了。',
+    '水面上的反光不断地晃动，你的颜色随之变深变浅。',
+    '一只昆虫停在你的叶面上，很快又飞走了。',
+    '夜里的水温降下来，你的叶片变得很安静。',
+    '风向变了，你和同伴慢慢地聚到了水面的另一侧。',
+    '水底的泥里还埋着去年的冬芽，它们还没有醒来。',
+  ],
+
+  epitaph: '你的叶状体最终腐烂在水里，它的养分回到了池塘，成为下一片叶子的一部分。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'dandelion',
+  kingdom: 'plant',
+  name: '蒲公英',
+  en: 'Common dandelion (Taraxacum officinale)',
+  sci: 'Taraxacum officinale（蒲公英，蒲公英复合体）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 双子叶植物纲 › 菊目 › 菊科',
+  size: '莲座叶丛直径约 10–30 厘米，花茎高约 10–30 厘米；直根可深入土中 30 厘米以上（粗估）',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你是一株蒲公英。你的直根伸得很深，你的种子带着白色的冠毛，随风飘走。',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['你落在草坪的边缘，每周都会被割草机剪短。', 2, { food: -3, risk: 1.2, set: 'lawn' }],
+        ['你落在一块刚翻过的田边，土层松软，阳光很足。', 2, { food: +5, set: 'field' }],
+        ['你落在路边的沙土上，夏天会被晒得发白。', 2, { food: -5, risk: 1.1, set: 'roadside' }],
+        ['你落在山坡的草地上，周围有放牧的羊群。', 1, { set: 'pasture' }],
+      ]},
+      { label: '春天的雨', options: [
+        ['这个春天雨水充足，土壤里有足够的水分。', 3, { food: +5, set: 'wet' }],
+        ['这个春天很干，表层的土很快就干透了。', 2, { food: -5, risk: 1.1, set: 'dry' }],
+      ]},
+      { label: '母株', options: [
+        ['你的母株很健壮，它的直根已经扎得很深。', 2, { food: +5, set: 'strong' }],
+        ['你的母株瘦弱，去年被割草机剪掉过许多叶片。', 2, { food: -5, set: 'weak' }],
+      ]},
+    ],
+    siblings: 100,
+    siblingsLabel: '同一株母株结出的瘦果',
+    intro: '你是一颗蒲公英的瘦果，顶端有一圈白色的冠毛，能被风带走。{出生地}{春天的雨}{母株}',
+  },
+
+  stages: [
+    { id: 'seed',      name: '瘦果（带冠毛的种子）',   from: 0,    unit: 'week'  },
+    { id: 'seedling',  name: '幼苗（第一个生长季）',   from: 30,   unit: 'week'  },
+    { id: 'rosette',   name: '莲座叶丛（越冬）',        from: 120,  unit: 'week'  },
+    { id: 'flowering', name: '开花结实（多年生）',      from: 365,  unit: 'month' },
+    { id: 'old',       name: '衰老的老株',             from: 1460, unit: 'month' },
+  ],
+  maturity: 365,
+  maxAge: 1825,
+
+  survival: [[0,1],[30,0.3],[120,0.2],[365,0.12],[730,0.08],[1095,0.05],[1460,0.02],[1825,0]],
+  survivalNote: '蒲公英是多年生植物，但野外的寿命数据很少。此曲线按幼苗期死亡率较高、之后逐年缓慢下降的规律粗估，未经普查。',
+
+  init: { health: 70, food: 50, safety: 45 },
+  foodDrain: 3,
+
+  causes: [
+    { id: 'starve', escape: false, w: 2, short: '长期缺水，直根养分耗尽',
+      text: '连续几年的干旱之后，直根里储存的养分已经用完。你的叶片变得很小，最后不再长出新的叶子。' },
+    { id: 'mow', escape: false, w: 2, short: '被割草机切断根颈',
+      text: '割草机的刀片切过根颈，你的直根被切断了。叶丛没有再长出来。' },
+    { id: 'graze', escape: true, w: 2, short: '被羊群啃食到根颈',
+      text: '一群羊从草地上走过，它们把你的叶丛连同根颈一起啃掉了。' },
+    { id: 'drought', escape: true, w: 2, stages: ['seedling','rosette','flowering'], short: '春夏干旱，叶片枯死',
+      text: '春夏的干旱持续了一个月，你的叶片从边缘开始枯黄，直到整株变成一层薄薄的褐色。' },
+    { id: 'frost', escape: true, w: 1, stages: ['seedling'], short: '晚霜冻伤',
+      text: '一场春天的晚霜落在幼苗上，你的叶片变得发黑，之后慢慢变硬。' },
+    { id: 'crown_rot', escape: true, w: 1, short: '病菌侵入根颈，根颈腐烂',
+      text: '病菌在根颈上扩展，根颈变软，叶丛从中间塌了下去。' },
+    { id: 'trample', escape: true, w: 1, stages: ['seedling'], short: '被踩进泥里',
+      text: '一只靴子踩进了幼苗中间，你的叶片被压在泥里，再也没能立起来。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '你的叶片越来越小，直根的上端变得很硬。最后一个冬天之后，你的叶丛没有再发芽。' },
+  ],
+
+  events: [
+    // 幼苗
+    { stages: ['seedling'], w: 3, act: 'instinct', text: '瘦果吸了水，胚根从果皮里伸出来，向下伸进土壤。' },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '两片子叶很快展开，接着长出第一片真叶。真叶的边缘有很深的裂。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, act: 'explore', text: '直根向下伸去，一天比一天更深。它在土里积累着养分。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, text: '夏天的日照很强，幼苗的叶片水分流失得很快，叶边缘开始卷起来。', eff: { health: -2 } },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '天气转凉，幼苗的叶片变深，生长慢了下来。', eff: { health: +2 } },
+    { stages: ['seedling'], w: 2, need: 'lawn', text: '草坪被割草机剪过，你的叶子只剩下一小截，但根颈还在地里。', eff: { health: -4 } },
+    { stages: ['seedling'], w: 1, need: 'lawn', text: '草坪的草很密，你的叶片伸不出草丛，只能贴在地上。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'field', text: '翻过的土层很松，你的直根很快伸到了更深的地方。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 1, need: 'field', text: '田里的杂草一周比一周高，它们挡住了你的一部分光。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'roadside', text: '路边的沙土在午后晒得发白，你的叶片边缘开始变干。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 1, need: 'roadside', text: '一辆车从路边经过，溅起的灰尘落在你的叶片上。', eff: { health: -1 } },
+    { stages: ['seedling'], w: 2, need: 'pasture', text: '羊群经过草地，你的幼叶被踩进了泥里。', eff: { health: -4 } },
+    { stages: ['seedling'], w: 1, need: 'pasture', text: '草地上的草很高，你的叶片得到的光只有一部分。', eff: { food: -2 } },
+    { stages: ['seedling'], w: 2, need: 'wet', text: '春天的雨一直下，土壤里的水分很充足，你的叶片很快变厚。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 1, need: 'wet', text: '积水在表层停留了几天，直根的上端变得很软。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 2, need: 'dry', text: '春天的干风吹过幼苗，表层的土很快干透了。', eff: { food: -5 } },
+    { stages: ['seedling'], w: 1, need: 'dry', text: '你的直根在干土层下面继续向深处伸，找到了一层湿土。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, need: 'strong', text: '你的直根扎得很深，即使表层干了，你的叶片还能保持绿色。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 1, need: 'weak', text: '你的叶片又小又薄，光合作用的产物很少，直根也比同伴短。', eff: { food: -4 } },
+    { stages: ['seedling'], w: 1, text: '一场晚霜落在幼苗上，叶片的边缘发黑，之后慢慢变硬。', eff: { health: -5 } },
+    { stages: ['seedling'], w: 1, text: '一只甲虫在你的叶面上停了一会儿，它的爪子在叶缘留下几道印子。' },
+    { stages: ['seedling'], w: 2, need: 'wet', act: 'forage', text: '雨后的光很亮，你的叶片展开，把光尽量接住。', eff: { food: +4 } },
+
+    // 莲座叶丛（越冬）
+    { stages: ['rosette'], w: 3, act: 'forage', text: '叶丛沿着地面向外伸展，每一片叶子都是深裂的，边缘有锯齿。', eff: { food: +6 } },
+    { stages: ['rosette'], w: 3, act: 'rest', text: '冬天的低温里，地上的叶片颜色变深，地下的直根保存着糖和养分。', eff: { health: +4 } },
+    { stages: ['rosette'], w: 2, act: 'hide', text: '割草机经过，你的叶丛贴着地面，躲过了刀片的边缘。', eff: { safety: +5, food: -2 } },
+    { stages: ['rosette'], w: 2, act: 'explore', text: '一根侧根从直根的上端伸出来，向外爬了一段。', eff: { food: +3 } },
+    { stages: ['rosette'], w: 2, text: '夜里的霜落在叶丛上，叶片的边缘变白，但直根还在土里。', eff: { health: -2 } },
+    { stages: ['rosette'], w: 2, need: 'lawn', text: '割草机每周都来，你的叶丛在刀片之间重新长出来，叶片变得很小。', eff: { food: -5 } },
+    { stages: ['rosette'], w: 2, need: 'lawn', text: '草坪上的草越来越密，你的叶丛被挤到边缘，只能靠直根维持生长。', eff: { food: -4 } },
+    { stages: ['rosette'], w: 2, need: 'field', text: '田边的土层厚而松，你的直根在冬天也继续伸长。', eff: { food: +5 } },
+    { stages: ['rosette'], w: 1, need: 'field', text: '春天犁过田边，你的叶丛被翻进了土里，又慢慢爬了上来。', eff: { health: -6 } },
+    { stages: ['rosette'], w: 2, need: 'roadside', text: '路边的尘土落在叶丛上，覆盖了一层灰白。', eff: { health: -2 } },
+    { stages: ['rosette'], w: 1, need: 'roadside', text: '路边的沙土很薄，直根只能沿着石子的缝隙伸展。', eff: { food: -3 } },
+    { stages: ['rosette'], w: 2, need: 'pasture', text: '羊群在草地上吃过，你的叶丛剩下的部分贴着地面。', eff: { food: -6 } },
+    { stages: ['rosette'], w: 1, need: 'pasture', text: '草地上的其他草让你的叶丛更靠近地面。', eff: { food: -2 } },
+    { stages: ['rosette'], w: 2, need: 'wet', text: '春天的雨让你的叶丛在两周里扩大了一圈。', eff: { food: +5 } },
+    { stages: ['rosette'], w: 1, need: 'dry', text: '一个干燥的春天，你的叶片边缘发黄，直根为你保留了水分。', eff: { health: -3 } },
+    { stages: ['rosette'], w: 2, need: 'strong', text: '你的直根很深，即使表层干燥，它也不会让你缺水。', eff: { food: +3 } },
+    { stages: ['rosette'], w: 2, need: 'weak', text: '你的叶丛只能伸展到很小的一圈，叶片颜色比同伴浅。', eff: { food: -4 } },
+    { stages: ['rosette'], w: 1, text: '一只甲虫在叶丛边缘咬了几口，留下了一排很小的缺口。', eff: { food: -2 } },
+    { stages: ['rosette'], w: 2, need: 'lawn', act: 'explore', text: '割草机的刀片没有切到你的根颈，一段侧根从草丛的空隙里伸了出来。' },
+    { stages: ['rosette'], w: 2, text: '冬天的第一场雪落下来，覆盖了你的叶丛，雪下面的温度比外面高。', eff: { health: +2 } },
+
+    // 开花结实
+    { stages: ['flowering'], w: 3, act: 'mate', text: '花茎从叶丛中央抽出来，中空，顶端开出一个黄色的头状花序，由许多舌状小花组成。' },
+    { stages: ['flowering'], w: 2, act: 'mate', text: '花朵在早上张开，傍晚或阴天时会合上。蒲公英的种子大多不经过受精就能形成。',
+      fact: '欧洲的蒲公英大多数为三倍体，通过无融合生殖产生种子（Richards，2003，Philosophical Transactions of the Royal Society B）' },
+    { stages: ['flowering'], w: 2, text: '折断花茎时，断口流出白色的乳汁，那是植物乳管里的液体。' },
+    { stages: ['flowering'], w: 2, act: 'forage', text: '叶丛在春天的光里扩大，叶片里的糖随着叶脉流动。', eff: { food: +5 } },
+    { stages: ['flowering'], w: 2, act: 'hide', text: '一场大风吹过草地，你的叶丛紧贴地面，只有几片叶子被吹了起来。', eff: { safety: +4, food: -2 } },
+    { stages: ['flowering'], w: 2, act: 'rest', text: '夏天的高温让你的叶丛停止生长，直根里储存着糖和养分。', eff: { health: +3 } },
+    { stages: ['flowering'], w: 1, text: '一只蜜蜂落在头状花序上，它在舌状花之间爬来爬去。', eff: { food: +2 } },
+    { stages: ['flowering'], w: 2, need: 'lawn', text: '割草机刚切过你的花茎，断口处流出了乳汁。', eff: { health: -4 } },
+    { stages: ['flowering'], w: 2, need: 'lawn', text: '草坪的草有时比你高，你的花被遮住了一半，光只能照到头状花序的顶端。', eff: { food: -3 } },
+    { stages: ['flowering'], w: 2, need: 'field', text: '翻过的田边有很多杂草，你的花茎比它们高，光照得很充足。', eff: { food: +5 } },
+    { stages: ['flowering'], w: 1, need: 'field', text: '一只蚜虫聚集在花茎上，吸走了一部分汁液。', eff: { health: -3 } },
+    { stages: ['flowering'], w: 2, need: 'roadside', text: '路边的灰尘落在头状花序上，花瓣变得发灰。', eff: { health: -2 } },
+    { stages: ['flowering'], w: 1, need: 'roadside', text: '路边的沙土很干，你的花茎很早就停止了伸长。', eff: { food: -3 } },
+    { stages: ['flowering'], w: 2, need: 'pasture', text: '羊群从草地上走过，你的花茎被啃掉了一截。', eff: { health: -5 } },
+    { stages: ['flowering'], w: 2, need: 'pasture', text: '羊啃过的地方，你的叶丛很快又长出了新的叶子。', eff: { food: +2 } },
+    { stages: ['flowering'], w: 2, need: 'wet', text: '春天的雨多了，你的花茎比去年更高，头状花序也更大。', eff: { food: +5 } },
+    { stages: ['flowering'], w: 1, need: 'wet', text: '雨水在花上积了一层水，花瓣很快闭合，花粉被冲走了一部分。', eff: { health: -2 } },
+    { stages: ['flowering'], w: 2, need: 'dry', text: '干燥的几周里，你的花茎弯了下来，头状花序很早就闭合了。', eff: { food: -3 } },
+    { stages: ['flowering'], w: 1, need: 'strong', text: '你的直根很深，即使干燥的表土也不能让花茎缺水。', eff: { food: +3 } },
+    { stages: ['flowering'], w: 2, need: 'weak', text: '你的花茎很短，头状花序在叶丛里几乎看不见。', eff: { food: -3 } },
+    { stages: ['flowering'], w: 2, act: 'explore', text: '你的侧根从母株的旁边向外延伸，在草丛的缝隙里长出了一株新的叶丛。' },
+    { stages: ['flowering'], w: 2, act: 'mate', text: '花朵闭合后，花序的基部逐渐膨大，每一朵花都变成了一颗带冠毛的瘦果。' },
+    { stages: ['flowering'], w: 1, text: '一阵风吹过，一批冠毛从头状花序上飘了起来。' },
+    { stages: ['flowering'], w: 1, act: 'mate', once: true, text: '一部分瘦果被风带走了，剩下的在头状花序里慢慢变干。' },
+
+    // 衰老的老株
+    { stages: ['old'], w: 3, text: '你的叶片变得越来越小，直根的上端变得很硬。', eff: { food: -6 } },
+    { stages: ['old'], w: 2, act: 'rest', text: '你的老叶丛在冬天停止生长，颜色变深，中心的叶子已经枯黄。', eff: { health: -3 } },
+    { stages: ['old'], w: 2, act: 'mate', text: '你的头状花序还在结实，但每一次结出的瘦果比去年少了一些。' },
+    { stages: ['old'], w: 1, once: true, text: '你的直根在土里分了好几个枝，每一个枝上都可能长出新的叶丛。' },
+    { stages: ['old'], w: 2, need: 'lawn', text: '割草机又一次切过你的根颈，你的叶丛只能再长出几片小叶。', eff: { health: -5 } },
+    { stages: ['old'], w: 1, need: 'pasture', text: '羊群经过草地，你的老叶丛被啃掉，但直根还在土里。', eff: { food: -4 } },
+    { stages: ['old'], w: 2, need: 'wet', text: '一个湿润的春天，你的老叶丛又长出了几片新叶。', eff: { food: +3 } },
+    { stages: ['old'], w: 1, need: 'dry', text: '干旱持续了一个夏天，你的老叶片的边缘变成了褐色。', eff: { health: -4 } },
+    { stages: ['old'], w: 1, need: 'field', text: '翻地的犁碰到了你的直根，直根断了一截，但上端的芽还在。', eff: { health: -6 } },
+    { stages: ['old'], w: 2, need: 'strong', text: '你的直根已经很深，夏天的旱季也没能让它干透。', eff: { food: +3 } },
+  ],
+
+  opening: {
+    title: '瘦果落在哪里',
+    body: '你还没有落下。你是一颗蒲公英的瘦果，顶端的冠毛在风里张开。落点决定了你能不能发芽，以及发芽之后能不能把直根扎进土里。',
+    options: [
+      { t: '落在草坪的空隙里，阳光能照到地面', hint: '光照足 · 割草频繁', eff: { food: +3 }, risk: 1.2, riskDays: 30,
+        result: '你落在草坪的空隙里。割草机还没有来，阳光照在你的瘦果上。' },
+      { t: '落在刚翻过的田边，土层松软', hint: '直根容易伸展 · 翻地风险', eff: { food: +5 }, risk: 1.0, riskDays: 30,
+        result: '你落在松软的土里，几天后，胚根已经伸进了土壤深处。' },
+      { t: '落在路边的沙土上，等雨水来', hint: '土壤干燥 · 容易被晒死', eff: { health: -3 }, risk: 1.3, riskDays: 30,
+        result: '你落在路边的沙土上。连续几天没有雨，沙土表面很快就变白了。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '随季节生长', desc: '顺着光照和温度的节律生长，不做额外的调整。' },
+    forage: { name: '扩大叶丛', desc: '把叶丛向外铺开，多做光合作用，把糖运进直根。叶片越多，越容易被割草机和啃食的动物咬到。', text: [
+      '叶丛在风里轻轻摆动。',
+      '直根里的糖一点一点地增加。',
+    ]},
+    hide: { name: '贴地收叶', desc: '把叶片紧贴地面，减少被割草机切到和被啃食的机会。光合作用随之下降。', text: [
+      '你的叶片紧贴着地面。',
+      '割草机从旁边开过，刀片在叶丛上方掠过。',
+    ]},
+    rest: { name: '越冬休眠', desc: '地上部分停止生长，叶片颜色变深，养分保存在直根里，等待春天。', text: [
+      '地上的叶片颜色慢慢变深。',
+      '直根在土里保存着养分。',
+    ]},
+    explore: { name: '伸展侧根', desc: '让侧根向土里和草丛的缝隙延伸，寻找更多的水分，也可能长出新的叶丛。', text: [
+      '一根侧根向土里伸去，遇到石子，绕了过去。',
+      '一根侧根从草丛的缝隙里伸了出来。',
+    ]},
+    mate: { name: '开花结实', desc: '从叶丛中央抽出中空的花茎，开出头状花序。大多数种子不经过受精就能形成，瘦果顶端带着冠毛，随风飘走。', done: '你的头状花序里结出了 {n} 颗带冠毛的瘦果。' },
+  },
+  brood: [50, 150],
+
+  decisions: [
+    {
+      id: 'first_winter', at: 150,
+      title: '第一个冬天',
+      body: '你的叶丛已经有了几片叶子，地上的冷空气越来越强。你可以把养分全部送进直根，等待春天；也可以继续长出新的叶片，把光合产物用在地上部分。',
+      options: [
+        { t: '把养分送进直根，等待春天', hint: '健康↑ 生长↓', eff: { health: +5 }, risk: 0.8, riskDays: 120,
+          result: '你停止了长新叶，直根在土里慢慢变粗，储存着糖。' },
+        { t: '继续长出新的叶片', hint: '养分↑ 冻伤风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 60,
+          result: '新的叶子在冬天的低温里慢慢长出来，边缘有一些地方结了霜。' },
+      ],
+    },
+    {
+      id: 'mower_season', at: 200, need: 'lawn',
+      title: '割草机的周期',
+      body: '草坪的割草机每周都要来一次。你的叶丛正处在刀片的边缘。你可以把叶丛收到最低，贴着地面；也可以把叶片长高，抢在下一次割草之前开花。',
+      options: [
+        { t: '收到最低，贴着地面', hint: '安全↑ 养分↓', eff: { food: -3, safety: +4 }, risk: 0.8, riskDays: 14,
+          result: '你把叶丛压到最低，割草机的刀片从上方掠过，没有切到你的根颈。' },
+        { t: '长高，抢在下一次割草前开花', hint: '养分↑ 被切断的风险↑', eff: { food: +5 }, kill: 0.12, cause: 'mow',
+          result: '你的花茎在一夜之间长高了一截。第二天，刀片从草坪上扫了过来。' },
+      ],
+    },
+    {
+      id: 'plow_field', at: 260, need: 'field',
+      title: '田边的犁',
+      body: '农民准备翻田边的地。你的直根在土里很深，地上的叶丛很大。你可以让直根继续向下伸，躲开犁的刀刃；也可以在翻地之前抽出花茎，开花结实。',
+      options: [
+        { t: '直根继续向下伸', hint: '安全↑ 养分↓', eff: { food: -3 }, risk: 0.9, riskDays: 30,
+          result: '你的直根在土里继续向下伸，犁从上方经过，没有碰到它。' },
+        { t: '在翻地前抽出花茎，开花结实', hint: '后代↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 14,
+          result: '几朵头状花序在翻地之前就开了。犁从田边经过，把叶丛翻进了土里。' },
+      ],
+    },
+    {
+      id: 'sheep_come', at: 300, need: 'pasture',
+      title: '羊群来了',
+      body: '羊群正朝你所在的草地走来。羊会把叶丛啃到根颈。你可以把叶片贴地收紧，让羊的嘴够不到；也可以抽出花茎，在羊来之前完成开花。',
+      options: [
+        { t: '叶片贴地收紧', hint: '安全↑ 养分↓', eff: { food: -3, safety: +5 }, risk: 0.8, riskDays: 7,
+          result: '你的叶片紧贴着地面，羊群从你的上方走了过去。' },
+        { t: '抽出花茎，在羊来之前开花', hint: '养分↑ 被啃食的风险↑', eff: { food: +3 }, kill: 0.15, cause: 'graze',
+          result: '你的花茎高高地立着，羊群低下头，把它们一口一口地吃掉了。' },
+      ],
+    },
+    {
+      id: 'spring_drought', at: 240, need: 'dry',
+      title: '春天的干旱',
+      body: '一个月没有降雨，表层的土已经干透了。你可以把养分保存在直根里，停止生长，也可以继续展开叶片。',
+      options: [
+        { t: '停止生长，保存养分', hint: '健康↑ 养分↓', eff: { health: +3, food: -3 }, risk: 0.7, riskDays: 30,
+          result: '你停止了展开新叶，直根在干土下面保存着养分，等待降雨。' },
+        { t: '继续展开叶片', hint: '养分↑ 干旱风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 14,
+          result: '新的叶片在干燥的风里展开，几天后，它们的边缘开始发黄。' },
+      ],
+    },
+    {
+      id: 'flower_timing', at: 400,
+      title: '花期',
+      body: '春天的光变长，头状花序的花茎已经伸出来了。你可以开花结实，把养分送进瘦果；也可以推迟开花，把养分留给直根。',
+      options: [
+        { t: '立即开花结实', hint: '后代↑ 养分↓', eff: { food: -5 }, risk: 1.1, riskDays: 30,
+          result: '花朵一朵一朵地张开，白天开放，傍晚闭合。' },
+        { t: '推迟开花，把养分留给直根', hint: '健康↑ 后代↓', eff: { health: +5 }, risk: 0.9, riskDays: 60,
+          result: '你停止了抽薹，养分沿着直根向下运送。' },
+      ],
+    },
+    {
+      id: 'taproot_branch', at: 1000,
+      title: '直根分了枝',
+      body: '你的直根在土里分了几个枝。每个分枝都可能长成新的叶丛。你可以把养分送进分枝，让它们长成新的植株；也可以把养分集中在主干，让自己活得久一点。',
+      options: [
+        { t: '分枝，长出新的植株', hint: '后代↑ 养分↓', eff: { food: +3 }, risk: 1.2, riskDays: 60,
+          result: '几个分枝上长出了小小的新叶丛，它们靠着你的直根维持着生长。' },
+        { t: '集中养分在主干', hint: '健康↑ 后代↓', eff: { health: +4 }, risk: 0.9, riskDays: 60,
+          result: '你停止了向分枝输送养分，主干在土里越来越粗。' },
+      ],
+    },
+    {
+      id: 'late_mower', at: 1500, need: 'lawn',
+      title: '割草机又来了',
+      body: '草坪的割草机又开过来了。你的叶丛已经变得很小。你可以把叶片贴紧地面，减少被切到的机会；也可以留下一个侧芽，在割草之后再长出来。',
+      options: [
+        { t: '叶片贴紧地面，减少被切到的机会', hint: '安全↑ 养分↓', eff: { safety: +4 }, risk: 0.85, riskDays: 14,
+          result: '你的叶片紧贴着地面。刀片从你的上方掠过，你的根颈完好无损。' },
+        { t: '留下侧芽，割草后再长出来', hint: '养分↑ 被切断的风险↑', eff: { food: +2 }, kill: 0.15, cause: 'mow',
+          result: '侧芽留在了草茎的根部。刀片切过时，它和你的根颈一起被切断了。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '风从草地上吹过，你的叶片向一边倾斜。',
+    '一只蜜蜂在附近的花丛里飞来飞去。',
+    '草地上的露水在早晨慢慢变干。',
+    '你的叶片边缘有很深的裂，像锯齿。',
+    '夜里你的头状花序闭合了，花瓣缩在一起。',
+    '一只蚂蚁沿着你的叶脉爬过去。',
+    '远处的割草机声音响了一阵又停了。',
+    '一颗冠毛随风从旁边飘了过去。',
+  ],
+
+  epitaph: '你的瘦果随风飘到了很远的地方，有几颗落进了草丛里。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'eelgrass',
+  kingdom: 'plant',
+  name: '大叶藻',
+  en: 'Common eelgrass',
+  sci: 'Zostera marina（大叶藻）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 单子叶植物纲 › 泽泻目 › 大叶藻科',
+  size: '叶长约 0.3–1.5 米，宽约 4–10 毫米；根状茎沿沙面水平延伸',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你是海里唯一开花的草，花粉在水下靠水流传送',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['美国切萨皮克湾的浅水沙泥底', 3, { food: +5, set: 'chesapeake' }],
+        ['荷兰与德国之间瓦登海的潮沟边缘', 2, { health: +3, set: 'wadden' }],
+      ]},
+      { label: '水的深度与光', options: [
+        ['水深不到两米，光能照到沙底', 3, { food: +5, set: 'shallow' }],
+        ['水深超过四米，海底的光被水吸收大半', 2, { food: -10, set: 'deep' }],
+      ]},
+      { label: '种群状况', options: [
+        ['附近是一片连续的草场，上百株同伴挤在一起', 3, { safety: +5, set: 'meadow' }],
+        ['附近只有零散的草场，中间夹着光秃的沙地', 2, { safety: -5, risk: 1.2, set: 'patchy' }],
+      ]},
+    ],
+    siblings: 10,
+    siblingsLabel: '同一株上结出的种子',
+    intro: '你是一粒种子，埋在{出生地}里。{水的深度与光}。{种群状况}。同一株上结出的种子共有 {siblings} 粒。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（埋在沙泥里）', from: 0,    unit: 'week'  },
+    { id: 'seedling', name: '幼苗（第一个夏天）', from: 180,  unit: 'week'  },
+    { id: 'shoot',    name: '幼株（沿根状茎扩展）', from: 365, unit: 'month' },
+    { id: 'adult',    name: '成株（草场中的一株）', from: 1095, unit: 'year' },
+    { id: 'old',      name: '老根状茎',           from: 3650, unit: 'year'  },
+  ],
+  maturity: 1095,
+  maxAge: 10950,
+
+  survival: [[0,1],[30,0.3],[180,0.05],[365,0.03],[730,0.02],[1825,0.01],[3650,0.005],[7300,0.002],[10950,0]],
+  survivalNote: '大叶藻的单个地上枝只活约一年，但通过根状茎的克隆扩展可以持续数十年；种子在沙泥里的死亡率缺乏长期数据。此曲线按单株粗估。',
+
+  init: { health: 70, food: 50, safety: 45 },
+  foodDrain: 2,
+
+  causes: [
+    { id: 'grazing', escape: true, w: 2, stages: ['seedling','shoot','adult'], short: '被黑雁啄食',
+      text: '一群黑雁落进海湾，低头啄食草场的叶片。你的叶子被咬断了一截，断口在水里慢慢变白。' },
+    { id: 'storm', escape: false, w: 3, stages: ['shoot','adult','old'], short: '风暴连根拔起',
+      text: '一场冬季风暴把浪推进浅滩。根状茎在沙里被扯断，整片草场一起松动，你被卷出了沙面。' },
+    { id: 'smother', escape: false, w: 2, stages: ['seedling','shoot','adult'], short: '被泥沙埋没',
+      text: '风暴把沙推进草场，叶基被埋了大半。叶子在缺光的沙下失去了光合作用，颜色慢慢变暗。' },
+    { id: 'wasting', escape: true, w: 2, stages: ['shoot','adult'], short: '病菌感染，组织大面积坏死',
+      text: '叶子上出现黑色的斑点，斑点连成线，再连成片。病菌沿着叶脉向下走，根状茎的一段也开始变黑。' },
+    { id: 'heat', escape: true, w: 2, stages: ['seedling','shoot','adult'], short: '夏季高温',
+      text: '水温连续几天超过三十摄氏度。叶尖发白，细胞的膜结构受到损伤，最后一片一片地枯掉。' },
+    { id: 'seed_eaten', escape: false, w: 2, stages: ['seed'], short: '种子被底栖动物吃掉',
+      text: '沙面上的一只端足虫停在你的种皮旁边，把你整个吞了下去。种子没有来得及萌发。' },
+    { id: 'starve', escape: false, w: 2, short: '长期缺光，养分耗尽',
+      text: '水变得浑浊，光照一年比一年少。新叶越来越细，根状茎储存的糖分一点一点用光，最后没有再发出新芽。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '老的根状茎中间已经死了一大段，两端的新芽依旧在沙面上延伸。你所在的那一段，最后没有了生长的点。' },
+  ],
+
+  events: [
+    { stages: ['seed'], w: 3, text: '你埋在沙泥里，四周的水很冷，光只能照到很浅的地方。' },
+    { stages: ['seed'], w: 2, text: '一只端足虫在沙面上爬过，触角扫过沙粒。它没有停下来，你仍然埋在原处。' },
+    { stages: ['seed'], w: 2, text: '冬天的风暴搅动了水底，沙层表面被翻起。你被推得更深了一些。', eff: { safety: +3 } },
+    { stages: ['seed'], w: 2, text: '你的胚在种皮里慢慢膨胀，种皮的颜色从深褐变浅。' },
+    { stages: ['seed'], w: 1, text: '一只螺在沙面上留下一条弯曲的痕迹，它的口器刮过了沙层。' },
+    { stages: ['seed'], w: 1, text: '一场大浪过后，你身边的沙少了一层，你被更多的泥盖住了。', eff: { safety: +2 } },
+    { stages: ['seed'], w: 1, text: '水温降到了接近冰点，你的代谢慢到几乎停止。' },
+    { stages: ['seedling'], w: 3, text: '第一片叶子从种子的萌发口伸出来，细长，颜色浅绿。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, text: '你的根从叶基处伸进沙里，根毛很短，抓不住泥。' },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '春天的光照增加，你的叶片在水里伸展，光合作用的产物逐渐增多。', eff: { food: +8 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你把叶片压低，贴着沙面生长。浪的冲击变小，叶片没有断。', eff: { safety: +5 } },
+    { stages: ['seedling'], w: 2, text: '一群小鱼在你的叶间穿过，叶片被它们的身体擦得轻轻颤动。' },
+    { stages: ['seedling'], w: 1, text: '夏天的水温很高，你的叶尖发白，细胞受到了一定的伤害。', eff: { health: -8 } },
+    { stages: ['seedling'], w: 1, act: 'rest', text: '秋天来临，你停止了新叶的生长，叶片颜色变深。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 1, text: '一块浮着的海藻碰到了你的叶子，缠住了几根。', eff: { safety: -2 } },
+    { stages: ['seedling'], w: 1, text: '一只海胆从沙面慢慢爬过，它的刺扫过你的叶尖。' },
+    { stages: ['seedling'], w: 2, need: 'chesapeake', text: '切萨皮克湾的水浑，夏天有大量藻类浮在水面，光被挡了一部分。', eff: { food: -5 } },
+    { stages: ['seedling'], w: 2, need: 'shallow', text: '水很浅，光能照到沙底，你的叶片比深水处的同伴长得快。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, need: 'deep', text: '水很深，光被水吸收了大半。你的叶片细长，颜色偏暗。', eff: { food: -8 } },
+    { stages: ['seedling'], w: 2, need: 'meadow', text: '附近的同伴很多，你的叶子之间挤着别人的叶子。草场减缓了水流，沙里的泥更细，有利于根的扎入。', eff: { safety: +5 } },
+    { stages: ['seedling'], w: 2, need: 'patchy', text: '你的周围是光秃的沙地，只有零星的几株同伴。夜里的水温很快就降下来了。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 2, need: 'wadden', text: '退潮的时候，潮沟的水变浅。涨潮后，你的叶片重新浸入水里。', eff: { health: -3 } },
+    { stages: ['shoot'], w: 3, act: 'explore', text: '你的根状茎向前伸出一截，在泥里长出了新的节，节上又长出新芽。', eff: { food: +5 } },
+    { stages: ['shoot'], w: 3, act: 'forage', text: '春天的光照增加，你的叶子一片接着一片长出来，颜色鲜亮。', eff: { food: +8 } },
+    { stages: ['shoot'], w: 2, text: '一群黑雁飞进了海湾。它们低头啄食草场，你的叶子被咬断了一截。', eff: { health: -6 } },
+    { stages: ['shoot'], w: 2, act: 'rest', text: '冬天到了，你的老叶开始枯黄，根状茎留在沙里，慢慢地停止生长。', eff: { food: -5 } },
+    { stages: ['shoot'], w: 1, text: '一块浮冰撞上了浅滩，冰边把沙面刮起来，你的叶子被撕掉了一半。', eff: { health: -8, safety: -3 } },
+    { stages: ['shoot'], w: 2, act: 'hide', text: '浪大的时候，你把叶片压低，躲在草场中间的同伴后面。', eff: { safety: +5 } },
+    { stages: ['shoot'], w: 1, text: '你的新叶上附着了一层细小的硅藻，叶片表面变得发滑。' },
+    { stages: ['shoot'], w: 2, need: 'meadow', text: '附近的草场连在一起，冬天的浪被挡住了大半。你的叶子仍在晃，但没有断。', eff: { safety: +3 } },
+    { stages: ['shoot'], w: 1, need: 'shallow', act: 'forage', text: '水浅，光照强。你的叶片展到了最大，光合作用的产物堆在根状茎里。', eff: { food: +5 } },
+    { stages: ['adult'], w: 3, act: 'forage', text: '夏天，你的叶片展到了最大，叶面积在草场里居中。', eff: { food: +10 } },
+    { stages: ['adult'], w: 2, act: 'rest', text: '冬季你的叶子大多凋落，根状茎留在沙泥里，靠储存的糖分过冬。', eff: { food: -5, health: +3 } },
+    { stages: ['adult'], w: 2, text: '夏天的水温连续几天超过三十摄氏度，叶片的边缘开始变白。', eff: { health: -8 } },
+    { stages: ['adult'], w: 2, act: 'hide', text: '你的叶片低贴沙面，减少波浪的冲击，也躲开了水鸟的啄食。', eff: { safety: +6 } },
+    { stages: ['adult'], w: 1, act: 'explore', text: '你的根状茎向草场的空白处伸去，一株新的芽出现在沙面上。', eff: { food: +3 } },
+    { stages: ['adult'], w: 2, text: '一场风暴吹过海湾，浪把沙推进草场，你的叶子被埋了一半。', eff: { health: -6, safety: -5 } },
+    { stages: ['adult'], w: 1, text: '海水里的光线越来越弱，你的新叶变得细长。', eff: { food: -3 } },
+    { stages: ['adult'], w: 1, act: 'mate', text: '春天，你的花序伸出了水面。花粉在水下靠水流传送，像一根根细线。' },
+    { stages: ['adult'], w: 1, once: true, act: 'mate', text: '你的花结成了果实，果实里的种子落进沙里。你结出了 {n} 粒种子。', eff: { offspring: [6, 12] } },
+    { stages: ['adult'], w: 1, text: '一个水下的锚拖过草场，拉断了你的根状茎。', eff: { safety: -10 } },
+    { stages: ['adult'], w: 1, text: '草场的沙泥里储存着大量的碳，海草草场的碳储量在全球海洋中占有重要份额。',
+      fact: '海草生态系统是全球海洋里重要的碳储存库（Fourqurean 等，2012，Nature Geoscience）' },
+    { stages: ['adult'], w: 2, need: 'chesapeake', act: 'explore', text: '你的根状茎沿着沙面向外延伸，每隔几厘米就长出一个新的芽。', eff: { food: +5 } },
+    { stages: ['adult'], w: 2, need: 'wadden', text: '瓦登海的冬天，北海的风把浪推进浅滩。你的叶片被浪拍得乱颤，有几根断了。', eff: { health: -5 } },
+    { stages: ['adult'], w: 2, need: 'deep', text: '水深，波浪的力量减弱，你的叶片可以长得很长。但能照到的光，一年比一年少。', eff: { food: -5 } },
+    { stages: ['adult'], w: 2, need: 'patchy', text: '附近的草场被风暴打散了，你的根状茎很难再找到相邻的草。', eff: { safety: -5 } },
+    { stages: ['adult'], w: 1, need: 'meadow', text: '草场大片连在一起，冬天的浪被草场挡住了大半。', eff: { safety: +5 } },
+    { stages: ['old'], w: 3, text: '你的老根状茎中间已经死了一段，但两端的新芽还在，靠它们延续。', eff: { food: -5 } },
+    { stages: ['old'], w: 2, text: '你的叶片数量比以前少了。草场的边缘在退缩，你所在的位置已经没有新的同伴。', eff: { food: -8 } },
+    { stages: ['old'], w: 2, act: 'explore', text: '你的根状茎向外延伸，在沙面留下一串新的节，每个节上都有一株新芽。', eff: { food: +5 } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片草场里最老的克隆株之一。你的根状茎把周围的沙牢牢地固住了。', eff: { safety: +5 } },
+    { stages: ['old'], w: 2, text: '夏天的水越来越浑，光被挡住，你的叶片颜色变淡。', eff: { food: -6 } },
+    { stages: ['old'], w: 1, text: '你的根状茎上附着了一层细小的藻类，它们和你一起过冬。' },
+  ],
+
+  opening: {
+    title: '种子落在哪里',
+    body: '你还是种子，刚从花序里落进水底。母株的叶子在秋天开始枯黄。沙面上有波浪搅动的痕迹，下面是安静的泥。你可以留在表层，也可以埋得深一些。',
+    options: [
+      { t: '留在表层，等冬天萌发', hint: '光↑ · 被啃食和被冲走的风险↑',
+        eff: { food: +5 }, risk: 1.3, riskDays: 60,
+        result: '你留在沙面上，冬天的第一场风暴把你推了一下，你的胚没有受伤。' },
+      { t: '埋进较深的沙里，等到春天', hint: '稳固↑ · 萌发晚 · 养分↓',
+        eff: { food: -5, safety: +10 }, risk: 0.8, riskDays: 60,
+        result: '你被埋进了沙里。上面的水变得很冷，你的代谢慢了下来。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺着季节生长', desc: '按照水温和光照的季节节律展叶、停滞、越冬。', text: [
+      '你的新叶随着春天的光照一片片地展开。',
+      '秋天水温下降，你的叶片颜色慢慢变深。',
+    ]},
+    forage: { name: '展叶抢光', desc: '多展开叶片，扩大光合面积，把糖分存进根状茎。叶片暴露得更多，也更容易被啃食和被浪拍断。', text: [
+      '你的叶子在水里伸展开，尽量朝向光来的方向。',
+      '叶片多了，颜色变深，光合作用的产物堆在根状茎里。',
+    ]},
+    hide: { name: '贴地生长', desc: '把叶片压低、贴着沙面，减少浪的冲击和啃食。生长变慢，但更安全。', text: [
+      '你把叶片压低，贴着沙面，浪从上面滑过去。',
+      '你的叶子在沙面上缩短了一截，叶尖的细胞变得更厚。',
+    ]},
+    rest: { name: '越冬休眠', desc: '叶片凋落，根状茎留在沙泥里，停止生长，靠储存的糖分过冬。', text: [
+      '你的老叶一片片变黄，从根部断开，随着水流飘走。',
+      '根状茎留在沙里，慢慢停止生长，等待水温回升。',
+    ]},
+    explore: { name: '沿根状茎扩展', desc: '根状茎在沙面下水平延伸，每隔一段长出新芽，把草场的范围扩大。', text: [
+      '你的根状茎在沙里向前伸出一截，每隔几厘米就长出一个新的芽。',
+      '一株新的幼苗出现在沙面上，它的根还很短。',
+    ]},
+    mate: { name: '开花结籽', desc: '成株在春天开花，花粉在水下靠水流传送。授粉后果实发育，种子落进沙里。', done: '这一季，你结出了 {n} 粒种子。' },
+  },
+  brood: [6, 12],
+
+  decisions: [
+    {
+      id: 'autumn_leaves', at: 200,
+      title: '秋天的叶子',
+      body: '水温在下降，白天变短，光照比夏天弱了许多。你的叶子已经有一半开始变黄。',
+      options: [
+        { t: '保留叶片，继续光合', hint: '养分↑ · 风暴中的风险↑',
+          eff: { food: +8 }, risk: 1.2, riskDays: 60,
+          result: '你保留了全部叶片，光弱的时候也还在制造糖分。' },
+        { t: '提前凋落叶片，保存根状茎', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +5 }, risk: 0.9, riskDays: 90,
+          result: '你的叶子从根部断开，随着水流飘走。根状茎留在沙里。' },
+      ],
+    },
+    {
+      id: 'heat_wave', at: 700,
+      title: '夏天的高温',
+      body: '水温连续几天超过三十摄氏度。浅水区的温度最高，叶尖已经开始发白。',
+      options: [
+        { t: '把叶片压低，贴着沙面', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +5 }, risk: 0.85, riskDays: 30,
+          result: '你把叶片压低，贴着沙面。沙面下的水比上面凉一些。' },
+        { t: '保持叶片伸展，继续光合', hint: '养分↑ · 健康↓ 风险↑',
+          eff: { food: +10, health: -5 }, risk: 1.3, riskDays: 30,
+          result: '你的叶片保持伸展，光合作用继续，但细胞受到的伤害也更多。' },
+      ],
+    },
+    {
+      id: 'geese', at: 1100,
+      title: '黑雁飞进海湾',
+      body: '一群黑雁从北边飞来，落在海湾的浅水里。它们在草场上低头啄食，叶子一截一截地被咬掉。',
+      options: [
+        { t: '把叶片压低，躲开啄食', hint: '稳固↑ · 养分↓',
+          eff: { safety: +5, food: -3 }, risk: 0.85, riskDays: 30,
+          result: '你把叶片贴着沙面，黑雁的嘴碰到的只有沙和几根断叶。' },
+        { t: '保持叶片伸展，抢光', hint: '养分↑ · 风险↑',
+          eff: { food: +5 }, risk: 1.3, riskDays: 30,
+          result: '你的叶片伸得很高，黑雁很快就吃到了好几片。' },
+      ],
+    },
+    {
+      id: 'deep_light', at: 1500, need: 'deep',
+      title: '光越来越弱',
+      body: '水越来越浑，能照到的光一年比一年少。你要决定把资源花在哪里。',
+      options: [
+        { t: '延长叶片，向上争光', hint: '养分↑ · 风险↑',
+          eff: { food: +10 }, risk: 1.2, riskDays: 180,
+          result: '你的叶子伸得更长，顶端在水里摇摆，去找上层的光。' },
+        { t: '减少叶面积，省着用光', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +3 }, risk: 0.9, riskDays: 180,
+          result: '你减少了叶面积，把光集中在剩下的叶片上。' },
+      ],
+    },
+    {
+      id: 'patchy_spread', at: 2000, need: 'patchy',
+      title: '空白的沙地',
+      body: '你的身边是光秃的沙地，沙地上没有草。根状茎的前端已经接近沙地的边缘。',
+      options: [
+        { t: '根状茎向空白的沙地蔓延', hint: '扩展 · 遭遇多 · 养分↓',
+          eff: { food: -3 }, risk: 1.35, riskDays: 180,
+          result: '你的根状茎越过了草场的边缘，在沙地上留下了一串新的节。' },
+        { t: '守住现有的几株同伴', hint: '稳固↑ · 扩展慢',
+          eff: { safety: +5 }, risk: 0.9, riskDays: 180,
+          result: '你没有继续向沙地伸展，根状茎在原来的范围里缠得更紧。' },
+      ],
+    },
+    {
+      id: 'flowering', at: 4000, need: 'meadow',
+      title: '春天的花',
+      body: '草场里的几株同伴已经抽出了花序。花序伸出水面，水下的花粉会随着水流去找其他的花。',
+      options: [
+        { t: '开花结籽，把种子放进水流里', hint: '繁殖 · 花期风险↑',
+          eff: { offspring: [6, 12] }, risk: 1.15, riskDays: 60,
+          result: '你的花序伸出了水面，授粉后果实开始发育。种子在夏天落进沙里。' },
+        { t: '不开花，把糖分存进根状茎', hint: '养分↑ · 不繁殖',
+          eff: { food: +10, health: +3 }, risk: 0.9, riskDays: 60,
+          result: '你没有抽出花序，糖分一点一点地堆进了根状茎里。' },
+      ],
+    },
+    {
+      id: 'storm_sand', at: 6000,
+      title: '风暴把沙推进草场',
+      body: '一场风暴过后，沙面上堆起了一层新的沙。你的叶基被埋了一半，光照几乎没有了。',
+      options: [
+        { t: '叶片尽量向上伸，穿过新沙', hint: '稳固↓ · 养分↑',
+          eff: { food: +5, safety: -3 }, risk: 1.2, riskDays: 30,
+          result: '你的叶尖穿出了沙面，重新接到了光。' },
+        { t: '根状茎向深处长，留在沙下', hint: '稳固↑ · 养分↓',
+          eff: { food: -3, safety: +5 }, risk: 0.9, riskDays: 30,
+          result: '你的根状茎向下长，在新沙的底下重新扎稳。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '浪从水面上滑过，叶片轻轻地弯下去又弹起来。',
+    '沙面上很亮，沙粒之间有很小的光斑。',
+    '一只海螺在沙面上慢慢爬，留下一条细线。',
+    '水流把你的叶子推向一个方向，又慢慢推回来。',
+    '你的根状茎在沙里伸展，每一节都在等待。',
+    '海水很清的时候，你能看见自己的叶脉。',
+    '一片落叶贴在草场边缘，随着水流打转。',
+    '远处的草场在水里看起来像一块深绿的布。',
+  ],
+
+  epitaph: '你在沙下留下了很多节，它们之中有几节还在延续。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'arabidopsis',
+  kingdom: 'plant',
+  name: '拟南芥',
+  en: 'Thale cress (Arabidopsis thaliana)',
+  sci: 'Arabidopsis thaliana（拟南芥）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 双子叶植物纲 › 十字花目 › 十字花科',
+  size: '株高通常 5–40 厘米；种子直径约 0.5 毫米（粗估）',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你是一株拟南芥，一种在秋天发芽、在冬天以莲座叶越冬、在春天开花的小草。',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['你落在路边的碎石地上，土壤贫瘠，经常被人和车的轮子压实。', 2, { food: -5, risk: 1.2, set: 'roadside' }],
+        ['你落在一块刚被翻过的田边，土层松软，周围还没有杂草。', 2, { food: +5, set: 'disturbed' }],
+        ['你落在阔叶林的林缘空地上，夏天会有一片片的光斑。', 2, { set: 'forest_gap' }],
+        ['你落在山地岩石缝里的一点薄土上。', 1, { food: -10, risk: 1.1, set: 'rocky' }],
+      ]},
+      { label: '秋天的雨', options: [
+        ['秋天的雨来得早，你在九月的湿土里就开始萌发。', 2, { food: +5, set: 'early' }],
+        ['秋天很干，你等到十一月的第一场雨才萌发。', 2, { food: -5, set: 'late' }],
+      ]},
+      { label: '母株', options: [
+        ['母株在较凉的季节结实，你的种子休眠较深。', 2, { set: 'dormant' }],
+        ['母株在温暖的季节结实，你的种子休眠较浅。', 2, { set: 'shallow' }],
+      ]},
+    ],
+    siblings: 30,
+    siblingsLabel: '同一个角果里的种子',
+    intro: '你是一粒拟南芥的种子，直径约半毫米。{出生地}{秋天的雨}{母株}',
+  },
+
+  stages: [
+    { id: 'seed',      name: '种子（土壤中休眠）',   from: 0,   unit: 'week' },
+    { id: 'seedling',  name: '幼苗（秋季萌发）',     from: 60,  unit: 'week' },
+    { id: 'rosette',   name: '莲座叶丛（越冬）',     from: 120, unit: 'week' },
+    { id: 'flowering', name: '抽薹开花',            from: 240, unit: 'day'  },
+    { id: 'fruiting',  name: '结实（角果发育）',     from: 280, unit: 'day'  },
+  ],
+  maturity: 240,
+  maxAge: 320,
+
+  survival: [[0,1],[60,0.4],[120,0.2],[180,0.12],[240,0.07],[280,0.02],[300,0.005],[320,0]],
+  survivalNote: '拟南芥在自然土壤中的萌发率和幼苗存活率数据较少。此曲线按秋季萌发、越冬、春季开花的一年生植物粗估，未经普查。',
+
+  init: { health: 70, food: 50, safety: 45 },
+  foodDrain: 3,
+
+  causes: [
+    { id: 'starve', escape: false, w: 2, short: '长期缺水、缺氮，植株停止生长',
+      text: '整个冬天和春天都没有足够的水和氮。你的叶片越来越小，最后不再长出新的叶子。' },
+    { id: 'frost', escape: true, w: 2, stages: ['seedling','rosette'], short: '霜冻',
+      text: '一场没有雪覆盖的深冬霜冻，你的叶边缘结了冰，之后变成了透明的褐色。' },
+    { id: 'herb', escape: true, w: 2, short: '被跳甲啃食',
+      text: '跳甲成群地落在叶丛上，一排排的孔留在叶片上。你的叶子被吃掉了大半，剩下的部分再也没能恢复。' },
+    { id: 'pathogen', escape: true, w: 1, stages: ['rosette','flowering'], short: '霜霉病菌侵入',
+      text: '霜霉病菌从叶背侵入，叶片上长出白色的孢子层。病斑一天天扩大，你的叶丛逐渐萎缩。' },
+    { id: 'mow', escape: false, w: 2, stages: ['flowering','fruiting'], short: '被割草机割断',
+      text: '路边的割草机在中午经过，刀片把你的花茎齐根切断。你来不及开花。' },
+    { id: 'drought', escape: true, w: 2, stages: ['rosette','flowering','fruiting'], short: '春夏干旱，茎顶萎蔫',
+      text: '春天的干旱持续了两周，土壤没有一点湿气。你的茎顶先是垂下来，然后整株枯萎。' },
+    { id: 'shade', escape: false, w: 1, stages: ['flowering'], short: '长期遮荫，光合作用不足',
+      text: '周围的草越长越高，光线在你的花茎上只剩下很弱的一层。你的花一朵一朵地脱落，没有结出角果。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '你的叶片全部变黄，茎的基部硬化。角果已经开裂，最后一粒种子落了下来。' },
+  ],
+
+  events: [
+    // 幼苗
+    { stages: ['seedling'], w: 3, act: 'instinct', text: '种皮吸水后裂开，两片子叶从土里伸出来，颜色是浅绿的。' },
+    { stages: ['seedling'], w: 2, act: 'explore', text: '一条细根向下伸去，穿过了表层的土壤。', eff: { food: +2 } },
+    { stages: ['seedling'], w: 2, text: '秋天的雨停了几天，表层土壤变干，你的子叶边缘卷了起来。', eff: { health: -2 } },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '第一片真叶展开，叶边缘有几排细小的锯齿。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 1, need: 'roadside', text: '路边的碎石缝里，车轮把土压得很实，你的细根找不到可以穿过的缝隙。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 1, need: 'roadside', text: '一双靴子踩过了路边，你的子叶被压进了泥里，之后又慢慢地弹了回来。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 2, need: 'disturbed', text: '翻过的土壤松软，你的根很快伸到了更深的地方。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 1, need: 'disturbed', text: '刚翻过的地表还没有稳定，雨水冲走了一层土，露出了你的根。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 2, need: 'forest_gap', text: '林缘的光斑在中午移动，你的叶片在光斑里舒展开。', eff: { food: +4 } },
+    { stages: ['seedling'], w: 1, need: 'forest_gap', text: '落叶盖住了你的一半叶片，光只能从叶缝里漏下来。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'rocky', text: '岩缝里的土很薄，你的根只能沿着石面伸展。', eff: { food: -5 } },
+    { stages: ['seedling'], w: 1, need: 'rocky', text: '一场暴雨之后，岩缝里的表土被冲走了一层，你的根露了出来。', eff: { health: -4 } },
+    { stages: ['seedling'], w: 2, need: 'early', text: '秋天的雨来得早，你在九月的湿土里很快长出了子叶和真叶。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, need: 'early', text: '你的主根在秋天的湿土里伸得很快，已经能抓住一小块土。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 1, need: 'late', text: '直到十一月的第一场雨，你才从种子里伸出了子叶。', eff: { food: -2 } },
+    { stages: ['seedling'], w: 2, need: 'late', text: '你的生长比同一片地里的其他幼苗晚了几周，叶片小而薄。', eff: { food: -4 } },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '冬天的第一场雪没有来，霜冻在夜里反复出现。你的叶片收紧，颜色变深。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 1, need: 'dormant', text: '你的种皮在土里保持了很久，直到温度和湿度都合适才萌发。', eff: { food: -2 } },
+    { stages: ['seedling'], w: 1, need: 'shallow', text: '你的种子休眠很浅，一场小雨之后就开始萌发。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 1, text: '一只甲虫爬过你的叶片，它没有停留就走了。' },
+
+    // 莲座叶丛（越冬）
+    { stages: ['rosette'], w: 3, act: 'forage', text: '叶丛在秋冬的低光里慢慢扩大，叶片颜色变深绿，表面覆盖着细小的毛状体。', eff: { food: +6 } },
+    { stages: ['rosette'], w: 3, act: 'rest', text: '冬天的低温里，你的叶片积累了糖和保护性的物质，细胞里的水分减少。',
+      eff: { health: +5 },
+      fact: '冬季的低温通过抑制 FLC 基因，让拟南芥在春天才能开花（Michaels & Amasino，1999，The Plant Cell）' },
+    { stages: ['rosette'], w: 2, act: 'hide', text: '一只昆虫在叶片上咬出了一串小孔。你开始合成更多的硫代葡萄糖苷，它的味道让多数昆虫却步。', eff: { food: -3, safety: +5 } },
+    { stages: ['rosette'], w: 2, act: 'explore', text: '你的侧根在土里延伸，抓住了更多的水分和养分。', eff: { food: +4 } },
+    { stages: ['rosette'], w: 2, text: '一场没有雪的深冬霜冻，你的叶边缘结了冰，之后变成了透明的褐色。', eff: { health: -6 } },
+    { stages: ['rosette'], w: 2, text: '冬天的第一场雪落下来，覆盖了你的叶丛。雪下面的温度比外面高，你的叶片没有受伤。', eff: { health: +3 } },
+    { stages: ['rosette'], w: 1, need: 'roadside', text: '路边的割草机还没来，车轮扬起的灰尘落在你的叶片上。', eff: { health: -2 } },
+    { stages: ['rosette'], w: 1, need: 'roadside', text: '路边的土被车辆压实，你的叶丛在一块硬地上只能长出较小的叶子。', eff: { food: -4 } },
+    { stages: ['rosette'], w: 2, need: 'disturbed', text: '翻过的田边土层很厚，你的叶丛在两周里扩大了一圈。', eff: { food: +6 } },
+    { stages: ['rosette'], w: 1, need: 'disturbed', text: '翻土之后的第一个月，杂草开始在你身边生长，它们抢走了一部分光。', eff: { food: -3 } },
+    { stages: ['rosette'], w: 2, act: 'forage', need: 'forest_gap', text: '林缘的光斑在冬天依然存在，你的叶片在光斑里铺开。', eff: { food: +4 } },
+    { stages: ['rosette'], w: 2, need: 'forest_gap', text: '落叶层越积越厚，你的叶丛被压在下面，颜色变成了浅绿。', eff: { food: -3 } },
+    { stages: ['rosette'], w: 2, need: 'rocky', text: '岩缝里的土在冬天被冻松了，你的根找到了新的缝隙。', eff: { food: +2 } },
+    { stages: ['rosette'], w: 1, need: 'rocky', text: '一场冻融之后，你的叶丛被冻起的石屑压歪了。', eff: { health: -3 } },
+    { stages: ['rosette'], w: 2, need: 'shallow', text: '你的叶丛在冬天的低温里慢慢长大，叶片比其他同伴更早地开始伸展。', eff: { food: +3 } },
+    { stages: ['rosette'], w: 2, need: 'dormant', text: '冬天的低温让你的叶片积累了更多的保护物质。', eff: { health: +3 } },
+    { stages: ['rosette'], w: 2, text: '一场冻雨在叶面上结成了冰壳，冰壳融化后，叶片上留下了细小的裂纹。', eff: { health: -3 } },
+    { stages: ['rosette'], w: 1, text: '春天的光变长，你的叶丛开始拉长茎，准备开花。', eff: { food: +2 } },
+    { stages: ['rosette'], w: 1, text: '一只小甲虫在叶丛边缘咬了几口，留下了一排很小的孔。', eff: { food: -2 } },
+
+    // 抽薹开花
+    { stages: ['flowering'], w: 3, act: 'mate', text: '花茎抽出来，顶端开出十几朵白色的小花。每朵花有四片花瓣。' },
+    { stages: ['flowering'], w: 2, act: 'mate', text: '花粉在花还没有完全张开时就已经落在柱头上。拟南芥的花大多是自花授粉。' },
+    { stages: ['flowering'], w: 2, act: 'forage', text: '茎上的叶片小而尖，光合作用主要由茎上的叶片和正在发育的角果完成。', eff: { food: +5 } },
+    { stages: ['flowering'], w: 2, act: 'hide', text: '花茎上长出了更密的毛状体，小型的昆虫不容易停在上面。', eff: { safety: +3 } },
+    { stages: ['flowering'], w: 2, text: '春天的雨多了，你的茎顶开始弯向光，花朵朝着阳光的方向打开。' },
+    { stages: ['flowering'], w: 2, need: 'roadside', text: '路边车辆扬起的灰尘覆盖了你的花瓣，花粉黏在了一起。', eff: { health: -2 } },
+    { stages: ['flowering'], w: 1, need: 'roadside', text: '一辆割草机经过路边，你的花茎被割断了一半。', eff: { health: -5 } },
+    { stages: ['flowering'], w: 2, need: 'forest_gap', text: '林缘的光斑晒到了你的花上，你的花瓣在光里张开。', eff: { food: +3 } },
+    { stages: ['flowering'], w: 1, need: 'forest_gap', text: '林缘的阴影在下午变长，你的花茎开始伸长，争取更多的光。', eff: { food: +2 } },
+    { stages: ['flowering'], w: 2, need: 'disturbed', text: '翻过的土地里有很多杂草，你的花茎比它们高，光足够让你开花。', eff: { food: +4 } },
+    { stages: ['flowering'], w: 1, need: 'disturbed', text: '一只蚜虫聚集在你的花茎上，吸走了一部分汁液。', eff: { health: -3 } },
+    { stages: ['flowering'], w: 2, need: 'rocky', text: '岩石表面白天很热，夜里很冷，你的花茎在这样的昼夜变化里慢慢长高。', eff: { food: +2 } },
+    { stages: ['flowering'], w: 1, act: 'explore', need: 'rocky', text: '一根侧枝从茎基部长出，贴着岩石向外爬。' },
+    { stages: ['flowering'], w: 2, act: 'mate', need: 'shallow', text: '你的花比同一片地的其他植株早开了一周。' },
+    { stages: ['flowering'], w: 2, need: 'dormant', text: '你的花期比同伴推迟了几天，但每朵花仍然按照同样的顺序开放。' },
+    { stages: ['flowering'], w: 2, text: '一只蜜蜂在花朵之间飞过，它的脚碰到了花药，但花粉早已落在了柱头上。' },
+    { stages: ['flowering'], w: 1, act: 'rest', text: '夜里温度下降，你的花瓣闭合，花茎的生长暂停。', eff: { health: +2 } },
+    { stages: ['flowering'], w: 2, need: 'late', text: '你的开花晚了几周，雨水减少之后，花茎很快开始变干。', eff: { health: -3 } },
+    { stages: ['flowering'], w: 2, act: 'forage', need: 'early', text: '秋天开始的生长让你比同伴更早抽薹，花茎比他们高。', eff: { food: +3 } },
+
+    // 结角果与种子成熟
+    { stages: ['fruiting'], w: 3, act: 'mate', text: '角果从花的位置长出来，它细长、直立，里面排着一行行的种子。',
+      fact: '拟南芥是第一个完成全基因组测序的植物，基因组约 1.35 亿个碱基对（Arabidopsis Genome Initiative，2000，Nature）' },
+    { stages: ['fruiting'], w: 2, text: '角果慢慢变黄，角果壁开始干燥，种子在里面变成了棕色。', eff: { health: -2 } },
+    { stages: ['fruiting'], w: 2, act: 'forage', text: '角果的绿色部分仍然进行光合作用，把糖送进正在发育的种子里。', eff: { food: +5 } },
+    { stages: ['fruiting'], w: 2, text: '一场夏天的雨之后，角果的表面变得湿润，颜色比前几天更深。' },
+    { stages: ['fruiting'], w: 1, act: 'rest', text: '茎的基部开始变硬，叶片陆续枯黄，你的代谢慢慢停下来。', eff: { health: -3 } },
+    { stages: ['fruiting'], w: 2, text: '干燥的风吹过，角果的裂缝张开了，种子开始散落在地面上。', eff: {} },
+    { stages: ['fruiting'], w: 1, need: 'roadside', text: '路边的尘土落在你的角果上，它们很快变成了褐色。', eff: { health: -2 } },
+    { stages: ['fruiting'], w: 1, need: 'disturbed', text: '翻过的土地在这个季节很干，种子掉到了松软的土里。', eff: { food: +3 } },
+    { stages: ['fruiting'], w: 2, need: 'dormant', text: '一部分种子在掉落后直接进入了休眠，它们在土里等待下一个秋天。' },
+    { stages: ['fruiting'], w: 1, need: 'shallow', text: '种子休眠较浅，一场雨就足够让它在夏末萌发。' },
+    { stages: ['fruiting'], w: 1, act: 'explore', text: '角果裂开时，一小部分种子沿着茎滚到了更远的地方。' },
+    { stages: ['fruiting'], w: 2, text: '夏天的干旱持续了三周，角果里的种子颜色变深，角果壁变脆。', eff: { health: -4 } },
+  ],
+
+  opening: {
+    title: '种子落在哪里',
+    body: '你还是一粒种子，躺在母株的角果里，然后被风和雨带到了地面上。落点决定了你什么时候萌发，以及你能不能在冬天之前长出叶丛。',
+    options: [
+      { t: '落在土表，秋天的雨一来就萌发', hint: '萌发早 · 冬前有时间长出叶丛', eff: { food: +5 }, risk: 1.2, riskDays: 60,
+        result: '你留在土表，秋天的第一场雨把你的种皮泡软了。' },
+      { t: '埋进土里几厘米，等土表温度稳定', hint: '稳妥 · 萌发晚', eff: { food: -3 }, risk: 0.8, riskDays: 60,
+        result: '你被埋在土里，雨水很难渗到你身边。等温度稳定后，你才慢慢开始萌发。' },
+      { t: '落在石缝里，等雨水把土冲进来', hint: '缝隙可能有水 · 容易被冲走', eff: { health: -2 }, risk: 1.1, riskDays: 60,
+        result: '你落在石缝里。夏天的雨水把石缝的土冲走了一半，只剩下几粒沙子。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '随季节生长', desc: '顺着光照和温度的节律生长，不做额外的调整。' },
+    forage: { name: '扩大莲座叶', desc: '在低光和低温下扩大叶面，多做光合作用。叶片越大，越容易被啃食。', text: [
+      '叶丛一圈一圈地扩大。',
+      '叶片的颜色越来越深，表面的毛状体也越来越密。',
+    ]},
+    hide: { name: '加厚防御', desc: '合成硫代葡萄糖苷，长出更密的毛状体，让昆虫不愿意停在你身上。光合作用会随之下降。', text: [
+      '你的叶片里的防御物质在慢慢增加。',
+      '一只昆虫在你的叶缘停了一下，又飞走了。',
+    ]},
+    rest: { name: '越冬', desc: '在低温里减少生长，积累糖和保护性的物质，等待春天的光变长。', text: [
+      '冷空气在夜里落在叶丛上，你的细胞缓慢地收缩。',
+      '白天的阳光很短，你的生长几乎停了下来。',
+    ]},
+    explore: { name: '伸展根系', desc: '让侧根向土里延伸，寻找更多的水分和养分。', text: [
+      '一条侧根向土里延伸，穿过一块小石子。',
+      '根尖在湿土中找到了一层新的水膜。',
+    ]},
+    mate: { name: '开花结实', desc: '抽出花茎，开出白色的花。大多数花在开放前就自花授粉，随后形成角果。', done: '你的角果裂开，里面的 {n} 粒种子落在了地面上。' },
+  },
+  brood: [30, 60],
+
+  decisions: [
+    {
+      id: 'autumn_rain', at: 60,
+      title: '秋天的第一场雨',
+      body: '秋天的第一场雨刚过，土壤表层湿了。你可以现在萌发，抢在冬天之前长出叶丛，也可以等下一次降雨再萌发。',
+      options: [
+        { t: '现在萌发，抢在冬天前长出叶丛', hint: '养分↑ 霜冻风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 60,
+          result: '你伸出两片子叶，几天后，第一片真叶也展开了。' },
+        { t: '等下一次降雨再萌发', hint: '安全 · 生长晚', eff: { food: -3 }, risk: 0.8, riskDays: 30,
+          result: '你继续留在土里，等待下一场雨。' },
+      ],
+    },
+    {
+      id: 'first_frost', at: 90,
+      title: '第一场霜',
+      body: '夜里的温度降到零下，地面结了薄冰。你的子叶还很小。你可以收紧叶片，贴近地面，也可以继续展开叶片，接收白天的光。',
+      options: [
+        { t: '收紧叶片，贴近地面', hint: '健康↑ 养分↓', eff: { health: +3, food: -3 }, risk: 0.8, riskDays: 20,
+          result: '你的叶片收紧，贴着地面，夜里的冷空气从你的上方流过。' },
+        { t: '继续展开叶片', hint: '养分↑ 冻伤的风险↑', eff: { food: +6 }, kill: 0.1, cause: 'frost',
+          result: '叶片在霜里展开了。第二天早上，叶尖已经结成了冰。' },
+      ],
+    },
+    {
+      id: 'herb_attack', at: 150,
+      title: '跳甲来了',
+      body: '一群跳甲在叶丛上跳来跳去。它们啃过的叶片上留下了一排排的孔。你可以加快合成防御物质，也可以把资源转到根上，让叶片自己承受。',
+      options: [
+        { t: '合成更多的硫代葡萄糖苷', hint: '安全↑ 养分↓', eff: { food: -5, safety: +5 }, risk: 0.8, riskDays: 14,
+          result: '你的叶片里防御物质的含量在几天内升高了，跳甲开始离开。' },
+        { t: '把资源留给根，任叶片被咬', hint: '根系↑ 健康↓', eff: { food: +3 }, kill: 0.1, cause: 'herb',
+          result: '叶片被咬得很厉害，你的根却在土里扩展开来。' },
+      ],
+    },
+    {
+      id: 'vernal', at: 180,
+      title: '冬天快过去了',
+      body: '冬天的低温已经持续了几周。你的莲座叶还没有抽薹。你可以等春天的光变长再抽出花茎，也可以立即抽薹，争取早一点开花。',
+      options: [
+        { t: '等春天的光变长，再抽薹', hint: '健康↑ 开花晚', eff: { health: +3 }, risk: 0.9, riskDays: 60,
+          result: '你继续保持着莲座叶，直到白天变得更长。' },
+        { t: '立即抽薹', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 30,
+          result: '你在春天还很冷的时候就抽出了花茎。' },
+      ],
+    },
+    {
+      id: 'road_mow', at: 230, need: 'roadside',
+      title: '路边的割草机',
+      body: '路边的割草机已经开过来了。你的花茎还没有抽出。你可以现在抽出花茎，争取在割草前开花，也可以留在叶丛里，等割草机过去。',
+      options: [
+        { t: '现在抽出花茎，争取在割草前开花', hint: '养分↑ 被割断的风险↑', eff: { food: +5 }, kill: 0.15, cause: 'mow',
+          result: '花茎在一夜之间长高了一截。第二天中午，割草机的刀片从路边扫了过来。' },
+        { t: '留在叶丛里，等割草机过去', hint: '安全↑ 开花晚', eff: { food: -3 }, risk: 0.9, riskDays: 14,
+          result: '你贴着地面，等割草机离开以后，才开始抽薹。' },
+      ],
+    },
+    {
+      id: 'disturbed_flower', at: 200, need: 'disturbed',
+      title: '田边的杂草',
+      body: '翻过的田边土层变干，周围的杂草开始生长。你可以抢在杂草前抽薹，也可以等待雨水，留在叶丛里。',
+      options: [
+        { t: '抢在杂草前抽薹', hint: '光↑ 风险↑', eff: { food: +5 }, risk: 1.1, riskDays: 30,
+          result: '你的花茎比周围的杂草高了一截，光照得很充足。' },
+        { t: '等待雨水，留在叶丛里', hint: '稳妥 · 养分↓', eff: { food: -3 }, risk: 0.9, riskDays: 30,
+          result: '你继续留在叶丛里，等待下一场雨。' },
+      ],
+    },
+    {
+      id: 'drought_fruit', at: 290,
+      title: '夏天的干旱',
+      body: '两周没有降雨，土壤变得很干，角果开始皱缩。你可以加快种子成熟，让种子在干燥之前成熟，也可以把剩余的养分留给已经成熟的种子。',
+      options: [
+        { t: '加快种子成熟', hint: '后代↑ 风险↑', eff: { food: +3 }, risk: 1.2, riskDays: 10,
+          result: '角果的颜色一天天变深，几粒种子提前变成了棕色。' },
+        { t: '把养分留给已经成熟的种子', hint: '健康↑ 后代↓', eff: { health: +3 }, risk: 0.9, riskDays: 10,
+          result: '你停止了向新的角果输送养分，把剩下的糖留给已经成熟的种子。' },
+      ],
+    },
+    {
+      id: 'seed_dormancy', at: 300, need: 'dormant',
+      title: '种子要休眠吗',
+      body: '角果已经开始裂开，你的种子还没有成熟。种子可以保持休眠，等待下一个秋天的雨；也可以立即萌发，但夏天的土壤很难让新生的幼苗活下来。',
+      options: [
+        { t: '保持休眠，等待下一个秋天', hint: '存活↑ 萌发晚', eff: { food: -2 }, risk: 0.7, riskDays: 120,
+          result: '种子在干燥的土里停了下来，等待下一个秋天的雨。' },
+        { t: '立即萌发', hint: '养分↑ 夏天风险↑', eff: { food: +3 }, risk: 1.5, riskDays: 14,
+          result: '种子在夏末的雨后萌发，但幼苗很快被干燥的地面晒住了。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '叶丛边缘的一只瓢虫爬了一圈，又回到了叶心。',
+    '风吹过路边，你的叶子轻轻地晃了一下。',
+    '夜里的温度降下来，你的叶片颜色变深。',
+    '一片干枯的草茎落在你旁边，它的影子很长。',
+    '春天的光线斜射过来，你的叶片边缘变亮了。',
+    '地表的土块被晒干，裂成一小块一小块。',
+    '一只蚜虫停在花茎上，吸了一会儿汁液，又走了。',
+    '你的种子在角果里一排一排地排列着。',
+  ],
+
+  epitaph: '你的种子落回土里，有一些会等到下一个秋天的雨。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'spruce',
+  name: '欧洲云杉',
+  en: 'Norway spruce',
+  sci: 'Picea abies（欧洲云杉，又称挪威云杉）',
+  emoji: '🌱',
+  kingdom: 'plant',
+  taxon: '裸子植物门 › 松柏纲 › 松科',
+  size: '成树高 30–50 米，树干通直，树冠呈塔形；寿命通常在三百年左右，少数个体可超过五百年',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你的种子带着一片薄翅，靠风散开，落在哪里很大程度上已经定下来了',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['北欧云杉林的林下，树冠很密，地面长着苔藓和越橘', 3, { food: -3, set: 'spruce_boreal' }],
+        ['阿尔卑斯山海拔约 1400 米的山坡，冬天的雪覆盖得很久', 2, { risk: 1.1, set: 'spruce_alpine' }],
+        ['平原上一片整齐排列的人工造林地，草地就在树行之间', 2, { risk: 1.2, set: 'spruce_plantation' }],
+      ]},
+      { label: '母树的结实', options: [
+        ['一个好的结实年，母树的球果挂满了枝条', 2, { food: -5, set: 'cone_good' }],
+        ['一个平常的年份，母树只结了中等数量的球果', 3, { set: 'cone_avg' }],
+      ]},
+      { label: '林分的状况', options: [
+        ['林冠很密，林下只有很少的光斑', 3, { food: -5, set: 'dense' }],
+        ['前一年的风暴在林冠上打开了一个空隙', 2, { food: +5, risk: 1.2, set: 'gap' }],
+      ]},
+    ],
+    siblings: 2000,
+    siblingsLabel: '同一棵母树当年散出的种子',
+    intro: '你是一颗云杉种子，带着一片薄薄的翅，出生在{出生地}。{母树的结实}，{林分的状况}。同一棵母树当年散出的种子共有 {siblings} 颗。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（带翅的球果种子）', from: 0,      unit: 'week' },
+    { id: 'seedling', name: '幼苗',                   from: 60,     unit: 'year' },
+    { id: 'sapling',  name: '幼树',                   from: 1825,   unit: 'year' },
+    { id: 'mature',   name: '成熟树',                 from: 10950,  unit: 'decade' },
+    { id: 'old',      name: '老树',                   from: 43800,  unit: 'decade' },
+  ],
+  maturity: 14600,
+  maxAge: 182500,
+
+  survival: [[0,1],[60,0.05],[365,0.03],[1825,0.01],[10950,0.004],[43800,0.002],[109500,0.0005],[182500,0]],
+  survivalNote: '欧洲云杉的幼苗存活数据来自中欧的林下样地和造林调查；寿命上限参考了高海拔与北欧的古树记录。此曲线为粗估，早期死亡率的数量级较有把握。',
+
+  init: { health: 70, food: 50, safety: 40 },
+  foodDrain: 2,
+
+  causes: [
+    { id: 'bark_beetle', escape: true, w: 3, stages: ['sapling','mature','old'], short: '小蠹虫钻入树皮，韧皮部被破坏',
+      text: '欧洲云杉八齿小蠹的成虫在你的树干下部钻了一排小孔，雌虫在韧皮部里产卵，幼虫沿着树皮取食形成的坑道，把输导组织切断了。' },
+    { id: 'windthrow', escape: false, w: 2, stages: ['mature','old'], short: '强风把整棵树连根拔起',
+      text: '一场冬季的大风吹过林地。你的根盘很浅，土层一松，整棵树就倒在了雪地上。' },
+    { id: 'snow', escape: true, w: 1, stages: ['sapling','mature'], short: '积雪压断枝条',
+      text: '湿重的积雪在枝条上堆了一个多月。树枝一根根地向下弯，最后一根侧枝断在雪里。' },
+    { id: 'frost', escape: true, w: 1, stages: ['seedling','sapling'], short: '晚霜冻伤新梢',
+      text: '五月的一个夜里，气温降到零下。新梢的尖端在早晨变成了褐色，之后再也没有伸长。' },
+    { id: 'root_rot', escape: false, w: 2, stages: ['mature','old'], short: '根腐病菌沿着树根扩散',
+      text: '根腐真菌的菌丝进入根部，沿着木质部蔓延，根系慢慢失去了固定的能力。' },
+    { id: 'shade', escape: false, w: 2, stages: ['seedling','sapling'], short: '长期遮荫，养分不够',
+      text: '林冠的阴影每天只有一两个小时的光斑。你的针叶产出的糖一年比一年少，最后不够维持呼吸的消耗。' },
+    { id: 'felled', escape: false, w: 2, stages: ['mature','old'], short: '被人工采伐',
+      text: '一台林业机械在冬天进入了林子。链锯的声音很快传到树干上，树干被截成了木段。' },
+    { id: 'starve', escape: false, w: 1, short: '长期缺光缺水，养分耗尽',
+      text: '连续几年的光照和雨水都不足。针叶的数量越来越少，根的伸长也停了下来，树脂再也流不出来。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '树干的心材变成了暗红色，树冠的顶端越来越细。最后一个夏天，你的针叶只剩下了树冠内侧的几束。' },
+  ],
+
+  events: [
+    { stages: ['seedling'], w: 3, text: '春天，你的子叶从种皮里伸出来，四五片，细细的，像小针。' },
+    { stages: ['seedling'], w: 3, act: 'forage', text: '你的针叶在林下的光斑里展开，叶片还很薄，颜色比成树浅。', eff: { food: +6 } },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '冬天的雪厚厚地盖在你身上。你把针叶里的水分收回到枝条的内部。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, text: '一层苔藓在地面上蔓延，它的假根覆盖了你的根颈附近。' },
+    { stages: ['seedling'], w: 2, act: 'explore', text: '你的主根向下伸，侧根在湿润的腐殖质层里铺开。', eff: { food: +4 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你的角质层在加厚，树脂道里的树脂开始增加，针叶摸起来有一点硬。', eff: { safety: +4, food: -3 } },
+    { stages: ['seedling'], w: 1, text: '一只松鼠在苔藓下埋了一颗种子，之后没有再来取。' },
+    { stages: ['seedling'], w: 2, need: 'spruce_boreal', text: '北方的夏天很短，你的顶芽在七月就停止了伸长。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'spruce_boreal', text: '林下的越橘开了花，它的根和你的根在同一层土里挤在一起。', eff: { food: -2 } },
+    { stages: ['seedling'], w: 2, need: 'spruce_alpine', text: '雪在山坡上堆了七个月。你的顶端在雪下慢慢积累养分，直到春天雪才开始融化。', eff: { food: -2 } },
+    { stages: ['seedling'], w: 2, need: 'spruce_alpine', text: '高山的强光让你的针叶颜色变深，叶片里的保护色素增加了。', eff: { health: +2 } },
+    { stages: ['seedling'], w: 2, need: 'spruce_plantation', text: '人工造林的行距很整齐，你的邻居们都在同一个时间长高。草也一起长了上来，遮住了你的根颈。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'spruce_plantation', act: 'forage', text: '一次割草之后，你一侧的枝条突然接到了光。那个夏天，它比别的枝条长得快。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, need: 'cone_good', text: '前一年的种子很多，林下的苗子多到互相压住。你的针叶之间挤满了邻居的针叶。', eff: { food: -3 } },
+    { stages: ['sapling'], w: 2, need: 'cone_good', text: '同批的幼苗死掉了大半。活下来的，树冠的分枝都比较稀疏。' },
+    { stages: ['seedling'], w: 2, need: 'cone_avg', text: '林下只有几株同批的幼苗，光和水都比较充足。', eff: { food: +4 } },
+    { stages: ['sapling'], w: 2, need: 'cone_avg', text: '你的树干比邻居粗一些，树冠也更密。' },
+    { stages: ['seedling'], w: 2, need: 'dense', text: '林冠很密，林下的光只剩下几个很短的斑点。', eff: { food: -4 } },
+    { stages: ['sapling'], w: 2, need: 'dense', act: 'hide', text: '你的侧枝向上弯，去接近偶尔出现的光斑。树干的下部开始有枝条枯死。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'gap', text: '前一年的风暴在林子里打开了一个空隙，光照进来，林下的草突然长得很快。', eff: { food: +6 } },
+    { stages: ['sapling'], w: 2, need: 'gap', act: 'forage', text: '空隙里的光很强，你的新枝一个夏天就长了二十厘米。', eff: { food: +10 } },
+    { stages: ['sapling'], w: 3, act: 'forage', text: '你的侧枝一层一层地展开，轮生的枝条在阳光下形成一层层水平的绿色。', eff: { food: +10 } },
+    { stages: ['sapling'], w: 2, text: '夏天的一场暴雨之后，林地里的水很快流走。你的根在湿润的土层里很快恢复了生长。' },
+    { stages: ['sapling'], w: 2, act: 'hide', text: '树脂从你的树皮裂缝里流出来，凝结成一小块琥珀色的团块。', eff: { safety: +5 } },
+    { stages: ['sapling'], w: 2, act: 'explore', text: '你的侧根沿着一段倒木的根盘向外伸，找到了另一处湿润的土层。', eff: { food: +5 } },
+    { stages: ['sapling'], w: 2, text: '冬天的积雪压弯了你的一根侧枝。春天雪化之后，它没有再直起来。', eff: { health: -3 } },
+    { stages: ['sapling'], w: 2, act: 'rest', text: '冬天的低温让光合作用几乎停止。针叶的颜色变得暗红，那是保护色素在积累。' },
+    { stages: ['sapling'], w: 2, text: '一只啄木鸟在你的树干上凿了一个洞，树皮下的小蠹虫幼虫被它叼走了。', eff: { safety: +2 } },
+    { stages: ['sapling'], w: 2, text: '一只小蠹虫在你的树皮下钻出了一条坑道。树脂从伤口涌出来，把坑道的入口堵住了。', eff: { health: -4 } },
+    { stages: ['sapling'], w: 1, once: true, text: '你的树高超过了两米，树干的直径比手指粗得多。' },
+    { stages: ['mature'], w: 3, act: 'forage', text: '你的树冠已经成形，针叶在枝条上层层排列，光合作用的面积达到最大。', eff: { food: +14 } },
+    { stages: ['mature'], w: 2, act: 'mate', once: true, text: '春天，你的雄花序在枝条的下部散出花粉，风把它们吹向很远的地方。' },
+    { stages: ['mature'], w: 2, act: 'mate', text: '秋天，你的球果在枝端成熟，种鳞张开，有翅的种子随着风散出去。', eff: { offspring: [400, 1200] } },
+    { stages: ['mature'], w: 2, act: 'hide', text: '树脂在伤口处凝固，形成一层保护膜。钻进来的小蠹虫坑道被封死了。' },
+    { stages: ['mature'], w: 2, act: 'rest', text: '冬天，你的水分输送变慢，木质部在夜里几乎不再输送水分。', eff: { health: +4 } },
+    { stages: ['mature'], w: 2, text: '一场地表火在林下烧过。你的树皮厚，火没有烧到形成层，只把下部的枯枝烧掉了。', eff: { health: -2 } },
+    { stages: ['mature'], w: 2, text: '林冠的一部分被风打断了，倒下的枝条压在你的根盘上。', eff: { health: -3 } },
+    { stages: ['mature'], w: 2, act: 'explore', text: '你的根系与真菌的菌丝缠在一起，形成外生菌根。菌丝从土里替你取来更多的氮和磷。', eff: { food: +8 },
+      fact: '云杉与外生菌根真菌共生，菌根帮助根系吸收氮和磷（Smith & Read，2008，Mycorrhizal Symbiosis）' },
+    { stages: ['mature'], w: 2, text: '根腐病菌的菌丝在树根的木质部里蔓延，树干基部的树脂流量变少了。', eff: { health: -4 } },
+    { stages: ['mature'], w: 1, need: 'spruce_plantation', text: '伐木工在林地边缘堆起了一摞木材。树干的断面颜色暗红，树脂的气味很重。', eff: { health: -2 } },
+    { stages: ['mature'], w: 1, need: 'spruce_alpine', act: 'forage', text: '山坡上的雪在春天很晚才化。你的新梢比平地的云杉晚了两个星期才开始伸长。', eff: { food: -2 } },
+    { stages: ['mature'], w: 1, need: 'spruce_boreal', text: '北方林里的苔藓在你的树根上长得很厚，它们吸收水分，也让根颈一直保持湿冷。', eff: { health: -2 } },
+    { stages: ['mature'], w: 2, need: 'dense', act: 'hide', text: '林冠的遮挡还在。你放慢了下部枝条的生长，把养分留给树冠上部的针叶。', eff: { food: -3 } },
+    { stages: ['old'], w: 3, act: 'rest', text: '树干的心材已经变成暗红色。外围的边材仍在把水从根输送到树冠。', eff: { health: -2 } },
+    { stages: ['old'], w: 2, act: 'hide', text: '树皮变厚，裂成了鳞片状的纹路。树脂道的密度比年轻时高了许多。', eff: { safety: +4 } },
+    { stages: ['old'], w: 2, act: 'mate', text: '这一年，树冠的上部仍然结了很多球果，但大多比较小，种子的数量也比以往少。', eff: { offspring: [150, 400] } },
+    { stages: ['old'], w: 2, text: '树冠的一部分在一个夏天里死去。枯枝落在林下，地衣覆盖了断口。', eff: { health: -3 } },
+    { stages: ['old'], w: 2, act: 'forage', text: '树冠上层还有一些活的针叶。它们在夏天的阳光里仍能维持较高的光合作用。', eff: { food: +6 } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片林子里年纪最大的云杉。树干上有一道老伤口，它的边缘已经愈合成一圈厚厚的木质。' },
+    { stages: ['old'], w: 2, text: '一场风暴把你身边的几棵树刮倒了，地上的根盘翻了出来，空气直接接触到了根。', eff: { health: -5 } },
+    { stages: ['mature'], w: 1, act: 'explore', text: '你的根在地下找到了一块很久没有被踩过的土壤，根系在那里慢慢变粗。', eff: { food: +5 } },
+  ],
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '按季节生长：春天伸出新梢，夏天加粗，秋天形成芽鳞，冬天休眠。', text: [
+      '春天的第一批新梢从芽鳞里伸出来，颜色是浅绿色的。',
+      '树干又多了一圈年轮，比去年的窄一些。',
+    ]},
+    forage: { name: '展叶抢光', desc: '展开更多针叶，扩大光合面积。针叶多了，也更容易被冻伤、积雪压断或被虫子钻入。', text: [
+      '针叶在阳光下展开，树脂的气味随着温度升高而变浓。',
+      '树冠的边缘又长出了一圈新的侧枝。',
+    ]},
+    hide: { name: '加固防御', desc: '加厚角质层，增加树脂道的树脂，让树皮更厚。养分减少，但能挡住钻蛀的小蠹虫和火。', text: [
+      '树脂从伤口里慢慢地渗出来，凝成小小的琥珀色颗粒。',
+      '树皮的裂缝里又积了一层新的木栓。',
+    ]},
+    rest: { name: '减缓生长', desc: '关闭气孔，减少水分的散失，停止伸长。养分储存在根和树干里，等待下一个生长季。', text: [
+      '冬天的低温让气孔关闭，水分的输送几乎停止。',
+      '树干里的淀粉在慢慢地积累。',
+    ]},
+    explore: { name: '伸展根系', desc: '把根尖伸向更远的土层，寻找水分和矿质营养，与外生菌根真菌建立共生。', stages: ['seedling','sapling','mature'], text: [
+      '根尖在腐殖质层里缓慢地延伸，侧根在两侧展开。',
+      '一条侧根绕过了一段石块，继续向前。',
+    ]},
+    mate: { name: '开花结球果', desc: '春天散出花粉，秋天结出球果。球果成熟时，种鳞张开，带翅的种子随风散开。', done: '这一年，你的球果里散出了 {n} 颗带翅的种子。' },
+  },
+  brood: [400, 2000],
+
+  opening: {
+    title: '种子落下的地方',
+    body: '球果在秋天张开，带翅的种子被风吹出去。它落在哪里，几乎已经定下来了。你只能在落地之后，决定怎样面对这块地方。',
+    options: [
+      { t: '落在裸露的矿质土上，春天再发芽', hint: '养分↓ 夏季干燥风险↑', eff: { food: -3 }, risk: 1.3, riskDays: 365,
+        result: '你落在一块矿质土的表面。春天化冻后，胚根伸进了湿土，但夏天的干燥很快到来。' },
+      { t: '落在苔藓层上，靠苔藓保水', hint: '湿润 · 光少', eff: { food: +3, safety: +4 }, risk: 0.9, riskDays: 365,
+        result: '苔藓的表面很湿，它在夏天保留着水分。你的胚根从苔藓的缝隙里伸了出去。' },
+      { t: '落在一段倒木的表面上', hint: '稳固 · 养分少', eff: { food: -5, safety: +3 }, risk: 1.0, riskDays: 365,
+        result: '倒木提供了湿润的基质。你的根穿过木头的裂缝向下伸，但腐木里的养分并不多。' },
+    ],
+  },
+
+  decisions: [
+    {
+      id: 'seedling_shade', at: 730,
+      title: '林下的光',
+      body: '第三年的夏天，林冠的阴影每天只有几个小时的光斑。你的顶芽还很小，附近的云杉已经比你高得多。',
+      options: [
+        { t: '保持低矮，把养分放在根上', hint: '稳固↑ 养分↓', eff: { safety: +6, food: -5 }, risk: 0.9, riskDays: 1825,
+          result: '你的分枝很密，根颈附近的根越来越粗。树冠很慢地向上伸展。' },
+        { t: '把顶芽向上推，争取一根主轴', hint: '养分↑ 风险↑', eff: { food: +8 }, risk: 1.3, riskDays: 1825,
+          result: '你把养分都投入了顶芽。主轴向上伸，但下部的侧枝渐渐枯了。' },
+      ],
+    },
+    {
+      id: 'frost_spring', at: 1460,
+      title: '晚霜',
+      body: '五月初，天空晴朗，夜里的温度突然降到零下。你的新芽已经展开，颜色很嫩。',
+      options: [
+        { t: '延迟展开新芽，等霜过去', hint: '健康↑ 养分↓', eff: { health: +5, food: -5 }, risk: 0.9, riskDays: 30,
+          result: '新芽停在芽鳞里，霜过去之后才慢慢展开。' },
+        { t: '保持已经展开的新芽', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.4, riskDays: 30,
+          result: '展开的新梢在霜后变成了褐色。冻伤的部分只能等来年再长。' },
+      ],
+    },
+    {
+      id: 'bark_beetle_gallery', at: 4380,
+      title: '树皮上的钻孔',
+      body: '树干的下部出现了细小的钻孔，树脂从孔口流出来，上面粘着木屑。',
+      options: [
+        { t: '大量分泌树脂，封住孔道', hint: '健康↑ 养分↓', eff: { health: +6, food: -6 }, risk: 0.8, riskDays: 365,
+          result: '树脂涌出来，把孔道一个一个地封住。' },
+        { t: '保留养分，不增加树脂分泌', hint: '养分↑ 风险↑', eff: { food: +5 }, kill: 0.05, cause: 'bark_beetle', risk: 1.4, riskDays: 365,
+          result: '孔道在树皮下继续延伸，韧皮部的环状区域变得越来越宽。' },
+      ],
+    },
+    {
+      id: 'gap_growth', at: 3650, need: 'gap',
+      title: '风暴打开的空隙',
+      body: '阳光直接照进了林下。你身边的草长得很高，遮住了你的根颈。',
+      options: [
+        { t: '快速长出新的侧枝，占住空隙', hint: '养分↓ 风险↑', eff: { food: -8 }, risk: 1.2, riskDays: 730,
+          result: '侧枝在一个夏天里伸长，林下的光很快被新枝分割了。' },
+        { t: '保持原来的分枝，慢慢扩展', hint: '稳妥', eff: { food: +3, safety: +3 }, risk: 0.95, riskDays: 730,
+          result: '你的分枝继续沿着原来的方向伸展，树冠一年比一年宽。' },
+      ],
+    },
+    {
+      id: 'cone_crop', at: 18250, need: 'cone_good',
+      title: '球果的投入',
+      body: '树枝上挂满了球果，数量比去年多了一倍。养分储备却没有同样增加。',
+      options: [
+        { t: '把养分全部投入球果', hint: '结实↑↑ 养分↓↓', eff: { food: -15, offspring: [400, 1000] }, risk: 1.1, riskDays: 365,
+          result: '球果在枝端成熟，种鳞张开，种子随风散走。' },
+        { t: '只保留一部分球果，留下养分给树干', hint: '结实↓ 养分↑', eff: { food: +8, health: +5, offspring: [100, 300] }, risk: 0.9, riskDays: 365,
+          result: '你让一部分球果提前脱落，剩下的种子数量少了，但树干的生长更稳。' },
+      ],
+    },
+    {
+      id: 'root_wound', at: 27375,
+      title: '根部的伤口',
+      body: '树根的一侧出现了一块发黑的木质部，树脂少了许多。真菌的菌丝正沿着根从伤口深入。',
+      options: [
+        { t: '在伤口周围形成隔离的木质带', hint: '健康↑ 养分↓', eff: { health: +8, food: -6 }, risk: 0.8, riskDays: 365,
+          result: '伤口周围的木质部被分隔开，黑色的区域停止了扩大。' },
+        { t: '把养分转移到健康的根', hint: '养分↑ 健康↓', eff: { food: +5, health: -3 }, risk: 1.2, riskDays: 365,
+          result: '健康的根系变粗了，但坏死的根一条一条地断掉了。' },
+      ],
+    },
+    {
+      id: 'snow_crown', at: 7300, need: 'spruce_alpine',
+      title: '雪压的山坡',
+      body: '山坡上的雪厚达两米，树干在雪的重量下弯成了弧形。',
+      options: [
+        { t: '顺着雪压的方向弯曲，等雪化后再直起', hint: '健康↑ 风险↓', eff: { health: +3 }, risk: 0.9, riskDays: 180,
+          result: '弯曲的部分在春天后慢慢直起来，留下一段弯折的木质。' },
+        { t: '保持笔直，把重量分给根系', hint: '养分↓ 风险↑', eff: { food: -5 }, risk: 1.3, riskDays: 180,
+          result: '树干没有弯，但根盘承受了更大的拉力，周围的土被压松了。' },
+      ],
+    },
+    {
+      id: 'plantation_weeds', at: 2555, need: 'spruce_plantation',
+      title: '草的竞争',
+      body: '草的根在你的根颈周围长得很快，它们与你的根争夺土壤里的水。',
+      options: [
+        { t: '扩展根系，抢在草之前占住水', hint: '养分↓ 稳固↑', eff: { food: -5, safety: +4 }, risk: 1.0, riskDays: 365,
+          result: '你的侧根在草根之间挤出了一块空间，土壤里的水分被你先取到了。' },
+        { t: '把养分转到根颈，加粗主干', hint: '稳固↑ 养分↓', eff: { safety: +5, food: -3 }, risk: 1.1, riskDays: 365,
+          result: '主干的直径增加了一圈，但草根的数量还在增加。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '针叶上挂着一层细小的水珠，阳光一照就滚落了。',
+    '林下的苔藓在雨后慢慢鼓起来，颜色变得很深。',
+    '树脂的气味在夏天的午后特别浓。',
+    '松鸦在远处的树上叫了几声，之后林子里就安静了。',
+    '针叶之间的风声很轻，整个树冠一起轻轻晃动。',
+    '地衣在你的枝条上缓慢地生长，它们从空气里取得水分。',
+    '一片雪从高处的树枝上滑下来，落在林下。',
+    '冬天的树冠挡住了大部分的风。',
+    '菌丝沿着土层延伸，与附近几棵树的根交织在一起。',
+  ],
+
+  epitaph: '你的年轮一圈比一圈窄，到最后几乎分不清。树脂还留在你的木头里，很多年都不会干透。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'bamboo',
+  kingdom: 'plant',
+  name: '毛竹',
+  en: 'Moso bamboo (one culm)',
+  sci: 'Phyllostachys edulis（毛竹，禾本科竹亚科）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 单子叶植物纲 › 禾本目 › 禾本科 › 竹亚科 › 刚竹属',
+  size: '竹秆高 10–20 米，胸径 10–15 厘米；竹秆是地下竹鞭上的一个笋芽发育而来的，竹秆的中空节间由隔膜分开',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你是一根毛竹的竹秆。你从地下竹鞭上的笋芽长出，一年内长到最终高度，在竹林里通常活六到八年，之后被砍下或在林中倒伏',
+
+  birth: {
+    rolls: [
+      { label: '竹林', options: [
+        ['一片经营的毛竹林里，每年有人砍伐老竹、留养新竹', 3, { food: +5, set: 'managed' }],
+        ['一片未经管理的毛竹林里，竹子密集，很少有人砍伐', 2, { food: -5, risk: 1.1, set: 'unmanaged' }],
+        ['一片山地的毛竹林里，坡度大，土层薄', 2, { risk: 1.2, set: 'slope' }],
+      ]},
+      { label: '竹鞭', options: [
+        ['竹鞭浅，笋芽离地表较近。', 2, { risk: 1.1, set: 'shallow' }],
+        ['竹鞭深，笋芽埋在土层深处。', 2, { safety: +5, set: 'deep' }],
+      ]},
+      { label: '出笋', options: [
+        ['春季雨水多，笋在三月出土。', 3, { food: +5, set: 'wetspring' }],
+        ['倒春寒的年份，笋在四月才出土。', 2, { risk: 1.2, set: 'lateshoot' }],
+        ['春季干旱，出笋的时间拖得很长。', 1, { food: -5, risk: 1.2, set: 'dryspring' }],
+      ]},
+    ],
+    intro: '你是一根毛竹的笋芽，位于{竹林}。{竹鞭}{出笋}',
+  },
+
+  stages: [
+    { id: 'bud',     name: '地下笋芽（竹鞭上的芽）', from: 0,    unit: 'week'  },
+    { id: 'shoot',   name: '出土的春笋',             from: 300,  unit: 'day'   },
+    { id: 'young',   name: '新竹（第一年）',         from: 345,  unit: 'month' },
+    { id: 'growing', name: '壮竹（第二、三年）',     from: 710,  unit: 'month' },
+    { id: 'mature',  name: '成竹（可砍伐）',         from: 1435, unit: 'month' },
+    { id: 'old',     name: '老竹（六至八年）',       from: 2190, unit: 'month' },
+  ],
+  maturity: 1435,
+  maxAge: 3650,
+
+  survival: [[0,1],[150,0.7],[300,0.5],[345,0.4],[710,0.36],[1435,0.3],[2190,0.22],[2920,0.14],[3285,0.06],[3650,0]],
+  survivalNote: '毛竹竹秆的寿命通常为六到八年，竹林经营的经验是竹秆在第六至第八年被砍伐。笋期的退笋率很高。此曲线为粗估，不含人工砍伐。',
+
+  init: { health: 70, food: 50, safety: 55 },
+  foodDrain: 2,
+
+  causes: [
+    { id: 'cut', escape: false, w: 8, stages: ['mature','old'], short: '被砍伐',
+      text: '砍竹人在近地面处把竹秆砍断，竹秆被一根根扛出竹林。切口处的输导组织暴露在空气中。' },
+    { id: 'abort', escape: false, w: 6, stages: ['bud','shoot'], short: '退笋',
+      text: '竹鞭供给的养分不足，笋芽停止发育，逐渐变黑、腐烂。这是笋期最常见的结局。' },
+    { id: 'frost_shoot', escape: true, w: 2, stages: ['shoot','young'], short: '春寒冻笋',
+      text: '出笋期遇到一场寒流，笋尖冻伤变黑，生长暂停。冻伤部位以下的节间仍然可以继续伸长。' },
+    { id: 'snow', escape: true, w: 2, stages: ['young','growing','mature'], short: '积雪压折',
+      text: '一场大雪压在竹梢上，竹秆在中部弯折，竹叶被雪压得贴在地面上。' },
+    { id: 'typhoon', escape: true, w: 2, stages: ['growing','mature','old'], short: '台风折断',
+      text: '台风吹过竹林，竹秆在节间折断，断口处的竹汁很快干了，上部的竹冠失去了支撑。' },
+    { id: 'fungus', escape: true, w: 1, stages: ['young','growing','mature','old'], short: '真菌病害',
+      text: '真菌在竹秆表面和叶片上繁殖，出现黑色的霉层，光合面积随之减少。' },
+    { id: 'starve', escape: false, w: 2, short: '竹林郁闭，养分不足',
+      text: '竹林过于郁闭，林下光照不足，竹鞭输送给竹秆的养分变少，竹叶逐渐发黄，竹秆停止增粗。' },
+    { id: 'flowering', escape: false, w: 1, stages: ['mature','old'], short: '开花后枯死',
+      text: '你开花结实。开花耗去了大量养分，竹秆随后枯死。' },
+    { id: 'old', escape: false, w: 0, short: '衰老',
+      text: '竹叶逐渐脱落，竹秆表皮变成灰白色。一阵大风之后，你倒在林间，靠着邻竹慢慢干枯。' },
+  ],
+
+  events: [
+    { stages: ['bud'], w: 3, text: '笋芽在竹鞭的节上，外面包着一层层的笋箨。' },
+    { stages: ['bud'], w: 2, text: '竹鞭的养分缓慢地流进笋芽，笋芽的细胞不断分裂。' },
+    { stages: ['bud'], w: 2, text: '地温慢慢回升，竹鞭周围的土壤变湿。' },
+    { stages: ['bud'], w: 1, text: '入冬以后，笋芽停止了生长，等待春天。' },
+    { stages: ['shoot'], w: 3, text: '笋尖顶破土层，露出地面，笋箨是紫褐色的。' },
+    { stages: ['shoot'], w: 2, act: 'forage', text: '笋的节间迅速伸长，每天能长出一段。', eff: { food: +5 } },
+    { stages: ['shoot'], w: 2, text: '笋箨一片片脱落，露出里面的竹秆。' },
+    { stages: ['shoot'], w: 1, text: '一场寒流过后，笋尖的颜色变黑。' },
+    { stages: ['shoot'], w: 1, text: '竹鞭的养分跟不上时，笋的生长会突然停下来。' },
+    { stages: ['young'], w: 3, text: '新竹的竹秆在夏天长到了最终高度，竹秆表面有一层白色的粉末。' },
+    { stages: ['young'], w: 2, text: '新竹的竹秆还很柔软，叶鞘包着枝条。' },
+    { stages: ['young'], w: 2, act: 'explore', text: '竹鞭向外延伸，在新的地方又会出现笋芽。' },
+    { stages: ['young'], w: 2, text: '新竹的第一批枝条从节上长出，叶片逐渐展开。' },
+    { stages: ['young'], w: 1, text: '新竹的竹秆开始木质化，表皮由绿转为青绿色。' },
+    { stages: ['growing'], w: 3, text: '竹秆在第二年增粗，竹壁变厚，木质部增加。' },
+    { stages: ['growing'], w: 2, act: 'forage', text: '枝叶增加，竹叶在夏天的强光下进行光合作用。', eff: { food: +8 } },
+    { stages: ['growing'], w: 2, act: 'hide', text: '竹秆表面的蜡质层加厚，减少了水分的散失。', eff: { health: +3 } },
+    { stages: ['growing'], w: 2, text: '竹秆的枝条越来越多，竹叶之间相互遮光。' },
+    { stages: ['growing'], w: 1, text: '竹秆的节间变得粗壮，竹壁里的纤维增加。' },
+    { stages: ['growing'], w: 2, act: 'rest', text: '冬天的低温让竹叶的光合作用几乎停止，糖分被存了下来。' },
+    { stages: ['mature'], w: 3, text: '竹秆已经成熟，木质化基本完成，竹壁坚硬。' },
+    { stages: ['mature'], w: 2, text: '竹叶颜色变深，每年脱落一部分老叶，同时长出新叶。' },
+    { stages: ['mature'], w: 2, act: 'forage', text: '竹冠上的枝叶扩大，光合产物贮存在竹秆的薄壁细胞里。', eff: { food: +10 } },
+    { stages: ['mature'], w: 2, act: 'hide', text: '竹秆的硅质沉积增加，竹秆的抗弯能力增强。', eff: { safety: +3 } },
+    { stages: ['mature'], w: 1, text: '竹秆的每个节间都是中空的，节上有一层隔膜，把空腔一段段分开。' },
+    { stages: ['mature'], w: 1, text: '林中的光线被竹冠切成一块块的碎光斑。' },
+    { stages: ['old'], w: 3, text: '竹叶的颜色由绿转为淡黄，竹秆表面的白粉逐渐减少。' },
+    { stages: ['old'], w: 2, act: 'rest', text: '竹秆的代谢降低，竹叶的更新变慢。', eff: { food: -3 } },
+    { stages: ['old'], w: 2, text: '竹秆的表皮开始干裂，竹节的隔膜变脆。' },
+    { stages: ['old'], w: 1, text: '一场秋雨之后，竹秆表面出现了霉斑。' },
+    { stages: ['old'], w: 2, text: '老竹的叶子大量脱落，林下铺了一层枯叶。' },
+    { stages: ['old'], w: 1, text: '邻近的一根新竹从竹鞭上长出，靠近你的竹秆。' },
+
+    { stages: ['mature'], w: 2, need: 'managed', text: '砍竹人定期进入林中，砍去五年以上的老竹，你周围的竹丛留下了空隙。' },
+    { stages: ['young','growing'], w: 2, need: 'managed', text: '林地被清理过，杂草和灌木减少，阳光更多地照到新竹的竹冠上。', eff: { food: +5 } },
+    { stages: ['growing'], w: 2, need: 'unmanaged', text: '林中竹子密集，老竹和新竹互相挤压，竹秆变得弯曲。' },
+    { stages: ['mature','old'], w: 2, need: 'unmanaged', text: '林中没有人砍伐，老竹一直留在竹林里，直到自然倒伏。' },
+    { stages: ['young','growing'], w: 2, need: 'slope', text: '坡地的土层薄，竹鞭在岩石的缝隙里弯折前进。' },
+    { stages: ['mature'], w: 2, need: 'slope', text: '山风从坡下吹上来，竹秆在风中摇晃，根部的土层被雨水冲刷。', eff: { safety: -3 } },
+    { stages: ['shoot'], w: 2, need: 'wetspring', text: '春季的雨水充足，笋的表层湿润，伸长的速度很快。', eff: { food: +5 } },
+    { stages: ['young'], w: 2, need: 'wetspring', text: '新竹在湿润的春季生长顺利，竹秆很快达到了最终高度。' },
+    { stages: ['bud'], w: 2, need: 'lateshoot', text: '倒春寒使土温回升得慢，笋芽在地下的发育比往年推迟了一个多月。' },
+    { stages: ['shoot'], w: 2, need: 'lateshoot', text: '笋在四月出土，正好遇到一场春寒，笋尖冻伤。', eff: { health: -3 } },
+    { stages: ['bud'], w: 2, need: 'dryspring', text: '春季干旱，竹鞭的水分减少，笋芽的发育变慢。', eff: { health: -3 } },
+    { stages: ['shoot'], w: 2, need: 'dryspring', act: 'hide', text: '笋在干燥的空气里伸长，笋箨包得更紧，节间伸长变慢。' },
+    { stages: ['bud','shoot'], w: 2, need: 'shallow', text: '竹鞭离地表近，地表的温度变化直接传到笋芽上。', eff: { health: -3 } },
+    { stages: ['young'], w: 2, need: 'shallow', text: '竹鞭浅，新竹的根系集中在表层，一场干旱就让叶片卷起来。' },
+    { stages: ['bud'], w: 2, need: 'deep', text: '竹鞭埋得深，地表的冷暖变化传不到笋芽上。', eff: { safety: +3 } },
+    { stages: ['growing'], w: 2, need: 'deep', act: 'explore', text: '竹鞭向深处伸展，竹鞭的节上不断长出新的笋芽。' },
+  ],
+
+  decisions: [
+    {
+      id: 'bud_position',
+      stage: 'bud',
+      title: '竹鞭上的笋芽',
+      body: '同一根竹鞭上有许多笋芽，它们争夺同一根竹鞭输送的养分。靠近竹鞭前端的笋芽获得的养分较多，但前端的位置也离地表较近。',
+      options: [
+        { t: '抢先出土，争取更早长高', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 30, result: '你的笋箨在春天较早的时候顶破土层，但寒流来的时候笋尖也最先受冻。' },
+        { t: '留在竹鞭的后段，等待养分', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.85, riskDays: 30, result: '你停留在地下，等养分充足之后才发育，出笋的时间推迟了。' },
+      ],
+    },
+    {
+      id: 'shoot_competition',
+      at: 150,
+      title: '竹鞭的养分不足',
+      body: '同一根竹鞭上的笋越多，每根笋分到的养分越少。笋在出土之前，有一部分会因为养分不足而停止发育。',
+      options: [
+        { t: '减慢生长，保留养分', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.85, riskDays: 60, result: '笋芽的分裂变慢，留出了一部分养分给竹鞭。' },
+        { t: '抢先生长，争取出土', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 30, result: '你的分裂速度加快，但竹鞭的养分很快被消耗掉，笋的颜色开始变深。' },
+      ],
+    },
+    {
+      id: 'dry_shoot',
+      stage: 'shoot',
+      need: 'dryspring',
+      title: '干燥的出笋期',
+      body: '春季干旱，空气湿度低，笋箨里的水分散失得很快。笋要继续伸长就需要水分，收紧笋箨则可以减少失水。',
+      options: [
+        { t: '保持笋箨湿润，继续伸长', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 10, result: '节间继续伸长，笋箨内侧的水分逐渐减少。' },
+        { t: '收紧笋箨，减少失水', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.85, riskDays: 10, result: '笋箨包得更紧，节间伸长变慢，但水分保留了下来。' },
+      ],
+    },
+    {
+      id: 'managed_cut_list',
+      stage: 'mature',
+      need: 'managed',
+      title: '老竹的砍伐',
+      body: '砍竹人这一年要砍伐一批五年以上的老竹。竹秆是否在名单上，取决于竹龄和竹秆的状态。',
+      options: [
+        { t: '继续留在竹林里，保持光合', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.1, riskDays: 60, result: '你的竹冠继续扩大，砍伐的人从你身边经过，没有砍你。' },
+        { t: '把养分转入竹鞭，减少地上部分', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.9, riskDays: 60, result: '你的叶片逐渐减少，竹鞭的养分储备增加了。' },
+      ],
+    },
+    {
+      id: 'slope_wind',
+      stage: 'mature',
+      need: 'slope',
+      title: '山风',
+      body: '山风从坡下吹上来，风力集中在竹秆的中上部。竹秆的弯曲方向决定了受力的部位。',
+      options: [
+        { t: '竹秆弯向山谷一侧，减少迎风面', hint: '稳固↑ 养分↓', eff: { safety: +5 }, risk: 0.9, riskDays: 14, result: '竹秆向一侧弯曲，迎风的面积变小，风的压力分散到了更多的节上。' },
+        { t: '竹冠不动，直立迎风', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 14, result: '竹冠保持直立，每一阵风都让竹秆在节间发出轻微的声响。' },
+      ],
+    },
+    {
+      id: 'crowding',
+      stage: 'growing',
+      need: 'unmanaged',
+      title: '竹子过密',
+      body: '林中竹子密集，每根竹秆的枝叶互相遮光。减少分枝可以降低遮光，但也会减少叶面积。',
+      options: [
+        { t: '减少分枝，减少遮光', hint: '健康↑ 养分↓', eff: { health: +3 }, risk: 0.9, riskDays: 60, result: '你停止发出新的枝条，竹冠变得稀疏，林下的光线多了一些。' },
+        { t: '继续分枝，扩大竹冠', hint: '养分↑ 风险↑', eff: { food: +8 }, risk: 1.2, riskDays: 60, result: '新的枝条不断长出，竹冠变得厚重，积雪时更容易被压弯。' },
+      ],
+    },
+    {
+      id: 'deep_rhizome',
+      stage: 'growing',
+      need: 'deep',
+      title: '竹鞭的伸展',
+      body: '竹鞭在土层深处的位置稳定，它可以沿着竹鞭向外扩展，在新的地方长出新的笋芽。',
+      options: [
+        { t: '沿竹鞭向外扩展，新笋出现在外围', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 60, result: '竹鞭向外延伸，外围的节上长出了新的笋芽。' },
+        { t: '保留竹鞭，在原地加固', hint: '稳固↑ 养分↓', eff: { safety: +5 }, risk: 0.9, riskDays: 60, result: '竹鞭在原地增粗，竹秆的根基更加稳固。' },
+      ],
+    },
+    {
+      id: 'shallow_drought',
+      stage: 'young',
+      need: 'shallow',
+      title: '浅根的干旱',
+      body: '竹鞭浅，新竹的根系集中在表层。表层土壤干得快，深层的水分无法到达。',
+      options: [
+        { t: '收缩叶面，减少蒸腾', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.85, riskDays: 14, result: '竹叶卷起，蒸腾减少，但光合速率下降。' },
+        { t: '维持叶面，继续光合', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 14, result: '叶片保持展开，表层的水分很快耗尽，几片叶子开始枯黄。' },
+      ],
+    },
+  ],
+
+  opening: {
+    title: '竹鞭上的笋芽',
+    body: '你还是一个笋芽，附在竹鞭的一节上，外面包着笋箨。同一根竹鞭上有许多笋芽，它们争夺竹鞭输送的养分。你在哪个位置，出土的时间是早是晚，决定了你的第一个春天。',
+    options: [
+      { t: '在竹鞭前端，抢先出土', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 60, result: '你在春天较早出土，笋尖在寒流中先受冻。' },
+      { t: '在竹鞭后段，等待养分充足', hint: '健康↑ 养分↓', eff: { health: +5 }, risk: 0.85, riskDays: 60, result: '你在地下停留更久，出笋的时候已经是春季中期。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '按季节出笋、长竹、增粗、木质化，竹叶按年更新。', text: ['你随着季节的变化，依次进入出笋、长竹、增粗和木质化的阶段。', '光合产物按照常规比例分配给竹秆、竹冠和竹鞭。'] },
+    forage: { name: '扩大竹冠', desc: '增加枝叶和光合面积，糖分增加，但竹冠更容易受雪压、风折和病害。', text: ['枝叶一层层地展开，竹叶在阳光下持续工作。', '竹冠越大，积雪和风的负担越重。'] },
+    hide: { name: '加固竹秆', desc: '增加竹壁的木质化和硅质沉积，减少倒伏和折断的风险。', text: ['竹壁里的纤维增多，节间的木质部变得坚硬。', '硅质沉积让竹秆表面变得更加光滑，病菌不容易附着。'] },
+    rest: { name: '减缓生长', desc: '停止分枝，降低代谢，把养分留在竹秆和竹鞭中。', text: ['低温或干旱时，竹秆的生长几乎停止。', '养分被存在竹鞭和竹秆的薄壁细胞里，等待下一个生长季。'] },
+    explore: { name: '扩展竹鞭', desc: '沿竹鞭向外延伸，在新的地方发出笋芽，通过地下茎繁殖。', text: ['竹鞭在土壤里向外延伸，每一节上都可能长出新的笋芽。', '新的笋芽从竹鞭的节上出土，又会成为新的竹秆。'] },
+    mate: false,
+  },
+
+  idle: [
+    '风吹过竹林，竹梢来回摆动，发出沙沙的声响。',
+    '竹叶上的水珠在阳光下闪了一下。',
+    '林下的枯叶被雨水打湿，颜色变深。',
+    '一只鸟停在竹梢上，竹秆轻轻弯下又弹起。',
+    '竹林里的光线随着太阳的位置移动。',
+    '竹秆里的空腔随气温变化，内部的空气慢慢升温。',
+    '地表的落叶层在夏天的湿热里迅速分解。',
+    '雨后的竹林里有一股湿土的气味。',
+    '竹根周围的菌丝在土壤里缓慢地延伸。',
+    '林间的小路上留着一串脚印，雨一来就被冲平了。',
+  ],
+
+  epitaph: '你在竹林里活了六到八年。被砍下之后，竹秆成为竹材。竹鞭里的其他笋芽接替了你的位置。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'mangrove',
+  kingdom: 'plant',
+  name: '美洲红树',
+  en: 'Red mangrove',
+  sci: 'Rhizophora mangle（美洲红树）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 木兰纲 › 山茱萸目 › 红树科',
+  size: '成树高 3–10 米，常有多条拱形支柱根；胎生苗长约 20–40 厘米',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你的种子在母树上就已经开始发芽，落进海里时已经有了根',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['这棵母树长在佛罗里达南部埃弗格莱兹国家公园的潮间带', 3, { food: +5, set: 'everglades' }],
+        ['这棵母树长在墨西哥湾一条河口的沿岸', 2, { set: 'estuary' }],
+        ['这棵母树长在加勒比海一座小岛背风的海湾里', 2, { food: +5, set: 'caribbean' }],
+      ]},
+      { label: '母树状况', options: [
+        ['树是一棵老树，树冠宽，枝条多', 2, { food: +5, set: 'oldparent' }],
+        ['它周围是一片密集的红树林，枝条互相挤着', 2, { food: -5, safety: +5, set: 'densestand' }],
+      ]},
+      { label: '潮水与盐度', options: [
+        ['这里每天两次涨落的潮汐让海水盐度相对稳定', 3, { health: +5, set: 'tidal' }],
+        ['河口淡水汇入，盐度随季节变化很大', 2, { food: -5, set: 'brackish' }],
+      ]},
+    ],
+    siblings: 20,
+    siblingsLabel: '同一季挂在母树上的胎生苗',
+    intro: '你是挂在母树上的一根胎生苗。{出生地}。{母树状况}。{潮水与盐度}。同一季，这棵母树结出了 {siblings} 根胎生苗。',
+  },
+
+  stages: [
+    { id: 'propagule', name: '胎生苗（挂在母树上）', from: 0,     unit: 'month' },
+    { id: 'drift',     name: '漂浮的胎生苗',         from: 243,   unit: 'day'   },
+    { id: 'seedling',  name: '幼苗（在泥滩上扎根）', from: 300,   unit: 'week'  },
+    { id: 'sapling',   name: '幼树',                 from: 730,   unit: 'year'  },
+    { id: 'adult',     name: '成树',                 from: 3650,  unit: 'decade'},
+    { id: 'old',       name: '老树',                 from: 25550, unit: 'decade'},
+  ],
+  maturity: 3650,
+  maxAge: 43800,
+
+  survival: [[0,1],[60,0.5],[243,0.3],[300,0.2],[730,0.1],[3650,0.05],[18250,0.02],[36500,0.005],[43800,0]],
+  survivalNote: '红树林的种群寿命数据主要来自佛罗里达和加勒比的样地追踪，胎生苗的漂流死亡率缺乏长期数据；此曲线为粗估。',
+
+  init: { health: 70, food: 50, safety: 40 },
+  foodDrain: 2,
+
+  causes: [
+    { id: 'hurricane', escape: false, w: 3, stages: ['sapling','adult','old'], short: '飓风连根拔起',
+      text: '一场飓风从海面压过来。风把树冠整个掀起，泥土在根的周围松开，整棵树倒进了水道。' },
+    { id: 'erosion', escape: false, w: 2, stages: ['sapling','adult','old'], short: '海岸被冲刷，根系失去固定',
+      text: '一场大潮把泥滩底下的沙一起卷走。你的支柱根一条条露了出来，没有了泥土的托举，树身慢慢倾斜。' },
+    { id: 'crab', escape: true, w: 3, stages: ['propagule','drift','seedling','sapling'], short: '被蟹啃断茎基',
+      text: '一只螃蟹在泥滩上咬断了你的茎基。断口的组织很快变黑，你的单宁来不及把它封住。' },
+    { id: 'frost', escape: true, w: 2, stages: ['seedling','sapling','adult'], short: '寒潮霜冻',
+      text: '一场寒潮把气温压到了冰点附近。叶片里的水结成冰，细胞壁破裂，叶子一片一片地变黑。' },
+    { id: 'burial', escape: false, w: 2, stages: ['seedling','sapling'], short: '被泥沙埋没',
+      text: '一次大潮之后，泥沙把你的基部埋了一半。气根在泥里缺氧，叶子慢慢变黄。' },
+    { id: 'stranded', escape: false, w: 2, stages: ['drift'], short: '搁浅在干燥的沙滩上',
+      text: '潮水退了，你被留在了干燥的沙滩上。胚轴的表皮在阳光下失水，一天一天地变干。' },
+    { id: 'starve', escape: false, w: 2, short: '长期缺光、缺水、缺养分',
+      text: '连续几个季节，树冠被高处的同伴遮住，根又长在盐分偏高的泥里。储存的糖分一点一点耗尽，你停止了新叶的生长。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '树干的中心已经空了，外层的木质部还在输送水分。新的枝条越来越少，最后一个冬天，你的顶芽没有再展开。' },
+  ],
+
+  events: [
+    { stages: ['propagule'], w: 3, text: '你挂在母树的枝条上，顶端尖，根原基从果皮里伸了出来。' },
+    { stages: ['propagule'], w: 2, act: 'forage', text: '新叶在母树上展开，光照充足，你的组织里糖分一天比一天多。', eff: { food: +10 } },
+    { stages: ['propagule'], w: 2, act: 'rest', text: '一阵低压带来的雨把盐分冲淡了一段时间。母树的蒸腾慢了下来，你的水分供应也稳定了。', eff: { health: +3 } },
+    { stages: ['propagule'], w: 2, text: '一只螃蟹在枝条下面爬过，夹住你的基部，咬下一小块组织。伤口边缘很快开始分泌单宁。', eff: { health: -5 } },
+    { stages: ['propagule'], w: 1, text: '你的胚根在果皮里继续伸长。你仍然依靠母株输送水分和养分。' },
+    { stages: ['propagule'], w: 1, need: 'oldparent', text: '母树的下层枝条很粗，你挂在那里，养分来得充足。', eff: { food: +8 } },
+    { stages: ['propagule'], w: 2, need: 'densestand', text: '你挂在拥挤的母树群里，周围的枝条互相遮挡，你的顶端一直被阴影盖着。', eff: { food: -5 } },
+    { stages: ['drift'], w: 3, text: '你从母树上脱落，掉进涨潮的水里。顶端尖，根原基朝下，像一根插在水里的铅笔。', eff: { food: -3 } },
+    { stages: ['drift'], w: 3, text: '你在海水里漂了几天，表皮上附着了一层绿色的藻类。' },
+    { stages: ['drift'], w: 2, act: 'explore', text: '潮水把你带过一条水道，经过一片从没有红树生长过的泥滩。', eff: { food: -2 } },
+    { stages: ['drift'], w: 2, text: '一场涨潮把你推到了一堆枯枝的旁边，你被卡在那里，好几天都没有动。', eff: { safety: -3 } },
+    { stages: ['drift'], w: 2, act: 'hide', text: '你的顶端朝下沉，停在一片浮叶底下，避开了海面上的强光。', eff: { health: +3 } },
+    { stages: ['drift'], w: 1, text: '海水的盐度升高了。你的组织里水分减少，但还在坚持。', eff: { health: -3 } },
+    { stages: ['drift'], w: 1, need: 'estuary', text: '河口的淡水从上游压下来，你所在的水面一下子变淡了。你的表皮颜色变浅，但没有停止漂流。', eff: { health: -2 } },
+    { stages: ['seedling'], w: 3, text: '你的根在泥里伸展开，根尖的细胞分裂得很快。泥滩的水退下去时，你第一次挺直了茎。' },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '你展开了第一对叶子，叶片厚而亮。阳光直射时，表面的蜡质反着光。', eff: { food: +8 } },
+    { stages: ['seedling'], w: 2, text: '一只招潮蟹在你的根旁边打洞。泥土被翻动，几根细根断了。', eff: { safety: -5 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你把叶片的单宁浓度提高了。叶子变得发涩，蟹类咬了一口就松开了。', eff: { safety: +5 } },
+    { stages: ['seedling'], w: 1, text: '一次寒潮把温度压到很低，叶尖变黑，一部分组织死了。', eff: { health: -10 } },
+    { stages: ['seedling'], w: 1, act: 'rest', text: '旱季的盐水在泥滩表面积了一层白霜。你关闭了部分气孔，减少了水分流失。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 1, act: 'explore', text: '你的根从主根旁边长出了几条侧根，它们向泥滩深处伸去。', eff: { safety: +3 } },
+    { stages: ['seedling'], w: 2, need: 'densestand', text: '你落在一片密林的边上，前面的成年树遮住了光。你的叶子很薄，颜色偏黄。', eff: { food: -8 } },
+    { stages: ['seedling'], w: 2, need: 'brackish', text: '河口的盐度季节性变化很大。你的叶片在雨季时变薄，旱季又变厚。', eff: { health: -3 } },
+    { stages: ['seedling','sapling'], w: 2, need: 'caribbean', text: '背风的海湾里水很平静，泥滩上的泥细而软，你的幼苗扎得很稳。', eff: { safety: +5 } },
+    { stages: ['seedling','sapling'], w: 2, need: 'tidal', text: '海水每天涨落两次，你的根每天都会被淹没一次，也会在空气中暴露一次。' },
+    { stages: ['sapling'], w: 3, act: 'forage', text: '你从茎的下部长出了第一批支柱根。细根弯下去扎进泥里，把你的身体架起来。', eff: { safety: +5 } },
+    { stages: ['sapling'], w: 2, act: 'rest', text: '冬季的低温让叶片停止生长。你在泥滩上停了几个月，新芽没有展开。' },
+    { stages: ['sapling'], w: 2, text: '一场台风经过，海浪冲走了你周围的一层泥。一条支柱根露在了外面。', eff: { safety: -8 } },
+    { stages: ['sapling'], w: 1, act: 'explore', text: '你的根系沿着水道向外延伸，抓住了更多的泥。', eff: { food: +5, safety: +3 } },
+    { stages: ['sapling'], w: 2, text: '一只蟹咬断了你的顶芽。侧芽开始长出来，但新的枝条比原来细。', eff: { health: -8 } },
+    { stages: ['sapling'], w: 1, text: '一层灰色的泥沙埋到了你的基部。叶片颜色变暗，光合产物不够。', eff: { food: -8 } },
+    { stages: ['sapling'], w: 1, text: '海水的盐度升到了很高。叶子边缘变黄，死了几片。', eff: { health: -6 } },
+    { stages: ['sapling'], w: 1, need: 'everglades', act: 'forage', text: '大潮涨上来，淹没了你的根部。之后的几天，潮水的节奏规律，叶子长得很稳。', eff: { food: +5 } },
+    { stages: ['sapling'], w: 1, need: 'estuary', text: '河口上游的淡水漫过泥滩，把你的根泡在了淡水里。两个星期后，根毛大量死去。', eff: { health: -8 } },
+    { stages: ['adult'], w: 2, act: 'forage', text: '你的树冠张开，叶子在阳光下排成层次。树冠里的光合产物比幼树多了几倍。', eff: { food: +12 } },
+    { stages: ['adult'], w: 2, act: 'hide', text: '你的树皮加厚，单宁含量高。一只蛀虫钻进了树皮，停在了外层。', eff: { health: -3, safety: +5 } },
+    { stages: ['adult'], w: 2, text: '一场飓风经过。风把你的一半叶子刮走了，根系在泥里扭动，你只是留住了主干。', eff: { health: -15, safety: -5 } },
+    { stages: ['adult'], w: 1, text: '海边的泥被一场大潮冲走了，几条支柱根露在空气中，表面慢慢变干。', eff: { safety: -5 } },
+    { stages: ['adult'], w: 2, act: 'mate', text: '春天，你的枝条上开出了四瓣的花。花粉由蜂与蝇携带，授粉后，子房开始发育。' },
+    { stages: ['adult'], w: 1, once: true, act: 'mate', text: '这一季，你的胎生苗在枝头一根一根变长。你结出了 {n} 根胎生苗，它们挂在你的枝条上，顶端尖。', eff: { offspring: [10, 40] } },
+    { stages: ['adult'], w: 1, text: '你的根周围，泥里埋着多年脱落的落叶和老根。它们在缺氧的泥里慢慢分解，大部分的碳留在了泥里。',
+      fact: '红树林土壤的碳储量很高，是热带森林里单位面积碳储量最高的森林之一（Donato 等，2011，Nature Geoscience）' },
+    { stages: ['adult'], w: 1, act: 'explore', text: '你的支柱根从树干下部长出来，一圈一圈地扎进泥里，把树冠的重量分散到更大的面积上。', eff: { safety: +5 } },
+    { stages: ['adult'], w: 2, need: 'everglades', text: '佛罗里达南部的飓风季，风从海面直接吹进来，压低了你的树冠。叶子在风里翻过来又翻过去。', eff: { health: -6 } },
+    { stages: ['adult'], w: 2, need: 'caribbean', text: '海湾口有一个小岛，岛上的风被挡住。你的树冠比对岸的同伴更高，叶子也更大。', eff: { food: +8 } },
+    { stages: ['adult'], w: 1, act: 'instinct', text: '你的气根随着潮水的节奏伸长和缩短。潮位的变化很规律，你的生长也跟着规律。' },
+    { stages: ['adult'], w: 2, need: 'tidal', act: 'instinct', text: '潮位每天都在变。你的气根在退潮时露出来，涨潮时又被淹没，生长节奏跟着潮位走。' },
+    { stages: ['adult'], w: 2, need: 'brackish', act: 'rest', text: '河口的盐度降低时，你的根部排斥了更多的盐分，树液的盐浓度保持在低位。', eff: { health: +3 } },
+    { stages: ['adult','old'], w: 1, need: 'oldparent', text: '你树龄很大，树干的中心已经空了一部分。你的枝条依旧把叶子伸向阳光。' },
+    { stages: ['old'], w: 3, text: '你的树干外层还在输送水分，中心却已经腐朽。新的枝条一年比一年少。', eff: { food: -10 } },
+    { stages: ['old'], w: 2, act: 'rest', text: '你的树冠收缩了一圈，叶片少了，留下的叶子颜色更深。', eff: { health: -5 } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片泥滩上年纪最大的树。你的根已经和周围的几十棵树连在一起，泥里的根网很密。' },
+    { stages: ['old'], w: 2, act: 'explore', text: '树干的一侧靠着泥滩，你在根上长出了一圈新的萌芽。它们的根还很嫩，但已经能伸进泥里。', eff: { food: +5 } },
+  ],
+
+  opening: {
+    title: '胎生苗什么时候脱落',
+    body: '你还挂在母树上，顶端已经尖了，根原基从果皮里露出来。涨潮的水在枝条下面打着转。你可以继续留在母树上，让根长得更长；也可以现在脱落，让潮水把你带走。',
+    options: [
+      { t: '留在母树上多长一段时间', hint: '养分↑ 健康↑ · 风险↑',
+        eff: { food: +10, health: +5 }, risk: 1.2, riskDays: 60,
+        result: '你继续挂在母树上，直到根原基伸长得足够长。风从南边来，树冠轻轻摇晃。' },
+      { t: '现在脱落，随潮水漂走', hint: '扩散远 · 健康↓ 风险↑',
+        eff: { food: -10 }, risk: 1.4, riskDays: 60,
+        result: '你从母树上脱落，掉进涨潮的水里。身后的枝条轻轻晃了一下。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺着潮汐生长', desc: '按照当地的潮位和季节节律，展叶、长根、停止生长。', text: [
+      '你的新叶按照季节一层一层地展开。',
+      '潮位每天涨落，你的气根跟着延伸和收缩。',
+    ]},
+    forage: { name: '展叶抢光', desc: '多展开叶片，扩大光合面积，把更多的糖分储存进树干。叶片暴露得更多，也更容易被啃食、失水和折断。', text: [
+      '你把叶片朝向阳光，表面的蜡质反着光。',
+      '树冠里的叶子越来越密，下层的叶子开始被遮住。',
+    ]},
+    hide: { name: '加固防御', desc: '加厚树皮，提高单宁和生物碱的浓度，长出更多的木质组织。生长变慢，但更难被啃食。', text: [
+      '你的树皮变得又硬又厚，单宁的味道变得发涩。',
+      '你把新生的组织木质化，支柱根的根尖也变得更加坚韧。',
+    ]},
+    rest: { name: '关闭气孔', desc: '关闭部分气孔，减少蒸腾，减缓生长，把养分留在组织里。', text: [
+      '你关闭了部分气孔，叶片颜色变深。',
+      '泥滩上的盐分在你的叶表结成白霜，但你的水分没有流失得太快。',
+    ]},
+    explore: { name: '伸展根系', desc: '向泥滩深处伸出侧根和支柱根，或者从根上萌发新的植株。遭遇的泥沙、潮水和蟹类都会增加。', text: [
+      '你的根尖在泥里向外伸展，一条接着一条。',
+      '一株新的幼芽从你的根上冒了出来，它的叶子还很小。',
+    ]},
+    mate: { name: '开花结实', desc: '成树开花，授粉后子房发育成胎生苗，在枝条上直接长出幼苗。', text: [
+      '你的花在春天开放，花粉由蜂与蝇携带。',
+      '胎生苗在枝头变长，顶端尖，根原基从果皮里露出来。',
+    ], done: '这一季，你结出了 {n} 根胎生苗。' },
+  },
+  brood: [10, 40],
+
+  decisions: [
+    {
+      id: 'stranded', at: 260,
+      title: '搁浅还是继续漂流',
+      body: '你已经脱离母树大约一个月。潮水把你带到了一片浅滩的边缘，水流时急时缓。',
+      options: [
+        { t: '在浅滩边缘搁浅', hint: '稳固↑ · 漂流结束',
+          eff: { safety: +5 }, risk: 0.9, riskDays: 30,
+          result: '你被留在了泥滩边上。涨潮时，你的根尖扎进了湿的泥。' },
+        { t: '继续漂向开阔的海水', hint: '扩散远 · 风暴中的死亡率高',
+          eff: { food: -5 }, risk: 1.5, riskDays: 30,
+          result: '你离开了浅滩，漂向开阔的海水。海面的风很大，你的胚根在水里轻轻摆动。' },
+      ],
+    },
+    {
+      id: 'densestand_lightning', at: 150, need: 'densestand',
+      title: '拥挤的树冠',
+      body: '你挂在母树的下层，上面的枝条已经把光遮住了大半。顶端的生长方向还能选择。',
+      options: [
+        { t: '伸长顶端，向上层的空隙生长', hint: '养分↑ · 健康↓',
+          eff: { food: +10, health: -3 }, risk: 1.2, riskDays: 60,
+          result: '你的顶端偏向枝条间的一个空隙，光从那里照了进来。' },
+        { t: '保持原有方向，减少消耗', hint: '稳固↑ · 养分↓',
+          eff: { food: -5, safety: +5 }, risk: 0.9, riskDays: 60,
+          result: '你没有改变方向，保留了已经储存的养分。' },
+      ],
+    },
+    {
+      id: 'storm_prop', at: 1200, need: 'everglades',
+      title: '飓风季到来之前',
+      body: '海面上的云越来越低，风从东边压过来。你的树冠大，离岸近，这一季的风会比往年都大。',
+      options: [
+        { t: '长出新的支柱根，把树干架高', hint: '稳固↑ · 养分↓',
+          eff: { food: -10, safety: +10 }, risk: 0.8, riskDays: 60,
+          result: '你从树干的下部长出了一圈新的支柱根，它们向下扎进泥里。' },
+        { t: '保留养分，不长新根', hint: '养分↑ · 稳固↓ 风险↑',
+          eff: { food: +8, safety: -5 }, risk: 1.4, riskDays: 60,
+          result: '你保留了全部养分，继续把糖分存进树干。风来的时候，你的树冠很重。' },
+      ],
+    },
+    {
+      id: 'tidal_root', at: 500, need: 'tidal',
+      title: '退潮时的根',
+      body: '潮水退去之后，你的一部分气根暴露在空气里。这些根上的皮孔还在工作，但它们需要不断地换气。',
+      options: [
+        { t: '把气根伸得更长', hint: '养分↑ · 健康↓',
+          eff: { food: +5, health: -3 }, risk: 1.1, riskDays: 60,
+          result: '你的气根伸得更长，皮孔很快就干了一层。' },
+        { t: '只在涨潮时伸长', hint: '稳固↑ · 养分↓',
+          eff: { food: -5, safety: +5 }, risk: 0.9, riskDays: 60,
+          result: '你的根只在水下生长，露出的部分保持短而粗。' },
+      ],
+    },
+    {
+      id: 'crab_chew', at: 700,
+      title: '啃食的痕迹',
+      body: '一只螃蟹在你的幼芽上留下了一排咬痕。被咬的地方正在渗出树液，树液的颜色变深。',
+      options: [
+        { t: '提高单宁，加厚叶片', hint: '稳固↑ · 养分↓',
+          eff: { safety: +5, food: -5 }, risk: 0.85, riskDays: 30,
+          result: '你的叶片变厚，单宁的味道让螃蟹松开了口。' },
+        { t: '继续抽新芽', hint: '养分↑ · 风险↑',
+          eff: { food: +10 }, risk: 1.3, riskDays: 30,
+          result: '你继续从茎基抽出新芽，新芽嫩，最容易被咬。' },
+      ],
+    },
+    {
+      id: 'salt_dry', at: 2000, need: 'brackish',
+      title: '旱季的盐度',
+      body: '旱季的雨水停了很久，河口的盐度慢慢升高。水里的盐分开始在泥滩表面结成一层白壳。',
+      options: [
+        { t: '关闭大部分气孔', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +5 }, risk: 0.85, riskDays: 90,
+          result: '你关闭了大部分气孔，叶子的颜色变深，蒸腾减少。' },
+        { t: '继续开放气孔，多做光合', hint: '养分↑ · 健康↓ 风险↑',
+          eff: { food: +10, health: -5 }, risk: 1.25, riskDays: 90,
+          result: '你的叶片继续张开气孔，光合作用的产物增加，但水分流失也增加了。' },
+      ],
+    },
+    {
+      id: 'canopy_gap', at: 4000,
+      title: '树冠里的空洞',
+      body: '一场风暴之后，树冠中间出现了一片空洞。上层的光直接照到了下面的枝条上。',
+      options: [
+        { t: '向空洞方向生长新枝', hint: '养分↑ · 健康↓',
+          eff: { food: +12, health: -5 }, risk: 1.2, riskDays: 90,
+          result: '新枝从空洞边缘伸出来，叶片很快占满了那一块光。' },
+        { t: '保持原有树形，修复伤口', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +5 }, risk: 0.9, riskDays: 90,
+          result: '你把伤口周围的组织加厚，没有再向空洞生长。' },
+      ],
+    },
+    {
+      id: 'sediment_rise', at: 9000,
+      title: '泥滩在升高',
+      body: '这些年，泥滩的高度一点一点地上升，你的基部被沙和泥越埋越深。气根暴露在外面的部分越来越少。',
+      options: [
+        { t: '向上长出新的气根', hint: '养分↑ · 稳固↑',
+          eff: { food: +5, safety: +5 }, risk: 1.0, riskDays: 180,
+          result: '你从树干上部长出了新的气根，它们朝泥面伸去。' },
+        { t: '把主根向下扎深', hint: '稳固↑ · 养分↓',
+          eff: { food: -5, safety: +8 }, risk: 0.95, riskDays: 180,
+          result: '你把主根向下扎深，穿过新的沉积层，找到了更稳的泥。' },
+      ],
+    },
+    {
+      id: 'lost_leaves', at: 18000,
+      title: '旧叶脱落',
+      body: '你的下部叶子已经发黄，在水里漂着。树干的营养要供给更多的新叶，你要决定怎么分配。',
+      options: [
+        { t: '把下部的叶子全部脱落', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +5 }, risk: 0.95, riskDays: 120,
+          result: '你让下部的叶子脱落，树干上留下了一排细小的叶痕。' },
+        { t: '保留下部的叶子，继续光合', hint: '养分↑ · 健康↓',
+          eff: { food: +5, health: -3 }, risk: 1.05, riskDays: 120,
+          result: '下部的叶子继续在水面上晃动，颜色越来越浅，还在工作。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '潮水进来了，泥滩上的水漫过你的根。',
+    '退潮时，气根暴露在空气里，表面的皮孔在换气。',
+    '海风很咸，你的叶片表面覆着一层薄薄的盐。',
+    '一只蟹从泥洞里探出头，又缩了回去。',
+    '涨潮时的水带着泥沙，颜色是浑浊的棕色。',
+    '叶片的边缘在风里轻轻翻动。',
+    '夜里的泥滩上，只有潮水的声音。',
+    '一片落叶在水面上打转，最后停在你的根旁边。',
+  ],
+
+  epitaph: '你的根在泥里留下了很多年，它们的碳也留在了这里。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'oak',
+  name: '夏栎',
+  en: 'English oak',
+  sci: 'Quercus robur（夏栎，又称欧洲栎）',
+  emoji: '🌱',
+  kingdom: 'plant',
+  taxon: '维管植物门 › 木兰纲 › 壳斗目 › 壳斗科',
+  size: '成树高 25–40 米，胸径可达 2 米以上；寿命以数百年计，部分古树可能超过 800 年',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '一颗橡子要在土里度过一个冬天，才会长出第一片真叶',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['混交林里一棵老栎树的树冠下，落叶层很厚', 3, { food: +5, set: 'oak_mixed' }],
+        ['河谷边的冲积地，春天地下水位高，土壤长时间湿着', 2, { risk: 1.2, set: 'oak_floodplain' }],
+        ['牧场边一棵孤立的大树旁，草地一直延伸到树根', 2, { risk: 1.1, set: 'oak_pasture' }],
+      ]},
+      { label: '当年的结实', options: [
+        ['大年：林里的栎树大多同时结实，橡子铺满了地面', 2, { set: 'mast' }],
+        ['小年：母树只结了零星的橡子', 3, { food: -5, set: 'lean' }],
+      ]},
+      { label: '前一年的天气', options: [
+        ['前一年夏天雨水充沛，母树的叶片厚而完整', 3, { food: +5, set: 'wet' }],
+        ['前一年夏天干旱，母树的根系受了损伤', 2, { food: -5, risk: 1.1, set: 'drought' }],
+      ]},
+    ],
+    siblings: 1200,
+    siblingsLabel: '同一棵母树当年结的橡子',
+    intro: '你是一颗橡子，落在{出生地}。{当年的结实}。你所在的这一批橡子共有 {siblings} 颗。{前一年的天气}。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（橡子）', from: 0,      unit: 'week' },
+    { id: 'seedling', name: '幼苗',         from: 91,     unit: 'year' },
+    { id: 'sapling',  name: '幼树',         from: 3650,   unit: 'year' },
+    { id: 'mature',   name: '成熟树',       from: 14600,  unit: 'decade' },
+    { id: 'old',      name: '老树',         from: 73000,  unit: 'century' },
+  ],
+  maturity: 14600,
+  maxAge: 292000,
+
+  survival: [[0,1],[91,0.03],[365,0.02],[3650,0.006],[14600,0.002],[73000,0.0006],[146000,0.0002],[292000,0]],
+  survivalNote: '栎属幼苗在林下的存活数据来自欧洲的样地调查，夏栎寿命数据多为古树估计；此曲线为粗估，最早期死亡率的数量级较有把握。',
+
+  init: { health: 70, food: 50, safety: 40 },
+  foodDrain: 2,
+
+  causes: [
+    { id: 'pest', escape: true, w: 2, stages: ['seedling','sapling','mature','old'], short: '食叶害虫暴发，叶片被啃光',
+      text: '绿卷蛾的幼虫在春天孵化，几周之内就把刚展开的叶片啃掉了大半。你还能再长出一批叶子，但养分已经耗去很多。' },
+    { id: 'storm', escape: true, w: 2, stages: ['sapling','mature','old'], short: '风暴折断大枝',
+      text: '冬天的一场大风从西南方向吹来。树干上一根粗大的侧枝在拉力下裂开，断口露出白色的木质部。' },
+    { id: 'fire', escape: true, w: 1, stages: ['seedling','sapling','mature','old'], short: '地表火烧伤树基',
+      text: '林下的枯落物在干旱的夏天燃烧起来。火沿着树基向上，树皮烧焦，一侧的形成层已经死了。' },
+    { id: 'armillaria', escape: false, w: 2, stages: ['mature','old'], short: '根部被蜜环菌侵染',
+      text: '蜜环菌（Armillaria）的菌索沿着根系蔓延，木质部一圈一圈地坏掉。叶色在夏天开始发黄，之后再也没有恢复。' },
+    { id: 'shade', escape: false, w: 2, stages: ['seedling','sapling'], short: '长期遮荫，养分不够',
+      text: '周围的树冠越长越密，林下的光只剩下几块很小的光斑。你的叶片产出的糖已经不够支付呼吸的消耗。' },
+    { id: 'felled', escape: false, w: 1, stages: ['mature','old'], short: '被人工砍伐',
+      text: '冬天，一组伐木工来到林子里。链锯的声音很快传到了树干上，树干一侧的木材开始裂开。' },
+    { id: 'starve', escape: false, w: 1, short: '长期缺光缺水，养分耗尽',
+      text: '连续几年的雨水都不够，光合作用的产物越来越少。新根没有长出来，木质部的输送也慢慢停了下来。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '树干的心材变得发黑，中空的部分越来越大。一个夏天过后，树冠比去年又小了一圈，之后再也没有新的叶芽出现。' },
+  ],
+
+  events: [
+    { stages: ['seedling'], w: 3, text: '春天，你的子叶从土里探出来，颜色是淡绿色的，比一片指甲还小。' },
+    { stages: ['seedling'], w: 3, act: 'forage', text: '你展开了第一对真叶。林下的光斑在移动，你把叶面转向它。', eff: { food: +8 } },
+    { stages: ['seedling'], w: 2, text: '一只松鼠在你旁边挖了一个洞，埋下一颗橡子，然后忘了取回来。' },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '夏天的林下很暗。你收缩了叶片，减少水分的散失。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, act: 'explore', text: '你的主根已经伸过了二十厘米，它在湿润的土层里向下延，侧根在两侧展开。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, text: '秋天的冷雨过后，地面结了霜，你最外侧的叶片边缘变成了褐色。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你的新梢木质化得更快，叶柄变硬，叶片的单宁含量比邻近的幼苗高。', eff: { safety: +4, food: -3 } },
+    { stages: ['seedling'], w: 1, text: '一头鹿从林缘走过，蹄子踩进了你旁边的土里，压断了一根细的侧根。', eff: { health: -5 } },
+    { stages: ['seedling'], w: 1, text: '一只甲虫在你的根颈附近挖了一条通道，之后又离开了。' },
+    { stages: ['seedling'], w: 2, need: 'oak_mixed', text: '树冠的光斑从早到晚都在移动。你在这些光斑之间伸展叶片，一个下午获得的光比别处多。', eff: { food: +5 } },
+    { stages: ['seedling','sapling'], w: 2, need: 'oak_floodplain', text: '春天的河水漫过了地面，土壤里的氧气很快耗尽。你的根尖开始变成褐色。', eff: { health: -6 } },
+    { stages: ['seedling'], w: 2, need: 'oak_floodplain', text: '河谷的土壤长期湿润，你的根表皮长出了一些不定根，在积水的时候仍能取到一些空气。', eff: { health: +4 } },
+    { stages: ['seedling'], w: 2, need: 'oak_pasture', text: '牧场的草很密，一头羊在你旁边啃掉了嫩叶。剩下的叶片边缘出现了浅裂，纤维变得更粗。', eff: { health: -4, safety: +3 } },
+    { stages: ['seedling','sapling'], w: 2, act: 'hide', need: 'oak_pasture', text: '草地上的啮齿动物会啃咬幼苗的树皮。你的树皮在第一个夏天就开始木质化，表层变得又厚又硬。', eff: { safety: +5 } },
+    { stages: ['seedling'], w: 2, need: 'mast', text: '母树在前一年结了大量橡子，林下的幼苗像一片细绿的草。它们互相挤在一起，争夺同一块光斑。', eff: { food: -3, safety: -3 } },
+    { stages: ['sapling'], w: 2, need: 'mast', text: '大年的幼苗很多，大部分在第二年就因为遮荫而死去。你的根比邻居们长得更深，因此还在。' },
+    { stages: ['seedling'], w: 2, need: 'lean', text: '你周围没有别的幼苗，林下有很多空地。光和水都比较充裕，草很快也长了上来。', eff: { food: +5 } },
+    { stages: ['sapling'], w: 2, need: 'lean', text: '你的同批幼苗很少，树干也比别的幼树细。你的树冠在上层林冠的下方慢慢展开。' },
+    { stages: ['seedling','sapling'], w: 2, need: 'wet', text: '雨水充足的一年，你的叶片又大又厚，叶绿素的颜色很深。', eff: { food: +8 } },
+    { stages: ['sapling'], w: 2, need: 'wet', act: 'forage', text: '连续几周的春雨让土壤一直湿润。新梢长得很快，节间拉得很长。', eff: { food: +10 } },
+    { stages: ['seedling'], w: 2, need: 'drought', text: '这一年夏天没有下雨。你的叶片边缘开始卷起，夜里也没有恢复膨压。', eff: { health: -5 } },
+    { stages: ['seedling','sapling'], w: 2, need: 'drought', act: 'rest', text: '你关闭了大部分气孔，停止生长，直到土壤里重新有了水。', eff: { health: +3, food: -3 } },
+    { stages: ['sapling'], w: 3, act: 'forage', text: '树冠的顶部展开了一圈新枝，叶片在阳光下形成了一层厚厚的绿色。', eff: { food: +12 } },
+    { stages: ['sapling'], w: 2, text: '春天，树皮裂开了细小的纹路。树干的直径又增加了一圈年轮。' },
+    { stages: ['sapling'], w: 2, act: 'explore', text: '你的根在地下伸得很远，触到了一条地下水的边缘。', eff: { food: +8 } },
+    { stages: ['sapling'], w: 2, act: 'hide', text: '你在枝条基部积累了更多的单宁，叶片摸起来发涩，昆虫的口器很难刺进去。', eff: { safety: +6, food: -4 } },
+    { stages: ['sapling'], w: 2, text: '冬天的一阵风穿过林子，一根细枝断了，断口的汁液很快凝固。', eff: { health: -3 } },
+    { stages: ['sapling'], w: 1, text: '一只松鸦在你的树干旁埋下了一颗橡子。它也许忘了，这颗橡子在第二年发了芽。' },
+    { stages: ['sapling'], w: 1, act: 'rest', text: '冬天的日照很弱，你的叶子已经落光，树干里的养分慢慢运往根部储存。', eff: { health: +4 } },
+    { stages: ['sapling','mature'], w: 2, text: '林下的光在夏天几乎消失，你下部的叶片开始变黄，然后脱落。', eff: { food: -5 } },
+    { stages: ['sapling'], w: 1, once: true, text: '你的树干已经粗到一个人无法合抱，树皮上的裂纹深了许多。' },
+    { stages: ['mature'], w: 3, act: 'forage', text: '你的冠层比邻近的树更宽。早春的阳光照在枝叶上，叶面积达到了一生的高峰。', eff: { food: +15 } },
+    { stages: ['mature'], w: 2, act: 'mate', text: '春天，你的雄花序垂在枝头，花粉被风带走。雌花藏在叶腋里，数量不多。' },
+    { stages: ['mature'], w: 2, act: 'mate', once: true, text: '这一年，你第一次结出了大量橡子。秋天，它们落满了地面，有一部分被松鼠和松鸦带走。',
+      eff: { offspring: [300, 800] },
+      fact: '栎属的大小年（masting）让捕食者来不及吃完所有种子，从而提高了存活种子的比例（Janzen，1971，Annual Review of Ecology and Systematics）' },
+    { stages: ['mature'], w: 2, text: '夏天的雷暴击中了附近的一棵树。空气里有焦味，你的树皮比幼树厚，火没有烧穿形成层。' },
+    { stages: ['mature'], w: 2, act: 'hide', text: '你的木质部加厚了，叶片里的单宁比去年多。食叶昆虫落在叶片上，停留的时间很短。' },
+    { stages: ['mature'], w: 2, act: 'rest', text: '冬天风很大，你把叶子全部落掉，减少了风的受力面积。', eff: { health: +4 } },
+    { stages: ['mature'], w: 2, text: '落叶层里，你的根尖与真菌的菌丝缠在一起，形成外生菌根。菌丝从土壤里替你取来更多的磷。',
+      eff: { food: +8 },
+      fact: '栎属与外生菌根真菌共生，菌丝帮助根系吸收磷和氮（Smith & Read，2008，Mycorrhizal Symbiosis，第三版）' },
+    { stages: ['mature'], w: 2, act: 'explore', text: '你的侧根越过了邻近的一棵树，在另一侧的土壤里找到了新的水源。', eff: { food: +10 } },
+    { stages: ['mature'], w: 2, text: '一群毛虫在树冠上层大量取食，叶片只剩下网状的叶脉。', eff: { food: -8, health: -4 } },
+    { stages: ['mature'], w: 1, text: '林地里有人在修路，重型机械压在你的根系附近。土壤被压实，空气很难再进去。', eff: { health: -8 } },
+    { stages: ['mature','old'], w: 2, text: '秋天的一场地表火沿着林下蔓延，枯叶燃烧的烟气覆盖了整片林子。你的树皮被烤得发黑。', eff: { health: -6 } },
+    { stages: ['mature'], w: 1, need: 'oak_pasture', text: '牛群绕着你的树干转，它们把草地啃得很短，树干基部的土被踩硬了。', eff: { health: -3 } },
+    { stages: ['mature'], w: 1, need: 'oak_mixed', act: 'explore', text: '一棵山毛榉在你的北侧长得很高，它的树冠挡住了你上部的光。你的枝条被迫转向南方。', eff: { food: -4 } },
+    { stages: ['mature'], w: 1, need: 'oak_floodplain', text: '春天的河水漫上来，你的根在水里泡了整整一个月。夏天到来时，你的叶子才慢慢恢复颜色。', eff: { health: -4 } },
+    { stages: ['mature','old'], w: 2, text: '树冠的一部分枯死了，枯枝在风里折断，落在林下。留下的部分重新长出了新梢。', eff: { health: -3 } },
+    { stages: ['old'], w: 3, act: 'rest', text: '树干中心的心材已经发黑、空心。外围的边材仍在把水从根输送到枝条。', eff: { health: -3 } },
+    { stages: ['old'], w: 2, act: 'hide', text: '树干基部的裂缝里长出了一丛萌蘖，你把一部分养分分给它们，树冠上部就少了一些。', eff: { food: -5, safety: +5 } },
+    { stages: ['old'], w: 2, text: '几只乌鸦在你的一根大枝上做窝，枝条被压得向下弯。', eff: { health: -2 } },
+    { stages: ['old'], w: 2, act: 'mate', text: '这一年，老树外缘的枝条仍然开了花，结出的橡子比以往少，但仍有几百颗。', eff: { offspring: [80, 200] } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片林子里年纪最大的树。周围的树都比你矮，它们的树冠围在你的身边。' },
+    { stages: ['seedling'], w: 1, act: 'explore', text: '你的主根触到了一块石头，它绕过石头，继续向下生长。' },
+  ],
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '按季节生长：春天展叶，夏天加粗，秋天落叶，冬天休眠。', text: [
+      '春天的第一批叶子从芽鳞里展开，颜色还很浅。',
+      '树干又多了一圈年轮。',
+    ]},
+    forage: { name: '展叶抢光', desc: '展开更多叶片，扩大叶面积，多做光合作用。叶片多了，也更容易被昆虫啃食、失水或被风折断。', text: [
+      '新叶在四月的阳光下展开，叶脉里的水分充足。',
+      '树冠的顶端又长出了一圈新枝。',
+    ]},
+    hide: { name: '加固防御', desc: '加厚树皮，在叶片里积累单宁，让侧枝木质化。养分减少，但能抵挡食叶昆虫和风。', text: [
+      '叶片里的单宁含量在升高，叶子摸起来更涩。',
+      '树皮的裂纹里积起了新的木栓层。',
+    ]},
+    rest: { name: '减缓生长', desc: '关闭气孔，减少蒸腾，停止新叶的生长。养分被保存在根和树干里。', text: [
+      '叶片的气孔在正午关闭，水分只通过很少的一部分散失。',
+      '树干里的淀粉在慢慢地积累。',
+    ]},
+    explore: { name: '伸展根系', desc: '把根尖伸向更远的土壤，寻找水分和矿质营养，并与真菌建立菌根。', stages: ['seedling','sapling','mature'], text: [
+      '根尖在土壤颗粒之间缓慢地延伸。',
+      '一条侧根绕过了一块石头，继续向前。',
+    ]},
+    mate: { name: '开花结实', desc: '春天开出雄花序和雌花，秋天结出橡子。这一年的养分会被分配到果实里。', done: '这一年，你结出了大量的橡子。' },
+  },
+  brood: [300, 1500],
+
+  opening: {
+    title: '橡子落地的那一刻',
+    body: '你还挂在母树的枝条上。秋天，你会落到地面，位置由风、地形和松鼠决定。落地之后，你能决定的只有接下来几周的事。',
+    options: [
+      { t: '落地后立即发出胚根，趁土壤还湿润', hint: '养分↑ 冬季冻伤风险↑', eff: { food: +5 }, risk: 1.3, riskDays: 180,
+        result: '你的胚根在秋天的湿土里伸出去，尖端很快扎进了落叶层下面。' },
+      { t: '留在落叶层里，等到春天再发芽', hint: '稳妥 · 鼠类取食多', eff: { food: -5 }, risk: 1.0, riskDays: 180,
+        result: '你在冬天的落叶层下保持休眠。春天的湿气到来时，胚根才慢慢伸出。' },
+      { t: '被松鸦叼走，埋进远处的土里', hint: '离母树远 · 埋得较深', eff: { food: +5, safety: +5 }, risk: 0.8, riskDays: 180,
+        result: '松鸦把你埋在三十米外的一块土里。埋得深，让你躲开了大部分的搜寻。' },
+    ],
+  },
+
+  decisions: [
+    {
+      id: 'seedling_light', at: 730,
+      title: '林下的光',
+      body: '你已经第三年了。林下的光斑越来越少，树冠边缘有一个空隙，但离你的顶端还有好几米。',
+      options: [
+        { t: '优先向下伸长主根', hint: '稳固↑ 养分↓', eff: { safety: +8, food: -5 }, risk: 0.9, riskDays: 365,
+          result: '你把养分投入根尖的分生组织，主根很快穿过了浅层的干土。' },
+        { t: '优先展开新叶，抢住树冠的空隙', hint: '养分↑ 风险↑', eff: { food: +12 }, risk: 1.3, riskDays: 365,
+          result: '新叶朝着树冠的空隙展开，光合作用随之增加。但支撑它们的茎还很细。' },
+      ],
+    },
+    {
+      id: 'canopy_gap', at: 5475,
+      title: '林冠的空隙',
+      body: '一棵大树倒下了，在林冠上留下一个圆形的空隙。空隙边缘的光线很强，但周围的新枝也都在朝它伸展。',
+      options: [
+        { t: '快速向上伸长，争取进入林冠层', hint: '养分↓↓ 风险↑', eff: { food: -10 }, risk: 1.2, riskDays: 1095,
+          result: '你的主干向上拉长，节间很长，木质化还没有跟上。' },
+        { t: '保持较低的树冠，耐阴等待', hint: '养分↑ 稳固↑', eff: { food: +5, safety: +5 }, risk: 0.9, riskDays: 1095,
+          result: '你把新枝留在低处，叶片变薄，等待林冠的缺口慢慢被别的树关闭。' },
+      ],
+    },
+    {
+      id: 'defoliation', at: 9125,
+      title: '食叶虫暴发',
+      body: '一场绿卷蛾的暴发让树冠上的叶片减少了大半。虫子的幼虫还在枝条上蠕动，树叶的断面已经变成褐色。',
+      options: [
+        { t: '加大单宁和防御物质的合成', hint: '养分↓ 稳固↑ 风险↓', eff: { food: -8, safety: +8 }, risk: 0.8, riskDays: 365,
+          result: '新生的叶片里单宁比以往多了很多，之后的几批虫子在叶片上停留的时间都很短。' },
+        { t: '在夏天重新长出一批新叶', hint: '养分↓↓ 风险↑', eff: { food: -15 }, risk: 1.1, riskDays: 60,
+          result: '第二批叶子在七月长了出来，叶片比第一批小，颜色也浅。' },
+      ],
+    },
+    {
+      id: 'mast_cost', at: 18250,
+      title: '结实的投入',
+      body: '树冠已经很宽了。今年的花芽比去年多，但你的养分储备并不充足。',
+      options: [
+        { t: '把大量养分分配给花和果实', hint: '结实↑↑ 养分↓↓', eff: { food: -15, offspring: [200, 500] }, risk: 1.1, riskDays: 365,
+          result: '花芽全部开了花，秋天落下的橡子多到要压弯树下的草。' },
+        { t: '少结实，把养分留给根和树干', hint: '养分↑ 结实↓', eff: { food: +8, health: +5, offspring: [40, 100] }, risk: 0.9, riskDays: 365,
+          result: '只有外围的一部分花芽开了花。树干和根系的储备比去年更充足。' },
+      ],
+    },
+    {
+      id: 'floodplain_spring', at: 2555, need: 'oak_floodplain',
+      title: '春天的洪水',
+      body: '河水在四月漫上来，你的根已经在水下泡了两个星期。土壤里的氧气越来越少。',
+      options: [
+        { t: '长出不定根，增加与空气接触的面积', hint: '养分↓ 健康↑', eff: { health: +8, food: -5 }, risk: 0.8, riskDays: 60,
+          result: '新的不定根从茎基部长出，伸进了水面以上的湿土里。' },
+        { t: '保持原有根系，等水退去', hint: '风险↑', eff: { food: -3 }, risk: 1.4, riskDays: 60,
+          result: '水退之后，你的老根大半已经变黑，只能靠新根维持水分的吸收。' },
+      ],
+    },
+    {
+      id: 'pasture_browsing', at: 1095, need: 'oak_pasture',
+      title: '牧场的啃食',
+      body: '一群羊把草地啃到了地面。你的幼枝就在草皮边缘，高度刚好够得着。',
+      options: [
+        { t: '加厚表皮、积累单宁，让叶片难以消化', hint: '养分↓ 稳固↑ 风险↓', eff: { food: -5, safety: +6 }, risk: 0.85, riskDays: 730,
+          result: '新叶变得又硬又涩。羊群在你的旁边走过，没有停下来。' },
+        { t: '把新梢伸到啃食高度之上', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.4, riskDays: 730,
+          result: '新梢长到了羊的嘴够不着的位置，但它的木质化还不够，很快就折了一段。' },
+      ],
+    },
+    {
+      id: 'dry_summer', at: 1460, need: 'drought',
+      title: '干燥的土层',
+      body: '夏天已经过去很久，表层土壤干得发白。深一些的土层还有一点水，但离你的根尖还有一段距离。',
+      options: [
+        { t: '收缩叶面，减少蒸腾', hint: '健康↑ 养分↓', eff: { health: +5, food: -5 }, risk: 0.85, riskDays: 120,
+          result: '叶片卷起，气孔在白天大部分关闭。水分的散失慢了下来。' },
+        { t: '继续展叶，把根伸进深层的湿土', hint: '养分↑ 风险↑', eff: { food: +8 }, risk: 1.25, riskDays: 120,
+          result: '根系向下伸了一米多，叶片依然展开着，等待下一场雨。' },
+      ],
+    },
+    {
+      id: 'hollow_trunk', at: 100000,
+      title: '中空的树干',
+      body: '树干的中心已经空了，外围的边材还剩一圈。树冠的上部开始变稀。',
+      options: [
+        { t: '从树干基部萌发新的萌蘖', hint: '养分↓ 健康↑', eff: { food: -10, health: +10 }, risk: 1.0, riskDays: 365,
+          result: '基部的休眠芽萌发了，一丛新的枝条从根颈附近冒出来。' },
+        { t: '把养分集中在树冠和边材上', hint: '养分↑ 健康↓', eff: { food: +5, health: -3 }, risk: 1.1, riskDays: 365,
+          result: '边材继续输导水分，树冠上部的叶片维持着原有的数量。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '叶脉在阳光下透出淡黄色的光。',
+    '林下的落叶层在缓慢地分解，一层一层变得发黑。',
+    '一阵风经过，树冠的叶片同时翻过来，露出浅色的背面。',
+    '地下的菌丝沿着根系的方向缓慢延伸。',
+    '树皮的裂缝里附着了一层地衣，湿度升高时它会变绿。',
+    '夜里气温下降，叶面上凝结了一层细小的露水。',
+    '秋天的雨水把几颗橡子冲进了落叶层的缝隙。',
+    '林子的另一边，有一棵树的枝条在风里轻轻碰着你的枝条。',
+    '冬天，木质部里的水柱流动得很慢。',
+  ],
+
+  epitaph: '你每一圈年轮都记录着一个冬天。最后一圈停下的时候，林子里还有别的橡子在发芽。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'acai',
+  name: '阿萨伊棕（单茎）',
+  en: 'Açaí palm (solitary stem)',
+  sci: 'Euterpe precatoria（阿萨伊棕，单茎型）',
+  emoji: '🌱',
+  kingdom: 'plant',
+  taxon: '单子叶植物纲 › 棕榈目 › 棕榈科',
+  size: '单茎植株高约 15–25 米，茎直径约 10–20 厘米（粗估）；寿命上限的数据很少',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你的茎里没有形成层，也没有年轮，所有的生长都从茎顶的生长点开始',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['秘鲁亚马孙低地的一片常绿雨林，林冠很高，光线昏暗', 3, { food: -3, set: 'acai_terra_firme' }],
+        ['亚马孙河边的低洼林地，雨季时水会漫上来', 2, { risk: 1.2, set: 'acai_varzea' }],
+        ['一片次生林的边缘，靠近被砍过的林地和草地', 2, { food: +5, risk: 1.1, set: 'acai_secondary' }],
+      ]},
+      { label: '母株的结实', options: [
+        ['母株那一年结了很多果穗，果实落满了林下', 2, { food: -5, set: 'bumper' }],
+        ['母株那一年结的果穗很少，林下的种子也稀疏', 3, { food: +5, set: 'sparse' }],
+      ]},
+      { label: '林下的状况', options: [
+        ['林下有很厚的落叶层，鼠类在地面上翻找果实', 2, { set: 'litter' }],
+        ['林下很干净，地面几乎没有落叶，雨水直接冲刷土面', 2, { risk: 1.1, set: 'bare' }],
+      ]},
+    ],
+    siblings: 600,
+    siblingsLabel: '同一串果穗里的种子',
+    intro: '你是一颗阿萨伊棕的种子，外面的果肉已经被动物啃去，只剩下坚硬的核。你出生在{出生地}。{母株的结实}，{林下的状况}。同一串果穗里的种子共有 {siblings} 颗。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（果核中的种子）', from: 0,     unit: 'week' },
+    { id: 'seedling', name: '幼苗',                 from: 91,    unit: 'month' },
+    { id: 'juv',      name: '林下幼棕',             from: 730,   unit: 'year' },
+    { id: 'climb',    name: '向上生长',             from: 2920,  unit: 'year' },
+    { id: 'adult',    name: '成年开花',             from: 9125,  unit: 'year' },
+    { id: 'old',      name: '老棕',                 from: 25550, unit: 'decade' },
+  ],
+  maturity: 2920,
+  maxAge: 43800,
+
+  survival: [[0,1],[91,0.1],[730,0.03],[2920,0.015],[9125,0.008],[25550,0.003],[37000,0.001],[43800,0]],
+  survivalNote: '阿萨伊棕（E. precatoria）的寿命没有可靠的年龄测定。120 年的上限和第一次开花约 8 年的时间都是按生长速率与亚马孙林下的种群调查粗估的，早期死亡率的数量级较有把握。',
+
+  init: { health: 70, food: 50, safety: 40 },
+  foodDrain: 2,
+
+  causes: [
+    { id: 'felled', escape: false, w: 1, stages: ['climb','adult','old'], short: '被砍倒取出顶端的心部',
+      text: '一个工人用砍刀把你的茎砍断，取出了顶端柔嫩的心部。这一刀之后，生长点就不存在了。' },
+    { id: 'clearing', escape: false, w: 2, stages: ['juv','climb','adult','old'], short: '林地被清理成草地',
+      text: '一片林子被清理出来，改成了牧场。树木被推倒，堆成一排，火烧过之后，你的叶子在烟里枯萎。' },
+    { id: 'bud_rot', escape: false, w: 2, stages: ['climb','adult','old'], short: '生长点腐烂（芽腐病）',
+      text: '茎顶的生长点变得湿滑发臭，新叶一片接一片地枯死。病害沿着茎向下蔓延，直到根颈。' },
+    { id: 'storm', escape: true, w: 2, stages: ['climb','adult','old'], short: '风暴撕裂大叶，叶柄折断',
+      text: '一场风暴吹过树冠，一片大叶被撕成几段。叶柄折断了，断口在雨水里泡着。' },
+    { id: 'shade', escape: false, w: 2, stages: ['seedling','juv'], short: '林下光照不足，养分耗尽',
+      text: '树冠的遮挡越来越密，林下的光不足以维持叶片的光合作用。新叶展开得越来越小。' },
+    { id: 'flood', escape: false, w: 1, stages: ['seedling','juv'], short: '雨季洪水淹没根颈',
+      text: '雨季的水淹没了你的根颈。根周围的氧气耗尽，根的组织一段一段地烂掉。' },
+    { id: 'starve', escape: false, w: 1, short: '长期缺光缺水，养分耗尽',
+      text: '连续几年的光照和水分都不足。叶片越来越小，新根几乎不再长出，茎也停止了加粗。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '你的叶子一片一片地脱落，新叶越来越少。最后一片叶子展开时颜色已经很淡，之后再没有新叶出现。' },
+  ],
+
+  events: [
+    { stages: ['seedling'], w: 3, text: '一根白色的胚根从种子里伸出来，向下扎进湿润的土里。' },
+    { stages: ['seedling'], w: 3, act: 'forage', text: '第一片叶子从叶鞘里展开。它是一片羽状复叶，很薄，颜色是浅绿色的。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '旱季的几周里，你的叶片边缘卷起来，减少水分的散失。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, text: '林下的落叶把你的根颈埋了一层，腐烂的叶子在潮湿的空气里散出一股酸味。' },
+    { stages: ['seedling'], w: 2, act: 'explore', text: '你的第一条根分出了新的须根，根系在表层土里铺开。', eff: { food: +4 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你的叶片变厚，叶表覆盖了一层蜡质，水分的蒸发慢了下来。', eff: { safety: +4, food: -3 } },
+    { stages: ['seedling'], w: 2, text: '一场暴雨过后，林地表层的土被冲走，你的根尖露了出来，有一部分变成了褐色。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 1, text: '一只老鼠在落叶下面找到一颗种子，咬开了果核，只留下了碎片。' },
+    { stages: ['seedling'], w: 2, need: 'acai_varzea', text: '雨季的水漫过了林地，你的叶柄在水面以下泡了两个星期。', eff: { health: -4 } },
+    { stages: ['seedling'], w: 2, need: 'acai_varzea', text: '水退之后，河岸的泥沙留在你的根颈上。新根从泥里长出来，抓住了土。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, need: 'acai_terra_firme', text: '林冠很高，阳光要穿过好几层叶子才能到达地面。你的叶片在一块光斑里慢慢展开。', eff: { food: -2 } },
+    { stages: ['seedling'], w: 2, need: 'acai_terra_firme', text: '林地里的腐殖质很厚，你的根在里面伸得很深，雨季的积水对根的影响很小。', eff: { health: +2 } },
+    { stages: ['seedling'], w: 2, need: 'acai_secondary', text: '林缘的草地很快长高，草根与你的根在表土里交织在一起。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'acai_secondary', text: '林缘的阳光很强，你的叶片颜色偏黄，叶边很快变干。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 2, need: 'bumper', text: '母株那一年的果实落满了林下，幼苗挤在一起，每一棵都只能分到一小块光。', eff: { food: -3 } },
+    { stages: ['juv'], w: 2, need: 'bumper', text: '林下的幼棕比你多得多，它们互相挤压，有些叶鞘已经开始枯了。' },
+    { stages: ['seedling'], w: 2, need: 'sparse', text: '林下只有几颗种子，你的周围有很大的空地，光照充足，叶片很快展开。', eff: { food: +4 } },
+    { stages: ['juv'], w: 2, need: 'sparse', text: '你的同伴很少。在林下独自生长，根系能伸到更远的地方。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, need: 'litter', text: '林下的落叶层很厚，鼠类在地面上翻找，偶尔碰断一片叶子。', eff: { health: -2 } },
+    { stages: ['juv'], w: 2, need: 'litter', text: '落叶层在慢慢腐烂，分解出的养分被你的根吸收了一部分。', eff: { food: +4 } },
+    { stages: ['seedling'], w: 2, need: 'bare', text: '林下没有落叶，雨水直接打在土面上，表土被冲开了细沟。', eff: { health: -3 } },
+    { stages: ['juv'], w: 2, need: 'bare', act: 'explore', text: '你的不定根沿着冲刷出的细沟向外扩展，在新露出的土层里找到了水。', eff: { food: +3 } },
+    { stages: ['juv'], w: 3, act: 'forage', text: '林下的光斑在移动，你把新叶转向最亮的那一块。', eff: { food: +8 } },
+    { stages: ['juv'], w: 2, act: 'hide', text: '你的叶鞘加厚，包住新生的茎，外层木质化变硬。', eff: { safety: +4, food: -2 } },
+    { stages: ['juv'], w: 2, act: 'rest', text: '旱季来了，你停止了新叶的展开，等雨季再继续。', eff: { health: +4 } },
+    { stages: ['juv'], w: 2, act: 'explore', text: '你的不定根从茎基部冒出来，向侧面伸展，把根区扩大了一圈。', eff: { food: +5 } },
+    { stages: ['juv'], w: 2, text: '一场风暴撕裂了你的几片叶子，叶片上留下了长长的裂缝。', eff: { health: -4 } },
+    { stages: ['juv'], w: 1, text: '一只甲虫在你的叶鞘之间产下了卵，几周后幼虫从叶鞘里钻了出来。', eff: { health: -3 } },
+    { stages: ['juv'], w: 1, once: true, text: '你的第一片完整的羽状叶完全展开了，它的每一片小叶都朝着不同的方向。' },
+    { stages: ['climb'], w: 3, act: 'forage', text: '你的茎向上生长，新叶一层层从顶端展开，叶面积比去年多了一倍。', eff: { food: +12 } },
+    { stages: ['climb'], w: 2, act: 'forage', text: '雨季的水分充足，节间拉得很长，你的茎在一个季节里高了一米。', eff: { food: +8 } },
+    { stages: ['climb'], w: 2, text: '茎的表面留下了老叶鞘脱落后的痕迹，一圈圈排列得很整齐。' },
+    { stages: ['climb'], w: 2, act: 'hide', text: '茎基部的外层变硬，纤维积累得更多，茎的外围变得更坚实。', eff: { safety: +5 } },
+    { stages: ['climb'], w: 2, text: '一根老叶鞘在风里断开，断口很快干了，留下一道浅色的伤。' },
+    { stages: ['climb'], w: 2, act: 'explore', text: '你的气生根从茎的基部向下伸出，插进了地表的土里。', eff: { food: +5 } },
+    { stages: ['climb'], w: 2, text: '林下的一株灌木长到了你的旁边，它的叶片遮住了你的下部。', eff: { food: -4 } },
+    { stages: ['climb'], w: 2, act: 'rest', text: '旱季的几个月里，你的生长几乎停了下来，叶片颜色比平时深一些。', eff: { health: +3 } },
+    { stages: ['climb'], w: 1, text: '一群鸟在你的顶端停留，它们留下的粪便里有几颗种子，落在了林下。' },
+    { stages: ['climb'], w: 1, once: true, text: '你的茎已经高过了林下的灌木，顶端的叶片第一次接到了林冠的光。' },
+    { stages: ['adult'], w: 3, act: 'forage', text: '你的冠层达到了完整的形状，叶片的数量和大小都达到了一生的高峰。', eff: { food: +14 } },
+    { stages: ['adult'], w: 2, act: 'mate', text: '花序从叶鞘里抽出来，雄花和雌花都生在同一串花序上。' },
+    { stages: ['adult'], w: 2, act: 'mate', text: '果实开始成熟，颜色从绿色变成紫黑色，果肉变软。' },
+    { stages: ['adult'], w: 2, act: 'mate', once: true, text: '一大串果穗成熟了，果实落满了林下，许多果实很快被动物带走。', eff: { offspring: [500, 1200] } },
+    { stages: ['adult'], w: 2, act: 'hide', text: '叶柄基部木质化，叶鞘紧紧包着茎，外层结构变得坚硬。', eff: { safety: +5 } },
+    { stages: ['adult'], w: 2, text: '风暴撕裂了你的几片大叶，叶柄折断，树冠的一部分失去了光合面积。', eff: { health: -4 } },
+    { stages: ['adult'], w: 2, act: 'rest', text: '旱季的林子里，你的叶片变小，气孔大部分关闭。', eff: { health: +3 } },
+    { stages: ['adult'], w: 2, act: 'explore', text: '你的气生根又向外延伸了一圈，根区扩展到了更远的地方。', eff: { food: +6 } },
+    { stages: ['adult'], w: 2, text: '一只甲虫在你的生长点附近钻了一个孔。树液从孔里流出来，很快就凝固了。', eff: { health: -3 } },
+    { stages: ['adult'], w: 2, text: '林子的一侧被砍出了一块空地，阳光直接照进你所在的林下，叶片在强光下变黄。', eff: { health: -4 } },
+    { stages: ['adult'], w: 1, text: '一只大型鸟在你的果穗上停留了很久，它把果实一颗颗地啄下来，然后飞走了。' },
+    { stages: ['adult'], w: 1, once: true, text: '你的第一个果穗成熟了。果实颜色暗紫，落到地上时声音很轻。' },
+    { stages: ['adult'], w: 2, act: 'mate', text: '这一年的花序比较少，树冠的上部仍然开出了几串花。' },
+    { stages: ['old'], w: 3, act: 'rest', text: '树干的表层已经变成深褐色，内部的纤维仍然把水从根输送到叶片。', eff: { health: -2 } },
+    { stages: ['old'], w: 2, act: 'hide', text: '叶柄基部的纤维层越来越厚，老叶一片片脱落，留下了整齐的痕迹。', eff: { safety: +3 } },
+    { stages: ['old'], w: 2, act: 'mate', text: '这一年，树冠的上部仍然开了几串花，结出的果实比年轻时少。', eff: { offspring: [150, 400] } },
+    { stages: ['old'], w: 2, text: '树干的基部有一片菌斑，真菌的菌丝在纤维之间缓慢地蔓延。', eff: { health: -3 } },
+    { stages: ['old'], w: 2, act: 'forage', text: '树冠的顶端还有一片新叶展开，它的颜色比下部的叶片深得多。', eff: { food: +5 } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片林子里最高的一棵阿萨伊棕。风从林冠上面吹过，你的树冠一起摆动。' },
+    { stages: ['old'], w: 2, act: 'explore', text: '你的气生根在老茎的基部又长出了一圈，支撑着树干。', eff: { food: +3 } },
+    { stages: ['old'], w: 2, text: '一场雷暴击中了附近的一棵大树，烧焦的木炭味在空气里飘了一会儿。', eff: { health: -3 } },
+  ],
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '按季节生长：雨季展叶、伸茎，旱季放慢，生长点持续分化新叶原基。', text: [
+      '生长点分化出的新叶原基在雨季里逐渐伸长。',
+      '茎的顶端又多了一片叶子的雏形。',
+    ]},
+    forage: { name: '展叶抢光', desc: '展开更多羽状复叶，扩大光合面积。叶片多了，也更容易被风撕裂、被病菌侵染或在林下失水。', text: [
+      '新叶在林冠缝隙透下的光里展开，叶脉在阳光下很清楚。',
+      '树冠的顶端又多了一片完整的叶子。',
+    ]},
+    hide: { name: '加固防御', desc: '加厚叶鞘与茎基部的纤维层，让叶表覆盖蜡质。养分减少，但能减缓失水，也让虫子和风更难造成伤害。', text: [
+      '叶鞘的纤维层加厚了，茎的外围变得坚硬。',
+      '叶表的蜡质在阳光下有一层薄薄的光泽。',
+    ]},
+    rest: { name: '减缓生长', desc: '旱季关闭大部分气孔，停止展叶，减少养分的消耗，等待下一个雨季。', text: [
+      '叶片边缘卷起，气孔关闭，水分的散失很少。',
+      '生长点停止了分化，茎的顶端安静下来。',
+    ]},
+    explore: { name: '伸展根系', desc: '从茎的基部长出新的不定根（气生根），向外和向下扩展，扩大吸收水分与矿质营养的区域。', stages: ['juv','climb','adult'], text: [
+      '新的不定根从茎基部冒出来，向侧面伸展。',
+      '一条气生根插进了地表的土里，开始吸收水分。',
+    ]},
+    mate: { name: '抽花结果', desc: '抽出花序，雄花和雌花开在同一串花序上，之后结出果穗。果实需要数月才能成熟。', done: '这一年，你的果穗成熟，落下的果实里有 {n} 颗种子。' },
+  },
+  brood: [500, 3000],
+
+  opening: {
+    title: '种子落下的地方',
+    body: '果穗成熟后，果肉被动物啃去，留下坚硬的核。它落在哪里，几乎已经定下来了。落地之后，你能决定的只有怎样面对这块地方。',
+    options: [
+      { t: '落在母株根旁的湿土里', hint: '养分↓ 林下光弱', eff: { food: -3 }, risk: 1.1, riskDays: 365,
+        result: '你落在母株的树根旁边。胚根很快伸出去，但林下的光很弱，第一片叶子展开得很慢。' },
+      { t: '被动物带到远处，埋进林缘的落叶层里', hint: '离母株远 · 光较多', eff: { food: +3, safety: +3 }, risk: 1.0, riskDays: 365,
+        result: '一只动物把你带到三十米外，埋进了落叶层。那里的光比母株下面多一些。' },
+      { t: '落在河岸的泥沙上，等河水退去再发芽', hint: '养分↑ 洪水风险↑', eff: { food: +5 }, risk: 1.4, riskDays: 365,
+        result: '涨水的时候，你被水带着漂了一段，退水后停在河岸的泥沙上。胚根在泥里慢慢伸长。' },
+    ],
+  },
+
+  decisions: [
+    {
+      id: 'seedling_light', at: 365,
+      title: '林下的光',
+      body: '你的第一片叶子只有手掌大小。林下的光斑很小，叶片下面的阴影几乎覆盖了整个地面。',
+      options: [
+        { t: '延长叶柄，把叶片伸向上方的光', hint: '养分↓ 风险↑', eff: { food: -5 }, risk: 1.2, riskDays: 730,
+          result: '叶柄拉长，叶片向上斜伸。你耗费的养分比叶片能获得的还多。' },
+        { t: '保持短叶，把养分留给根系', hint: '稳固↑ 养分↓', eff: { safety: +5, food: -2 }, risk: 0.9, riskDays: 730,
+          result: '你把养分投向根系。根的数量增加了，叶片仍然很小。' },
+      ],
+    },
+    {
+      id: 'trunk_build', at: 2920,
+      title: '茎的伸长',
+      body: '你的茎还很细。树冠下面已经有一圈比你高的植株，它们的叶片挡住了你的顶端。',
+      options: [
+        { t: '快速伸长茎，争取进入上层林冠', hint: '养分↓↓ 风险↑', eff: { food: -10 }, risk: 1.2, riskDays: 1825,
+          result: '茎向上拉长，节间很窄。直立的茎很快高过了下层的灌木。' },
+        { t: '在下层等待，先增粗茎基部', hint: '养分↑ 稳固↑', eff: { food: +5, safety: +5 }, risk: 0.9, riskDays: 1825,
+          result: '茎基部的纤维层增厚，叶鞘一层层包着茎，外层的木质变硬。' },
+      ],
+    },
+    {
+      id: 'bud_rot_choice', at: 9125,
+      title: '生长点的病斑',
+      body: '茎顶的一片新叶卷着，颜色发黄。空气很湿，叶鞘之间有一股异味。',
+      options: [
+        { t: '把感染的组织与健康组织隔开，停止向新叶供水', hint: '健康↑ 养分↓', eff: { health: +4, food: -6 }, risk: 0.8, riskDays: 365,
+          result: '被感染的组织逐渐干枯脱落，生长点保住了。' },
+        { t: '继续维持新叶的生长', hint: '养分↑ 风险↑↑', eff: { food: +8 }, kill: 0.05, cause: 'bud_rot', risk: 1.4, riskDays: 365,
+          result: '新叶在潮湿中继续展开，腐烂的组织沿着叶鞘向下蔓延。' },
+      ],
+    },
+    {
+      id: 'fruit_allocation', at: 16000,
+      title: '果穗的数量',
+      body: '树冠顶部的花序已经抽出，数量比去年多。养分却不够同时供应所有果穗。',
+      options: [
+        { t: '抽出全部花序，让果实同时成熟', hint: '结实↑↑ 养分↓↓', eff: { food: -15, offspring: [500, 1500] }, risk: 1.1, riskDays: 365,
+          result: '果穗全部成熟，果实落满了林下。许多果实很快被动物带走。' },
+        { t: '只保留一部分花序，把养分留给茎', hint: '养分↑ 结实↓', eff: { food: +8, health: +5, offspring: [100, 300] }, risk: 0.9, riskDays: 365,
+          result: '只有少数花序结了果。树冠的叶片保持着原来的大小。' },
+      ],
+    },
+    {
+      id: 'clearing_edge', at: 10000,
+      title: '林边的空地',
+      body: '林子的一侧被砍出了一块空地。阳光从空地照进来，直射在你的叶片上，林下的湿度在下降。',
+      options: [
+        { t: '在强光下长出更厚的新叶', hint: '养分↑ 风险↑↑', eff: { food: +10 }, kill: 0.08, cause: 'clearing', risk: 1.5, riskDays: 365,
+          result: '新叶在强光下变厚，但林下的湿度已经消失，叶边很快枯了。' },
+        { t: '把叶片转向林内的阴影，减少光照', hint: '健康↑ 养分↓', eff: { health: +3, food: -5 }, risk: 1.0, riskDays: 365,
+          result: '叶片转向林子深处，光合作用减少，蒸腾也随之减少。' },
+      ],
+    },
+    {
+      id: 'flood_root', at: 730, need: 'acai_varzea',
+      title: '雨季的水位',
+      body: '雨季的水漫上林地，水面已经淹没了你的根颈。',
+      options: [
+        { t: '长出新的气生根，抬高根系', hint: '健康↑ 养分↓', eff: { health: +5, food: -5 }, risk: 0.9, riskDays: 120,
+          result: '根颈附近长出了一圈新根，把根系托到水面以上。' },
+        { t: '保持原来的根，等水退去', hint: '风险↑↑', eff: { food: -3 }, kill: 0.05, cause: 'flood', risk: 1.4, riskDays: 120,
+          result: '水退之后，淹过的根有一部分已经变成褐色。' },
+      ],
+    },
+    {
+      id: 'bare_soil', at: 1460, need: 'bare',
+      title: '裸露的地面',
+      body: '林下几乎没有落叶，雨水直接冲刷地面，根的表层开始露出来。',
+      options: [
+        { t: '在地表长出新的不定根，固定在土里', hint: '稳固↑ 养分↓', eff: { safety: +5, food: -4 }, risk: 0.9, riskDays: 365,
+          result: '新根从茎基部长出，伸进冲刷下来的土层里。' },
+        { t: '把养分转向叶片，抢占开阔的光', hint: '养分↑ 风险↑', eff: { food: +8 }, risk: 1.3, riskDays: 365,
+          result: '叶片展开得很快，但根系还不够深。一场大雨后，根的一侧被冲空了。' },
+      ],
+    },
+    {
+      id: 'secondary_grass', at: 2190, need: 'acai_secondary',
+      title: '林缘的草',
+      body: '草地在你旁边蔓延，草根和你的根争夺土层里的水分。',
+      options: [
+        { t: '扩展根系，在草根之间占位', hint: '养分↓ 稳固↑', eff: { food: -5, safety: +3 }, risk: 1.0, riskDays: 365,
+          result: '你的侧根在草根之间挤出了一块空间，土里的水分被你先取到了。' },
+        { t: '增加叶片数量，抢在草之前获取光', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.2, riskDays: 365,
+          result: '叶片在草的上方展开，光合作用增加，但草的根还在向你的根颈靠近。' },
+      ],
+    },
+    {
+      id: 'old_crown', at: 35000,
+      title: '树冠变稀',
+      body: '树冠下部的叶子一片片地枯了。新叶仍在长，但数量比以前少。',
+      options: [
+        { t: '把养分转向上部的新叶', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.1, riskDays: 1825,
+          result: '新叶在树冠顶端继续展开，下部的叶鞘保留着旧的纤维。' },
+        { t: '让下部的老叶尽快脱落，减少维持消耗', hint: '养分↑ 健康↓', eff: { food: +3, health: -3 }, risk: 1.0, riskDays: 1825,
+          result: '老叶脱落，在茎上留下了一道道的伤痕。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '叶鞘里的纤维在风里微微地摆动。',
+    '林下的落叶在慢慢变成棕色，一层一层地分解。',
+    '雨水顺着叶脉流到叶基，又滴到地上。',
+    '一只鸟在林冠上叫了几声，之后林子里又安静了。',
+    '根系的尖端在湿土里缓慢地延伸。',
+    '叶片边缘的小刺在风里相互碰了一下。',
+    '地上的光斑慢慢移动，离开了你的叶面。',
+    '茎的表面一圈圈的叶痕在阳光下很清楚。',
+    '夜里，湿度升高，叶面上凝结了一层细小的水珠。',
+  ],
+
+  epitaph: '你的茎里没有一圈年轮，所有的高度都是在顶端一片片叶子的展开中累积起来的。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'saguaro',
+  kingdom: 'plant',
+  name: '巨人柱',
+  en: 'Saguaro',
+  sci: 'Carnegiea gigantea（巨人柱）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 木兰纲 › 石竹目 › 仙人掌科',
+  size: '株高可达十几米，分枝的个体常有多根向上弯的侧枝；茎体直径约 30–50 厘米',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你的一生大半都是在别的植物的树荫里度过的',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['落在美国亚利桑那州图森市附近的沙漠山坡上', 3, { set: 'tucson' }],
+        ['落在墨西哥索诺拉州的一片沙漠山坡上', 2, { food: -5, set: 'sonora' }],
+      ]},
+      { label: '荫蔽', options: [
+        ['一棵豆科的帕洛韦德树遮住了上午的强光', 3, { food: +5, safety: +5, set: 'nurse' }],
+        ['周围没有遮荫的灌木，地面直接晒在阳光下', 2, { food: -10, risk: 1.3, set: 'open' }],
+      ]},
+      { label: '年景', options: [
+        ['这一年的雨季来得及时，夏天下了几场大雨', 2, { health: +5, set: 'wetyear' }],
+        ['这一年的夏天几乎没有雨，雨季只来了一场', 3, { health: -5, risk: 1.2, set: 'dryyear' }],
+      ]},
+    ],
+    siblings: 400,
+    siblingsLabel: '同一个果实里的种子',
+    intro: '你是一粒种子，{出生地}。{荫蔽}。{年景}。同一个果实里共有 {siblings} 粒种子。',
+  },
+
+  stages: [
+    { id: 'seed',      name: '种子（刚发芽）',         from: 0,     unit: 'day'  },
+    { id: 'seedling',  name: '幼苗（在荫蔽下）',       from: 14,    unit: 'year' },
+    { id: 'juvenile',  name: '幼株（离开荫蔽）',       from: 3650,  unit: 'year' },
+    { id: 'adult',     name: '成株（开花结果）',       from: 18250, unit: 'decade' },
+    { id: 'old',       name: '老柱（上部开始裂开）',   from: 54750, unit: 'decade' },
+  ],
+  maturity: 18250,
+  maxAge: 73000,
+
+  survival: [[0,1],[14,0.5],[365,0.1],[3650,0.03],[7300,0.015],[18250,0.008],[36500,0.004],[54750,0.002],[73000,0]],
+  survivalNote: '巨人柱幼苗在野外的存活率很低，成年后寿命很长，可以超过一百五十年。此曲线按幼苗存活率和成株寿命粗估。',
+
+  init: { health: 70, food: 45, safety: 40 },
+  foodDrain: 1,
+
+  causes: [
+    { id: 'frost', escape: true, w: 2, stages: ['seedling','juvenile'], short: '寒流霜冻',
+      text: '一夜的寒流把气温压到冰点以下。你的表皮受冻，柔软的组织开始变成棕色。' },
+    { id: 'drought', escape: true, w: 2, stages: ['juvenile','adult'], short: '长期干旱',
+      text: '这一年的雨季没有来。你把茎里储存的水用完，褶皱越来越深，最后茎体变得又软又干。' },
+    { id: 'rot', escape: true, w: 2, stages: ['adult','old'], short: '柱腐病，茎内组织腐烂',
+      text: '一个伤口在雨后积了水。细菌和真菌从伤口进入茎内，组织开始变软，发出腐烂的气味。' },
+    { id: 'toppled', escape: true, w: 2, stages: ['adult','old'], short: '侧枝被风折断，茎体倒伏',
+      text: '一阵大风吹过，你最重的一根侧枝在中间折断。断口露出白色的木质部，整个茎体开始倾斜。' },
+    { id: 'fire', escape: true, w: 1, stages: ['juvenile','adult'], short: '野火烧焦',
+      text: '地面的草和枯枝被点燃，火沿着地面烧过来。你的表皮被烤成黑色，茎内的水在高温里沸腾。' },
+    { id: 'seedling_eaten', escape: true, w: 2, stages: ['seed','seedling'], short: '幼苗被啃食',
+      text: '一只啮齿动物在荫蔽下咬断了你的幼芽。新长出的组织很嫩，被咬断的地方不再生长。' },
+    { id: 'cut', escape: false, w: 1, short: '被人砍伐或挖走',
+      text: '一个人把你从沙漠里挖了出来，连根带土地搬走。你没有任何办法。' },
+    { id: 'starve', escape: false, w: 2, short: '长期缺水，储水耗尽',
+      text: '连续多年的干旱，你储存的水一年比一年少。你的茎体收缩，肋状的褶皱紧紧地贴在一起，再也没有展开。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '你的茎体已经很高，上部的组织越来越松。一场风之后，你的顶端没有再长出新的花芽。' },
+  ],
+
+  events: [
+    { stages: ['seed'], w: 3, text: '一场夏天的雨落下来，你的种皮吸足了水，胚开始伸出来。' },
+    { stages: ['seed'], w: 2, text: '沙面上的蚂蚁在你的种子旁边爬来爬去，它们没有停下来。' },
+    { stages: ['seed'], w: 1, text: '雨停了，沙面迅速变干。你的胚停在一个很小的状态里，等着下一场雨。' },
+    { stages: ['seedling'], w: 3, text: '你的第一片茎体伸出了沙面。它很小，颜色发灰，表面有细小的刺。' },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '雨季的时候，你的茎表吸收了一些水，颜色变深，茎体稍稍鼓起。', eff: { food: +8 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你把表皮加厚，长出更密的刺。阳光下，刺的影子落在你的茎上。', eff: { safety: +5 } },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '夏天的午后，你关闭了大部分气孔，减少蒸腾，等待傍晚的凉风。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, text: '一只啮齿动物在荫蔽下咬断了你的幼芽。被咬断的地方留下一小块白色的伤口。', eff: { health: -8 } },
+    { stages: ['seedling'], w: 2, act: 'explore', text: '你的根在沙里向四周伸展。根很浅，沿着沙面向外延伸了很远。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 1, text: '一夜的寒流把气温压到冰点以下，你表面的细胞受了冻，颜色变成棕黄色。', eff: { health: -10 } },
+    { stages: ['seedling'], w: 2, need: 'nurse', text: '你的树荫是一棵帕洛韦德树。它的枝条遮住了上午的强光，你的茎在树荫里一点点长高。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, need: 'open', text: '你的地面没有遮荫，午后的沙面很烫，你的表皮开始发白。', eff: { health: -5 } },
+    { stages: ['seedling'], w: 2, need: 'wetyear', text: '这一年的雨季来得及时，你的茎很快就鼓了起来，褶皱也比平常浅。', eff: { health: +5 } },
+    { stages: ['seedling'], w: 2, need: 'dryyear', text: '这一年几乎没有雨。你的茎慢慢收缩，颜色变深，生长停在了原地。', eff: { food: -8 } },
+    { stages: ['juvenile'], w: 3, act: 'forage', text: '雨季的夏天，你的茎迅速膨胀，表面的褶皱展开，储存了一大段的水。', eff: { food: +10 } },
+    { stages: ['juvenile'], w: 2, act: 'rest', text: '冬天的低温让你的生长停下来，茎体不再膨胀，颜色也变得暗淡。', eff: { food: -5 } },
+    { stages: ['juvenile'], w: 2, text: '一夜的寒流把气温压到冰点以下。你的表皮上有一小块冻伤，之后慢慢愈合。', eff: { health: -8 } },
+    { stages: ['juvenile'], w: 1, act: 'explore', text: '你的根在沙面下伸得更远，把浅层的水都吸了上来。', eff: { food: +5 } },
+    { stages: ['juvenile'], w: 2, text: '一只鸟在你的茎上凿出了第一个洞。洞口很圆，洞里比外面凉。', eff: { safety: -3 } },
+    { stages: ['juvenile'], w: 1, text: '风很大，沙子打在你的表皮上，留下一道一道的划痕。', eff: { health: -3 } },
+    { stages: ['juvenile'], w: 1, act: 'hide', text: '你的刺更长了，表皮的蜡质变厚。夏天的阳光下，你的颜色更偏灰绿。', eff: { safety: +5 } },
+    { stages: ['juvenile'], w: 2, need: 'tucson', text: '图森附近的沙漠山坡上，夏天的雨来得不稳定。你的根在浅层来回寻找水。', eff: { food: -3 } },
+    { stages: ['juvenile'], w: 2, need: 'sonora', text: '索诺拉的山坡上，冬天的雨不多，你的茎很少鼓起来。', eff: { food: -5 } },
+    { stages: ['juvenile'], w: 2, need: 'nurse', text: '这些年，帕洛韦德树的树荫离你越来越远，你的顶端开始接受更多的光。', eff: { health: +3 } },
+    { stages: ['juvenile'], w: 2, need: 'open', text: '没有遮荫的时候，夏天的阳光直接照在你的茎上，你的表皮变得很厚。', eff: { safety: +5 } },
+    { stages: ['juvenile'], w: 1, need: 'dryyear', text: '干旱的年份过后，你的茎体有一道褶皱没能恢复，留下了一道凹痕。', eff: { food: -5 } },
+    { stages: ['adult'], w: 3, act: 'forage', text: '你的茎体已经很高，雨季来的时候，你能储存的水很多，茎体鼓得很圆。', eff: { food: +12 } },
+    { stages: ['adult'], w: 2, act: 'hide', text: '你的刺密而硬，表皮的蜡质厚。鸟和啮齿动物很少能咬进你的组织。', eff: { safety: +5 } },
+    { stages: ['adult'], w: 2, act: 'rest', text: '干旱的季节里，你收缩茎体，关闭大部分气孔，让储存的水维持到下一场雨。', eff: { food: -5, health: +3 } },
+    { stages: ['adult'], w: 2, text: '一场寒流把气温压到冰点以下。你的表面有一部分组织受了冻，颜色变黑。', eff: { health: -8 } },
+    { stages: ['adult'], w: 1, act: 'explore', text: '你的根向外延伸，在浅层的沙里铺开了一大片。', eff: { food: +5 } },
+    { stages: ['adult'], w: 2, text: '一场风暴把你的一根侧枝折断。断口露出白色的木质部，之后的几周里，断口一直在渗水。', eff: { safety: -8, health: -5 } },
+    { stages: ['adult'], w: 1, text: '一个伤口在雨后积了水。细菌从伤口进入茎内，组织开始变软。', eff: { health: -6 } },
+    { stages: ['adult'], w: 1, text: '在你的上部，一个啄木鸟洞已经废弃。洞里的木质被掏空，它的边缘在慢慢愈合。', eff: { safety: -2 } },
+    { stages: ['adult'], w: 1, text: '沙漠里的火很少见，但这一年，地面的枯草着了火。火从你的基部烧过，表皮被烤成黑色。', eff: { health: -10 } },
+    { stages: ['adult'], w: 1, act: 'mate', text: '初夏的晚上，你的顶端开出了白色的花。花在夜里开放，花粉由蝙蝠和蜂传递。' },
+    { stages: ['adult'], w: 1, once: true, act: 'mate', text: '你的花授粉成功，结出了红色的果实。果实里的种子数量很多，你一共结出了 {n} 粒种子。', eff: { offspring: [2000, 3500] } },
+    { stages: ['adult'], w: 1, need: 'tucson', text: '图森的山坡上，风很干，你的表皮在夏天的午后颜色变浅。', eff: { health: -2 } },
+    { stages: ['adult'], w: 1, need: 'sonora', text: '索诺拉的山坡上，你的茎体附近有几株同类，互相之间隔着一段很远的距离。' },
+    { stages: ['adult'], w: 2, need: 'nurse', text: '你的早年靠在帕洛韦德树的树荫下。现在，那棵树已经枯死，树的枝条还留在地上。', eff: { safety: -3 } },
+    { stages: ['adult'], w: 2, need: 'open', text: '你的地面没有遮荫，夏天的午后，沙子的热气从你的基部升起来。', eff: { health: -3 } },
+    { stages: ['adult'], w: 1, need: 'wetyear', text: '这一年的雨季很长，你的茎体鼓得比往年都圆，表面的褶皱几乎全部展开。', eff: { food: +5 } },
+    { stages: ['adult'], w: 1, need: 'dryyear', text: '干旱持续了三年。你的茎体收缩到最低，表面的褶皱变得很深。', eff: { food: -8 } },
+    { stages: ['old'], w: 3, text: '你的上部组织越来越松，雨水从裂缝里渗进去，积在茎心里。', eff: { health: -5 } },
+    { stages: ['old'], w: 2, text: '你的侧枝一根接一根地枯了，留下一排灰白的木质。', eff: { food: -5 } },
+    { stages: ['old'], w: 2, act: 'rest', text: '你的生长几乎停止了。茎体慢慢收缩，等待下一场雨。', eff: { food: -3 } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片山坡上最高的一株巨人柱。你的侧枝向上弯，每一根都比最初的主干更细。', eff: { safety: +3 } },
+    { stages: ['old'], w: 2, act: 'explore', text: '你的根在沙面下又伸出了一截。新的根沿着沙层延伸，但它们很浅，很难再长出茎。', eff: { food: +3 } },
+  ],
+
+  opening: {
+    title: '种子落在哪里',
+    body: '你还是一粒种子，在一个果实里。果实被鸟啄开，你落在沙面上。夏天的雨还没有来，地面很热。你可以落在一棵树的树荫下，也可以落在没有遮荫的沙地上。',
+    options: [
+      { t: '落在树荫下，等待雨水', hint: '稳固↑ 养分↑ · 树荫的主人可能死亡',
+        eff: { food: +10, safety: +5 }, risk: 0.8, riskDays: 365,
+        result: '你落在一棵树的树荫下。雨来的时候，沙子变湿了，你的胚开始伸展。' },
+      { t: '落在空旷的沙地上', hint: '阳光直射 · 幼苗很难存活',
+        eff: { food: -10 }, risk: 1.4, riskDays: 365,
+        result: '你落在没有遮荫的沙面上。地面的热气很快就把你周围的水分吸干了。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺着雨季生长', desc: '跟着雨季和气温的节律，在雨后膨胀、在旱季收缩，按时生长和休眠。', text: [
+      '雨季来的时候，你的茎体慢慢鼓起来。',
+      '旱季到了，你的茎体收缩，褶皱一条一条地贴紧。',
+    ]},
+    forage: { name: '膨胀储水', desc: '雨后尽量吸水，把茎体鼓胀起来，同时展开光合作用。茎表暴露得更多，也更容易被啃食和晒伤。', text: [
+      '雨水渗进沙里，你的根尖抓住了它。',
+      '茎体鼓起来，褶皱展开，表面的颜色变得很深。',
+    ]},
+    hide: { name: '加厚表皮', desc: '加厚表皮的蜡质，长出更密更硬的刺，减少蒸腾，也让啃食者难以下口。生长变慢，但更安全。', text: [
+      '你的刺一根一根长出来，尖端很硬。',
+      '表皮的蜡质变厚，颜色偏灰绿。',
+    ]},
+    rest: { name: '收缩茎体', desc: '关闭大部分气孔，收缩茎体，减少水分消耗，等待下一场雨。', text: [
+      '你关闭了大部分气孔，茎体慢慢缩了一圈。',
+      '褶皱贴紧，你的表面在阳光下显得很干。',
+    ]},
+    explore: { name: '伸展浅根', desc: '根在沙面下水平伸展，把浅层的水都吸上来。根很浅，伸展得很远。', text: [
+      '你的根在沙里向四周伸出去，尖端很细。',
+      '一根新的侧根从主根的旁边钻了出来。',
+    ]},
+    mate: { name: '夜间开花', desc: '在春末或初夏的夜里开出白花，花粉由蝙蝠和蜂传递。授粉成功后，花结成红色的果实。', done: '这一季，你结出了 {n} 粒种子。' },
+  },
+  brood: [2000, 3500],
+
+  decisions: [
+    {
+      id: 'sun_seedling', at: 60, need: 'open',
+      title: '晒在沙地上的幼苗',
+      body: '地面没有遮荫，正午的阳光直接照在你的茎上。你的表皮开始发白，水分一天比一天少。',
+      options: [
+        { t: '加厚表皮，长出更多的刺', hint: '稳固↑ · 养分↓',
+          eff: { safety: +8, food: -5 }, risk: 0.85, riskDays: 60,
+          result: '你的表皮加厚了，刺在阳光下投出细小的影子。' },
+        { t: '保持原来的生长，多伸展茎体', hint: '养分↑ · 风险↑',
+          eff: { food: +8 }, risk: 1.3, riskDays: 60,
+          result: '你继续伸展茎体，光合作用的产物增加了，水分也流失得更快。' },
+      ],
+    },
+    {
+      id: 'winter_freeze', at: 300,
+      title: '冬天的寒流',
+      body: '寒流从北方压过来，夜里的气温降到冰点以下。你的茎体里还存着一些水，结冰就会撑破细胞。',
+      options: [
+        { t: '关闭气孔，降低代谢', hint: '健康↑ · 养分↓',
+          eff: { health: +5, food: -3 }, risk: 0.9, riskDays: 30,
+          result: '你关闭了大部分气孔，茎体里的水分流动慢了下来。' },
+        { t: '保留水分，维持原来的生长', hint: '养分↑ · 冻伤风险↑',
+          eff: { food: +5 }, risk: 1.25, riskDays: 30,
+          result: '你的茎体保持原样。寒流过后，有一小片表皮变成了棕色。' },
+      ],
+    },
+    {
+      id: 'dry_season', at: 1000, need: 'dryyear',
+      title: '旱季还在继续',
+      body: '雨季没有来，你的储水越来越少。茎体收缩到了最低，褶皱深深地陷下去。',
+      options: [
+        { t: '收缩茎体，消耗储存的水', hint: '健康↑ · 养分↓',
+          eff: { health: +5, food: -5 }, risk: 0.9, riskDays: 180,
+          result: '你继续收缩茎体，把最后的水分留给顶端。' },
+        { t: '继续扩张，寻找更深的水', hint: '养分↑ · 风险↑',
+          eff: { food: +10 }, risk: 1.3, riskDays: 180,
+          result: '你的根向深处伸去，但沙层越来越干，根的尖端开始变干。' },
+      ],
+    },
+    {
+      id: 'wet_year', at: 500, need: 'wetyear',
+      title: '雨季的水',
+      body: '这一年的雨季来得很早，雨水连续几周都没有断。你的茎体已经吸饱了水。',
+      options: [
+        { t: '把水储存在茎里，茎体继续膨胀', hint: '养分↑ · 茎的负担↑',
+          eff: { food: +10 }, risk: 1.1, riskDays: 60,
+          result: '你的茎体继续膨胀，褶皱全部展开。' },
+        { t: '把水用来生长新芽', hint: '健康↑ · 养分↓',
+          eff: { food: -3, health: +5 }, risk: 0.95, riskDays: 60,
+          result: '你的顶端长出了新的刺，颜色很嫩。' },
+      ],
+    },
+    {
+      id: 'branch', at: 20000,
+      title: '侧枝的时机',
+      body: '你已经有几十年的树龄，茎体的粗细接近成熟。你可以开始长出侧枝，也可以继续只长主干。',
+      options: [
+        { t: '长出侧枝，扩大光合面积', hint: '养分↑ · 折断的风险↑',
+          eff: { food: +10 }, risk: 1.2, riskDays: 365,
+          result: '你的侧芽开始膨大，一根侧枝慢慢向上弯起来。' },
+        { t: '只长主干，减少水分消耗', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +5 }, risk: 0.9, riskDays: 365,
+          result: '你继续只长主干，茎体保持笔直。' },
+      ],
+    },
+    {
+      id: 'woodpecker_hole', at: 30000,
+      title: '啄木鸟的洞',
+      body: '一只啄木鸟在你的茎上凿了一个洞，洞口的伤口已经开始渗液。洞里的木质被掏空，洞壁的组织暴露在外。',
+      options: [
+        { t: '加快伤口愈合，把洞周围包起来', hint: '健康↑ · 养分↓',
+          eff: { health: +8, food: -5 }, risk: 0.9, riskDays: 90,
+          result: '你的组织在洞口周围形成了一层新的保护层。' },
+        { t: '不处理洞口，让伤口自然干掉', hint: '养分↑ · 感染风险↑',
+          eff: { food: +5, health: -3 }, risk: 1.2, riskDays: 90,
+          result: '洞口的渗液慢慢干了，结成了一层硬壳。之后的雨水又在壳下积了一些。' },
+      ],
+    },
+    {
+      id: 'flowering', at: 25000, need: 'tucson',
+      title: '夏夜的花',
+      body: '这个春末，你的顶端长出了花蕾。花在夜里开放，花粉要靠蝙蝠和蜂来传递。',
+      options: [
+        { t: '夜里开花，吸引蝙蝠授粉', hint: '繁殖 · 花期耗水↑',
+          eff: { offspring: [2000, 3500] }, risk: 1.15, riskDays: 60,
+          result: '你的花在夜里开放，蝙蝠在花间停留。授粉后，果实开始长大。' },
+        { t: '不开花，把水储存下来', hint: '养分↑ · 不繁殖',
+          eff: { food: +8, health: +3 }, risk: 0.9, riskDays: 60,
+          result: '你没有抽出花蕾，储存的水一点一点地留在茎里。' },
+      ],
+    },
+    {
+      id: 'rot_wound', at: 45000,
+      title: '茎上的伤口',
+      body: '一个伤口在雨后积了水，伤口的边缘开始变软。组织发出一股酸味，颜色从浅棕变成深褐。',
+      options: [
+        { t: '把伤口周围的组织加厚，隔离病菌', hint: '健康↑ · 养分↓',
+          eff: { health: +5, food: -5 }, risk: 0.9, riskDays: 90,
+          result: '你的组织在伤口周围形成了一圈木栓，把烂掉的部分隔开了。' },
+        { t: '让伤口继续开放，排出积水', hint: '健康↓ · 风险↑',
+          eff: { health: -5 }, risk: 1.3, riskDays: 90,
+          result: '伤口的积水慢慢排出，烂掉的组织也随之脱落。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '沙面上很热，你的茎体在午后的阳光里慢慢变得发烫。',
+    '夜里的温度降下来，沙子的热气慢慢散掉。',
+    '一只蜥蜴在你的基部停了一会儿，又爬走了。',
+    '远处的山脊上没有云，天很蓝。',
+    '一阵风吹过，你的刺在风里轻轻地晃。',
+    '雨水渗进沙里，你的根尖慢慢感觉到了水的方向。',
+    '你的褶皱在傍晚的光里投下很深的影子。',
+    '白天的热气在地面上一层一层地升起来。',
+  ],
+
+  epitaph: '你的木质骨架留在山坡上，它们在沙漠里慢慢地干透。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'bristlecone',
+  name: '大盆地狐尾松',
+  en: 'Great Basin bristlecone pine',
+  sci: 'Pinus longaeva（大盆地狐尾松）',
+  emoji: '🌱',
+  kingdom: 'plant',
+  taxon: '裸子植物门 › 松柏纲 › 松科',
+  size: '成树高 5–15 米，树干常扭曲，只有一部分树皮还活着；已知个体的年龄可超过 4800 年',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你的一条树干可能已经死了几百年，活着的那一条树皮带继续把水送上树冠',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['内华达州与加利福尼亚州交界的白山，海拔约 3000 米的石灰岩坡上', 3, { food: -5, set: 'bristle_white' }],
+        ['大盆地的另一座山，岩层裸露，冬天的雪一直覆盖到五月', 2, { risk: 1.1, set: 'bristle_snow' }],
+        ['一片稀疏的古松林，树与树之间隔着很远的裸岩', 2, { food: +3, set: 'bristle_sparse' }],
+      ]},
+      { label: '母树的结实', options: [
+        ['前一年的夏天雨水充足，母树的球果挂满了枝条', 2, { food: +5, set: 'cone_full' }],
+        ['前一年的夏天很干，母树只结了几个球果', 3, { food: -5, set: 'cone_few' }],
+      ]},
+      { label: '前几十年的气候', options: [
+        ['前几十年的气候偏暖湿，雪线高，雪化得早', 2, { risk: 0.9, set: 'warm' }],
+        ['前几十年连续干旱，土壤里的水分很少', 2, { food: -8, risk: 1.2, set: 'dry' }],
+      ]},
+    ],
+    siblings: 200,
+    siblingsLabel: '同一棵母树当年的种子',
+    intro: '你是一颗大盆地狐尾松的种子，落在{出生地}。{母树的结实}。{前几十年的气候}。同一棵母树当年的种子共有 {siblings} 颗。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（球果中的种子）', from: 0,       unit: 'month' },
+    { id: 'seedling', name: '幼苗',                 from: 180,     unit: 'decade' },
+    { id: 'young',    name: '年轻树（约 50–300 年）', from: 18250,  unit: 'decade' },
+    { id: 'mature',   name: '成熟树（约 300–2000 年）', from: 109500, unit: 'century' },
+    { id: 'old',      name: '古树（约 2000 年以上）', from: 730000, unit: 'century' },
+  ],
+  maturity: 18250,
+  maxAge: 1825000,
+
+  survival: [[0,1],[180,0.15],[18250,0.05],[109500,0.02],[730000,0.004],[1000000,0.002],[1825000,0]],
+  survivalNote: '大盆地狐尾松没有完整的普查数据。寿命上限参考了树轮测年的最老个体（4800 年以上）；种子与幼苗的存活率、成树的死亡率都是按高山样地的观察粗估的，只有数量级较有把握。',
+
+  init: { health: 70, food: 50, safety: 40 },
+  foodDrain: 1,
+
+  causes: [
+    { id: 'lightning', escape: false, w: 1, stages: ['mature','old'], short: '雷击劈开树干',
+      text: '一场雷暴击中了树干。电流沿着树皮向下流，树干的一侧被劈开，树脂烧焦，断面留下一道黑色的痕迹。' },
+    { id: 'snow_break', escape: true, w: 1, stages: ['young','mature'], short: '积雪压断枝条',
+      text: '冬天的积雪堆了两米多高。你的一根主枝承受不住重量，断在了雪里。' },
+    { id: 'wind', escape: true, w: 2, stages: ['mature','old'], short: '大风折断粗枝',
+      text: '一场风暴从山脊上吹下来。一根粗枝在风里弯曲，最后从树干上断开。' },
+    { id: 'erosion', escape: false, w: 1, stages: ['mature','old'], short: '表土被雨水冲走，根系暴露',
+      text: '雨季的水把山坡的表土冲走了，你的根露在石头之间，失去了固定的依托。' },
+    { id: 'felled', escape: false, w: 1, stages: ['old'], short: '被人砍倒取样',
+      text: '一名研究生用锯子把你锯倒，为了数清楚你的年轮。之后，你的树干被切成了木段。' },
+    { id: 'starve', escape: false, w: 1, short: '长期干旱，养分耗尽',
+      text: '连续很多年的降雨都不够。针叶越来越短，根也不再向外伸长，树脂的流量逐年减少。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '你的树冠在顶端一根根枯掉。最后一束针叶展开时，颜色已经很淡，之后再没有新的针叶出现。' },
+  ],
+
+  events: [
+    { stages: ['seedling'], w: 3, text: '一根胚根从种子里伸出来，在岩石的缝隙里找到了一块湿润的土。' },
+    { stages: ['seedling'], w: 3, act: 'forage', text: '针叶在夏天展开，每一束有五根，颜色是灰绿色的。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '冬天的雪厚厚地盖在你身上。你的针叶收回了大部分水分，颜色变暗。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, text: '一块石头的阴影在夏天的午后覆盖了你的根颈，直到傍晚才移开。' },
+    { stages: ['seedling'], w: 2, act: 'explore', text: '你的根在岩石的缝隙里向下伸，每年只伸长几厘米。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你的叶表在加厚，气孔藏在凹陷里，水分的蒸发减少了。', eff: { safety: +4, food: -3 } },
+    { stages: ['seedling'], w: 2, text: '一场夏季的冰雹打碎了几根针叶，断口很快变成了褐色。', eff: { health: -3 } },
+    { stages: ['seedling'], w: 1, text: '一只松鼠在岩缝里找到一颗种子，咬开了壳，只留下碎片。' },
+    { stages: ['seedling'], w: 2, need: 'bristle_white', text: '白山的夏天很短，你的顶芽在七月就停止了伸长。', eff: { food: -2 } },
+    { stages: ['seedling'], w: 2, need: 'bristle_white', text: '石灰岩的表面很干燥，但雨水会在裂缝里积成一小块湿土，你的根在那里生长。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, need: 'bristle_snow', text: '雪在山坡上堆得很厚，一直到五月才开始融化。你的芽在雪下面等待。', eff: { food: -3 } },
+    { stages: ['seedling'], w: 2, need: 'bristle_snow', text: '春天的融雪水从坡上流下来，你的根在湿土里很快伸长。', eff: { food: +4 } },
+    { stages: ['seedling'], w: 2, need: 'bristle_sparse', text: '周围只有几棵古松，裸岩之间的空隙很大，光和水都不必与别的植株争夺。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, need: 'bristle_sparse', text: '岩石表面在夏天的正午非常热，你的针叶颜色变得发白。', eff: { health: -2 } },
+    { stages: ['seedling'], w: 2, need: 'cone_full', text: '前一年的种子很多，你的周围有一圈同批的幼苗，每一株都很矮。', eff: { food: -3 } },
+    { stages: ['young'], w: 2, need: 'cone_full', text: '同批的幼苗死掉了不少，活下来的树，树冠都比较稀疏。' },
+    { stages: ['seedling'], w: 2, need: 'cone_few', text: '你的周围只有你一株幼苗，石缝里的水全都归你。', eff: { food: +4 } },
+    { stages: ['young'], w: 2, need: 'cone_few', text: '你的树干比较细，分枝也少，却很耐冷。' },
+    { stages: ['seedling'], w: 2, need: 'warm', text: '前几十年暖湿，雪线高，你的幼苗在春天较早开始伸长。', eff: { food: +3 } },
+    { stages: ['young'], w: 2, need: 'warm', text: '暖湿的年份让你的年轮变宽了一些。' },
+    { stages: ['seedling'], w: 2, need: 'dry', text: '连续的干旱让你的针叶比其他年份短了一半。', eff: { food: -5 } },
+    { stages: ['young'], w: 2, need: 'dry', text: '土层里几乎没有水分，你的根在石缝里越长越深，但新针叶仍然很少。', eff: { food: -4 } },
+    { stages: ['young'], w: 3, act: 'forage', text: '你的树冠已经完整，短暂的夏天里，新针叶展开得很快。', eff: { food: +10 } },
+    { stages: ['young'], w: 2, act: 'rest', text: '冬天的低温持续了大半年。你的针叶几乎停止了光合作用，大部分糖分留在树干里。', eff: { health: +4 } },
+    { stages: ['young'], w: 2, act: 'hide', text: '树皮变厚，裂成了鳞片，树脂道里的树脂比年轻时多。', eff: { safety: +5 } },
+    { stages: ['young'], w: 2, act: 'explore', text: '你的根在石缝里找到了一条窄窄的裂缝，它一直通到地下的湿土。', eff: { food: +5 } },
+    { stages: ['young'], w: 2, text: '一场雷暴击中了你的一侧，树干上留下了一道焦黑的裂口。', eff: { health: -4 } },
+    { stages: ['young'], w: 2, text: '风把冬天的雪从岩石上吹走，你暴露在外的针叶被风吹干了一侧。', eff: { health: -2 } },
+    { stages: ['young'], w: 2, act: 'mate', text: '春天，你的雄花序在枝端散出花粉，风把它们吹进了附近的裂缝。' },
+    { stages: ['young'], w: 2, act: 'mate', once: true, text: '秋天，球果在枝头成熟，鳞片张开，种子从里面散了出来。', eff: { offspring: [30, 80] } },
+    { stages: ['young'], w: 1, text: '一群松鸦落在你的枝上，它们把几颗种子叼走，埋进了岩石之间的土里。' },
+    { stages: ['young'], w: 2, text: '你的一根侧枝被积雪压断了，断口在夏天变成了灰色。', eff: { health: -3 } },
+    { stages: ['young'], w: 2, act: 'explore', text: '一条根在岩缝里断了，又从断口旁边长出了一条新根。' },
+    { stages: ['young'], w: 1, once: true, text: '你的树干粗到足以支撑起一个很宽的树冠，它的高度已经超过了周围的岩石。' },
+    { stages: ['young'], w: 2, act: 'forage', text: '夏天的湿度上升，你的新针叶在一个月里又长出了十几束。', eff: { food: +6 } },
+    { stages: ['mature'], w: 3, act: 'forage', text: '你的树干有一半已经死去，只剩一条窄窄的树皮带还活着。它把水送向整个树冠，也养着剩下的针叶。', eff: { food: +4 } },
+    { stages: ['mature'], w: 2, act: 'hide', text: '死去的树干在风里变成了白色，木质坚硬，虫子很难在里面钻洞。' },
+    { stages: ['mature'], w: 2, act: 'rest', text: '冬天，你的树干几乎不输送水分。活着的树皮带变得很薄，颜色是暗绿的。', eff: { health: +3 } },
+    { stages: ['mature'], w: 2, act: 'explore', text: '你的根系在岩缝里伸展得很远，离树冠的边缘已经超过了十米。' },
+    { stages: ['mature'], w: 2, text: '山坡的表土在一个雨季里被冲走，你的根露在石头之间。', eff: { health: -4 } },
+    { stages: ['mature'], w: 2, act: 'mate', text: '这一年，你的球果成熟得很慢，要过两个夏天才能散出种子。' },
+    { stages: ['mature'], w: 2, text: '一股雪崩顺着山坡滑下来，树干的下部被雪砸出了一道划痕。', eff: { health: -5 } },
+    { stages: ['mature'], w: 2, text: '一场大风吹断了你的一根粗枝，断口是灰白色的死木，很快就裂开了。', eff: { health: -3 } },
+    { stages: ['mature'], w: 1, text: '你的树皮上附着一层地衣。它们在湿度高的日子里变成了绿色。' },
+    { stages: ['mature'], w: 2, act: 'forage', text: '这一年的夏天很长，你的针叶在一个月里增加了许多，树冠内部重新被填满。', eff: { food: +6 } },
+    { stages: ['old'], w: 3, act: 'rest', text: '树干的心材已经变成了暗色，外层的木质仍在输送水分。', eff: { health: -2 } },
+    { stages: ['old'], w: 2, act: 'hide', text: '树皮的裂纹越来越深，树脂流出来凝结成小块，覆盖了伤口。', eff: { safety: +4 } },
+    { stages: ['old'], w: 2, act: 'forage', text: '一根侧枝上的针叶在夏天又展开了一层，颜色鲜绿。', eff: { food: +5 } },
+    { stages: ['old'], w: 2, text: '一场地震让岩石移动了一下，你的根在石缝里被挤压，又慢慢松开。', eff: { health: -3 } },
+    { stages: ['old'], w: 2, act: 'mate', text: '这一年，树冠上部仍然结出了几个球果，里面的种子很少。', eff: { offspring: [20, 50] } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片山坡上最老的一株古松。周围的树都比你年轻很多，它们的树冠都比你矮。' },
+    { stages: ['old'], w: 2, act: 'explore', text: '你的根在岩石里找到了一条极细的裂缝，它一直通到地下很深的湿土。' },
+    { stages: ['old'], w: 2, act: 'explore', text: '你的根在石缝里慢慢绕过一块石头，继续伸展。', eff: { food: +3 } },
+    { stages: ['old'], w: 2, act: 'hide', text: '一根死去的树干在风里轻轻地摇。它的木质已经干透，颜色很白。' },
+    { stages: ['old'], w: 1, text: '树干上有一个甲虫钻出的小孔，之后很快就没有了动静。' },
+  ],
+
+  actions: {
+    instinct: { name: '顺时生长', desc: '按短暂的生长季生长。夏天的几周里展开新针叶，其余时间停止伸长。', text: [
+      '夏天的第一批新针叶从芽鞘里伸出来，颜色很浅。',
+      '树干又多了一层很薄的年轮。',
+    ]},
+    forage: { name: '抢夏季', desc: '在短暂的夏季里多展开针叶，扩大光合面积。针叶多了，也更容易在冬季失水，或被风和雪损伤。', text: [
+      '针叶在高山的阳光下展开，叶表的蜡质有一层微光。',
+      '树冠的边缘又长出了一束新的针叶。',
+    ]},
+    hide: { name: '加固防御', desc: '加厚针叶的角质层，树皮增厚，树脂道里积累树脂。养分减少，但能减少失水，也能挡住钻蛀的虫子。', text: [
+      '树脂从树皮的裂缝里慢慢渗出，凝成小小的块。',
+      '针叶的角质层在加厚，颜色变得更深。',
+    ]},
+    rest: { name: '长冬休眠', desc: '冬天关闭气孔，降低代谢，几乎停止输送水分。把糖分留在树干里，等待下一个生长季。', text: [
+      '冬天的低温让气孔关闭，水分的输送几乎停止。',
+      '树干里的淀粉在慢慢地积累。',
+    ]},
+    explore: { name: '伸展根系', desc: '沿着岩缝向下和向外伸展根系，寻找水分与矿质。根的伸展范围可以远远超过树冠。', stages: ['seedling','young','mature','old'], text: [
+      '根尖在岩缝里缓慢地延伸，每年只前进几厘米。',
+      '一条侧根绕过了一块石头，继续向前。',
+    ]},
+    mate: { name: '开花结球果', desc: '春天散出花粉，球果需要一到两年才能成熟，然后散出带翅的种子。', done: '这一年，你的球果散出了 {n} 颗种子。' },
+  },
+  brood: [30, 120],
+
+  opening: {
+    title: '种子落下的地方',
+    body: '种子在秋天从球果里散出，落在石缝或山坡上。它落在哪里，几乎已经定下来了。落地之后，你能决定的只有怎样面对这块地方。',
+    options: [
+      { t: '落在岩石的裂缝里，靠岩石挡风，等雪化开', hint: '稳固↑ 水分少', eff: { food: -3, safety: +4 }, risk: 1.1, riskDays: 730,
+        result: '你落在一条岩缝里。冬天的雪盖住了岩石，融化的水慢慢渗进你身边的缝隙。' },
+      { t: '落在松林的裸地上，等夏天的雨水', hint: '养分↓ 风险↑', eff: { food: -5 }, risk: 1.3, riskDays: 730,
+        result: '裸地的表土在夏天很快干了。你的胚根在一个夏天里只伸出了一点。' },
+      { t: '被星鸦埋进山坡下方的土里', hint: '离母株远 · 环境稍湿', eff: { food: +5, safety: +3 }, risk: 0.9, riskDays: 730,
+        result: '星鸦把你埋在了山坡下方的土里。那里比母株的位置更湿，但雪化得也更慢。' },
+    ],
+  },
+
+  decisions: [
+    {
+      id: 'rock_shade', at: 730,
+      title: '岩石的背风面',
+      body: '冬季的强风从岩石上方刮过。你在迎风的一侧，针叶已经被霜打得发白。',
+      options: [
+        { t: '收缩针叶，贴着地面生长', hint: '健康↑ 养分↓', eff: { health: +5, food: -4 }, risk: 0.9, riskDays: 1825,
+          result: '你的枝条低伏在岩石背面，针叶之间的空间变小了。' },
+        { t: '向上伸长顶芽，去找更高的光照', hint: '养分↑ 风险↑', eff: { food: +6 }, risk: 1.3, riskDays: 1825,
+          result: '主茎向上长，但迎风一侧的针叶很快变成了褐色。' },
+      ],
+    },
+    {
+      id: 'snow_load', at: 9125,
+      title: '积雪的重量',
+      body: '冬天的积雪在你的枝条上堆了两米多。侧枝一根根地向下弯。',
+      options: [
+        { t: '让枝条下垂，把重量分散到树干', hint: '稳固↑ 养分↓', eff: { safety: +4, food: -2 }, risk: 0.9, riskDays: 365,
+          result: '枝条在雪下弯成了弧形。春天雪化之后，大部分枝条又慢慢回弹。' },
+        { t: '保持枝条直立，不减少分枝', hint: '养分↑ 风险↑', eff: { food: +3 }, kill: 0.05, cause: 'snow_break', risk: 1.3, riskDays: 365,
+          result: '直立的侧枝承受了很大的重量，有几根在一个冬夜里断开了。' },
+      ],
+    },
+    {
+      id: 'strip_bark', at: 40000,
+      title: '树皮的一条带',
+      body: '树干的一半已经死去，只剩一条狭窄的树皮带还在输送水分和养分。',
+      options: [
+        { t: '把所有养分集中在这条活的树皮带上', hint: '养分↑ 稳固↑', eff: { food: +5, safety: +3 }, risk: 1.0, riskDays: 1825,
+          result: '这条树皮带的输导组织加粗了，它把水从根运到整个树冠。' },
+        { t: '让死去的部分彻底脱落，减少维持消耗', hint: '养分↑ 健康↓', eff: { food: +3, health: -3 }, risk: 1.0, riskDays: 1825,
+          result: '死去的部分慢慢剥落，树干在风化中变成了白色的木头。' },
+      ],
+    },
+    {
+      id: 'erosion_slope', at: 18250, need: 'bristle_snow',
+      title: '山坡上的表土',
+      body: '雨季的水冲走了一层表土，你的根露在石缝之间。',
+      options: [
+        { t: '把根伸进岩缝，固定在岩石上', hint: '稳固↑ 养分↓', eff: { safety: +6, food: -3 }, risk: 0.9, riskDays: 730,
+          result: '根顺着岩缝伸入，在岩石之间抓住了一层薄土。' },
+        { t: '保持原来的根系，等待土层恢复', hint: '风险↑', eff: { food: -5 }, risk: 1.4, riskDays: 730,
+          result: '土层没有再回来。你的根一年年暴露在空气里。' },
+      ],
+    },
+    {
+      id: 'dry_years', at: 27375, need: 'dry',
+      title: '连续的干年',
+      body: '前几年的雨水都不够，土壤里的水分在夏天很快耗尽。',
+      options: [
+        { t: '关闭大部分气孔，降低代谢，等待雨季', hint: '健康↑ 养分↓', eff: { health: +5, food: -6 }, risk: 0.85, riskDays: 1095,
+          result: '你整个夏天几乎不长新针叶。针叶的颜色变暗，树脂也少了许多。' },
+        { t: '继续生长，把根伸向更深的裂缝', hint: '养分↑ 风险↑', eff: { food: +5 }, risk: 1.25, riskDays: 1095,
+          result: '根在石缝里向下伸，但水分仍然不够，新针叶比去年短。' },
+      ],
+    },
+    {
+      id: 'cone_crop', at: 14600, need: 'cone_full',
+      title: '球果的数量',
+      body: '你结了很多球果，挂满了枝条。养分却只够成熟其中一部分。',
+      options: [
+        { t: '让所有球果成熟，把养分分给种子', hint: '结实↑↑ 养分↓↓', eff: { food: -12, offspring: [60, 150] }, risk: 1.0, riskDays: 365,
+          result: '球果在两年里慢慢成熟。种子的数量多，但树的生长很慢。' },
+        { t: '让一部分球果脱落，保留养分', hint: '养分↑ 结实↓', eff: { food: +5, health: +3, offspring: [20, 60] }, risk: 0.9, riskDays: 365,
+          result: '一部分球果脱落在岩石之间，剩下的球果里的种子也少了。' },
+      ],
+    },
+    {
+      id: 'root_break', at: 300000,
+      title: '根部的断口',
+      body: '一条主根在岩缝中断开，断口露在空气里，颜色已经发黑。',
+      options: [
+        { t: '在断口附近长出新的根', hint: '稳固↑ 养分↓', eff: { food: -4, safety: +3 }, risk: 0.9, riskDays: 3650,
+          result: '断口旁边长出了一条新的根，沿着原来的方向伸进岩缝。' },
+        { t: '保持原样，把养分转向上部的枝条', hint: '养分↑ 风险↑', eff: { food: +4 }, risk: 1.2, riskDays: 3650,
+          result: '树冠的上部又长出了一些新针叶，但断口没有愈合。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '风从岩石的缝隙里穿过，发出很轻的声音。',
+    '石灰岩的表面在阳光下慢慢变热，夜里又慢慢冷下来。',
+    '地衣在树皮的裂纹里一点点地扩大。',
+    '夏天的云在山脊上停留，雨点很快又散开了。',
+    '一块死去的树干在风中轻轻地摇。',
+    '根在岩石之间缓慢地延伸，每年只新长出很短的一段。',
+    '山坡下面，雪还没有化完。',
+    '树皮上的一道旧伤口，树脂已经凝成了琥珀色。',
+    '冬天的光线很低，照在树干的白色死木上。',
+  ],
+
+  epitaph: '你的年轮一圈比一圈窄，有些年份的那一圈，只有头发丝那么厚。你的一部分早就死了，另一部分还在活着。',
+});
+
+;
+window.SPECIES = window.SPECIES || [];
+window.SPECIES.push({
+  id: 'flytrap',
+  kingdom: 'plant',
+  name: '捕蝇草',
+  en: 'Venus flytrap',
+  sci: 'Dionaea muscipula（捕蝇草）',
+  emoji: '🌱',
+  taxon: '被子植物门 › 木兰纲 › 石竹目 › 茅膏菜科',
+  size: '叶片展开时约 3–10 厘米，陷阱叶的两瓣闭合后长约 1–3 厘米；花茎可高出叶丛约 20–30 厘米',
+  scene: 'grass',
+  kind: 'wild',
+  tagline: '你的陷阱只在草原被火烧过以后才有足够的阳光和昆虫',
+
+  birth: {
+    rolls: [
+      { label: '出生地', options: [
+        ['落在北卡罗来纳州威尔明顿附近的松树稀树草原上', 3, { set: 'nc' }],
+        ['落在南卡罗来纳州一片湿润的松林边缘', 2, { set: 'sc' }],
+      ]},
+      { label: '火的频率', options: [
+        ['这片草原每两三年烧一次，地面的灌木被清干净', 3, { food: +5, set: 'burned' }],
+        ['这片草原很久没有烧过，周围的灌木已经很密', 2, { food: -10, risk: 1.2, set: 'unburned' }],
+      ]},
+      { label: '捕虫的状况', options: [
+        ['这里夏天的昆虫很多，蚊子和苍蝇常落在叶子上', 3, { food: +10, set: 'prey' }],
+        ['这一年夏天的昆虫很少，你的陷阱大半时间是空的', 2, { food: -8, set: 'scarce' }],
+      ]},
+    ],
+    siblings: 20,
+    siblingsLabel: '同一个蒴果里的种子',
+    intro: '你是一粒种子，落在{出生地}。{火的频率}。{捕虫的状况}。同一个蒴果里共有 {siblings} 粒种子。',
+  },
+
+  stages: [
+    { id: 'seed',     name: '种子（埋在沙土里）',       from: 0,     unit: 'week'  },
+    { id: 'seedling', name: '幼苗（只长草状的叶子）',   from: 180,   unit: 'month' },
+    { id: 'juvenile', name: '幼株（开始长出陷阱）',     from: 730,   unit: 'month' },
+    { id: 'adult',    name: '成株（陷阱叶成熟）',       from: 1825,  unit: 'year'  },
+    { id: 'old',      name: '老株（分株成丛）',         from: 7300,  unit: 'year'  },
+  ],
+  maturity: 1095,
+  maxAge: 10950,
+
+  survival: [[0,1],[30,0.4],[180,0.1],[365,0.06],[730,0.04],[1825,0.02],[3650,0.012],[7300,0.006],[10950,0]],
+  survivalNote: '捕蝇草在野外的寿命和幼苗存活率缺乏系统的长期追踪，多数个体在十几年到二十多年之间；此曲线为粗估。',
+
+  init: { health: 70, food: 45, safety: 45 },
+  foodDrain: 2,
+
+  causes: [
+    { id: 'fire', escape: true, w: 1, stages: ['juvenile','adult'], short: '野火烧过地面',
+      text: '地面的枯草被点燃，火沿着草原往前走。叶子被烤成黑色，你把养分收回到地下的鳞茎里，等待火过去。' },
+    { id: 'trampled', escape: true, w: 2, stages: ['seedling','juvenile','adult'], short: '被踩踏',
+      text: '一双靴子踩过草原的边缘。叶柄被压断，陷阱叶贴在沙地上，不再能闭合。' },
+    { id: 'poached', escape: false, w: 2, stages: ['juvenile','adult','old'], short: '被人挖走',
+      text: '一个人蹲在草地上，用铲子把你连根挖了出来。你的鳞茎和根一起离开了沙土。' },
+    { id: 'drought', escape: true, w: 2, stages: ['juvenile','adult'], short: '短期干旱，陷阱枯死',
+      text: '连续几周没有雨，沙土表面变成了白灰色。陷阱叶的边缘干成了棕色，最后整片叶子脱落。' },
+    { id: 'shade', escape: false, w: 2, stages: ['juvenile','adult','old'], short: '灌木遮荫，光合作用不足',
+      text: '火没有再来，周围的灌木一年比一年高。你的叶子被遮在阴影里，陷阱颜色变淡，逐渐停止了张开。' },
+    { id: 'herbivore', escape: true, w: 1, stages: ['seedling','juvenile','adult'], short: '被蛞蝓和甲虫啃食',
+      text: '一只蛞蝓在夜里爬上你的陷阱，把叶片的边缘咬出一个缺口。缺口的组织很快变黑。' },
+    { id: 'fungus', escape: true, w: 1, stages: ['adult','old'], short: '真菌感染，叶片腐烂',
+      text: '一层灰色的霉在叶片的基部蔓延。被感染的叶柄变软，叶片一片接一片地烂掉。' },
+    { id: 'starve', escape: false, w: 2, short: '长期缺肥，鳞茎耗尽',
+      text: '连续几年陷阱里都没有昆虫，地下的鳞茎用光了储存的养分。新叶越来越小，最后停止了生长。' },
+    { id: 'old', escape: false, w: 0, short: '衰老', text: '你的鳞茎已经分成了好几个部分，旧的那一部分逐渐变空。新的分株还在，但你原来的那一个不再长出叶子。' },
+  ],
+
+  events: [
+    { stages: ['seed'], w: 3, text: '你埋在沙土里，灰烬的温度慢慢降下来。土里很干，你没有发芽。' },
+    { stages: ['seed'], w: 2, text: '一场秋雨渗进沙里，你的种皮吸足了水，但胚还是没有伸出来。' },
+    { stages: ['seed'], w: 2, text: '冬天的低温持续了几个星期。你在沙土里等着，等的时间比任何一棵植物都长。' },
+    { stages: ['seed'], w: 1, text: '一只蚂蚁从你旁边爬过，它的脚在沙面上留下一串细小的痕迹。' },
+    { stages: ['seed'], w: 1, text: '春天的雨落在草原上，沙面变湿，土里的温度开始回升。' },
+    { stages: ['seedling'], w: 3, text: '第一片叶子从鳞茎顶端伸出来，细长，像草。它没有陷阱，只能靠光合作用。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, act: 'forage', text: '春天的光照增强，你的叶子展开，颜色变深，光合作用的产物慢慢积累。', eff: { food: +8 } },
+    { stages: ['seedling'], w: 2, act: 'hide', text: '你把叶片收紧，贴着地面生长。风吹过草原时，叶子没有被折断。', eff: { safety: +5 } },
+    { stages: ['seedling'], w: 2, act: 'rest', text: '夏天的午后，你的叶子在高温里变得发软。你收缩叶柄，减少水分的流失。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, text: '一只蛞蝓在夜里爬上你的叶子，把叶片的边缘咬出一个缺口。', eff: { health: -6 } },
+    { stages: ['seedling'], w: 1, text: '一双靴子踩过草原的边缘。你的叶柄被压弯，之后又慢慢直起来。', eff: { safety: -5 } },
+    { stages: ['seedling'], w: 1, act: 'explore', text: '鳞茎的旁边长出了一个小的鳞茎，两个鳞茎靠在一起。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, need: 'nc', text: '北卡罗来纳州的草原在春天很开阔，你的叶子比南边的同类更早伸出了地面。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, need: 'sc', text: '松林的边缘比较湿，沙土里的水分在夏天也不会一下子干掉。', eff: { health: +3 } },
+    { stages: ['seedling'], w: 2, need: 'burned', text: '草原前一年刚烧过，地面上的灰烬把光反射得很强。你的叶子在阳光里很快长大。', eff: { food: +5 } },
+    { stages: ['seedling'], w: 2, need: 'unburned', text: '草原很久没有烧过，枯草堆在你的叶子周围，把光挡住了一部分。', eff: { food: -5 } },
+    { stages: ['seedling'], w: 2, need: 'prey', text: '夏天的昆虫很多，你的叶子上常有蚊子落下来。你把叶子收紧的时候，已经能感觉到它们的挣扎。', eff: { food: +3 } },
+    { stages: ['seedling'], w: 2, need: 'scarce', text: '夏天几乎没有昆虫，你的叶子又细又薄，颜色偏黄。', eff: { food: -5 } },
+    { stages: ['juvenile'], w: 3, text: '你的第一个陷阱叶展开了。叶片的顶端分成两瓣，每一瓣的边缘都有细长的刺毛。', eff: { food: +5 } },
+    { stages: ['juvenile'], w: 2, act: 'forage', text: '夏天，你的陷阱张得很大，内侧的腺体开始分泌消化的液体，液体在阳光下发亮。', eff: { food: +10 } },
+    { stages: ['juvenile'], w: 2, act: 'hide', text: '你把陷阱收紧，两瓣几乎合在一起，减少了失水，也减少了被啃食的面积。', eff: { safety: +5, food: -3 } },
+    { stages: ['juvenile'], w: 2, text: '一只甲虫爬进了陷阱，碰到的感应毛在约二十秒内被先后触动了两次。陷阱随即闭合。', eff: { food: +6 } },
+    { stages: ['juvenile'], w: 2, text: '一只蜘蛛在陷阱的边缘织了一张网。陷阱没有闭合，它很快就离开了。' },
+    { stages: ['juvenile'], w: 1, text: '一场火之后，草原上的灰烬还是温的。你的叶子在火后的一周里长得很快。', eff: { food: +5 } },
+    { stages: ['juvenile'], w: 2, act: 'explore', text: '你的鳞茎向外分出了一个新的小鳞茎，它们靠在沙土下面。', eff: { food: +3 } },
+    { stages: ['juvenile'], w: 2, text: '连续几周没有下雨，沙土表面变成了白灰色。你的陷阱边缘开始变干。', eff: { health: -6 } },
+    { stages: ['juvenile'], w: 1, text: '一只蛞蝓在夜里爬上你的陷阱，咬断了一根感应毛。' , eff: { health: -3 } },
+    { stages: ['juvenile'], w: 2, need: 'burned', text: '这片草原每隔几年烧一次，你的鳞茎总能在火后重新长出叶子。', eff: { food: +3 } },
+    { stages: ['juvenile'], w: 2, need: 'unburned', text: '周围的灌木长高了，阴影从你的叶子上移过去，停在那里不动。', eff: { food: -8 } },
+    { stages: ['juvenile'], w: 2, need: 'prey', text: '夏天的昆虫很多，陷阱闭合的次数比往年都多。你的消化腺分泌得很快。', eff: { food: +8 } },
+    { stages: ['juvenile'], w: 2, need: 'scarce', text: '这一年夏天，陷阱张开了很久，却很少有东西落进来。你的陷阱叶边缘开始泛黄。', eff: { food: -6 } },
+    { stages: ['adult'], w: 3, act: 'forage', text: '夏天，你的陷阱叶展开了十几片。每一片都张得很大，边缘的刺毛在风里轻轻摆动。', eff: { food: +10 } },
+    { stages: ['adult'], w: 2, act: 'hide', text: '你收紧陷阱，把叶片压到地面。草原上的风很大，你的叶片没有被吹断。', eff: { safety: +5 } },
+    { stages: ['adult'], w: 2, act: 'rest', text: '冬天来了，陷阱叶渐渐枯黄。你的鳞茎留在地下，停止生长，等待春天。', eff: { food: -5, health: +3 } },
+    { stages: ['adult'], w: 2, text: '一次短期的干旱，陷阱的边缘干成了棕色。你的根在沙土里找水，但水越来越少。', eff: { health: -8 } },
+    { stages: ['adult'], w: 1, text: '一场野火从草原的南边烧过来。叶子被烤焦，鳞茎躲在地下，安全地度过了火。', eff: { health: -6 } },
+    { stages: ['adult'], w: 2, text: '一只蛞蝓在夜里爬上陷阱，把内侧的腺体咬坏了一块。' , eff: { health: -5 } },
+    { stages: ['adult'], w: 1, text: '一层灰色的霉在你的叶柄基部蔓延。被感染的组织变软，颜色发暗。', eff: { health: -8 } },
+    { stages: ['adult'], w: 2, act: 'explore', text: '你的鳞茎分出了一个新的分株，分株的叶子从沙面上冒出来。', eff: { food: +5 } },
+    { stages: ['adult'], w: 1, act: 'mate', text: '春天，一根长长的花茎从叶丛中抽出来，顶端开出白色的花。花朵在阳光下张开，昆虫落在花上。' },
+    { stages: ['adult'], w: 1, once: true, act: 'mate', text: '你的花授粉以后结成了蒴果，蒴果里装着黑色的种子。你结出了 {n} 粒种子。', eff: { offspring: [8, 20] } },
+    { stages: ['adult'], w: 2, need: 'burned', text: '草原定期被烧过，周围的灌木很少。阳光直接照在你的叶子上，你的陷阱张得很开。', eff: { food: +5 } },
+    { stages: ['adult'], w: 2, need: 'unburned', text: '草原很久没有烧过。灌木的根一层一层地压过来，你的鳞茎周围越来越挤。', eff: { food: -5 } },
+    { stages: ['adult'], w: 2, need: 'prey', text: '夏天昆虫多，你的陷阱叶边缘的刺毛上沾满了细小的昆虫的翅膀。', eff: { food: +6 } },
+    { stages: ['adult'], w: 2, need: 'scarce', text: '昆虫很少的几年，你的陷阱叶变小，颜色也变得很淡。', eff: { food: -6 } },
+    { stages: ['adult'], w: 1, need: 'nc', text: '北卡罗来纳州的草原在春天会开出一大片白花。你的花茎在草间很显眼。', eff: { safety: -2 } },
+    { stages: ['adult'], w: 1, need: 'sc', text: '松林边缘的湿地里，你和一群同类挤在一起，互相之间隔着细碎的沙。', eff: { safety: +3 } },
+    { stages: ['old'], w: 3, text: '你的鳞茎已经分成了好几个部分。老的那一部分越来越空，只有外层的组织还在工作。', eff: { food: -5 } },
+    { stages: ['old'], w: 2, act: 'rest', text: '你的叶子数量比前几年少，每一片都更小。冬天里，你的鳞茎留在沙土深处。', eff: { food: -3 } },
+    { stages: ['old'], w: 2, act: 'explore', text: '你的分株一圈一圈地围着原来的鳞茎长出来。它们连在一起，成了一丛。', eff: { food: +5 } },
+    { stages: ['old'], w: 1, once: true, text: '你是这片草原上最早的一丛捕蝇草。你的分株已经覆盖了一块沙地，周围的同类都是从你身上分出去的。', eff: { safety: +5 } },
+    { stages: ['old'], w: 2, text: '真菌从你的老叶基部钻进去，叶片一片接一片地烂掉。' , eff: { health: -6 } },
+    { stages: ['old'], w: 2, text: '夏天的阳光越来越弱，陷阱张开的角度变小，颜色变淡。', eff: { food: -5 } },
+  ],
+
+  opening: {
+    title: '种子埋在哪里',
+    body: '你还是种子，刚从蒴果里落进草原的沙土。灰烬还是温的，地面上的草被烧焦了。秋天的雨还没有来。你可以在这个秋天发芽，也可以埋得更深，等到下一个春天。',
+    options: [
+      { t: '这个秋天就发芽，趁着光还在', hint: '养分↑ · 萌发早 · 风险↑',
+        eff: { food: +5 }, risk: 1.2, riskDays: 90,
+        result: '你在秋天的雨后发出了第一条根。叶子还没有展开，冬天的低温已经开始。' },
+      { t: '埋得更深，等到下一个春天', hint: '稳固↑ · 萌发晚',
+        eff: { safety: +5 }, risk: 0.85, riskDays: 90,
+        result: '你留在沙土深处。冬天的雨水从上面渗下来，你的种皮慢慢变软。' },
+    ],
+  },
+
+  actions: {
+    instinct: { name: '顺着季节生长', desc: '跟着草原的火和雨水节律，在春天展叶，在冬天收回养分。', text: [
+      '春天来了，你的陷阱叶从地里一片一片伸出来。',
+      '秋天的时候，陷阱的颜色慢慢变浅，养分收回到鳞茎里。',
+    ]},
+    forage: { name: '张开陷阱', desc: '展开更多的陷阱叶，等昆虫落进来，并分泌消化液。陷阱张得越大，暴露也越多，更容易被啃食、失水和被踩断。', text: [
+      '你的陷阱张开，内侧的腺体开始分泌消化液。',
+      '一只昆虫落在陷阱的刺毛之间，刺毛慢慢收拢。',
+    ]},
+    hide: { name: '收紧陷阱', desc: '把陷阱收紧，叶片贴近地面，减少失水和风的伤害。陷阱闭合着，捕到的东西也少。', text: [
+      '你的两瓣陷阱收紧，贴得很紧。',
+      '叶柄变粗，颜色变深，你的表面减少了水分的流失。',
+    ]},
+    rest: { name: '收回养分', desc: '叶片枯黄，养分收回到地下的鳞茎中，停止生长，等待下一个春天。', text: [
+      '冬天里，叶片慢慢变黄，养分从叶子回到鳞茎。',
+      '你停止了生长，地下的鳞茎在沙里静静地待着。',
+    ]},
+    explore: { name: '分出鳞茎', desc: '从鳞茎的旁边分出新的小鳞茎，形成分株，扩大这一丛的范围。', text: [
+      '你的鳞茎旁边长出了一个新的小鳞茎，两者靠在一起。',
+      '一株新的分株从沙面上冒出来，叶子还很小。',
+    ]},
+    mate: { name: '抽花茎开花', desc: '春天从叶丛中抽出一根长花茎，花开在茎的顶端。授粉后形成蒴果，种子落进沙土里。', done: '这一季，你结出了 {n} 粒种子。' },
+  },
+  brood: [8, 20],
+
+  decisions: [
+    {
+      id: 'burned_open', at: 2000, need: 'burned',
+      title: '火后的空地',
+      body: '一场火刚刚烧过草原，灌木被清了一大片。阳光照到地面上，灰烬里有新的养分。',
+      options: [
+        { t: '抓紧阳光，展开更多的陷阱', hint: '养分↑ · 风险↑',
+          eff: { food: +10 }, risk: 1.2, riskDays: 90,
+          result: '你展开了几片新的陷阱叶。昆虫很快就落了进来。' },
+        { t: '留在地下，把养分留给鳞茎', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +5 }, risk: 0.9, riskDays: 90,
+          result: '你的叶子展得很小，鳞茎里的养分慢慢积累起来。' },
+      ],
+    },
+    {
+      id: 'unburned_shade', at: 2500, need: 'unburned',
+      title: '灌木的阴影',
+      body: '周围的灌木越来越高，阴影每天都在你的叶子上移动。陷阱叶的颜色已经开始变淡。',
+      options: [
+        { t: '向灌木的空隙伸展叶柄', hint: '养分↑ · 失水↑',
+          eff: { food: +5, health: -3 }, risk: 1.2, riskDays: 120,
+          result: '叶柄向空隙的方向伸了出去，阳光在叶片上停了一会儿。' },
+        { t: '保持原来的大小，等待下一场火', hint: '健康↑ · 养分↓',
+          eff: { food: -8, health: +3 }, risk: 0.9, riskDays: 120,
+          result: '你保持了叶片的大小，耐心地等着阴影离开。' },
+      ],
+    },
+    {
+      id: 'prey_full', at: 800, need: 'prey',
+      title: '昆虫很多的夏天',
+      body: '夏天的昆虫很多，陷阱闭合的次数越来越多。消化液已经不够用了。',
+      options: [
+        { t: '全部陷阱同时张开，抢着捕虫', hint: '养分↑↑ · 风险↑',
+          eff: { food: +12 }, risk: 1.25, riskDays: 60,
+          result: '你所有的陷阱都张开了。昆虫一只接一只地落进来。' },
+        { t: '只开一半陷阱，留着养分', hint: '健康↑ · 养分↓',
+          eff: { food: -3, health: +5 }, risk: 0.9, riskDays: 60,
+          result: '你只张开了一半陷阱，剩下的叶子保持着闭合。' },
+      ],
+    },
+    {
+      id: 'scarce_wait', at: 800, need: 'scarce',
+      title: '空着的陷阱',
+      body: '昆虫很少，陷阱张开了很久，却没有东西落进来。你的鳞茎里的养分在慢慢减少。',
+      options: [
+        { t: '保持陷阱张开，继续等待', hint: '养分↓ · 风险↑',
+          eff: { food: -3 }, risk: 1.1, riskDays: 60,
+          result: '你的陷阱一直张着，直到夏末，它们才第一次闭合。' },
+        { t: '收紧陷阱，减少消耗', hint: '健康↑ · 养分↓',
+          eff: { food: -5, health: +3 }, risk: 0.9, riskDays: 60,
+          result: '你收紧了陷阱，叶片的颜色变深，水分的流失减少了。' },
+      ],
+    },
+    {
+      id: 'trample_low', at: 1200,
+      title: '有人踩过草原',
+      body: '草原的边缘有一条新踩出来的小路。叶子就在路边，离地面不到一厘米。',
+      options: [
+        { t: '把叶子贴地，减少被踩的机会', hint: '稳固↑ · 养分↓',
+          eff: { safety: +5, food: -3 }, risk: 0.85, riskDays: 30,
+          result: '你的叶子贴着地面，靴子踩过时只擦到了边缘。' },
+        { t: '叶子继续抬高，接收更多的光', hint: '养分↑ · 被踩的风险↑',
+          eff: { food: +8 }, risk: 1.2, riskDays: 30, kill: 0.04, cause: 'trampled',
+          result: '你的叶子继续抬高。一只靴子落下来，压断了叶柄。' },
+      ],
+    },
+    {
+      id: 'poach_roots', at: 4000,
+      title: '铲子声',
+      body: '草原边上有人蹲了下来，用铲子在你旁边挖。沙土被翻起，你的鳞茎露出了一部分。',
+      options: [
+        { t: '鳞茎往深处收，留在沙土里', hint: '稳固↑ · 养分↓',
+          eff: { safety: +5, food: -3 }, risk: 0.9, riskDays: 30,
+          result: '你的鳞茎往下收缩了一段。铲子擦过了你的叶丛，停在了旁边。' },
+        { t: '保持鳞茎位置不动', hint: '养分↑ · 被挖的风险↑',
+          eff: { food: +3 }, risk: 1.2, riskDays: 30, kill: 0.08, cause: 'poached',
+          result: '你的鳞茎留在原处，铲子把它连着沙土一起翻了出来。' },
+      ],
+    },
+    {
+      id: 'flower_stalk', at: 1500,
+      title: '花茎的时机',
+      body: '春天的光照增强，你的叶丛里已经有一根花茎开始抽出来。花茎要消耗大量的养分。',
+      options: [
+        { t: '抽出花茎，开花结籽', hint: '繁殖 · 养分↓',
+          eff: { offspring: [8, 20], food: -5 }, risk: 1.1, riskDays: 60,
+          result: '你的花茎伸到了草丛的上方，顶端的花朵在阳光下张开。' },
+        { t: '不开花，把养分存进鳞茎', hint: '养分↑ · 不繁殖',
+          eff: { food: +8, health: +3 }, risk: 0.9, riskDays: 60,
+          result: '你没有抽出花茎，养分一点一点地存进了鳞茎里。' },
+      ],
+    },
+  ],
+
+  idle: [
+    '草原上的风很大，你的陷阱叶在风里轻轻地摆动。',
+    '沙土在阳光下发烫，你的根尖在沙里找着一点湿气。',
+    '一只蚂蚁从你的叶丛边上爬过，没有落进陷阱。',
+    '远处的松树林里，风的声音很低。',
+    '夜里的温度降下来，陷阱叶的边缘开始发凉。',
+    '一片枯草贴在你的叶子上，慢慢地被风带走了。',
+    '草原上的灰烬被雨冲走了一部分，露出了下面的沙。',
+    '有一只蜻蜓停在你的花茎顶端，不久就飞走了。',
+  ],
+
+  epitaph: '你的分株还留在草原上，它们之中有些已经比你原来的那一丛还要大。',
+});
+
+;
+// Causes of death added to fill life stages that had none or only one. Appended after a species' own causes (indexes stay valid).
+// [stages, id, escape, weight, zh short, zh text, en short, en text]
+window.EXTRA_CAUSES = {
+ mosquito: [
+  [['egg'], 'egg_dry', false, 3, '卵在容器里干死', '容器里的水干得太久，附在壁上的卵失水，胚胎停了下来。', 'The eggs dried out', 'The container stayed dry too long. The egg on its wall lost its water and the embryo stopped.'],
+  [['egg'], 'egg_eaten', false, 2, '卵被吃掉', '一只小型水生动物在水面边缘取食，把附着的卵刮走了。', 'Eaten as an egg', 'A small water animal fed along the waterline and scraped the egg away.'],
+  [['pupa'], 'pupa_eaten', true, 3, '蛹被鱼或水生昆虫吃掉', '你浮在水面呼吸，一只水生昆虫从下面抓住了你。', 'Eaten as a pupa', 'You hung at the surface to breathe, and a water insect seized you from below.'],
+  [['pupa'], 'pupa_flush', false, 2, '积水被倒掉', '有人倒掉了容器里的积水，你被冲到干地上。', 'The water was tipped out', 'Someone emptied the container and you were washed onto dry ground.'],
+  [['pupa'], 'eclose', false, 2, '羽化失败', '你的背裂开了，身体却没能完全脱出旧壳，落进了水里。', 'Failed to emerge', 'Your back split, but your body did not come free of the old skin and fell into the water.']],
+ housefly: [[['egg'], 'egg_dry', false, 3, '卵干死', '产卵的基质很快干了，卵壳皱缩，胚胎停了下来。', 'Dried out as an egg', 'The material dried quickly. The eggshell shrank and the embryo stopped.'], [['egg'], 'egg_mite', false, 2, '卵被螨吃掉', '粪堆里的螨找到了这一堆卵。', 'Eggs eaten by mites', 'Mites living in the dung found the batch of eggs.'], [['pupa'], 'pupa_beetle', false, 2, '蛹被甲虫吃掉', '一只甲虫咬开了蛹壳。', 'Pupa eaten by a beetle', 'A beetle bit through the pupal case.']],
+ honeybee: [[['egg'], 'egg_removed', false, 2, '卵被工蜂清除', '工蜂检查巢房，把你从房底清了出去。', 'Removed by workers', 'A worker checked the cell and cleared you from its floor.'], [['egg', 'larva'], 'chill', false, 2, '育虫区受冷', '蜂群没能保住育虫区的温度。', 'The brood was chilled', 'The colony could not keep the brood area warm.'], [['larva'], 'foulbrood', false, 2, '幼虫腐臭病', '细菌随食物进入你的身体。', 'Foulbrood', 'Bacteria entered your body with the food.'], [['pupa'], 'pupa_hygiene', false, 1, '病蛹被工蜂清除', '工蜂揭开房盖，把受感染的蛹拖了出去。', 'Removed as a diseased pupa', 'Workers opened the cap and dragged the infected pupa out.']],
+ duck: [[['egg'], 'infertile', false, 3, '胚胎中途停止发育', '孵化机里的胚胎停在了某一天。', 'The embryo stopped developing', 'In the incubator, the embryo stopped on one of the days.'], [['egg'], 'unhatched', false, 2, '没能破壳', '你啄开了一个小孔，没有力气再往外。', 'Could not hatch', 'You pecked a small hole and had no strength to go further.']],
+ layer_hen: [[['chick'], 'yolk', false, 2, '卵黄感染', '脐部没有长好，细菌进入了残余的卵黄。', 'Yolk sac infection', 'The navel had not closed and bacteria reached the remaining yolk.'], [['chick'], 'chick_cold', false, 2, '育雏温度过低', '育雏区太冷，你和几只雏鸡挤在一起，没有暖过来。', 'Brooder too cold', 'The brooder was too cold. You huddled with other chicks and did not warm up.']],
+ pig: [[['newborn'], 'stillborn', false, 2, '出生时缺氧', '分娩时间太长，你在产道里缺了氧。', 'Starved of oxygen at birth', 'The birth took too long and you ran short of oxygen.'], [['newborn'], 'born_crush', false, 3, '被母猪压住', '母猪躺下时，你还没来得及挪开。', 'Crushed by the sow', 'The sow lay down before you could move aside.'], [['newborn'], 'born_cold', false, 2, '受冷', '你身上还湿着，没有及时吃到初乳，体温降了下去。', 'Chilled', 'You were still wet and did not get colostrum in time. Your body cooled.']],
+ copepod: [[['egg'], 'egg_sink', false, 1, '卵沉到海底', '卵沉进了海底的泥里，没有孵化。', 'The egg sank', 'The egg sank into the mud of the sea floor and did not hatch.'], [['old'], 'old_fish', true, 3, '被小鱼吞下', '一条小鱼把你连同海水一起吸了进去。', 'Swallowed by a small fish', 'A small fish sucked you in with the water.'], [['old'], 'old_jelly', true, 2, '被水母捕获', '水母的触手碰到了你。', 'Caught by a jellyfish', 'The tentacles of a jellyfish touched you.']],
+ ant: [[['egg'], 'egg_eaten', false, 2, '卵被同巢吃掉', '巢里食物不够，你被当作养分回收。', 'Eaten by nestmates', 'The nest was short of food and you were recycled as nutrients.'], [['egg', 'pupa'], 'mould', false, 2, '真菌侵染', '巢室太潮，真菌长到了你身上。', 'Fungal infection', 'The chamber was too damp and fungus grew on you.'], [['pupa'], 'raid', false, 1, '巢被别的蚂蚁劫掠', '另一巢的蚂蚁闯进来，搬走了蛹。', 'The nest was raided', 'Ants of another nest broke in and carried off the pupae.']],
+ cattle: [[['calf'], 'birth', false, 2, '难产', '生产拖得太久，你没能开始呼吸。', 'Difficult birth', 'The birth took too long and you did not begin to breathe.'], [['calf'], 'calf_cold', false, 1, '受冷', '夜里很冷，你身上还是湿的。', 'Chilled', 'The night was cold and you were still wet.']],
+ broiler: [[['chick'], 'yolk', false, 2, '卵黄感染', '脐部没有长好，细菌进入了残余的卵黄。', 'Yolk sac infection', 'The navel had not closed and bacteria reached the remaining yolk.']],
+ dog: [[['newborn'], 'pup_cold', false, 3, '受冷', '你离开了母亲的身体，自己还不能保持体温。', 'Chilled', 'You were away from your mother and could not keep warm on your own.'], [['newborn'], 'pup_crush', false, 1, '被压住', '母狗翻身时压到了你。', 'Crushed', 'Your mother rolled over onto you.']],
+ sheep: [[['newborn'], 'lamb_birth', false, 2, '难产', '生产拖得太久，你没能站起来。', 'Difficult birth', 'The birth took too long and you never stood up.'], [['newborn'], 'lamb_fox', false, 1, '被狐狸叼走', '你还站不稳，一只狐狸靠近了羊群边缘。', 'Taken by a fox', 'You could not stand yet when a fox came to the edge of the flock.']],
+ duckweed: [[['bud'], 'bud_dry', false, 2, '水面干涸', '水面退下去，你和母体一起贴在泥上干掉了。', 'The water dried up', 'The water fell and you dried on the mud with your parent.']],
+ farmed_carp: [[['egg'], 'unfert', false, 3, '未受精', '你没有受精，颜色慢慢发白。', 'Unfertilised', 'You were not fertilised and slowly turned white.'], [['egg'], 'sink', false, 2, '水流太慢，卵沉底', '水流托不住你，你沉到池底，被泥盖住。', 'Sank in slow water', 'The current could not carry you. You sank and were covered by silt.']],
+ farmed_shrimp: [[['egg', 'larva'], 'vibrio', false, 3, '弧菌感染', '育苗池里的弧菌多了起来。', 'Vibrio infection', 'Vibrio bacteria multiplied in the hatchery tank.'], [['larva', 'pl'], 'salt', false, 1, '水质骤变', '换水时盐度和温度变得太快。', 'Sudden change of water', 'Salinity and temperature changed too fast when the water was renewed.'], [['pl'], 'cannibal', true, 2, '被同类吃掉', '你刚蜕壳，身体还软，一只同类咬住了你。', 'Eaten by another shrimp', 'You had just moulted and were soft when another shrimp bit you.']],
+ frog: [[['egg'], 'egg_dry', false, 2, '水退了，卵干死', '浅水退下去，卵团留在了泥上。', 'Stranded and dried', 'The shallow water fell and the egg mass was left on the mud.'], [['egg'], 'egg_fungus', false, 1, '水霉', '白色的菌丝盖住了卵团。', 'Water mould', 'White threads covered the egg mass.']],
+ krill: [[['egg'], 'egg_sink', false, 1, '孵化失败', '卵在下沉中没有孵化。', 'Failed to hatch', 'The egg did not hatch as it sank.']],
+ lanternfish: [[['egg'], 'egg_unfert', false, 1, '未受精', '你没有受精。', 'Unfertilised', 'You were not fertilised.'], [['larva'], 'larva_starve', false, 3, '没有找到食物', '卵黄用完了，附近没有合适大小的浮游生物。', 'Found no food', 'The yolk was used up and there was no plankton of the right size.'], [['larva'], 'larva_fish', true, 3, '被小鱼吃掉', '一条小鱼从侧面吞下了你。', 'Eaten by a small fish', 'A small fish swallowed you from the side.']],
+ mayfly: [[['egg'], 'egg_silt', false, 2, '被泥沙盖住', '泥沙盖住了河底的卵，水里的氧送不进来。', 'Covered by silt', 'Silt covered the eggs on the stream bed and no oxygen reached them.']],
+ mite: [[['egg'], 'egg_dry', false, 2, '卵干死', '落叶层干得太快。', 'Dried out as an egg', 'The leaf litter dried too fast.']],
+ octopus: [[['egg'], 'egg_rot', false, 2, '卵感染', '没有被清理到的卵长了菌。', 'Egg infection', 'The eggs that were not cleaned grew microbes.'], [['paralarva'], 'para_starve', false, 2, '没有找到食物', '你在表层漂了几天，没有抓到猎物。', 'Found no food', 'You drifted near the surface for days and caught nothing.'], [['old'], 'senesce', false, 5, '繁殖后衰竭', '繁殖之后你不再进食，身体一点点垮下去。', 'Wasted away after breeding', 'After breeding you stopped eating and your body slowly failed.']],
+ penguin: [[['egg'], 'egg_drop', false, 3, '蛋落在冰上', '交接时蛋滑到了冰面上，很快冻住了。', 'The egg rolled onto the ice', 'The egg slipped onto the ice during the handover and froze.'], [['egg'], 'egg_left', false, 2, '父亲离开', '父亲饿得太久，离开了。', 'Abandoned', 'Your father had starved too long and left.']],
+ salmon: [[['egg'], 'egg_unfert', false, 1, '未受精', '你没有受精。', 'Unfertilised', 'You were not fertilised.'], [['fry'], 'fry_trout', true, 3, '被大鱼吃掉', '一条更大的鱼从下游追上来。', 'Eaten by a larger fish', 'A larger fish came up from downstream.'], [['fry'], 'fry_starve', false, 2, '没有找到食物', '河里的水生昆虫不够。', 'Found too little food', 'There were not enough water insects in the river.'], [['ocean_juv'], 'juv_fish', true, 3, '被大鱼吃掉', '近海的大鱼冲进了你们的鱼群。', 'Eaten by a larger fish', 'A large fish of the coast charged into your school.'], [['ocean_juv'], 'juv_bird', true, 2, '被海鸟抓走', '海鸟从上方扎进水里。', 'Taken by a seabird', 'A seabird dived from above.']],
+ sardine: [[['egg'], 'egg_unfert', false, 1, '未受精', '你没有受精。', 'Unfertilised', 'You were not fertilised.']],
+ sea_turtle: [[['egg'], 'egg_flood', false, 2, '巢被海水淹没', '大潮淹了沙坑，卵里进了水。', 'The nest was flooded', 'A high tide flooded the nest.'], [['egg'], 'egg_dug', false, 3, '巢被挖开', '一只动物挖开了沙坑。', 'The nest was dug up', 'An animal dug the nest open.'], [['hatch'], 'hatch_fish', true, 4, '入海后被鱼吃掉', '你刚游出碎浪，一条鱼从下面上来。', 'Eaten by a fish after entering the sea', 'You had just passed the surf when a fish rose from below.'], [['hatch'], 'hatch_sun', false, 2, '走错方向被晒干', '灯光把你引向内陆，天亮时你还在沙上。', 'Went the wrong way and dried out', 'Lights led you inland, and you were still on the sand at dawn.']],
+ sparrow: [[['old'], 'old_hawk', true, 3, '被雀鹰抓住', '你起飞慢了一拍。', 'Caught by a sparrowhawk', 'You were a beat slow to take off.'], [['old'], 'old_cold', false, 3, '严寒中饿死', '连续几天积雪，找不到足够的种子。', 'Starved in hard frost', 'Snow lay for days and there were too few seeds.']],
+ springtail: [[['egg'], 'egg_dry', false, 2, '卵干死', '土壤干得太快。', 'Dried out as an egg', 'The soil dried too fast.']],
+ squid: [[['egg'], 'egg_warm', false, 2, '水温不合适', '卵团漂进了太暖的水里，胚胎停了下来。', 'Water too warm', 'The egg mass drifted into water that was too warm and the embryos stopped.'], [['old'], 'spent', false, 5, '产卵后死亡', '产卵之后你很快衰竭，沉了下去。', 'Died after spawning', 'After spawning you weakened quickly and sank.']],
+ swallow: [[['egg'], 'egg_cold', false, 2, '孵化中断', '阴雨太久，亲鸟离巢找食，卵凉了下来。', 'Incubation broken off', 'It rained too long. The parents were away feeding and the egg went cold.'], [['egg'], 'egg_taken', false, 2, '卵被掠食', '一只动物爬到了巢边。', 'The egg was taken', 'An animal climbed to the nest.'], [['old'], 'old_hobby', true, 2, '被燕隼抓住', '你在空中转弯慢了一点。', 'Caught by a hobby', 'You turned a little too slowly in the air.'], [['old'], 'old_migr', false, 3, '迁徙途中耗尽体力', '你在海上飞了太久。', 'Exhausted on migration', 'You had been over the sea too long.']],
+ acai: [[['seed'], 'seed_eaten', false, 4, '种子被啮齿动物吃掉', '一只啮齿动物在落叶里找到了你。', 'Seed eaten by a rodent', 'A rodent found you in the leaf litter.'], [['seed'], 'seed_rot', false, 2, '种子腐烂', '积水太久，真菌进入了种子。', 'Seed rotted', 'Water stood too long and fungus entered the seed.']],
+ bristlecone: [[['seed'], 'seed_eaten', false, 4, '种子被鸟或啮齿动物吃掉', '一只小动物把你从石缝里翻了出来。', 'Seed eaten by a bird or rodent', 'A small animal turned you out from between the stones.'], [['seed'], 'seed_none', false, 3, '没能萌发', '落下的地方没有足够的水。', 'Never germinated', 'There was not enough water where you fell.'], [['seedling'], 'frost_heave', true, 3, '霜冻拱起根系', '土壤反复冻融，把你的根拱出了地面。', 'Heaved by frost', 'The ground froze and thawed until your roots were lifted out.'], [['seedling'], 'seedling_graze', true, 2, '被啃食', '一只动物咬断了幼茎。', 'Browsed', 'An animal bit through the young stem.']],
+ flytrap: [[['seed'], 'seed_dry', false, 3, '种子干死', '沙土表面干得太久。', 'Seed dried out', 'The surface of the sand stayed dry too long.'], [['seed'], 'seed_cover', false, 2, '被落叶盖住没能萌发', '很久没有火烧过，落叶和草盖住了地面。', 'Smothered before sprouting', 'No fire had passed for a long time, and litter and grass covered the ground.']],
+ oak: [[['seed'], 'acorn_eaten', false, 6, '橡子被吃掉', '一只老鼠咬开了橡子。', 'Acorn eaten', 'A mouse bit the acorn open.'], [['seed'], 'acorn_weevil', false, 2, '被象甲幼虫蛀空', '象甲的幼虫在橡子里长大。', 'Hollowed by a weevil larva', 'A weevil larva grew up inside the acorn.'], [['seed'], 'acorn_dry', false, 2, '橡子干死或冻死', '你没有被埋住，失水太多。', 'Dried out or froze', 'You were not buried and lost too much water.']],
+ spruce: [[['seed'], 'seed_eaten', false, 4, '种子被吃掉', '交嘴雀或松鼠剥开了球果。', 'Seed eaten', 'A crossbill or a squirrel opened the cone.'], [['seed'], 'seed_none', false, 3, '没能萌发', '你落在厚厚的针叶上，根没有够到土。', 'Never rooted', 'You fell on thick needle litter and the root did not reach soil.']],
+ rice: [[['seed'], 'seed_rot', false, 3, '烂种', '低温加上缺氧，种子腐烂了。', 'Seed rotted', 'Cold and lack of oxygen rotted the seed.'], [['seed'], 'seed_bird', false, 2, '种子被鸟吃掉', '鸟落在秧田里啄走了你。', 'Seed eaten by a bird', 'A bird landed on the seedbed and picked you up.']],
+ wheat: [[['seed'], 'seed_bird', false, 3, '种子被鸟或鼠吃掉', '你埋得太浅。', 'Seed eaten by birds or rodents', 'You were sown too shallow.'], [['seed'], 'seed_rot', false, 2, '种子腐烂', '土壤又冷又湿，真菌进入了种子。', 'Seed rotted', 'The soil was cold and wet and fungus entered the seed.']],
+};
+// these causes make no sense while still a seed or egg
+window.DROP_CAUSE_STAGES = { acai: { starve: ['seed'] }, bristlecone: { starve: ['seed'] }, flytrap: { starve: ['seed'] }, oak: { starve: ['seed'] }, spruce: { starve: ['seed'] }, rice: { starve: ['seed'] }, wheat: { starve: ['seed'] } };
+
+;
 // UI strings for every language. Species text lives in i18n/<lang>/<id>.json (bundled into i18n/<lang>.js).
 window.UI = {
  "zh": {
@@ -13734,7 +18143,7 @@ window.UI = {
   "navHome": "首页",
   "heroEyebrow": "按此刻地球上活着的个体数量，投一次胎",
   "bignum": "你是其中的 <b>1</b> / {digits}",
-  "lede": "此刻地球上大约有 <b class=\"mono\">{total}</b> 只动物活着。下一世，你会随机成为其中一只，从出生活到死亡。投成人类的机会微乎其微。",
+  "lede": "此刻地球上活着数不清的动物和植物，这里收录的物种合计约有 <b class=\"mono\">{total}</b> 个个体。下一世，你会随机成为其中一个，从出生活到死亡。投成人类的机会微乎其微。",
   "ifNow": "如果你此刻投胎",
   "other": "其他",
   "oddsNote": "其余 {n} 个物种合计只占 {rest}。投成人类的概率是 {human}。",
@@ -13750,6 +18159,11 @@ window.UI = {
   "logScale": "条形长度按对数刻度（每格相差十倍）。把鼠标停在一行上可以看数据来源。",
   "modes": [
    [
+    "daily",
+    "今日一世",
+    "第 {n} 天：今天所有人投的是同一种，命各不同。"
+   ],
+   [
     "real",
     "按数量抽取",
     "按此刻活着的数量抽取。绝大多数时候，你会是桡足类或线虫。"
@@ -13763,6 +18177,11 @@ window.UI = {
     "mammal",
     "只限哺乳动物",
     "只在哺乳动物之间按数量抽取，人类也在里面。"
+   ],
+   [
+    "plant",
+    "只限植物",
+    "只在植物之间按数量抽取。植物的数量大多只有粗估。"
    ],
    [
     "even",
@@ -13787,7 +18206,9 @@ window.UI = {
    "day": "天",
    "week": "周",
    "month": "个月",
-   "year": "年"
+   "year": "年",
+   "decade": "十年",
+   "century": "百年"
   },
   "birthHead": "出生",
   "fSex": "性别",
@@ -13977,7 +18398,7 @@ window.UI = {
   "curveTitle": "生存曲线",
   "curveLegend": "出生的个体中仍活着的比例",
   "yourChoices": "你做过的抉择",
-  "sameSecond": "同一时刻出生的其他动物",
+  "sameSecond": "同一时刻出生的其他生命",
   "byRealOdds": "按数量抽取",
   "companion": "一{mw}{sp}：活了 <span class=\"mono\">{d}</span>，{c}。",
   "shareTitle": "分享这一世",
@@ -13985,7 +18406,7 @@ window.UI = {
   "copied": "已复制",
   "selected": "已选中，按 ⌘C / Ctrl+C 复制",
   "nextLife": "下一世",
-  "invertNote": "按数量算，约 {p} 的投胎会落在无脊椎动物身上。想看看别的生命，可以换个范围。",
+  "invertNote": "按数量算，约 {p} 的投胎会落在无脊椎动物身上。想看看别的动物或植物，可以换个范围。",
   "again": "再投一次胎",
   "home": "回到首页",
   "bookIntro": "你已经活过 <span class=\"mono\">{n}</span> 世，见过 <span class=\"mono\">{got} / {all}</span> 个物种。记录只保存在这个浏览器里。",
@@ -14371,7 +18792,7 @@ window.UI = {
    "official": "政府或国际组织公布的统计。",
    "related": "来自近缘物种、实验室或另一类环境，只能参考。",
    "est": "没有找到可靠数据，由制作者估计。",
-   "rule": "为了能玩而设定的规则。例如死亡率倍数：觅食 ×{forage}、躲藏 ×{hide}、休息 ×{rest}、探索 ×{explore}、繁殖 ×{mate}；前 5 个抉择内不会死；出生境遇、体质和性格的影响；遇险时由你按停指针，绿色宽度等于逃生概率，反应快的人会比统计活得久。",
+   "rule": "为了能玩而设定的规则。例如死亡率倍数：觅食 ×{forage}、躲藏 ×{hide}、休息 ×{rest}、探索 ×{explore}、繁殖 ×{mate}；前 5 个抉择内不会死；出生境遇、体质和性格的影响；遇险时由小游戏决定生死，难度随逃生概率变化（停指针时绿色宽度正好等于概率），玩得好的人会比统计活得久。心情和独白是想象的，不是科学结论。同一刻出生的四个按生存曲线各抽一个寿命；“命，还是选择”用同一条曲线，分别乘上出身和你每一步的风险系数算出，都是游戏设定。",
    "line": "存活率有数据 {surv} 段 · 死因有依据 {causes}/{all} · 来源 {refs} 条",
    "surv": "存活率",
    "noSurv": "没有找到可靠的存活率，整条曲线是估计。",
@@ -14400,7 +18821,7 @@ window.UI = {
   },
   "photoBy": "摄影：{a}，{l}",
   "bio": {
-   "open": "了解这种动物",
+   "open": "了解这个物种",
    "pictured": "图中个体鉴定为 {t}。",
    "about": "了解{sp}",
    "latin": "学名",
@@ -14428,7 +18849,680 @@ window.UI = {
     "repro": "繁殖与发育",
     "life": "寿命与天敌",
     "status": "现状"
+   },
+   "sec2": {
+    "diet": "营养方式",
+    "life": "寿命与威胁",
+    "repro": "繁殖与生长"
+   },
+   "to": "，到{d}为止"
+  },
+  "group": {
+   "plant": "植物",
+   "animal": "动物"
+  },
+  "plant": {
+   "starve": {
+    "short": "养分耗尽",
+    "text": "光照、水分和养分长期不够，叶片一片片黄落，最后一点储备也用完了。"
+   },
+   "oldAge": {
+    "short": "衰老",
+    "text": "你活到了这个物种能活到的尽头，新的组织不再长出来。"
+   },
+   "actions": {
+    "instinct": [
+     "顺时生长",
+     "按季节和水分的变化生长，不特别偏向哪一边。"
+    ],
+    "forage": [
+     "展叶抢光",
+     "多长叶片，多做光合。养分多，但更容易失水、折断和被啃食。"
+    ],
+    "hide": [
+     "加固防御",
+     "把养分用在木质、蜡质、刺和防御物质上。不容易受伤，但长得慢。"
+    ],
+    "rest": [
+     "减缓生长",
+     "关小气孔，存起养分，修补组织。"
+    ],
+    "explore": [
+     "伸展根系",
+     "把根或茎伸向没到过的土层。可能碰到水和养分，也可能碰到病菌和害虫。"
+    ],
+    "mate": [
+     "开花结实",
+     "把养分用在花、种子或孢子上。消耗大，也更脆弱。"
+    ]
+   },
+   "mateMale": "你散出了花粉。之后大约有 {n} 个后代来自你。",
+   "mateFemale": "你留下了 {n} 个后代。",
+   "crisisBody": [
+    "组织里的信号正在扩散。",
+    "伤口附近的细胞已经开始反应。",
+    "叶片里的激素在几分钟内升高。",
+    "这一次，也只能靠已经长成的部分。"
+   ],
+   "flee": [
+    "调动防御",
+    "把养分送往伤处",
+    "封住受损的组织",
+    "合成防御物质"
+   ],
+   "fleeHint": "越健康越有希望 · 约 {p}% 能活",
+   "fleeOk": [
+    "防御物质起了作用，伤处慢慢封住。",
+    "养分送到了伤处，新的组织长了出来。",
+    "受损的部分被隔开，其余的还活着。",
+    "伤口干结，没有再扩大。"
+   ],
+   "freeze": [
+    "舍弃受损的部分",
+    "停止生长",
+    "收拢储备",
+    "等它过去"
+   ],
+   "freezeHint": "靠根基的牢靠 · 约 {p}% 能活",
+   "freezeOk": [
+    "受损的部分脱落了，根基还在。",
+    "你停住生长，直到情况过去。",
+    "储备撑到了能重新发芽的时候。",
+    "大部分枝叶没了，芽还活着。"
+   ],
+   "stat": {
+    "health": "健康",
+    "food": "养分",
+    "safety": "稳固",
+    "offspring": "后代"
+   },
+   "hint": {
+    "foodUp": "养分↑",
+    "foodDown": "养分↓",
+    "riskUp": "风险↑",
+    "riskDown": "风险↓",
+    "stamina": "健康↑",
+    "events": "遭遇↑"
+   },
+   "cantAct": "你现在是{s}，还不能做出反应。时间会快一点过去。",
+   "toInstinct": [
+    "你不再偏向哪一边，顺着时节生长。",
+    "你的生长回到了平常的节奏。",
+    "养分重新平均分配到各处。"
+   ],
+   "toAction": [
+    "你开始{a}。",
+    "你把养分用在{a}上。",
+    "接下来的生长偏向{a}。",
+    "你的生长换了方向：{a}。"
+   ],
+   "trait": {
+    "runt": "弱小（健康↓ 风险↑）",
+    "average": "普通",
+    "robust": "壮实（健康↑ 风险↓）",
+    "bold": "长得快（养分更多，也更脆弱）",
+    "cautious": "防御强（更不易受伤，长得慢）",
+    "curious": "根伸得远（遭遇更多）",
+    "steady": "平稳"
+   },
+   "fTem": "生长特性",
+   "fSize": "大小",
+   "fEscapes": "熬过的危机",
+   "sibsDefault": "同一批种子",
+   "sibsOnly": "按这条生存曲线估算，同批的其他个体大概都已经死了。",
+   "onlyChild": "你是单独长出来的。",
+   "saved": [
+    "你旁边的一株枯死了。差一点就是你。",
+    "伤害落在了你旁边的一株上。",
+    "你几乎枯死，又从基部长出了新芽。",
+    "离你最近的那一株不见了。"
+   ],
+   "hurtInstead": "你受了重伤，损失了大片组织，但没有死。",
+   "firstMove": "你能做出反应了",
+   "firstMoveBody": "接下来的养分用在哪里？之后随时可以换。",
+   "firstMoveDone": "你照着这个方向生长。",
+   "doingNow": "你的养分用在哪里",
+   "timing": {
+    "title": "看准时机",
+    "body": "让指针停在绿色里就能熬过去。绿色占 {p}，正好是活下来的概率。",
+    "btn": "停"
+   },
+   "madeIt": "做到了",
+   "didnt": "没有活到那一天",
+   "dormant": "你在休眠中度过了 {d}。这段时间里，你的组织几乎没有变老。",
+   "enc": [
+    [
+     "一片空隙",
+     "旁边的植株枯死，留下一块能照到光的空地。",
+     [
+      "向空隙伸展",
+      "养分↑ 风险↑",
+      {
+       "food": 18
+      },
+      1.2,
+      "新叶照到了更多的光。"
+     ],
+     [
+      "保持原来的株形",
+      "稳固↑",
+      {
+       "safety": 10,
+       "food": -3
+      },
+      0.9,
+      "你的株形没有变，重心很稳。"
+     ]
+    ],
+    [
+     "邻居的影子",
+     "旁边的植株长高，照到你的光变少了。",
+     [
+      "加快长高",
+      "养分↑ 稳固↓",
+      {
+       "food": 12,
+       "safety": -8
+      },
+      1.15,
+      "茎拉长了，顶端重新照到光。"
+     ],
+     [
+      "适应弱光",
+      "健康↑ 养分↓",
+      {
+       "health": 6,
+       "food": -5
+      },
+      0.9,
+      "叶片变薄变宽，在弱光里也能做光合。"
+     ]
+    ],
+    [
+     "一阵干旱",
+     "土壤里的水一天比一天少。",
+     [
+      "关闭气孔",
+      "稳固↑ 养分↓",
+      {
+       "safety": 10,
+       "food": -8
+      },
+      0.8,
+      "水分散失得慢了，光合也几乎停下。"
+     ],
+     [
+      "继续开着气孔",
+      "养分↑ 风险↑",
+      {
+       "food": 14
+      },
+      1.25,
+      "叶片在中午有些萎蔫，夜里又恢复过来。"
+     ]
+    ],
+    [
+     "真菌的菌丝",
+     "一种真菌的菌丝碰到了你。",
+     [
+      "让它进入",
+      "养分↑ 风险↑",
+      {
+       "food": 14
+      },
+      1.15,
+      "它用矿质换走了一部分糖。"
+     ],
+     [
+      "加厚细胞壁",
+      "稳固↑ 养分↓",
+      {
+       "safety": 10,
+       "food": -5
+      },
+      0.85,
+      "菌丝没有进到里面。"
+     ]
+    ],
+    [
+     "被啃了一口",
+     "一只小动物咬走了一小块组织。",
+     [
+      "合成防御物质",
+      "稳固↑ 养分↓",
+      {
+       "safety": 12,
+       "food": -8
+      },
+      0.8,
+      "剩下的部分变得又苦又涩。"
+     ],
+     [
+      "重新长出来",
+      "养分↓ 健康↑",
+      {
+       "food": -6,
+       "health": 8
+      },
+      1,
+      "侧芽萌发，补上了缺口。"
+     ]
+    ],
+    [
+     "一阵大风",
+     "连续几天风很大。",
+     [
+      "加粗基部",
+      "稳固↑ 养分↓",
+      {
+       "safety": 14,
+       "food": -6
+      },
+      0.85,
+      "基部的组织变厚了。"
+     ],
+     [
+      "继续向上长",
+      "养分↑ 风险↑",
+      {
+       "food": 10
+      },
+      1.2,
+      "顶端摇晃得厉害，没有折断。"
+     ]
+    ],
+    [
+     "一小块肥土",
+     "根尖碰到了一块养分高的地方。",
+     [
+      "在这里多长根",
+      "养分↑",
+      {
+       "food": 16
+      },
+      1.05,
+      "细根很快布满了这一小块。"
+     ],
+     [
+      "慢慢吸收",
+      "养分↑ 健康↑",
+      {
+       "food": 6,
+       "health": 5
+      },
+      0.95,
+      "养分被一点点送到各处。"
+     ]
+    ],
+    [
+     "水涨起来了",
+     "周围的水分一下子多了很多。",
+     [
+      "形成通气的组织",
+      "稳固↑ 养分↓",
+      {
+       "safety": 10,
+       "food": -6
+      },
+      0.85,
+      "空气从上部传到了下部。"
+     ],
+     [
+      "等水退去",
+      "健康↓ 养分↑",
+      {
+       "health": -6,
+       "food": 6
+      },
+      1.1,
+      "水退得比预料的快。"
+     ]
+    ],
+    [
+     "一夜降温",
+     "气温在一夜之间降了下来。",
+     [
+      "积累糖分",
+      "稳固↑ 养分↓",
+      {
+       "safety": 12,
+       "food": -6
+      },
+      0.8,
+      "细胞液变浓，没有结冰。"
+     ],
+     [
+      "照常生长",
+      "养分↑ 风险↑",
+      {
+       "food": 12
+      },
+      1.25,
+      "嫩的部分有些发暗，其余没事。"
+     ]
+    ],
+    [
+     "拥挤",
+     "身边的植株越来越密。",
+     [
+      "和它们争",
+      "养分↑ 健康↓",
+      {
+       "food": 12,
+       "health": -6
+      },
+      1.1,
+      "你占住了自己的一份。"
+     ],
+     [
+      "少占一点",
+      "健康↑ 养分↓",
+      {
+       "health": 6,
+       "food": -4
+      },
+      0.95,
+      "你长得小，消耗也小。"
+     ]
+    ],
+    [
+     "组织里的斑点",
+     "几处组织上出现了褪色的小斑。",
+     [
+      "隔离那一块",
+      "稳固↑ 养分↓",
+      {
+       "safety": 10,
+       "food": -6
+      },
+      0.85,
+      "斑点周围的细胞主动死去，没有扩散。"
+     ],
+     [
+      "不作改变",
+      "养分↑ 风险↑",
+      {
+       "food": 8
+      },
+      1.2,
+      "斑点停在了原来的大小。"
+     ]
+    ],
+    [
+     "强烈的日照",
+     "一连几天光照很强。",
+     [
+      "转动叶绿体避光",
+      "健康↑",
+      {
+       "health": 8
+      },
+      0.9,
+      "过剩的光没有造成损伤。"
+     ],
+     [
+      "充分利用",
+      "养分↑ 健康↓",
+      {
+       "food": 16,
+       "health": -5
+      },
+      1.15,
+      "糖积累得很快，边缘有些灼伤。"
+     ]
+    ],
+    [
+     "储备还多",
+     "体内的养分比平时多。",
+     [
+      "存起来",
+      "健康↑",
+      {
+       "health": 8
+      },
+      0.9,
+      "养分存进了基部和根里。"
+     ],
+     [
+      "长新的部分",
+      "养分↓ 稳固↑",
+      {
+       "food": -6,
+       "safety": 10
+      },
+      1,
+      "几处新的组织长成了。"
+     ]
+    ],
+    [
+     "平稳的一段",
+     "光、水和温度都合适。",
+     [
+      "修补旧伤",
+      "健康↑",
+      {
+       "health": 10
+      },
+      0.9,
+      "旧的伤口长平了。"
+     ],
+     [
+      "多做光合",
+      "养分↑",
+      {
+       "food": 12
+      },
+      1.1,
+      "一天天积累下来。"
+     ]
+    ]
+   ],
+   "kind": {
+    "wild": "野生",
+    "farmed": "栽培",
+    "pet": "栽培",
+    "human": ""
+   },
+   "guide1": "时间会自己往前走。下面选你把养分用在哪里：抢光长得快，也更脆弱；加固防御更安全，也更慢。"
+  },
+  "newStage": "新的阶段",
+  "stageAdult": "没有找到这个阶段的可用照片，图中是成年的样子。",
+  "stageReached": "按生存曲线，约 {p} 的同批能活到这里",
+  "note": {
+   "ph": "可以不写",
+   "stage": "你到了「{s}」。此刻有什么感想？",
+   "crisis": "刚刚活了下来，有什么想记下的？",
+   "final": "这一生结束了，最后想说点什么？",
+   "any": "写下此刻的感想",
+   "add": "记下来",
+   "local": "只保存在这个浏览器里",
+   "after": "回头看这一生，还想补一句什么？",
+   "card": "我的感想",
+   "onCard": "把我的最后一句感想放到图上"
+  },
+  "recap": "这一生的回顾",
+  "recapSub": "经历和你写下的感想",
+  "bookRecap": "回顾",
+  "bookRecapN": "回顾 · 感想 {n}",
+  "mile": {
+   "born": "来到世上",
+   "s": "进入「{s}」",
+   "c": "死里逃生：{c}",
+   "h": "受了重伤：{c}",
+   "cp": "熬了过来：{c}",
+   "hp": "受了重伤：{c}",
+   "k": "第一次留下后代",
+   "end": "结局：{c}"
+  },
+  "goalLeft": "还差 {d}",
+  "speed": "速度 {x}×",
+  "moreCtl": "更多",
+  "lessCtl": "收起",
+  "guide1": "时间会自己往前走。下面选你把时间花在哪里：吃得多就更危险，躲起来就更慢。",
+  "guide2": "遇到大事会停下来让你选；遇险时看准时机按停，绿色越宽越容易活下来。",
+  "guide3": "完成三个目标得三颗星。随时可以写下感想，最后会出现在回顾里。",
+  "guideOk": "知道了",
+  "sum": {
+   "one": "一{mw}{sp}，活了 {d}，没有留下后代，走到「{st}」。",
+   "oneKids": "一{mw}{sp}，活了 {d}，留下 {n} 个后代，走到「{st}」。",
+   "start": "从{t}开始",
+   "esc": "死里逃生 {n} 次（{c}）",
+   "escP": "熬过危机 {n} 次（{c}）",
+   "escN": "{n} 次死里逃生",
+   "hurt": "因{c}受过重伤",
+   "chose": "面对{w}，选了{t}",
+   "end": "最后{c}"
+  },
+  "deathAt": "没能活过「{s}」",
+  "deathAtText": "你没有活过「{s}」这个阶段。",
+  "mood": "心情：{m}",
+  "moods": {
+   "happy": "高兴",
+   "free": "自在",
+   "curious": "好奇",
+   "calm": "平静",
+   "proud": "得意",
+   "cosy": "舒服",
+   "hungry": "饿",
+   "afraid": "害怕",
+   "tired": "疲惫",
+   "sad": "难过",
+   "lonely": "孤单",
+   "loving": "温柔",
+   "hurt": "疼",
+   "content": "满足"
+  },
+  "whereTo": "去哪里转转",
+  "wentTo": "去了{p}",
+  "tier": {
+   "common": "常见",
+   "uncommon": "少见",
+   "rare": "稀有",
+   "epic": "罕见",
+   "legend": "传说"
+  },
+  "cardLived": "活了",
+  "fSexCard": "性别",
+  "sexNone": "不分雌雄",
+  "mini": {
+   "self": "亲自来",
+   "start": "开始",
+   "wait": "再过 {n} 格可以再玩",
+   "won": "{g}：成功了。",
+   "lost": "{g}：没成。",
+   "hold": {
+    "btn": "按住，松手",
+    "how": "按住蓄力，松手时停在绿色里。绿色宽窄随活下来的概率变化。"
+   },
+   "mash": {
+    "btn": "连点",
+    "how": "在时间用完前连点填满。健康越好，需要的次数越少。"
+   },
+   "dodge": {
+    "how": "左右移动，别待在红块落下的那一道。概率越高，落得越慢。"
+   },
+   "freeze": {
+    "btn": "按住前进",
+    "away": "它没在看",
+    "soon": "它要转头了……",
+    "look": "它在看！",
+    "how": "按住前进，它看过来之前要松手。概率越高，给你的时间越长。"
+   },
+   "seq": {
+    "go": "照着顺序来",
+    "how": "记住出现的方向，再照顺序按一遍。"
+   },
+   "tap": {
+    "btn": "目标",
+    "how": "在消失之前点住它们，9 个里点中 6 个。"
+   },
+   "balance": {
+    "how": "按左右把指针保持在绿色里 6 秒。"
    }
+  },
+  "face": {
+   "label": "换一面",
+   "cover": "大片",
+   "toon": "卡通",
+   "meme": "投胎了",
+   "memeLine": "投成了{sp}",
+   "serial": "第 {n} 世"
+  },
+  "cohort": {
+   "title": "和你同一刻出生",
+   "alive": "活着",
+   "died": "和你同一刻出生的那{mw}{sp}死了，活了 {d}：{c}。",
+   "five": "同一刻出生的五个",
+   "rank": "从同一刻出发，你是活得第 {n} 久的。",
+   "you": "你",
+   "people": "与人有关",
+   "note": "其中一个按现存数量抽取，另外三个按物种随机抽取。如果全按数量抽，它们几乎都会是线虫和浮游动物。条形长度按对数画，否则短的会看不见。",
+   "share": "和我同一刻出生的：{list}。"
+  },
+  "fate": {
+   "title": "命，还是选择",
+   "lead": "活到 {d} 的机会，可以拆成三步看。",
+   "kind": "任意一个同类",
+   "born": "和你同样出身的",
+   "mine": "再加上你做过的选择",
+   "birth": "这一世，出身的分量更重。你的选择让它{up}。",
+   "choice": "这一世，选择的分量更重。它们让你{up}。",
+   "even": "这一世，出身和选择的分量差不多。你的选择让它{up}。",
+   "safer": "更安稳了一些",
+   "riskier": "更危险了一些",
+   "skill": "另外，有 {n} 次遇险是你亲手躲过去的。"
+  },
+  "moment": {
+   "best": "最好的一刻",
+   "low": "最难的时候",
+   "lowH": "健康只剩 {n}。你撑过了那一刻，或者没有。",
+   "lowF": "饱食只剩 {n}。那一阵很饿。",
+   "lowS": "安全只剩 {n}。那一阵哪里都不安稳。"
+  },
+  "ask": {
+   "title": "想一想",
+   "again": "如果可以，你愿意再这样活一次吗？",
+   "yes": "愿意",
+   "no": "不愿意",
+   "unsure": "说不清",
+   "saved": "记下了，只保存在这个浏览器里。",
+   "tally": "到现在，你被问过 {n} 次，答了 {y} 次愿意。",
+   "mirror": "按此刻活着的数量抽，平均要抽 {n} 次，才会抽到一次人。你正在过的这一世，就是那一次。",
+   "mirrorHuman": "按此刻活着的数量抽，平均要抽 {n} 次，才会抽到一次人。你刚刚抽到了，也正在过着另一次。",
+   "shareYes": "如果可以，我愿意再这样活一次。",
+   "shareNo": "这样的一生，我不想再活一次。",
+   "send": "拿这个问题去问朋友",
+   "mine": "我选了「{a}」。",
+   "sendText": "我投胎成了一{mw}{sp}。{q}\n（{o}）\n{mine}你会怎么答？{url}"
+  },
+  "ledger": {
+   "title": "你的账本",
+   "lives": "活过的世数",
+   "time": "加起来的时间",
+   "young": "没活到成年",
+   "people": "死因与人有关",
+   "human": "投成人的次数",
+   "longest": "最久的一世：{sp}",
+   "again": "愿意再活一次",
+   "mirror": "按数量抽，平均要 {n} 次才有一次是人。你已经抽了 {k} 次。"
+  },
+  "demoTitle": "每一世结束，会留下一张卡，三面可以翻",
+  "loadingPlay": "正在准备…",
+  "daily": {
+   "tag": "今日一世 第 {n} 天"
+  },
+  "same": {
+   "friend": "从同一个出身开始活",
+   "again": "同样的出身，重来一次",
+   "hint": "出生地、性别、体质和性格都不变，看选择能改变多少。"
+  },
+  "vsTitleMine": "同样的出身，两种活法",
+  "vsMine": "上一次",
+  "vsEnd": "结局",
+  "shareShort": "这一世，我是一{mw}{sp}，活了 {d}，{c}。你会是什么？{url}",
+  "nick": {
+   "label": "给这一世起个名字",
+   "ph": "可以不填"
   }
  },
  "en": {
@@ -14439,7 +19533,7 @@ window.UI = {
   "navHome": "Home",
   "heroEyebrow": "Be reborn, at the odds of who is alive right now",
   "bignum": "You are <b>1</b> of {digits}",
-  "lede": "About <b class=\"mono\">{total}</b> animals are alive on Earth right now. In your next life you become one of them at random and live it from birth to death. The chance of being human is vanishingly small.",
+  "lede": "Countless animals and plants are alive on Earth right now; the species collected here add up to about <b class=\"mono\">{total}</b> individuals. In your next life you become one of them at random and live it from birth to death. The chance of being human is vanishingly small.",
   "ifNow": "If you were reborn right now",
   "other": "Other",
   "oddsNote": "The other {n} species together make up {rest}. Your chance of being born human is {human}.",
@@ -14455,6 +19549,11 @@ window.UI = {
   "logScale": "Bars use a log scale (each step is 10×). Hover a row to see its source.",
   "modes": [
    [
+    "daily",
+    "Life of the day",
+    "Day {n}: everyone is born the same kind today. Fates differ."
+   ],
+   [
     "real",
     "By living numbers",
     "Drawn by how many are alive now. Most of the time you will be a copepod or a nematode."
@@ -14468,6 +19567,11 @@ window.UI = {
     "mammal",
     "Mammals only",
     "Drawn by number among mammals, humans included."
+   ],
+   [
+    "plant",
+    "Plants only",
+    "Drawn by number among plants. Most plant numbers are rough estimates."
    ],
    [
     "even",
@@ -14492,7 +19596,9 @@ window.UI = {
    "day": "day",
    "week": "week",
    "month": "month",
-   "year": "year"
+   "year": "year",
+   "decade": "decade",
+   "century": "century"
   },
   "birthHead": "Birth",
   "fSex": "Sex",
@@ -14690,7 +19796,7 @@ window.UI = {
   "copied": "Copied",
   "selected": "Selected — press ⌘C / Ctrl+C to copy",
   "nextLife": "Next life",
-  "invertNote": "By the numbers, about {p} of rebirths land on an invertebrate. To meet other kinds of life, change the range.",
+  "invertNote": "By the numbers, about {p} of rebirths land on an invertebrate. To meet other animals or plants, change the range.",
   "again": "Be reborn again",
   "home": "Back to home",
   "bookIntro": "You have lived <span class=\"mono\">{n}</span> lives and met <span class=\"mono\">{got} / {all}</span> species. Records are kept only in this browser.",
@@ -15076,7 +20182,7 @@ window.UI = {
    "official": "Statistics published by a government or international body.",
    "related": "From a related species, a laboratory or a different setting; a guide only.",
    "est": "No reliable data found; estimated by the makers.",
-   "rule": "A rule made so the game can be played. For example, death-rate multipliers: forage ×{forage}, hide ×{hide}, rest ×{rest}, explore ×{explore}, breed ×{mate}; no death before the fifth choice; the effects of birth circumstances, constitution and temperament. In a crisis you stop a marker; the green part is as wide as the odds, so a quick player can outlive the statistics.",
+   "rule": "A rule made so the game can be played. For example, death-rate multipliers: forage ×{forage}, hide ×{hide}, rest ×{rest}, explore ×{explore}, breed ×{mate}; no death before the fifth choice; the effects of birth circumstances, constitution and temperament. A crisis is settled by a small game whose difficulty follows the odds (with the marker, the green is exactly as wide as the odds), so a skilled player can outlive the statistics. Moods and inner voices are imagined, not scientific claims. The four born at the same moment each draw a lifespan from their survival curve; \"Fate, or choice\" uses the same curve times the risk factors of your birth and of each step you took. Both are game rules.",
    "line": "{surv} survival intervals with data · {causes}/{all} causes with evidence · {refs} sources",
    "surv": "Survival",
    "noSurv": "No reliable survival data found; the whole curve is an estimate.",
@@ -15105,7 +20211,7 @@ window.UI = {
   },
   "photoBy": "Photo: {a}, {l}",
   "bio": {
-   "open": "About this animal",
+   "open": "About this species",
    "pictured": "The individual pictured was identified as {t}.",
    "about": "About the {sp}",
    "latin": "Latin name",
@@ -15133,7 +20239,680 @@ window.UI = {
     "repro": "Reproduction and development",
     "life": "Lifespan and natural enemies",
     "status": "Status"
+   },
+   "sec2": {
+    "diet": "How it gets its food",
+    "life": "Lifespan and threats",
+    "repro": "Reproduction and growth"
+   },
+   "to": " until {d}"
+  },
+  "group": {
+   "plant": "Plants",
+   "animal": "Animals"
+  },
+  "plant": {
+   "starve": {
+    "short": "Reserves ran out",
+    "text": "Light, water and nutrients were too little for too long. Leaf after leaf yellowed and fell, and the last reserves were spent."
+   },
+   "oldAge": {
+    "short": "Old age",
+    "text": "You reached the limit of your kind. New tissue no longer forms."
+   },
+   "actions": {
+    "instinct": [
+     "Grow with the season",
+     "Grow as the season and the water allow, favouring nothing in particular."
+    ],
+    "forage": [
+     "Reach for light",
+     "More leaf, more photosynthesis. More nutrients, but easier to dry out, break or be grazed."
+    ],
+    "hide": [
+     "Build defences",
+     "Put nutrients into wood, wax, spines and defence compounds. Harder to harm, slower to grow."
+    ],
+    "rest": [
+     "Slow down",
+     "Narrow the stomata, store nutrients, repair tissue."
+    ],
+    "explore": [
+     "Extend the roots",
+     "Send roots or stems into new ground. There may be water and nutrients there, or disease and pests."
+    ],
+    "mate": [
+     "Reproduce",
+     "Put nutrients into flowers, seeds or spores. Costly, and it leaves you weaker."
+    ]
+   },
+   "mateMale": "You released pollen. About {n} offspring will come from it.",
+   "mateFemale": "You left {n} offspring.",
+   "crisisBody": [
+    "Signals are spreading through your tissue.",
+    "Cells near the wound have begun to respond.",
+    "Hormones rise in the leaves within minutes.",
+    "Once again, only what has already grown can help."
+   ],
+   "flee": [
+    "Raise defences",
+    "Send nutrients to the wound",
+    "Seal the damaged tissue",
+    "Make defence compounds"
+   ],
+   "fleeHint": "Better odds when healthy · about {p}% survive",
+   "fleeOk": [
+    "The defences work and the wound slowly closes.",
+    "Nutrients reach the wound and new tissue forms.",
+    "The damaged part is walled off; the rest is alive.",
+    "The wound dries and spreads no further."
+   ],
+   "freeze": [
+    "Shed the damaged part",
+    "Stop growing",
+    "Draw back the reserves",
+    "Wait it out"
+   ],
+   "freezeHint": "Depends on a firm base · about {p}% survive",
+   "freezeOk": [
+    "The damaged part falls away and the base remains.",
+    "You stop growing until it has passed.",
+    "The reserves last until new buds can open.",
+    "Most of the shoots are gone, but the buds are alive."
+   ],
+   "stat": {
+    "health": "Health",
+    "food": "Nutrients",
+    "safety": "Firmness",
+    "offspring": "Offspring"
+   },
+   "hint": {
+    "foodUp": "Nutrients↑",
+    "foodDown": "Nutrients↓",
+    "riskUp": "Risk↑",
+    "riskDown": "Risk↓",
+    "stamina": "Health↑",
+    "events": "Events↑"
+   },
+   "cantAct": "You are at the stage \"{s}\" and cannot respond yet. Time passes a little faster.",
+   "toInstinct": [
+    "You favour nothing and grow with the season.",
+    "Your growth returns to its usual pace.",
+    "Nutrients are shared out evenly again."
+   ],
+   "toAction": [
+    "Your growth turns to this: {a}.",
+    "Nutrients now go here: {a}.",
+    "The next growth favours this: {a}.",
+    "Your growth changes course: {a}."
+   ],
+   "trait": {
+    "runt": "Small (health↓ risk↑)",
+    "average": "Average",
+    "robust": "Sturdy (health↑ risk↓)",
+    "bold": "Fast-growing (more nutrients, more fragile)",
+    "cautious": "Well defended (harder to harm, slower)",
+    "curious": "Far-reaching roots (more happens)",
+    "steady": "Steady"
+   },
+   "fTem": "Growth habit",
+   "fSize": "Size",
+   "fEscapes": "Crises survived",
+   "sibsDefault": "Seeds of the same batch",
+   "sibsOnly": "By this survival curve, the others of your batch are probably all dead.",
+   "onlyChild": "You grew up alone.",
+   "saved": [
+    "The plant beside you withers. It was almost you.",
+    "The damage falls on the plant next to you.",
+    "You nearly die, then sprout again from the base.",
+    "The plant closest to you is gone."
+   ],
+   "hurtInstead": "You are badly damaged and lose much tissue, but you are not dead.",
+   "firstMove": "You can respond now",
+   "firstMoveBody": "Where will the next nutrients go? You can change this at any time.",
+   "firstMoveDone": "You grow in that direction.",
+   "doingNow": "Where your nutrients go",
+   "timing": {
+    "title": "Time it",
+    "body": "Stop the marker in the green to survive. Green covers {p}, exactly your odds of living through it.",
+    "btn": "Stop"
+   },
+   "madeIt": "made it",
+   "didnt": "did not live that long",
+   "dormant": "You spend {d} dormant. Your tissue barely ages in that time.",
+   "enc": [
+    [
+     "A gap",
+     "A neighbour has died and left a patch of light.",
+     [
+      "Grow into it",
+      "Nutrients↑ Risk↑",
+      {
+       "food": 18
+      },
+      1.2,
+      "New leaves catch more light."
+     ],
+     [
+      "Keep your shape",
+      "Firmness↑",
+      {
+       "safety": 10,
+       "food": -3
+      },
+      0.9,
+      "Your shape is unchanged and well balanced."
+     ]
+    ],
+    [
+     "A neighbour's shade",
+     "The plant beside you has grown tall, and less light reaches you.",
+     [
+      "Grow taller, faster",
+      "Nutrients↑ Firmness↓",
+      {
+       "food": 12,
+       "safety": -8
+      },
+      1.15,
+      "The stem stretches and the tip finds light again."
+     ],
+     [
+      "Adjust to dim light",
+      "Health↑ Nutrients↓",
+      {
+       "health": 6,
+       "food": -5
+      },
+      0.9,
+      "Leaves grow thinner and broader, and work in dim light."
+     ]
+    ],
+    [
+     "A dry spell",
+     "There is less water in the ground every day.",
+     [
+      "Close the stomata",
+      "Firmness↑ Nutrients↓",
+      {
+       "safety": 10,
+       "food": -8
+      },
+      0.8,
+      "Water is lost more slowly, and photosynthesis almost stops."
+     ],
+     [
+      "Keep them open",
+      "Nutrients↑ Risk↑",
+      {
+       "food": 14
+      },
+      1.25,
+      "Leaves wilt a little at noon and recover at night."
+     ]
+    ],
+    [
+     "Fungal threads",
+     "The threads of a fungus have touched you.",
+     [
+      "Let it in",
+      "Nutrients↑ Risk↑",
+      {
+       "food": 14
+      },
+      1.15,
+      "It trades minerals for part of your sugar."
+     ],
+     [
+      "Thicken the cell walls",
+      "Firmness↑ Nutrients↓",
+      {
+       "safety": 10,
+       "food": -5
+      },
+      0.85,
+      "The threads do not get inside."
+     ]
+    ],
+    [
+     "A bite",
+     "A small animal has taken a piece of tissue.",
+     [
+      "Make defence compounds",
+      "Firmness↑ Nutrients↓",
+      {
+       "safety": 12,
+       "food": -8
+      },
+      0.8,
+      "What is left turns bitter and tough."
+     ],
+     [
+      "Grow it back",
+      "Nutrients↓ Health↑",
+      {
+       "food": -6,
+       "health": 8
+      },
+      1,
+      "A side bud opens and fills the gap."
+     ]
+    ],
+    [
+     "Strong wind",
+     "The wind has been strong for days.",
+     [
+      "Thicken the base",
+      "Firmness↑ Nutrients↓",
+      {
+       "safety": 14,
+       "food": -6
+      },
+      0.85,
+      "The tissue at the base grows thicker."
+     ],
+     [
+      "Keep growing up",
+      "Nutrients↑ Risk↑",
+      {
+       "food": 10
+      },
+      1.2,
+      "The tip sways hard but does not break."
+     ]
+    ],
+    [
+     "A rich patch",
+     "Root tips have met a patch full of nutrients.",
+     [
+      "Branch here",
+      "Nutrients↑",
+      {
+       "food": 16
+      },
+      1.05,
+      "Fine roots soon fill the patch."
+     ],
+     [
+      "Take it up slowly",
+      "Nutrients↑ Health↑",
+      {
+       "food": 6,
+       "health": 5
+      },
+      0.95,
+      "Nutrients are passed along bit by bit."
+     ]
+    ],
+    [
+     "Rising water",
+     "There is suddenly much more water around you.",
+     [
+      "Form air channels",
+      "Firmness↑ Nutrients↓",
+      {
+       "safety": 10,
+       "food": -6
+      },
+      0.85,
+      "Air passes from the upper parts to the lower."
+     ],
+     [
+      "Wait for it to drain",
+      "Health↓ Nutrients↑",
+      {
+       "health": -6,
+       "food": 6
+      },
+      1.1,
+      "The water drains sooner than expected."
+     ]
+    ],
+    [
+     "A cold night",
+     "The temperature drops overnight.",
+     [
+      "Build up sugars",
+      "Firmness↑ Nutrients↓",
+      {
+       "safety": 12,
+       "food": -6
+      },
+      0.8,
+      "The cell sap thickens and does not freeze."
+     ],
+     [
+      "Grow as usual",
+      "Nutrients↑ Risk↑",
+      {
+       "food": 12
+      },
+      1.25,
+      "The tender parts darken a little; the rest is fine."
+     ]
+    ],
+    [
+     "Crowding",
+     "The plants around you stand closer and closer.",
+     [
+      "Compete",
+      "Nutrients↑ Health↓",
+      {
+       "food": 12,
+       "health": -6
+      },
+      1.1,
+      "You hold on to your share."
+     ],
+     [
+      "Take up less room",
+      "Health↑ Nutrients↓",
+      {
+       "health": 6,
+       "food": -4
+      },
+      0.95,
+      "You stay small and need little."
+     ]
+    ],
+    [
+     "Spots",
+     "Pale spots have appeared in your tissue.",
+     [
+      "Wall them off",
+      "Firmness↑ Nutrients↓",
+      {
+       "safety": 10,
+       "food": -6
+      },
+      0.85,
+      "Cells around the spots die on purpose, and nothing spreads."
+     ],
+     [
+      "Change nothing",
+      "Nutrients↑ Risk↑",
+      {
+       "food": 8
+      },
+      1.2,
+      "The spots stay the size they were."
+     ]
+    ],
+    [
+     "Harsh sun",
+     "The light has been very strong for days.",
+     [
+      "Move chloroplasts aside",
+      "Health↑",
+      {
+       "health": 8
+      },
+      0.9,
+      "The extra light does no harm."
+     ],
+     [
+      "Use all of it",
+      "Nutrients↑ Health↓",
+      {
+       "food": 16,
+       "health": -5
+      },
+      1.15,
+      "Sugar builds up fast, and the edges scorch a little."
+     ]
+    ],
+    [
+     "Spare reserves",
+     "You hold more nutrients than usual.",
+     [
+      "Store them",
+      "Health↑",
+      {
+       "health": 8
+      },
+      0.9,
+      "They are stored in the base and the roots."
+     ],
+     [
+      "Grow new parts",
+      "Nutrients↓ Firmness↑",
+      {
+       "food": -6,
+       "safety": 10
+      },
+      1,
+      "Several new parts are complete."
+     ]
+    ],
+    [
+     "A steady stretch",
+     "Light, water and warmth are all right.",
+     [
+      "Repair old damage",
+      "Health↑",
+      {
+       "health": 10
+      },
+      0.9,
+      "Old wounds close over."
+     ],
+     [
+      "Photosynthesise more",
+      "Nutrients↑",
+      {
+       "food": 12
+      },
+      1.1,
+      "It adds up day by day."
+     ]
+    ]
+   ],
+   "kind": {
+    "wild": "Wild",
+    "farmed": "Cultivated",
+    "pet": "Cultivated",
+    "human": ""
+   },
+   "guide1": "Time moves by itself. Choose below where your nutrients go: reaching for light is fast but fragile, building defences is safe but slow."
+  },
+  "newStage": "A new stage",
+  "stageAdult": "No usable photograph of this stage was found; the adult is shown.",
+  "stageReached": "by the survival curve, about {p} of the same batch live this long",
+  "note": {
+   "ph": "Optional",
+   "stage": "You have reached: {s}. What is on your mind?",
+   "crisis": "You lived through that. Anything to write down?",
+   "final": "This life is over. Any last words?",
+   "any": "Write down a thought",
+   "add": "Keep it",
+   "local": "Kept only in this browser",
+   "after": "Looking back, anything to add?",
+   "card": "My words",
+   "onCard": "Put my last note on the picture"
+  },
+  "recap": "Looking back",
+  "recapSub": "What happened, and what you wrote",
+  "bookRecap": "Look back",
+  "bookRecapN": "Look back · {n} notes",
+  "mile": {
+   "born": "Came into the world",
+   "s": "Reached: {s}",
+   "c": "Escaped: {c}",
+   "h": "Badly hurt: {c}",
+   "cp": "Lived through: {c}",
+   "hp": "Badly hurt: {c}",
+   "k": "First offspring",
+   "end": "The end: {c}"
+  },
+  "goalLeft": "{d} to go",
+  "speed": "Speed {x}×",
+  "moreCtl": "More",
+  "lessCtl": "Less",
+  "guide1": "Time moves by itself. Choose below where your time goes: eating more is riskier, hiding is slower.",
+  "guide2": "Big moments stop for your choice. In danger, stop the marker in the green; the wider the green, the better your odds.",
+  "guide3": "Three goals earn three stars. Write a thought at any time; it will appear when you look back.",
+  "guideOk": "Got it",
+  "sum": {
+   "one": "{Art} {sp}. Lived {d}, left no offspring, and got as far as \"{st}\".",
+   "oneKids": "{Art} {sp}. Lived {d}, left {n} offspring, and got as far as \"{st}\".",
+   "start": "began with {t}",
+   "esc": "escaped death {n}× ({c})",
+   "escP": "lived through {n} crises ({c})",
+   "escN": "escaped death {n}×",
+   "hurt": "was badly hurt by {c}",
+   "chose": "faced {w} and chose {t}",
+   "end": "and in the end: {c}"
+  },
+  "deathAt": "Did not live through this stage: {s}",
+  "deathAtText": "You did not live through this stage: {s}.",
+  "mood": "Mood: {m}",
+  "moods": {
+   "happy": "happy",
+   "free": "free",
+   "curious": "curious",
+   "calm": "calm",
+   "proud": "proud",
+   "cosy": "cosy",
+   "hungry": "hungry",
+   "afraid": "afraid",
+   "tired": "tired",
+   "sad": "sad",
+   "lonely": "lonely",
+   "loving": "tender",
+   "hurt": "in pain",
+   "content": "content"
+  },
+  "whereTo": "Where to",
+  "wentTo": "Went to: {p}",
+  "tier": {
+   "common": "Common",
+   "uncommon": "Uncommon",
+   "rare": "Rare",
+   "epic": "Epic",
+   "legend": "Legendary"
+  },
+  "cardLived": "Lived",
+  "fSexCard": "Sex",
+  "sexNone": "None",
+  "mini": {
+   "self": "Do it yourself",
+   "start": "Start",
+   "wait": "Again in {n} steps",
+   "won": "{g}: done.",
+   "lost": "{g}: did not work.",
+   "hold": {
+    "btn": "Hold, then let go",
+    "how": "Hold to charge and let go inside the green. The green is wider when your odds are better."
+   },
+   "mash": {
+    "btn": "Tap fast",
+    "how": "Fill the bar before time runs out. The healthier you are, the fewer taps it takes."
+   },
+   "dodge": {
+    "how": "Move left and right; do not stay in the lane where the red block falls. Better odds, slower fall."
+   },
+   "freeze": {
+    "btn": "Hold to move",
+    "away": "It is not looking",
+    "soon": "It is about to turn…",
+    "look": "It is looking!",
+    "how": "Hold to move and let go before it looks. Better odds give you more warning."
+   },
+   "seq": {
+    "go": "Now in the same order",
+    "how": "Remember the directions, then press them in order."
+   },
+   "tap": {
+    "btn": "Target",
+    "how": "Touch them before they vanish: 6 of 9."
+   },
+   "balance": {
+    "how": "Use left and right to keep the marker in the green for 6 seconds."
    }
+  },
+  "face": {
+   "label": "Change the face",
+   "cover": "Cover",
+   "toon": "Cartoon",
+   "meme": "Reborn",
+   "memeLine": "as {sp}",
+   "serial": "Life no. {n}"
+  },
+  "cohort": {
+   "title": "Born the same moment",
+   "alive": "alive",
+   "died": "{Art} {sp} born the same moment as you has died, after {d}: {c}.",
+   "five": "Five born at the same moment",
+   "rank": "From the same starting moment, yours was the life ranked {n} in length.",
+   "you": "you",
+   "people": "people had a part",
+   "note": "One was drawn by living numbers, the other three by kind. Drawn by numbers alone, nearly all would be nematodes and plankton. The bars are on a log scale, or the short ones could not be seen.",
+   "share": "Born the same moment as me: {list}."
+  },
+  "fate": {
+   "title": "Fate, or choice",
+   "lead": "The chance of reaching {d} can be taken apart in three steps.",
+   "kind": "Any of your kind",
+   "born": "Born as you were",
+   "mine": "With the choices you made",
+   "birth": "In this life, birth weighed more. Your choices made it {up}.",
+   "choice": "In this life, choices weighed more. They made it {up}.",
+   "even": "In this life, birth and choice weighed about the same. Your choices made it {up}.",
+   "safer": "somewhat safer",
+   "riskier": "somewhat riskier",
+   "skill": "And {n} times you got out of danger with your own hands."
+  },
+  "moment": {
+   "best": "The best moment",
+   "low": "The hardest time",
+   "lowH": "Health was down to {n}. You lasted through it, or you did not.",
+   "lowF": "Food was down to {n}. It was a hungry time.",
+   "lowS": "Safety was down to {n}. Nowhere felt safe."
+  },
+  "ask": {
+   "title": "Something to think about",
+   "again": "If you could, would you live this life again?",
+   "yes": "Yes",
+   "no": "No",
+   "unsure": "Hard to say",
+   "saved": "Noted. It stays in this browser.",
+   "tally": "So far you have been asked {n} times, and said yes {y} times.",
+   "mirror": "Drawn by what is alive right now, it takes about {n} draws to be born human once. The life you are living is that one.",
+   "mirrorHuman": "Drawn by what is alive right now, it takes about {n} draws to be born human once. You just drew it, and you are living another.",
+   "shareYes": "If I could, I would live it again.",
+   "shareNo": "I would not want to live this life again.",
+   "send": "Ask a friend this",
+   "mine": "I said \"{a}\". ",
+   "sendText": "I was reborn as {art} {sp}. {q}\n({o})\n{mine}What would you say? {url}"
+  },
+  "ledger": {
+   "title": "Your ledger",
+   "lives": "lives lived",
+   "time": "time in all",
+   "young": "never reached maturity",
+   "people": "deaths people had a part in",
+   "human": "times born human",
+   "longest": "longest life: {sp}",
+   "again": "would live it again",
+   "mirror": "Drawn by numbers, about one in {n} is human. You have drawn {k} times."
+  },
+  "demoTitle": "Every life leaves a card with three faces",
+  "loadingPlay": "Getting ready…",
+  "daily": {
+   "tag": "Life of the day {n}"
+  },
+  "same": {
+   "friend": "Live from the same birth",
+   "again": "Same birth, once more",
+   "hint": "Birthplace, sex, build and temperament stay the same. See how much choice can change."
+  },
+  "vsTitleMine": "Same birth, lived twice",
+  "vsMine": "Last time",
+  "vsEnd": "Ending",
+  "shareShort": "In this life I was {art} {sp}. I lived {d}: {c}. What will you be? {url}",
+  "nick": {
+   "label": "Give this life a name",
+   "ph": "Optional"
   }
  }
 };
@@ -15183,12 +20962,44 @@ window.ODDS_SRC_EN = {
  "bat": "Greenspoon et al. 2023, PNAS: bats are ~2/3 of all wild land mammals by count; ~50 billion as commonly cited",
  "wolf": "IUCN 2018 (cited): ~200–250 thousand grey wolves",
  "chimpanzee": "WWF: ~150–250 thousand wild chimpanzees",
- "lion": "CMS (citing the African Lion Database 2023): ~23,000 adult and subadult lions in Africa"
+ "lion": "CMS (citing the African Lion Database 2023): ~23,000 adult and subadult lions in Africa",
+ "moss": "No global count. Rough order of magnitude from northern moss cover (about 10^13 m²) and some 10,000 stems per m²; represented by peat moss",
+ "grass": "No global count. Rough estimate from global grassland area (about 4×10^13 m²) and several hundred plants per m²; represented by annual bluegrass",
+ "wheat": "Rough estimate from about 220 million hectares harvested (FAO) at 200–300 plants per m²",
+ "rice": "Rough estimate from about 165 million hectares harvested (FAO) at about 60 plants per m²",
+ "duckweed": "No global count; rough order of magnitude from usual densities on still water",
+ "dandelion": "No global count; illustrative order of magnitude",
+ "eelgrass": "No global count; rough estimate from eelgrass meadow area and several hundred shoots per m²",
+ "arabidopsis": "No global count; illustrative order of magnitude",
+ "spruce": "About 3.04 trillion trees worldwide, 0.74 trillion of them boreal (Crowther et al. 2015); the share of Norway spruce is a rough estimate",
+ "bamboo": "Rough estimate from about 4.67 million hectares of moso forest in China at about 3,000 culms per hectare",
+ "mangrove": "Rough estimate from about 147,000 km² of mangrove worldwide; the share of red mangrove is a guess",
+ "oak": "About 3.04 trillion trees worldwide (Crowther et al. 2015); the share of English oak is a rough estimate",
+ "acai": "ter Steege et al. 2013, Science: the most common Amazonian tree, about 5.2 billion",
+ "saguaro": "No full census; rough order of magnitude from range and plot densities",
+ "bristlecone": "No full census; illustrative order of magnitude",
+ "flytrap": "A 2019 field survey estimated about 302,000 wild plants (North Carolina Plant Conservation Program)"
 };
 
 ;
 // Plain-language "what is it", per species: [zh, en]
 window.ABOUT = {
+ "moss": ["长在湿地和林下的苔藓，没有真正的根、花和种子，靠孢子和断枝繁殖。泥炭藓能吸住自身重量许多倍的水。", "A moss of bogs and wet woods, with no true roots, flowers or seeds. It spreads by spores and fragments, and peat moss holds many times its own weight in water."],
+ "grass": ["路边、草坪和牧场里很常见的一种矮草，能在很短的时间里开花结籽。", "A short grass of roadsides, lawns and pastures that can flower and set seed within a short time."],
+ "wheat": ["世界上种植面积最大的粮食作物之一，磨成面粉做面包和面条。这里是冬小麦：秋天播种，第二年夏天收割。", "One of the most widely grown food crops, milled into flour. This is winter wheat: sown in autumn and harvested the next summer."],
+ "rice": ["养活全球一半左右人口的粮食作物，多种在灌水的稻田里。", "A grain grown mostly in flooded fields, the staple food of about half the world's people."],
+ "duckweed": ["漂在静水上的小植物，一片“叶子”就是一整株，几天就能分出新的一片。", "A tiny floating plant of still water. One leaf-like frond is the whole plant, and it buds off another every few days."],
+ "dandelion": ["黄花、白色绒球的草本植物，种子带着冠毛随风飘走。", "A herb with yellow flowers and white seed heads; each seed drifts off on its own parachute."],
+ "eelgrass": ["长在浅海里的开花植物，不是海藻。它有根、叶、花和种子，成片生长成海草床。", "A flowering plant of shallow seas, not a seaweed. It has roots, leaves, flowers and seeds, and forms meadows on the seabed."],
+ "arabidopsis": ["路边的一种小草，是植物学研究最多的实验植物，也是第一种完成基因组测序的植物。", "A small roadside weed, the most studied plant in biology and the first to have its genome sequenced."],
+ "spruce": ["欧洲北部和高山上的常绿针叶树，常见的圣诞树就是它。", "An evergreen conifer of northern and mountainous Europe, often used as a Christmas tree."],
+ "bamboo": ["长得最快的植物之一，其实是一种草。这里的一生是地上的一根竹秆：从地下的笋芽开始。", "A giant grass and one of the fastest-growing plants. This life is one culm, starting as a shoot bud underground."],
+ "mangrove": ["长在热带海岸潮水里的树。它的种子在母树上就发芽，长成一根长棒再掉进水里。", "A tree of tropical tidal shores. Its seeds sprout while still on the parent tree and drop into the water as long rods."],
+ "oak": ["欧洲常见的落叶大树，橡子就是它的果实，能活几百年。", "A large deciduous tree of Europe that grows from an acorn and can live for centuries."],
+ "acai": ["亚马孙雨林里数量最多的一种棕榈树，果实可以食用。", "A palm that is the most numerous tree of the Amazon rainforest; its fruit is edible."],
+ "saguaro": ["北美索诺兰沙漠的柱状仙人掌，长得极慢，能长到十几米高。", "The tall columnar cactus of the Sonoran Desert. It grows very slowly and can reach well over ten metres."],
+ "bristlecone": ["长在北美高山干旱石坡上的松树，有些个体活了四千八百多年，是已知最长寿的单株树木。", "A pine of dry, rocky heights in western North America. Some have lived more than 4,800 years, the oldest known single trees."],
+ "flytrap": ["北美东南部湿地的食虫植物，叶片会合拢夹住昆虫，从中得到氮。", "A carnivorous plant of wetlands in the southeastern United States. Its leaves snap shut on insects to obtain nitrogen."],
  "copepod": [
   "芝麻大小的甲壳动物，几乎每片海洋和池塘里都有。它们吃浮游植物，小鱼吃它们，是海洋食物网的底层。读作 ráo zú lèi，“桡”是船桨，指它划水的腿。动画《海绵宝宝》里的痞老板就是一只桡足类。",
   "A sesame-sized crustacean found in nearly every sea and pond. It eats plankton and small fish eat it, which puts it near the base of the ocean food web. Pronounced COH-puh-pod, “oar-foot”. Plankton in SpongeBob is a copepod."
@@ -15375,11 +21186,200 @@ window.ABOUT = {
  ]
 };
 // Chinese measure words (default 只)
-window.ABOUT_MW = {"human":"个","nematode":"条","earthworm":"条","sardine":"条","lanternfish":"条","salmon":"条","farmed_carp":"条","squid":"条","greenland_shark":"条","dog":"条","blue_whale":"头","elephant":"头","cattle":"头","pig":"头","lion":"头","wolf":"匹"};
+window.ABOUT_MW = {"moss":"株","grass":"株","wheat":"株","rice":"株","duckweed":"株","dandelion":"株","eelgrass":"株","arabidopsis":"株","spruce":"棵","bamboo":"根","mangrove":"棵","oak":"棵","acai":"棵","saguaro":"棵","bristlecone":"棵","flytrap":"株","human":"个","nematode":"条","earthworm":"条","sardine":"条","lanternfish":"条","salmon":"条","farmed_carp":"条","squid":"条","greenland_shark":"条","dog":"条","blue_whale":"头","elephant":"头","cattle":"头","pig":"头","lion":"头","wolf":"匹"};
 
 ;
-// Built by data/build.js — do not edit.
-window.EVIDENCE = {"ant":{"refs":{"schultheiss2022":{"a":"Schultheiss et al.","y":2022,"t":"The abundance, biomass, and distribution of ants on Earth","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.2201550119"},"riskas2026a":{"a":"Riskas et al.","y":2026,"t":"Body size predicts ant worker longevity: a hierarchical analysis of field and laboratory survival across phylogenetic lineages","s":"Proceedings of the Royal Society B Biological Sciences","u":"https://doi.org/10.1098/rspb.2025.1907"},"riskas2026b":{"a":"Riskas et al.","y":2026,"t":"Body size predicts ant worker longevity: a hierarchical analysis of field and laboratory survival across phylogenetic lineages","s":"Proceedings of the Royal Society B Biological Sciences","u":"https://doi.org/10.1098/rspb.2025.1907"},"bujan2020":{"a":"Bujan et al.","y":2020,"t":"Seasonal plasticity of thermal tolerance in ants","s":"Ecology","u":"https://doi.org/10.1002/ecy.3051"}},"survival":[],"causes":[],"causeNotes":{"heat":{"zh":"工蚁的耐热能力随季节变化：夏末的觅食蚁比春季和冬季的更耐高温。","en":"Foraging ants tolerate higher heat at the end of summer than in spring or winter.","ref":"bujan2020","basis":"related"}},"facts":[{"zh":"地球上的蚂蚁估计约 2×10^16 只（约 2 亿亿只）。","en":"About 2 × 10^16 ants are estimated to live on Earth.","ref":"schultheiss2022","basis":"related","stages":["forager"]},{"zh":"在 18 个蚁种的研究里，个头大的工蚁普遍活得更久，无论在野外还是在实验室。","en":"Across studied ant species, larger worker ants lived longer, both in the field and in captivity.","ref":"riskas2026b","basis":"related","stages":["nurse","forager","old"],"decisions":["nurse_to_forage"]},{"zh":"同一批研究中，工蚁的寿命从 23 天到 394 天不等。","en":"In that study, worker lifespans ranged from 23 to 394 days.","ref":"riskas2026a","basis":"related","stages":["forager","old"]}],"existing":{"events.19":"schultheiss2022"}},"aphid":{"refs":{"enkegaard2013":{"a":"Enkegaard et al.","y":2013,"t":"Shallot Aphids, Myzus ascalonicus, in Strawberry: Biocontrol Potential of Three Predators and Three Parasitoids","s":"Journal of Insect Science","u":"https://doi.org/10.1673/031.013.8301"},"enkegaard2013b":{"a":"Enkegaard et al.","y":2013,"t":"Shallot Aphids, Myzus ascalonicus, in Strawberry: Biocontrol Potential of Three Predators and Three Parasitoids","s":"Journal of Insect Science","u":"https://doi.org/10.1673/031.013.8301"},"michaud2018":{"a":"Michaud et al.","y":2018,"t":"Mortality of Sugarcane Aphid, Melanaphis sacchari (Zehntner, Hemiptera: Aphididae), at Low Temperatures","s":"Journal of Economic Entomology","u":"https://doi.org/10.1093/jee/toy195"}},"survival":[],"causes":[],"causeNotes":{"wasp":{"zh":"在培养皿里，寄生蜂 Aphidius ervi 刺过的蚜虫，有 79% 死亡。","en":"In petri dish tests, the parasitic wasp Aphidius ervi killed 79% of the aphids it stung.","ref":"enkegaard2013","basis":"related"},"ladybug":{"zh":"在培养皿里，二星瓢虫幼虫每天能吃掉约 25 只蚜虫。","en":"In petri dish tests, two-spotted ladybird larvae ate about 25 shallot aphids a day.","ref":"enkegaard2013b","basis":"related"},"lacewing":{"zh":"在培养皿里，草蛉三龄幼虫每天能吃掉约 35 只蚜虫。","en":"In petri dish tests, third-instar green lacewings ate about 35 shallot aphids a day.","ref":"enkegaard2013b","basis":"related"},"cold":{"zh":"在 30°C 下培养过的甘蔗蚜，在 4°C 时约半数死亡，在 0°C 时全部死亡。","en":"Sugarcane aphids conditioned at 30 °C had about 50% mortality at 4 °C and all died at 0 °C.","ref":"michaud2018","basis":"related"}},"facts":[{"zh":"在培养皿里，三种捕食者中草蛉的捕食量最大，其次是二星瓢虫。","en":"Among three predators tested in petri dishes, the green lacewing ate the most shallot aphids a day, ahead of the two-spotted ladybird.","ref":"enkegaard2013b","basis":"related","stages":["nymph","late","adult"],"causes":["lacewing","ladybug"]}],"existing":{"events.9":"remove","events.10":"remove","decisions.1":"remove"}},"bat":{"refs":{"baerwald2008_90":{"a":"Baerwald et al.","y":2008,"t":"Barotrauma is a Significant Cause of Bat Fatalities at Wind Turbines","s":"Current Biology (ScienceDaily release on the paper)","u":"https://sciencedaily.com/releases/2008/08/080825132107.htm"},"baerwald2008_half":{"a":"Baerwald et al.","y":2008,"t":"Barotrauma is a Significant Cause of Bat Fatalities at Wind Turbines","s":"Current Biology (ScienceDaily release on the paper)","u":"https://sciencedaily.com/releases/2008/08/080825132107.htm"},"frick2010_decline":{"a":"Frick et al.","y":2010,"t":"An Emerging Disease Causes Regional Population Collapse of a Common North American Bat Species","s":"Science (ScienceDaily release on the paper)","u":"https://www.sciencedaily.com/releases/2010/08/100805142945.htm"},"frick2010_extirpate":{"a":"Frick et al.","y":2010,"t":"An Emerging Disease Causes Regional Population Collapse of a Common North American Bat Species","s":"Science (ScienceDaily release on the paper)","u":"https://www.sciencedaily.com/releases/2010/08/100805142945.htm"},"frick2010_2006":{"a":"Frick et al.","y":2010,"t":"An Emerging Disease Causes Regional Population Collapse of a Common North American Bat Species","s":"Science (ScienceDaily release on the paper)","u":"https://www.sciencedaily.com/releases/2010/08/100805142945.htm"}},"survival":[],"causes":[],"causeNotes":{"turbine":{"ref":"baerwald2008_90","basis":"related","zh":"在加拿大阿尔伯塔的风电场，被检查的死蝠大多有气压伤造成的内出血。","en":"At a wind farm in Alberta, most dead bats examined had internal bleeding from pressure changes."},"wns":{"ref":"frick2010_2006","basis":"related","zh":"白鼻综合征感染冬眠的蝙蝠，2006 年在美国纽约州首次被发现。","en":"White-nose syndrome, which affects hibernating bats, was first discovered near Albany, New York in 2006."}},"facts":[{"zh":"北美东部小棕蝠的数量因白鼻综合征下降了 30% 到 99%。","en":"Little brown bat counts in the northeast US fell 30% to 99% after white-nose syndrome arrived.","ref":"frick2010_decline","basis":"related","stages":["adult","old"],"causes":["wns"]},{"zh":"估计北美东部的小棕蝠有可能在 20 年内区域性灭绝。","en":"Over 99% of northeastern little brown bats may be lost regionally within 20 years.","ref":"frick2010_extirpate","basis":"related","stages":["adult","old"],"causes":["wns"]},{"zh":"在风电场死去的蝙蝠，大多数内脏有气压伤造成的出血。","en":"Ninety percent of wind-farm bats examined had internal bleeding from pressure changes.","ref":"baerwald2008_90","basis":"related","stages":["adult","old"],"causes":["turbine"]},{"zh":"只有大约一半死于风电场的蝙蝠身上有叶片直接撞击的痕迹。","en":"Only about half of the wind-farm bats showed direct contact with the blades.","ref":"baerwald2008_half","basis":"related","stages":["adult","old"],"causes":["turbine"]},{"zh":"白鼻综合征 2006 年才在美国被首次发现。","en":"White-nose syndrome was first discovered near Albany, New York in 2006.","ref":"frick2010_2006","basis":"related","stages":["adult"],"causes":["wns"]}],"existing":{"events.6":"remove","events.17":"remove","events.18":"remove","events.23":"remove","decisions.1":"remove","decisions.4":"frick2010_decline","causes.2":"baerwald2008_90","causes.3":"remove"}},"blue_whale":{"refs":{"noaa_bw":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"noaa_bw_diet":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"noaa_bw_size":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"noaa_bw_life":{"a":"NOAA Fisheries","y":2024,"t":"Blue Whale","s":"NOAA Fisheries species page","u":"https://www.fisheries.noaa.gov/species/blue-whale"},"monnahan2015":{"a":"Monnahan et al.","y":2015,"t":"Do ship strikes threaten the recovery of endangered eastern North Pacific blue whales?","s":"Marine Mammal Science","u":"https://doi.org/10.1111/mms.12157"},"atkinson2004":{"a":"Atkinson et al.","y":2004,"t":"Long-term decline in krill stock and increase in salps within the Southern Ocean","s":"Nature","u":"https://doi.org/10.1038/nature02996"},"monnahan2015_pop":{"a":"Monnahan et al.","y":2015,"t":"Do ship strikes threaten the recovery of endangered eastern North Pacific blue whales?","s":"Marine Mammal Science","u":"https://doi.org/10.1111/mms.12157"}},"survival":[],"causes":[],"causeNotes":{"ship":{"zh":"东北太平洋的蓝鲸被大船撞上的情况很多，现在的撞船数量超过了美国规定的上限。","en":"Ship strikes on eastern North Pacific blue whales are likely above legal limits set by the US.","ref":"monnahan2015","basis":"measured"},"net":{"zh":"美国渔业局列出的蓝鲸主要威胁，就是被大船撞和被渔网缠住。","en":"NOAA lists vessel strikes and entanglement in fishing gear as the primary threats blue whales face.","ref":"noaa_bw","basis":"official"},"krill":{"zh":"南大洋的磷虾密度自 1970 年代起下降，蓝鲸的主要食物也随之减少。","en":"Krill density in the southwest Atlantic, the main krill sector, has declined since the 1970s.","ref":"atkinson2004","basis":"related"}},"facts":[{"zh":"最大的蓝鲸一天可以吃掉约 6 吨磷虾。","en":"The biggest blue whales may eat up to 6 tons of krill a day.","ref":"noaa_bw_diet","basis":"official","stages":["adult"],"acts":["forage"]},{"zh":"蓝鲸的寿命估计在 80 到 90 年左右。","en":"Blue whales are estimated to live around 80 to 90 years.","ref":"noaa_bw_life","basis":"official","stages":["old"]},{"zh":"南极的蓝鲸可以长到约 110 英尺，体重超过 33 万磅。","en":"Antarctic blue whales can reach about 110 feet and weigh over 330,000 pounds.","ref":"noaa_bw_size","basis":"official","stages":["adult"],"flags":["antarctic"]},{"zh":"东北太平洋蓝鲸的种群模型估计，种群大约处在环境承载量的 97%。","en":"A population model puts eastern North Pacific blue whales at about 97% of carrying capacity.","ref":"monnahan2015_pop","basis":"measured","flags":["eastpac"]}],"existing":{"events.2":"remove","decisions.1":"remove","decisions.6":"atkinson2004"}},"broiler":{"refs":{"fvets2022":{"a":"Junghans et al.","y":2022,"t":"Data evaluation of broiler chicken rearing and slaughter-An exploratory study","s":"Frontiers in Veterinary Science","u":"https://doi.org/10.3389/fvets.2022.957786"},"psj2026death":{"a":"AL- Saeedi et al.","y":2026,"t":"Effects of broiler strain and stocking density on causes of death in broilers in Denmark","s":"Poultry Science","u":"https://doi.org/10.1016/j.psj.2026.107718"},"tvjl2026fwm":{"a":"AL-Saeedi et al.","y":2026,"t":"Causes of First-week Mortality in Slower- and Fast-Growing Danish Broilers","s":"The Veterinary Journal","u":"https://doi.org/10.1016/j.tvjl.2026.106979"},"avpath2020":{"a":"Grafl et al.","y":2020,"t":"Risks and disease aetiologies of compromised performance in commercial broilers kept at lower stocking density and limited antimicrobial use","s":"Avian Pathology","u":"https://doi.org/10.1080/03079457.2020.1805411"},"ps2015dof":{"a":"Kittelsen et al.","y":2015,"t":"A comparison of post-mortem findings in broilers dead-on-farm and broilers dead-on-arrival at the abattoir","s":"Poultry Science","u":"https://doi.org/10.3382/ps/pev294"},"ani2025legs":{"a":"Kang","y":2025,"t":"Effectual Environmental Enrichments for Commercial Broiler Chickens","s":"Animals","u":"https://doi.org/10.3390/ani15192829"},"jast2026transport":{"a":"Lee et al.","y":2026,"t":"Optimizing broiler transport under hot-climate conditions: interventions across pre-transport, in-transit, and post-transport stages","s":"Journal of Animal Science and Technology","u":"https://doi.org/10.5187/jast.2600011"},"ps2014growth":{"a":"Zuidhof et al.","y":2014,"t":"Growth, efficiency, and yield of commercial broilers from 1957, 1978, and 2005","s":"Poultry Science","u":"https://doi.org/10.3382/ps.2014-04291"},"ps2015transport":{"a":"Kittelsen et al.","y":2015,"t":"A comparison of post-mortem findings in broilers dead-on-farm and broilers dead-on-arrival at the abattoir","s":"Poultry Science","u":"https://doi.org/10.3382/ps/pev294"},"fvets2022age":{"a":"Junghans et al.","y":2022,"t":"Data evaluation of broiler chicken rearing and slaughter-An exploratory study","s":"Frontiers in Veterinary Science","u":"https://doi.org/10.3389/fvets.2022.957786"}},"survival":[{"from":0,"to":7,"surv":0.9934,"ref":"fvets2022","basis":"measured","zh":"这批德国肉鸡头一周的死亡率只有 0.66%，约 99% 活了下来。","en":"About 99% of these German broilers survived the first week."},{"from":7,"to":37,"surv":0.979,"ref":"fvets2022","basis":"measured","zh":"这批德国肉鸡从第 7 天到屠宰前，存活率约 98%。","en":"After the first week, about 98% of these broilers survived to slaughter."}],"causes":[{"stages":["grow"],"shares":{"heart":0.81},"ref":"psj2026death","basis":"measured","zh":"在丹麦，屠宰前死在农场里的肉鸡，81% 是心血管衰竭。","en":"Among Danish broilers that died on the farm, 81% showed cardiovascular collapse."}],"causeNotes":{"infect":{"zh":"大肠杆菌病是影响肉鸡健康和生产的最重要的感染性疾病之一。","en":"In commercial flocks, colibacillosis had the largest negative impact on health and productivity at all ages.","ref":"avpath2020","basis":"measured"},"leg":{"zh":"腿部健康问题是商品肉鸡淘汰和后期死亡的主要原因之一。","en":"Leg problems are a leading cause of culling and late mortality in commercial broilers.","ref":"ani2025legs","basis":"related"},"heat":{"zh":"炎热气候下运输肉鸡，热应激和死亡率都会升高。","en":"Hot-climate transport raises heat stress and mortality in broilers.","ref":"jast2026transport","basis":"related"},"transport":{"zh":"运输途中到达屠宰场前就死亡的肉鸡，会带来动物福利和经济损失。","en":"Birds dying in transit to the abattoir raise welfare concerns and cause economic losses.","ref":"ps2015transport","basis":"measured"},"heart":{"zh":"在丹麦，屠宰前死在农场里的肉鸡，81% 是心血管衰竭。","en":"Among Danish broilers that died on the farm, 81% showed cardiovascular collapse.","ref":"psj2026death","basis":"measured"}},"facts":[{"zh":"这批德国 Ross 308 肉鸡平均在 37 日龄屠宰。","en":"In this German study, the average slaughter age was 37 days.","ref":"fvets2022age","basis":"measured","stages":["finish"]},{"zh":"丹麦农场里死亡的肉鸡中，81% 是心血管衰竭。","en":"On Danish farms, 81% of dead broilers showed cardiovascular collapse.","ref":"psj2026death","basis":"measured","stages":["grow","finish"],"causes":["heart"]},{"zh":"在农场死亡的肉鸡中，24.0% 有腹水。","en":"Among broilers dead on farm, 24.0% had ascites.","ref":"ps2015dof","basis":"measured","stages":["finish"],"causes":["heart"]},{"zh":"从 1957 年到 2005 年，肉鸡的生长速度提高了 400% 以上。","en":"From 1957 to 2005, broiler growth increased by over 400%.","ref":"ps2014growth","basis":"measured","stages":["grow","finish"]},{"zh":"丹麦的头一周死亡鸡雏中，大肠杆菌是分离出的最常见细菌，占 62.4%。","en":"The most common bacterium isolated from Danish broiler chicks was E. coli, at 62.4%.","ref":"tvjl2026fwm","basis":"measured","stages":["chick","brood"],"causes":["infect"]}],"existing":{"events.4":"remove","events.5":"remove","events.6":"remove","events.7":"remove","decisions.1":"remove"}},"cat":{"refs":{"loss2013":{"a":"Loss et al.","y":2013,"t":"The impact of free-ranging domestic cats on wildlife of the United States","s":"Nature Communications","u":"https://doi.org/10.1038/ncomms2380"},"teng2024_le":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"teng2024_sex":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"teng2024_entire":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"teng2024_sphynx":{"a":"Teng et al.","y":2024,"t":"Life tables of annual life expectancy and risk factors for mortality in cats in the UK","s":"Journal of Feline Medicine and Surgery","u":"https://doi.org/10.1177/1098612x241234556"},"gunther2011":{"a":"Gunther et al.","y":2011,"t":"Demographic differences between urban feeding groups of neutered and sexually intact free-roaming cats following a trap-neuter-return procedure","s":"Journal of the American Veterinary Medical Association","u":"https://doi.org/10.2460/javma.238.9.1134"},"pacini2023":{"a":"Pacini et al.","y":2023,"t":"Feline Parvovirus Lethal Outbreak in a Group of Adult Cohabiting Domestic Cats","s":"Pathogens","u":"https://doi.org/10.3390/pathogens12060822"},"sullivan2026":{"a":"Sullivan et al.","y":2026,"t":"Trauma, particularly vehicular strikes, causes substantial years of life lost in dogs and cats","s":"Journal of the American Veterinary Medical Association","u":"https://doi.org/10.2460/javma.26.05.0398"}},"survival":[],"causes":[],"causeNotes":{"panleuk":{"zh":"猫瘟主要伤害小猫和没打过疫苗的猫，常常是致命的。","en":"Feline panleukopenia mainly affects kittens and unvaccinated cats.","ref":"pacini2023","basis":"related"},"car":{"zh":"车祸是猫的重要死因之一，会让猫损失很多年的寿命。","en":"Vehicle strikes cause substantial years of life lost in dogs and cats.","ref":"sullivan2026","basis":"measured"}},"facts":[{"zh":"英国的宠物猫出生时的平均预期寿命约为 11.74 年。","en":"Life expectancy at birth for UK companion cats was 11.74 years.","ref":"teng2024_le","basis":"measured","stages":["kitten","adult"]},{"zh":"在英国，雌猫的平均寿命比雄猫多约 1.33 年。","en":"Female UK pet cats lived 1.33 years longer on average than males.","ref":"teng2024_sex","basis":"measured","stages":["adult","old"]},{"zh":"在英国的宠物猫中，没有绝育的猫寿命更短。","en":"In UK pet cats, being entire, meaning not neutered, was linked to a shorter lifespan.","ref":"teng2024_entire","basis":"measured","stages":["adult","old"],"decisions":["neuter"]},{"zh":"在英国分析的品种中，斯芬克斯猫的预期寿命最短，约 6.68 年。","en":"Sphynx cats had the shortest life expectancy of the breeds analysed: 6.68 years.","ref":"teng2024_sphynx","basis":"measured","stages":["adult"]},{"zh":"在以色列的一项研究中，绝育的野猫群体里小猫的存活率更高。","en":"In an Israeli study, kitten survival was higher in neutered free-roaming cat groups.","ref":"gunther2011","basis":"measured","stages":["kitten"],"decisions":["neuter"]},{"zh":"美国的自由活动猫每年估计杀死 14 亿到 37 亿只鸟。","en":"Free-ranging domestic cats kill an estimated 1.4 to 3.7 billion birds a year in the US.","ref":"loss2013","basis":"measured","stages":["adult"],"decisions":["bird"]}],"existing":{"events.8":"loss2013"}},"cattle":{"refs":{"ontario_calf":{"a":"Umaña Sedó et al.","y":2024,"t":"Herd-level risk factors associated with preweaning mortality on Ontario dairy farms","s":"Journal of Dairy Science","u":"https://doi.org/10.3168/jds.2024-25265"},"brd_feedlot":{"a":"Jobman et al.","y":2025,"t":"Aggregate Sampling to Detect Pathogens and Antimicrobial Resistance Genes Associated with Bovine Respiratory Disease in US Feedlots: A Pilot Study","s":"Veterinary Sciences","u":"https://doi.org/10.3390/vetsci12030244"},"brd_calves":{"a":"Mori et al.","y":2022,"t":"Field trial of antibody response to inactivated bacterial vaccine in young Holstein calves: influence of animal health status","s":"Journal of Veterinary Research","u":"https://doi.org/10.2478/jvetres-2022-0003"},"swiss_dairy_life":{"a":"Schlebusch et al.","y":2025,"t":"Are Dairy Cow Replacement Decisions Economically Justified? Evidence from Swiss Farms","s":"Animals","u":"https://doi.org/10.3390/ani15162442"},"swiss_dairy_replace":{"a":"Schlebusch et al.","y":2025,"t":"Are Dairy Cow Replacement Decisions Economically Justified? Evidence from Swiss Farms","s":"Animals","u":"https://doi.org/10.3390/ani15162442"},"bloat_australia":{"a":"Allworth et al.","y":2022,"t":"A survey on bloat in southern Australian beef production systems","s":"Australian Veterinary Journal","u":"https://doi.org/10.1111/avj.13226"},"feedlot_liver":{"a":"Huebner et al.","y":2019,"t":"Effects of a Saccharomyces cerevisiae fermentation product on liver abscesses, fecal microbiome, and resistome in feedlot cattle raised without antibiotics","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-019-39181-7"},"calf_diarrhea":{"a":"Wilson et al","y":2025,"t":"Emergence of mortality due to centrilobular to massive hepatic necrosis in western Canadian beef calves","s":"The Canadian Veterinary Journal","u":"https://www.ebi.ac.uk/europepmc/webservices/rest/article/MED/41142973?resultType=core&format=xml"}},"survival":[{"from":2,"to":60,"surv":0.972,"ref":"ontario_calf","basis":"measured","zh":"在安大略的奶牛场，犊牛断奶前的平均死亡率约为 2.8%。","en":"Dairy calves on sampled Ontario farms died before weaning at an average rate of 2.8 percent."}],"causes":[],"causeNotes":{"brd":{"zh":"牛呼吸道疾病是饲养场里牛生病和死亡的主要原因之一。","en":"Bovine respiratory disease is the leading cause of illness and death in feedlots.","ref":"brd_feedlot","basis":"measured"},"bloat":{"zh":"吃进大量嫩豆科牧草后，瘤胃胀气，牛有时会突然死亡。","en":"Frothy bloat from legume pastures frequently causes sudden death in cattle.","ref":"bloat_australia","basis":"measured"},"acidosis":{"zh":"精料多，瘤胃变酸，是饲养场里牛长肝脓肿的前因。","en":"High-grain feed causes rumen acidosis, which leads to liver abscesses in feedlot cattle.","ref":"feedlot_liver","basis":"measured"},"calf_disease":{"zh":"新生的肉牛犊常死于腹泻和肺炎。","en":"Newborn beef calves often die of diarrhea or pneumonia.","ref":"calf_diarrhea","basis":"measured"}},"facts":[{"zh":"奶牛的平均产奶寿命，全世界大约只有三到四胎。","en":"A dairy cow's average productive life is three to four parities worldwide.","ref":"swiss_dairy_life","basis":"measured","stages":["adult","old"],"flags":["dairy"]},{"zh":"每年有 20% 到 40% 的奶牛会被替换掉。","en":"Between 20% and 40% of dairy cows are replaced every year.","ref":"swiss_dairy_replace","basis":"measured","stages":["adult"],"flags":["dairy"]},{"zh":"呼吸道疾病是年幼犊牛的主要死因之一。","en":"Bovine respiratory disease is one of the primary causes of death in young calves.","ref":"brd_calves","basis":"related","stages":["young"],"causes":["brd"]},{"zh":"吃了大量嫩苜蓿之类的豆科草，牛可能突然胀气死亡。","en":"Frothy bloat from legume pastures frequently results in sudden death of cattle.","ref":"bloat_australia","basis":"measured","stages":["growth","adult"],"causes":["bloat"],"decisions":["lush_pasture"]},{"zh":"精料让瘤胃变酸，是饲养场牛长肝脓肿的前因。","en":"Rumen acidosis from high-concentrate feed is a precursor of liver abscesses in feedlot cattle.","ref":"feedlot_liver","basis":"measured","stages":["growth"],"causes":["acidosis"],"flags":["feedlot"]}],"existing":{"events.18":"remove"}},"chimpanzee":{"refs":{"wilson2014":{"a":"Wilson et al.","y":2014,"t":"Lethal aggression in Pan is better explained by adaptive strategies than human impacts","s":"Nature","u":"https://doi.org/10.1038/nature13727"},"ngogo2017":{"a":"Wood et al.","y":2017,"t":"Favorable ecological circumstances promote life expectancy in chimpanzees similar to that of human hunter-gatherers","s":"Journal of Human Evolution","u":"https://doi.org/10.1016/j.jhevol.2017.01.003"},"zoo2022":{"a":"Ross et al.","y":2022,"t":"A 25-Year Retrospective Review of Mortality in Chimpanzees (Pan troglodytes) in Accredited U.S. Zoos from a Management and Welfare Perspective","s":"Animals","u":"https://doi.org/10.3390/ani12151878"},"zoo2022_trauma":{"a":"Ross et al.","y":2022,"t":"A 25-Year Retrospective Review of Mortality in Chimpanzees (Pan troglodytes) in Accredited U.S. Zoos from a Management and Welfare Perspective","s":"Animals","u":"https://doi.org/10.3390/ani12151878"},"anderson2018":{"a":"Anderson","y":2018,"t":"Chimpanzees and death","s":"Philosophical Transactions of the Royal Society B: Biological Sciences","u":"https://doi.org/10.1098/rstb.2017.0257"}},"survival":[],"causes":[],"causeNotes":{"war":{"zh":"在野外的黑猩猩杀戮中，多数是群落之间的攻击。","en":"In wild chimpanzees, most lethal killings were attacks between communities.","ref":"wilson2014","basis":"measured"},"leopard":{"zh":"一篇黑猩猩死亡原因的综述，把被捕食列为其中一类。","en":"A review of why chimpanzees die covers predation as one of its categories.","ref":"anderson2018","basis":"measured"}},"facts":[{"zh":"乌干达 Ngogo 群的黑猩猩，出生时的平均预期寿命为 32.8 年。","en":"Chimpanzees in Uganda's Ngogo community had a life expectancy at birth of 32.8 years.","ref":"ngogo2017","basis":"measured","stages":["infant"]},{"zh":"在所观察的黑猩猩群中，多数致命杀戮是群落之间的攻击。","en":"Across the chimpanzee communities studied, most lethal killings were attacks between communities.","ref":"wilson2014","basis":"measured","stages":["adult"],"causes":["war"]},{"zh":"美国动物园里，满月后死去的黑猩猩中，15.3% 与外伤有关。","en":"In US zoos, 15.3% of chimpanzee deaths after the first month were related to trauma.","ref":"zoo2022_trauma","basis":"related","stages":["juv","adult"]}],"existing":{"events.5":"remove","events.21":"remove","decisions.1":"remove","decisions.3":"remove"}},"copepod":{"refs":{"hirst2007":{"a":"Hirst et al.","y":2007,"t":"Seasonal dynamics and mortality rates of Calanus helgolandicus over two years at a station in the English Channel","s":"Marine Ecology Progress Series","u":"https://doi.org/10.3354/meps340189"},"hirst2007b":{"a":"Hirst et al.","y":2007,"t":"Seasonal dynamics and mortality rates of Calanus helgolandicus over two years at a station in the English Channel","s":"Marine Ecology Progress Series","u":"https://doi.org/10.3354/meps340189"},"kaartvedt2021":{"a":"Kaartvedt et al.","y":2021,"t":"Sleep walking copepods? Calanus diapausing in hypoxic waters adjust their vertical position during winter","s":"Journal of Plankton Research","u":"https://doi.org/10.1093/plankt/fbab004"},"phen2024":{"a":"Anderson et al.","y":2024,"t":"Optimal phenology of life history events in Calanus finmarchicus: exit from diapause in relation to interannual variation in spring bloom timing and predation","s":"Journal of Plankton Research","u":"https://doi.org/10.1093/plankt/fbae028"},"ecy2020":{"a":"Kvile et al.","y":2020,"t":"Predation risk alters life history strategies in an oceanic copepod","s":"Ecology","u":"https://doi.org/10.1002/ecy.3214"},"cole2015":{"a":"Cole et al.","y":2015,"t":"The impact of polystyrene microplastics on feeding, function and fecundity in the marine copepod Calanus helgolandicus","s":"Environmental Science & Technology","u":"https://doi.org/10.1021/es504525u"},"cole2013":{"a":"Cole et al.","y":2013,"t":"Microplastic ingestion by zooplankton","s":"Environmental Science & Technology","u":"https://doi.org/10.1021/es400663f"}},"survival":[{"from":0,"to":1.5,"surv":0.1,"ref":"hirst2007b","basis":"related","zh":"C. helgolandicus 的卵到第一个无节幼体阶段，常常不到一成能活下来。","en":"Often under 10% of Calanus eggs survive to the first nauplius stage."}],"causes":[],"causeNotes":{"egg_eaten":{"zh":"模型显示，早春捕食压力低时，卵和早期发育阶段存活更多。","en":"A model finds eggs and early stages survive better when predation is low early in the year.","ref":"phen2024","basis":"related"},"diapause":{"zh":"在缺氧的深水里越冬时，冬初死亡率低；越冬位置上移后死亡率上升。","en":"Overwintering copepods in hypoxic deep water had low mortality early in winter, which rose as they moved shallower.","ref":"kaartvedt2021","basis":"related"}},"facts":[{"zh":"C. helgolandicus 卵的瞬时死亡率平均每天约 6.1，是各阶段里最高的。","en":"The instantaneous death rate of Calanus helgolandicus eggs averaged 6.1 per day, the highest of the stages measured.","ref":"hirst2007","basis":"related","stages":["egg","nauplius"]},{"zh":"给桡足类加入鱼类捕食者的气味，它们会更早成熟但体型更小、脂肪更少。","en":"Chemical cues from a fish predator made lab-reared Calanus finmarchicus smaller and leaner, and they matured earlier.","ref":"ecy2020","basis":"measured","stages":["copepodite"],"acts":["hide"]},{"zh":"在实验里，微塑料让 C. helgolandicus 吃进的藻类减少了约 11%。","en":"In a 24-hour lab test, microplastic beads made Calanus helgolandicus eat 11% fewer algal cells.","ref":"cole2015","basis":"related","stages":["adult","old"],"acts":["forage"]},{"zh":"越冬的桡足类在缺氧的深水里，几乎没有捕食者，冬初死亡率也低。","en":"In a hypoxic overwintering site, predators were largely absent and mortality was low in early winter.","ref":"kaartvedt2021","basis":"related","stages":["copepodite"],"decisions":["winter"],"causes":["diapause"]}],"existing":{"events.0":"remove","events.1":"remove","events.16":"cole2013","decisions.0":"remove","decisions.1":"remove","decisions.2":"remove","decisions.3":"remove","decisions.4":"remove","decisions.5":"remove"}},"dog":{"refs":{"paul2016":{"a":"Paul et al.","y":2016,"t":"High early life mortality in free-ranging dogs is largely influenced by humans","s":"Scientific Reports","u":"https://doi.org/10.1038/srep19641"},"paul2016_human":{"a":"Paul et al.","y":2016,"t":"High early life mortality in free-ranging dogs is largely influenced by humans","s":"Scientific Reports","u":"https://doi.org/10.1038/srep19641"},"czup2016":{"a":"Czupryna et al.","y":2016,"t":"Ecology and Demography of Free-Roaming Domestic Dogs in Rural Villages near Serengeti National Park in Tanzania","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0167092"},"michell_8pct":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"michell_neuter":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"michell_size":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"michell_car":{"a":"Michell","y":1999,"t":"Longevity of British breeds of dog and its relationships with sex, size, cardiovascular variables and disease","s":"Veterinary Record","u":"https://doi.org/10.1136/vr.145.22.625"},"oneill2021":{"a":"O'Neill et al.","y":2021,"t":"Epidemiology of periodontal disease in dogs in the UK primary-care veterinary setting","s":"Journal of Small Animal Practice","u":"https://doi.org/10.1111/jsap.13405"},"hughes2013":{"a":"Hughes & Macdonald","y":2013,"t":"A review of the interactions between free-roaming domestic dogs and wildlife","s":"Biological Conservation","u":"https://doi.org/10.1016/j.biocon.2012.07.005"}},"survival":[],"causes":[],"causeNotes":{"car":{"zh":"在英国的一项调查中，不同品种的狗死于车祸的情况也不同。","en":"A British owner survey of dog deaths reports breed differences in road accidents.","ref":"michell_car","basis":"measured"}},"facts":[{"zh":"在印度西孟加拉邦，流浪狗的幼崽只有约 19% 能活到繁殖年龄。","en":"Only about 19% of free-ranging dog pups in West Bengal survived to breeding age.","ref":"paul2016","basis":"measured","stages":["newborn","puppy"]},{"zh":"在同一项研究中，大部分的幼犬死亡都和人有关。","en":"In that study, 63% of deaths were influenced by humans.","ref":"paul2016_human","basis":"measured","stages":["newborn","puppy"]},{"zh":"在坦桑尼亚的农村，生病和被鬣狗捕食是流浪狗的两大死因。","en":"In rural Tanzania, sickness and hyena predation were the two main causes of free-roaming dog deaths.","ref":"czup2016","basis":"measured","stages":["young","adult","old"]},{"zh":"在英国一项调查中，只有 8% 的狗活过了 15 岁。","en":"In a British owner survey, only 8 per cent of dogs lived beyond 15.","ref":"michell_8pct","basis":"measured","stages":["old"]},{"zh":"在英国的调查中，绝育的母狗比公狗和未绝育的母狗活得更长。","en":"In a British survey, neutered female dogs lived longer than males or intact females.","ref":"michell_neuter","basis":"measured","stages":["adult","old"],"decisions":["neuter"]},{"zh":"英国的一项兽医记录调查显示，一年之内约有 12.52% 的狗被诊断出牙周病。","en":"In a UK vet-records sample, 12.52% of dogs were diagnosed with periodontal disease in one year.","ref":"oneill2021","basis":"measured","stages":["adult","old"]},{"zh":"全世界的家养狗估计超过七亿只。","en":"Estimates put the global domestic dog population at over 700 million.","ref":"hughes2013","basis":"related","stages":["adult"]}],"existing":{"events.6":"remove","events.11":"remove","events.21":"michell_size","events.36":"remove","decisions.0":"remove"}},"duck":{"refs":{"plosone2023herpes":{"a":"Damir et al.","y":2023,"t":"Investigation of a herpesvirus outbreak in mixed breeds of adult domestic ducks using next generation sequencing","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0280923"},"tbed2026dadv3":{"a":"Zhu et al.","y":2026,"t":"Pathogenicity and Genomic Features of a DAdV-3 Strain Causing Severe Hepatitis in Muscovy Ducklings","s":"Transboundary and Emerging Diseases","u":"https://doi.org/10.1155/tbed/7156678"},"psj2026heat":{"a":"Liang et al.","y":2026,"t":"Heat stress promotes ferroptosis in Jiaji duck myocardium by disrupting iron homeostasis and inducing lipid peroxidation","s":"Poultry Science","u":"https://doi.org/10.1016/j.psj.2026.107241"}},"survival":[],"causes":[],"causeNotes":{"heat":{"zh":"炎热天气会让家禽发生热应激，有时导致急性死亡。","en":"Heat stress is a common cause of acute death in poultry, including ducks.","ref":"psj2026heat","basis":"related"}},"facts":[{"zh":"在一个成年鸭群的疱疹病毒暴发中，死亡率达到 35%。","en":"A herpesvirus outbreak on one adult duck farm caused 35% mortality.","ref":"plosone2023herpes","basis":"measured"},{"zh":"在中国的番鸭中，一种鸭腺病毒感染的死亡率有时高达 43%。","en":"In Muscovy ducks in China, a duck adenovirus infection has reached mortality rates as high as 43%.","ref":"tbed2026dadv3","basis":"related","stages":["chick"]}],"existing":{}},"earthworm":{"refs":{"schally2024":{"a":"Schally et al.","y":2024,"t":"The effect of soil parameters and earthworm abundance on the fine-scale nocturnal habitat use of the Eurasian woodcock","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.70136"},"schally2024engineers":{"a":"Schally et al.","y":2024,"t":"The effect of soil parameters and earthworm abundance on the fine-scale nocturnal habitat use of the Eurasian woodcock","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.70136"},"fellowes2020":{"a":"Fellowes et al.","y":2020,"t":"Map-A-Mole: Greenspace Area Influences the Presence and Abundance of the European Mole Talpa europaea in Urban Habitats","s":"Animals","u":"https://doi.org/10.3390/ani10061097"}},"survival":[],"causes":[],"causeNotes":{"bird":{"zh":"欧亚丘鹬的主要食物是蚯蚓，它们偏爱蚯蚓多的草地。","en":"The Eurasian woodcock prefers habitats with more earthworms, its main prey.","ref":"schally2024","basis":"related"},"mole":{"zh":"蚯蚓是鼹鼠最重要的食物之一，蚯蚓少的土壤会限制鼹鼠的分布。","en":"Moles depend on earthworms as their most important prey, and low earthworm density limits them.","ref":"fellowes2020","basis":"related"}},"facts":[{"zh":"蚯蚓是温带生态系统里分布最广的土壤生态工程师。","en":"Earthworms are the most widespread soil ecosystem engineers in temperate ecosystems.","ref":"schally2024engineers","basis":"related","stages":["adult","old"]}],"existing":{"events.18":"remove"}},"elephant":{"refs":{"wittemyer2014":{"a":"Wittemyer et al.","y":2014,"t":"Illegal killing for ivory drives global decline in African elephants","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1403984111"},"wittemyer_samburu":{"a":"Wittemyer et al.","y":2014,"t":"Illegal killing for ivory drives global decline in African elephants","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1403984111"},"forest2018":{"a":"Turkalo et al.","y":2018,"t":"Demography of a forest elephant population","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0192777"},"forest2018_sex":{"a":"Turkalo et al.","y":2018,"t":"Demography of a forest elephant population","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0192777"}},"survival":[{"from":0,"to":730,"surv":0.97,"ref":"forest2018","basis":"related","zh":"森林象的幼象在出生后两年内存活率约为 97%（森林象，非草原象）。","en":"About 97% of forest elephant calves survived their first two years."}],"causes":[],"causeNotes":{"poacher":{"zh":"在萨布鲁，盗猎随象牙黑市价格上涨而明显增加，成为大象的重要死因。","en":"In Samburu, Kenya, illegal killing rose sharply after 2008 and tracked the black-market ivory price.","ref":"wittemyer_samburu","basis":"measured"}},"facts":[{"zh":"2011 年，非洲大陆的盗猎率高峰约为 8%，远超可持续水平。","en":"In 2011, illegal killing peaked at about 8% of African elephants, which was unsustainable.","ref":"wittemyer2014","basis":"measured","causes":["poacher"],"stages":["adult"]},{"zh":"森林象的雄象比雌象存活率低，研究者怀疑这与人类为象牙而猎杀有关。","en":"Male forest elephants survived less well than females, which researchers suspect is driven by hunting for ivory.","ref":"forest2018_sex","basis":"related","causes":["poacher"],"stages":["young","adult"]}],"existing":{"events.6":"remove","events.11":"remove","events.12":"remove","events.15":"remove","events.29":"remove","decisions.1":"remove","causes.6":"remove"}},"farmed_carp":{"refs":{"fsi2026gcrv":{"a":"Li et al.","y":2026,"t":"A Z-DNA/PKZ-based immunoenhancer confers protective immunity against GCRV infection in grass carp","s":"Fish & Shellfish Immunology","u":"https://doi.org/10.1016/j.fsi.2026.111719"},"pathogens2025ich":{"a":"Peng et al.","y":2025,"t":"Effects of a Synthetic Isoquinoline Derivative Against Ichthyophthirius multifiliis In Vivo and In Vitro in Grass Carp (Ctenopharyngodon idella)","s":"Pathogens","u":"https://doi.org/10.3390/pathogens14101069"},"animals2025hypoxia":{"a":"Wang et al.","y":2025,"t":"Integrative Genomics and Multi-Tissue Transcriptomics Identify Key Loci and Pathways for Hypoxia Tolerance in Grass Carp","s":"Animals","u":"https://doi.org/10.3390/ani15243518"},"helminth2024cormorant":{"a":"Gyöngy et al.","y":2024,"t":"Digenean trematodes (Trematoda: Digenea) parasitizing the digestive system of the great cormorant (Phalacrocorax carbo) in Hungary","s":"Helminthologia","u":"https://doi.org/10.2478/helm-2024-0033"},"ijm2025saprolegnia":{"a":"Rathod et al.","y":2025,"t":"Abiotic stressors influence saprolegniasis infection, causing mass mortality in Pangasianodon hypophthalmus and Labeo rohita under cage culture in Eastern India","s":"International Microbiology","u":"https://doi.org/10.1007/s10123-025-00721-z"}},"survival":[],"causes":[],"causeNotes":{"gcrv":{"zh":"草鱼出血病（草鱼呼肠孤病毒）是草鱼鱼种阶段死亡的重要原因。","en":"Grass carp reovirus disease causes hemorrhagic illness and high losses in fingerling grass carp.","ref":"fsi2026gcrv","basis":"related"},"ichthyo":{"zh":"白点病（小瓜虫）在高密度养殖中会造成大量死亡。","en":"White spot disease from Ichthyophthirius can cause heavy mortality in intensive farming.","ref":"pathogens2025ich","basis":"related"},"oxygen":{"zh":"低氧是养殖鱼类存活和生长的重要压力。","en":"Low oxygen is a major stressor that affects survival and growth of farmed fish.","ref":"animals2025hypoxia","basis":"related"},"predator":{"zh":"鸬鹚等鱼食性水鸟会对鱼类造成很大的经济损失。","en":"Piscivorous cormorants are known to cause large economic losses to fish stocks.","ref":"helminth2024cormorant","basis":"related"},"fungus":{"zh":"水霉病（丝水霉）在寒冷季节会造成鱼类大量死亡。","en":"Saprolegnia infection causes heavy fish mortality in aquaculture during winter.","ref":"ijm2025saprolegnia","basis":"related"}},"facts":[{"zh":"草鱼出血病可使草鱼鱼种死亡率高达 80%。","en":"Grass carp reovirus can cause mortality of up to 80% in fingerlings.","ref":"fsi2026gcrv","basis":"related","stages":["fingerling"],"causes":["gcrv"]},{"zh":"小瓜虫引起的白点病，在密集养殖里死亡率可超过 80%。","en":"White spot disease from Ichthyophthirius can cause mortality above 80% in intensive systems.","ref":"pathogens2025ich","basis":"related","stages":["fry","fingerling"],"causes":["ichthyo"]}],"existing":{}},"farmed_shrimp":{"refs":{"tbed2017":{"a":"Muniesa et al.","y":2017,"t":"Spatial Epidemiology and Risk Factor Analysis of White Spot Disease in the Shrimp Farming Industry of Sinaloa, Mexico, from 2005 to 2011","s":"Transboundary and Emerging Diseases","u":"https://doi.org/10.1111/tbed.12542"},"viruses2023":{"a":"Cox et al.","y":2023,"t":"The Way of Water: Unravelling White Spot Syndrome Virus (WSSV) Transmission Dynamics in Litopenaeus vannamei Shrimp","s":"Viruses","u":"https://doi.org/10.3390/v15091824"},"jaah2014":{"a":"Otta et al.","y":2014,"t":"Association of dual viral infection with mortality of Pacific white shrimp (Litopenaeus vannamei) in culture ponds in India","s":"VirusDisease","u":"https://doi.org/10.1007/s13337-013-0180-x"},"albalat2022":{"a":"Albalat et al.","y":2022,"t":"Welfare in Farmed Decapod Crustaceans, With Particular Reference to Penaeus vannamei","s":"Frontiers in Marine Science","u":"https://doi.org/10.3389/fmars.2022.886024"}},"survival":[],"causes":[],"causeNotes":{"wssv":{"zh":"白斑病毒引起的白斑病是养殖对虾死亡和经济损失的主要原因之一。","en":"White spot disease is one of the primary causes of mortality on shrimp farms.","ref":"tbed2017","basis":"measured"}},"facts":[{"zh":"全球每年约有 167 亿只养殖凡纳滨对虾被收获。","en":"About 167 billion farmed whiteleg shrimp are harvested each year.","ref":"albalat2022","basis":"related","stages":["old"]},{"zh":"印度一些养殖池里，对虾养到 50–72 天就因病提前收获。","en":"On some Indian pond farms, whiteleg shrimp were harvested early at 50 to 72 days because of disease.","ref":"jaah2014","basis":"measured","stages":["grow"],"causes":["wssv"]},{"zh":"在实验室感染试验中，感染白斑病毒的对虾约 78 小时内死亡。","en":"In a lab challenge, shrimp infected with white spot virus died within 78 hours.","ref":"viruses2023","basis":"related","stages":["grow"],"causes":["wssv"]}],"existing":{"events.5":"remove","events.11":"remove","decisions.0":"remove"}},"frog":{"refs":{"mantella_surv":{"a":"Edmonds et al.","y":2024,"t":"Small population size and possible extirpation of the threatened Malagasy poison frog Mantella cowanii","s":"PeerJ","u":"https://doi.org/10.7717/peerj.17947"},"mantella_decline":{"a":"Edmonds et al.","y":2024,"t":"Small population size and possible extirpation of the threatened Malagasy poison frog Mantella cowanii","s":"PeerJ","u":"https://doi.org/10.7717/peerj.17947"},"berger_fungus":{"a":"Berger et al.","y":1998,"t":"Chytridiomycosis causes amphibian mortality associated with population declines in the rain forests of Australia and Central America","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.95.15.9031"}},"survival":[{"from":365,"to":730,"surv":0.574,"ref":"mantella_surv","basis":"related","zh":"在一种马达加斯加的毒蛙身上，成蛙每年大约有 53% 到 62% 能活下来。","en":"In a Madagascan poison frog, about 53% to 62% of adults survived each year."}],"causes":[],"causeNotes":{"chytrid":{"zh":"在澳大利亚和巴拿马的雨林里，感染蛙壶菌的成蛙和死蛙出现在大量死亡事件中。","en":"A chytrid fungus was found in sick and dead adult frogs during mass die-offs in rainforests of Australia and Panama.","ref":"berger_fungus","basis":"related"}},"facts":[{"zh":"一种马达加斯加的毒蛙，成蛙每年的存活率大约在 53% 到 62% 之间。","en":"Annual adult survival in a Madagascan poison frog was about 53% to 62%.","ref":"mantella_surv","basis":"related","stages":["adult"]},{"zh":"在这种毒蛙调查最密集的地点，种群在 2015 到 2023 年间减少了 80% 以上。","en":"At the best-surveyed site, the population fell by more than 80% from 2015 to 2023.","ref":"mantella_decline","basis":"related","stages":["adult"]},{"zh":"在澳大利亚和巴拿马的雨林里，蛙壶菌感染的成蛙在大规模死亡事件中被发现。","en":"Chytrid fungus was found on sick and dead adult frogs during mass die-offs in rainforests of Australia and Panama.","ref":"berger_fungus","basis":"related","stages":["adult"],"causes":["chytrid"]}],"existing":{"events.14":"remove","events.17":"berger_fungus","decisions.1":"remove","decisions.5":"remove"}},"goat":{"refs":{"zamuner_kids":{"a":"Zamuner et al.","y":2023,"t":"Evaluation of plasma immunoglobulin G and BW thresholds for predicting preweaning mortality in commercially raised dairy goat kids","s":"animal","u":"https://doi.org/10.1016/j.animal.2023.100989"},"mandonnet_creole":{"a":"Mandonnet et al.","y":2003,"t":"Mortality of Creole kids during infection with gastrointestinal strongyles: a survival analysis","s":"Journal of Animal Science","u":"https://doi.org/10.2527/2003.81102401x"},"mandonnet_parasite":{"a":"Mandonnet et al.","y":2003,"t":"Mortality of Creole kids during infection with gastrointestinal strongyles: a survival analysis","s":"Journal of Animal Science","u":"https://doi.org/10.2527/2003.81102401x"},"khan_wolf":{"a":"Khan et al.","y":2019,"t":"Status and Magnitude of Grey Wolf Conflict with Pastoral Communities in the Foothills of the Hindu Kush Region of Pakistan","s":"Animals","u":"https://doi.org/10.3390/ani9100787"},"namgail_predators":{"a":"Namgail et al.","y":2007,"t":"Carnivore-caused livestock mortality in Trans-Himalaya","s":"Environmental Management","u":"https://doi.org/10.1007/s00267-005-0178-2"},"fan_diarrhea":{"a":"Fan et al.","y":2025,"t":"Bacillus pumilus 315 improves intestinal microbiota and barrier function to alleviate diarrhea of neonatal goats","s":"Animal Nutrition","u":"https://doi.org/10.1016/j.aninu.2024.10.008"},"zeder2000":{"a":"Zeder & Hesse","y":2000,"t":"The initial domestication of goats (Capra hircus) in the Zagros mountains 10,000 years ago","s":"Science","u":"https://doi.org/10.1126/science.287.5461.2254"}},"survival":[{"from":0,"to":42,"surv":0.79,"ref":"zamuner_kids","basis":"measured","zh":"在商业化养殖的奶山羊羔中，约 79% 能活到 42 天大。","en":"In commercially raised dairy goat kids, about 79% survived to 42 days old."}],"causes":[],"causeNotes":{"parasite":{"zh":"在草场上养的羊羔，胃肠道线虫感染会导致它们死亡。","en":"Strongyle worm infection causes deaths in goat kids reared at pasture.","ref":"mandonnet_parasite","basis":"measured"},"wolf":{"zh":"狼会咬死山羊，在一项巴基斯坦的调查里，被狼攻击的牲畜多数是山羊和绵羊。","en":"In a Pakistani study, goats and sheep made up 79.2% of reported wolf attacks.","ref":"khan_wolf","basis":"related"}},"facts":[{"zh":"在商业化养殖的奶山羊羔中，约 21% 在 42 天内死亡。","en":"In commercial dairy goat kids, 21% of kids died by 42 days old.","ref":"zamuner_kids","basis":"measured","stages":["kid","juv"]},{"zh":"在同一项研究中，出生两周内约有 12% 的奶山羊羔死亡。","en":"In the same study, 12% of dairy goat kids died within 14 days of birth.","ref":"zamuner_kids","basis":"measured","stages":["kid"]},{"zh":"在放养的羊群里，公羊羔因肠道线虫感染而死的风险远高于母羊羔。","en":"Male goat kids were more than three times as likely to die from worm infection as females.","ref":"mandonnet_creole","basis":"measured","stages":["kid","juv"],"causes":["parasite"]},{"zh":"在喜马拉雅的三个村子里，家山羊是被食肉动物杀死最多的牲畜之一。","en":"Domestic goats were 32% of the livestock killed by carnivores in three Ladakh villages.","ref":"namgail_predators","basis":"related","stages":["juv","young","adult"],"causes":["wolf"]},{"zh":"腹泻是出生后山羊羔的首要死因。","en":"Diarrhea is the leading cause of death in goat kids after birth, according to one study.","ref":"fan_diarrhea","basis":"related","stages":["kid"]},{"zh":"山羊大约一万年前在伊朗西部的扎格罗斯山地开始被驯化。","en":"Goats were first domesticated about 10,000 years ago in the highlands of western Iran.","ref":"zeder2000","basis":"measured","stages":["kid"]}],"existing":{"opening":"zeder2000"}},"greenland_shark":{"refs":{"nielsen_mat":{"a":"Nielsen et al.","y":2016,"t":"Eye lens radiocarbon reveals centuries of longevity in the Greenland shark (Somniosus microcephalus)","s":"Science","u":"https://doi.org/10.1126/science.aaf1703"},"nielsen_max":{"a":"Nielsen et al.","y":2016,"t":"Eye lens radiocarbon reveals centuries of longevity in the Greenland shark (Somniosus microcephalus)","s":"Science","u":"https://doi.org/10.1126/science.aaf1703"},"nielsen_28":{"a":"Nielsen et al.","y":2016,"t":"Eye lens radiocarbon reveals centuries of longevity in the Greenland shark (Somniosus microcephalus)","s":"Science","u":"https://doi.org/10.1126/science.aaf1703"},"peerj_common":{"a":"Grant et al.","y":2018,"t":"Greenland shark (Somniosus microcephalus) feeding behavior on static fishing gear, effect of SMART (Selective Magnetic and Repellent-Treated) hook deterrent technology, and factors influencing entanglement in bottom longlines","s":"PeerJ","u":"https://doi.org/10.7717/peerj.4751"},"peerj_rate":{"a":"Grant et al.","y":2018,"t":"Greenland shark (Somniosus microcephalus) feeding behavior on static fishing gear, effect of SMART (Selective Magnetic and Repellent-Treated) hook deterrent technology, and factors influencing entanglement in bottom longlines","s":"PeerJ","u":"https://doi.org/10.7717/peerj.4751"},"peerj_mort":{"a":"Grant et al.","y":2018,"t":"Greenland shark (Somniosus microcephalus) feeding behavior on static fishing gear, effect of SMART (Selective Magnetic and Repellent-Treated) hook deterrent technology, and factors influencing entanglement in bottom longlines","s":"PeerJ","u":"https://doi.org/10.7717/peerj.4751"}},"survival":[],"causes":[],"causeNotes":{"bycatch":{"zh":"格陵兰睡鲨被延绳钓误捕后，报道的死亡比例约为一半，部分是渔民杀掉了严重缠住的鲨鱼。","en":"Reported mortality of Greenland sharks in a halibut longline fishery was about 50%, partly because fishers killed entangled sharks.","ref":"peerj_mort","basis":"measured"}},"facts":[{"zh":"格陵兰睡鲨大约要到 156 岁前后才性成熟，误差约 ±22 年。","en":"Greenland sharks reach sexual maturity at an estimated 156 ± 22 years of age.","ref":"nielsen_mat","basis":"measured","stages":["subad","adult"]},{"zh":"研究中最大的一条（502 厘米）估计已有 392 ± 120 岁。","en":"The largest sampled shark, 502 cm long, was estimated to be 392 ± 120 years old.","ref":"nielsen_max","basis":"measured","stages":["old"]},{"zh":"用眼球晶状体的放射性碳测年，28 条雌鲨显示寿命至少有 272 年。","en":"Eye-lens radiocarbon dating of 28 female sharks showed a life span of at least 272 years.","ref":"nielsen_28","basis":"measured"},{"zh":"在一次试验性的格陵兰大比目鱼夏季渔业中，平均每 1000 个钩子就误捕 6.3 条睡鲨。","en":"During an experimental summer halibut fishery, bycatch averaged 6.3 Greenland sharks per 1000 hooks set.","ref":"peerj_rate","basis":"measured","stages":["juv","subad","adult","old"],"causes":["bycatch"],"decisions":["longline"]},{"zh":"在加拿大坎伯兰湾，格陵兰睡鲨是格陵兰大比目鱼底延绳钓渔业中最常见的误捕物种。","en":"In Cumberland Sound, Canada, Greenland shark is the most common bycatch in the halibut longline fishery.","ref":"peerj_common","basis":"measured","stages":["juv","subad","adult","old"],"causes":["bycatch"],"decisions":["longline"]}],"existing":{"events.2":"remove","events.4":"remove","events.5":"remove","events.7":"remove","events.10":"remove","events.13":"remove","decisions.1":"remove"}},"honeybee":{"refs":{"prado2020":{"a":"Prado et al.","y":2020,"t":"Honeybee lifespan: the critical role of pre-foraging stage","s":"Royal Society Open Science","u":"https://doi.org/10.1098/rsos.200998"},"prado2020b":{"a":"Prado et al.","y":2020,"t":"Honeybee lifespan: the critical role of pre-foraging stage","s":"Royal Society Open Science","u":"https://doi.org/10.1098/rsos.200998"},"sarmad2025":{"a":"Sarmad & Ryšánek","y":2025,"t":"Impact of different constant temperatures on the survival of honey bee, Apis mellifera (Hymenoptera: Apidae)","s":"Apidologie","u":"https://doi.org/10.1007/s13592-025-01191-y"},"varroa2024":{"a":"Boonmee et al.","y":2024,"t":"Properties of essential oils absorbed on the surface of cardboard pieces after using atmospheric-pressure plasma treatments to develop long-lasting Varroa miticides in honeybees (Apis mellifera)","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0297980"}},"survival":[],"causes":[],"causeNotes":{"varroa":{"zh":"瓦螨被认为是养殖西方蜜蜂中分布最广、危害最严重的害虫之一。","en":"Varroa mites are considered the most serious widespread pest of managed honey bees.","ref":"varroa2024","basis":"related"}},"facts":[{"zh":"大约四成工蜂在开始出去采集之前就死了。","en":"Roughly 40% of worker honey bees die before they start foraging.","ref":"prado2020","basis":"measured","stages":["nurse","builder"]},{"zh":"开始采集之后，工蜂每个采集日大约有 36% 的概率死去。","en":"Once foraging, a worker bee has about a 36% chance of dying on each foraging day.","ref":"prado2020b","basis":"measured","stages":["forager"]},{"zh":"实验室里，31°C 下半数工蜂约在两周左右死亡。","en":"In a lab test at 31 °C, half of the worker bees had died by about 14 days.","ref":"sarmad2025","basis":"related","stages":["forager"]}],"existing":{"events.5":"remove","events.6":"remove","events.7":"remove","decisions.1":"remove","decisions.2":"remove","decisions.4":"remove"}},"housefly":{"refs":{"shahzad2025":{"a":"Shahzad et al.","y":2025,"t":"Effects of Indoxacarb on life history traits and population performance of the house fly, Musca domestica","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-025-06279-0"},"shahzad2025b":{"a":"Shahzad et al.","y":2025,"t":"Effects of Indoxacarb on life history traits and population performance of the house fly, Musca domestica","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-025-06279-0"},"hafez2026":{"a":"Hafez & Abbas","y":2026,"t":"Realized Heritability and Fitness Costs of Diflubenzuron Resistance in Musca domestica L","s":"Insects","u":"https://doi.org/10.3390/insects17050480"},"amir2026":{"a":"Amir et al.","y":2026,"t":"Fitness costs of sublethal cyantraniliprole exposure: life-history trade-offs in the non-target insect Musca domestica","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-026-42884-3"}},"survival":[],"causes":[],"causeNotes":{"insecticide":{"zh":"在实验室里，接触高剂量茚虫威的家蝇，成虫寿命只有约 23 到 25 天。","en":"In lab tests, house flies given the highest indoxacarb dose lived only about 23 to 25 days as adults.","ref":"shahzad2025","basis":"related"}},"facts":[{"zh":"在实验室里，茚虫威高剂量组的幼虫期到成虫期发育最长约 14 天。","en":"In a lab test, pre-adult development took up to about 14 days in the highest indoxacarb dose group.","ref":"shahzad2025b","basis":"related","stages":["larva","pupa"],"causes":["insecticide"]},{"zh":"用于抗性选育的家蝇，相对适合度只有未选育群体的 0.39。","en":"House flies selected for diflubenzuron resistance had a relative fitness of 0.39 compared with unselected flies.","ref":"hafez2026","basis":"related","causes":["insecticide"],"stages":["adult"]},{"zh":"在实验室里，用 50 ppm 溴氰虫酰胺 处理的雄蝇，成虫寿命约 41 天，短于未处理组。","en":"In a lab test, male house flies given 50 ppm cyantraniliprole lived about 41 days as adults, shorter than untreated males.","ref":"amir2026","basis":"related","stages":["adult"],"causes":["insecticide"]}],"existing":{"events.25":"remove"}},"human":{"refs":{"who_u5":{"a":"WHO","y":2026,"t":"Child mortality (under 5 years)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/children-reducing-mortality"},"who_u5_deaths":{"a":"WHO","y":2026,"t":"Child mortality (under 5 years)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/children-reducing-mortality"},"who_neonatal":{"a":"WHO","y":2026,"t":"Child mortality (under 5 years)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/children-reducing-mortality"},"who_pneumonia":{"a":"WHO","y":2022,"t":"Pneumonia in children","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/pneumonia"},"who_diarrhoea":{"a":"WHO","y":2024,"t":"Diarrhoeal disease","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/diarrhoeal-disease"},"who_malaria":{"a":"WHO","y":2025,"t":"Malaria","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/malaria"},"who_malaria_u5":{"a":"WHO","y":2025,"t":"Malaria","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/malaria"},"who_mmr":{"a":"WHO","y":2025,"t":"Maternal mortality","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/maternal-mortality"},"who_road":{"a":"WHO","y":2026,"t":"Road traffic injuries","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries"},"who_road_deaths":{"a":"WHO","y":2026,"t":"Road traffic injuries","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries"},"who_cvd":{"a":"WHO","y":2025,"t":"Cardiovascular diseases (CVDs)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)"},"who_cvd_deaths":{"a":"WHO","y":2025,"t":"Cardiovascular diseases (CVDs)","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)"},"who_cancer":{"a":"WHO","y":2026,"t":"Cancer","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/cancer"},"who_dementia":{"a":"WHO","y":2026,"t":"Dementia","s":"WHO fact sheet","u":"https://www.who.int/news-room/fact-sheets/detail/dementia"},"jmp2025":{"a":"WHO, UNICEF","y":2025,"t":"1 in 4 people globally still lack access to safe drinking water","s":"WHO/UNICEF JMP news release","u":"https://www.who.int/news/item/26-08-2025-1-in-4-people-globally-still-lack-access-to-safe-drinking-water---who--unicef"},"unesco2025":{"a":"UN News","y":2025,"t":"Global perspective Human stories","s":"UN News","u":"https://news.un.org/en/story/2025/12/1166556"},"ilocl2021":{"a":"ILO, UNICEF","y":2021,"t":"Child labour rises to 160 million – first increase in two decades","s":"ILO News","u":"https://www.ilo.org/resource/news/child-labour-rises-160-million-first-increase-two-decades"},"ilo2025":{"a":"ILO","y":2025,"t":"The State of Social Justice 2025","s":"ILO flagship report","u":"https://www.ilo.org/state-social-justice-2025"},"itu2024":{"a":"ITU","y":2024,"t":"Internet use continues to grow, but universality remains elusive","s":"ITU Facts and Figures 2024","u":"https://www.itu.int/itu-d/reports/statistics/2024/11/10/ff24-internet-us"},"measles2023":{"a":"Minta et al.","y":2023,"t":"Progress Toward Measles Elimination - Worldwide, 2000-2022","s":"MMWR. Morbidity and Mortality Weekly Report","u":"https://doi.org/10.15585/mmwr.mm7246a3"},"wb_f65":{"a":"World Bank","y":2024,"t":"Survival to age 65, female (% of cohort)","s":"World Development Indicators (UN WPP, UN IGME)","u":"https://data.worldbank.org/indicator/SP.DYN.TO65.FE.ZS?locations=1W"},"wb_m65":{"a":"World Bank","y":2024,"t":"Survival to age 65, male (% of cohort)","s":"World Development Indicators (UN WPP, UN IGME)","u":"https://data.worldbank.org/indicator/SP.DYN.TO65.MA.ZS?locations=1W"},"wb_imr":{"a":"World Bank","y":2024,"t":"Mortality rate, infant (per 1,000 live births)","s":"World Development Indicators (UN WPP, UN IGME)","u":"https://data.worldbank.org/indicator/SP.DYN.IMRT.IN?locations=1W"}},"survival":[{"from":0,"to":365,"surv":0.9723,"ref":"wb_imr","basis":"official","zh":"2024 年全球每 1000 个新生儿约有 28 个活不到一岁。","en":"In 2024 about 28 of every 1,000 newborns worldwide died before age one."},{"from":365,"to":1825,"surv":0.99,"ref":"who_u5","basis":"official","zh":"2024 年全球每 1000 个孩子约有 37 个在五岁前死亡。","en":"In 2024 about 37 of every 1,000 children worldwide died before age five."},{"from":1825,"to":23725,"surv":0.8129,"ref":"wb_f65","basis":"official","zh":"按 2024 年全球死亡率，约 83% 的女性能活到 65 岁。","en":"At 2024 world death rates, about 83% of women live to 65."}],"causes":[{"stages":["infant","child"],"shares":{"pneumonia":0.14},"ref":"who_pneumonia","basis":"official","zh":"五岁以下儿童的死亡中，约 14% 是肺炎造成的。","en":"Pneumonia accounts for about 14% of deaths of children under 5."}],"causeNotes":{"diarrhea":{"ref":"who_diarrhoea","basis":"official","zh":"腹泻是五岁以下儿童的第三大死因。","en":"Diarrhoea is the third leading cause of death in children under 5."},"malaria":{"ref":"who_malaria_u5","basis":"official","zh":"在非洲区域，疟疾死亡中约 75% 是五岁以下儿童。","en":"In Africa, about 75% of malaria deaths are in children under 5."},"childbirth":{"ref":"who_mmr","basis":"official","zh":"2023 年全球孕产妇死亡率为每 10 万活产 197 人。","en":"In 2023 the global maternal death rate was 197 per 100 thousand live births."},"accident":{"ref":"who_road","basis":"official","zh":"道路交通伤害是 5 到 29 岁儿童和青年的头号死因。","en":"Road crashes are the leading cause of death for children and young adults aged 5 to 29."},"heart":{"ref":"who_cvd","basis":"official","zh":"心血管疾病是全球头号死因。","en":"Heart and blood-vessel disease is the leading cause of death worldwide."},"cancer":{"ref":"who_cancer","basis":"official","zh":"癌症是全球主要死因，2024 年近 1000 万人死于癌症。","en":"Cancer is a leading cause of death worldwide, with nearly 10 million deaths in 2024."}},"facts":[{"zh":"2024 年全球约 490 万名五岁以下儿童死亡。","en":"In 2024 about 4.9 million children under 5 died worldwide.","ref":"who_u5_deaths","basis":"official","stages":["infant","child"]},{"zh":"五岁以下儿童死亡里，约 47% 发生在出生后的头 28 天。","en":"47% of under-5 deaths happen in the first 28 days of life.","ref":"who_neonatal","basis":"official","stages":["infant"]},{"zh":"腹泻是五岁以下儿童的第三大死因。","en":"Diarrhoea is the third leading cause of death in children under 5.","ref":"who_diarrhoea","basis":"official","stages":["infant","child"],"causes":["diarrhea"]},{"zh":"肺炎约占五岁以下儿童死亡的 14%。","en":"Pneumonia causes about 14% of deaths of children under 5.","ref":"who_pneumonia","basis":"official","stages":["infant","child"],"causes":["pneumonia"]},{"zh":"2024 年全球约有 2.82 亿疟疾病例。","en":"In 2024 there were about 282 million malaria cases worldwide.","ref":"who_malaria","basis":"official","stages":["child","school","youth"],"causes":["malaria"]},{"zh":"全球每年约 116 万人死于道路交通事故。","en":"About 1.16 million people die each year in road crashes.","ref":"who_road_deaths","basis":"official","stages":["child","school","youth","adult"],"causes":["accident"]},{"zh":"2022 年约 1980 万人死于心血管疾病，占全部死亡的约 32%。","en":"About 19.8 million people died of heart and blood-vessel disease in 2022, about 32% of all deaths.","ref":"who_cvd_deaths","basis":"official","stages":["adult","old"],"causes":["heart"]},{"zh":"2023 年全球孕产妇死亡率为每 10 万活产 197 人。","en":"In 2023 the global maternal death rate was 197 per 100 thousand live births.","ref":"who_mmr","basis":"official","stages":["youth","adult"],"causes":["childbirth"]},{"zh":"按 2024 年全球死亡率，约 74% 的男性能活到 65 岁。","en":"At 2024 world death rates, about 74% of men live to 65.","ref":"wb_m65","basis":"official","stages":["adult","old"]}],"existing":{"events.2":"measles2023","events.5":"unesco2025","events.7":"jmp2025","events.8":"ilocl2021","events.10":"ilo2025","events.11":"itu2024","events.19":"who_dementia","decisions.1":"remove","decisions.0":"remove","events.18":"remove"}},"krill":{"refs":{"atkinson2004":{"a":"Atkinson et al.","y":2004,"t":"Long-term decline in krill stock and increase in salps within the Southern Ocean","s":"Nature","u":"https://doi.org/10.1038/nature02996"},"atkinson2004b":{"a":"Atkinson et al.","y":2004,"t":"Long-term decline in krill stock and increase in salps within the Southern Ocean","s":"Nature","u":"https://doi.org/10.1038/nature02996"},"savoca2024":{"a":"Savoca et al.","y":2024,"t":"Whale recovery and the emerging human-wildlife conflict over Antarctic krill","s":"Nature Communications","u":"https://doi.org/10.1038/s41467-024-51954-x"},"biuw2024":{"a":"Biuw et al.","y":2024,"t":"Estimated summer abundance and krill consumption of fin whales throughout the Scotia Sea during the 2018/2019 summer season","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-024-57378-3"},"biuw2024b":{"a":"Biuw et al.","y":2024,"t":"Estimated summer abundance and krill consumption of fin whales throughout the Scotia Sea during the 2018/2019 summer season","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-024-57378-3"},"dong2025":{"a":"Dong et al.","y":2025,"t":"Temporal variability in mortality and recruitment jointly influence the periodic fluctuations in Antarctic krill populations","s":"Marine Environmental Research","u":"https://doi.org/10.1016/j.marenvres.2024.106923"},"guerrero2021":{"a":"Guerrero et al.","y":2021,"t":"Complementary use of stable isotopes and fatty acids for quantitative diet estimation of sympatric predators, the Antarctic pack-ice seals","s":"Oecologia","u":"https://doi.org/10.1007/s00442-021-05045-z"},"flores2012":{"a":"Flores et al.","y":2012,"t":"The association of Antarctic krill Euphausia superba with the under-ice habitat","s":"PLoS ONE","u":"https://doi.org/10.1371/journal.pone.0031775"}},"survival":[],"causes":[],"causeNotes":{"whale":{"zh":"仅南极半岛和斯科蒂亚海的长须鲸，夏季每年就估计要吃掉约 797 万吨磷虾。","en":"Fin whales alone are estimated to eat about 7.97 million tonnes of krill per summer in the Antarctic Peninsula and Scotia Sea.","ref":"biuw2024","basis":"measured"},"seal":{"zh":"南极浮冰区的食蟹海豹，食谱几乎全是磷虾。","en":"Crabeater seals in the pack ice eat krill as almost their only food.","ref":"guerrero2021","basis":"related"},"trawl":{"zh":"南极磷虾渔获自 1993 年以来增加到约四倍。","en":"Krill catch has increased fourfold since 1993.","ref":"savoca2024","basis":"measured"},"starve":{"zh":"在冬季海冰下发现了较多的磷虾后幼体，海冰生物可能对它们越冬存活很重要。","en":"Postlarval krill found under winter sea ice suggest that ice-associated biota matter for winter survival.","ref":"flores2012","basis":"measured"}},"facts":[{"zh":"南极磷虾在西南大西洋的密度自 1970 年代起明显下降。","en":"Krill density in the productive southwest Atlantic has declined since the 1970s.","ref":"atkinson2004","basis":"measured","stages":["adult"]},{"zh":"西南大西洋占南大洋磷虾资源的一半以上。","en":"The southwest Atlantic sector holds over 50% of Southern Ocean krill stocks.","ref":"atkinson2004b","basis":"measured","stages":["adult"]},{"zh":"仅南极半岛和斯科蒂亚海的长须鲸，夏季每年就要吃掉约 797 万吨磷虾。","en":"Fin whales in the Scotia Sea and Antarctic Peninsula eat about 7.97 million tonnes of krill per summer.","ref":"biuw2024","basis":"measured","stages":["adult","old"],"causes":["whale"]},{"zh":"长须鲸夏季吃掉的磷虾量约为同季商业捕捞量的 20 倍。","en":"Fin whale krill consumption in one summer was around 20 times the commercial krill catch in Area 48.","ref":"biuw2024b","basis":"measured","stages":["adult"],"causes":["whale"]},{"zh":"南极半岛一带的磷虾数量大约每 5 到 6 年起伏一次，主要受新生个体数量影响。","en":"Antarctic Peninsula krill abundance cycles every 5–6 years, driven mainly by recruitment.","ref":"dong2025","basis":"measured","stages":["juv"]},{"zh":"南极磷虾的渔获量自 1993 年以来增加到约四倍。","en":"Krill catch has increased fourfold since 1993.","ref":"savoca2024","basis":"measured","stages":["adult","old"],"causes":["trawl"]},{"zh":"在冬季海冰下找到的磷虾后幼体，说明冰下生物对它们越冬很重要。","en":"Postlarval krill under winter sea ice suggest ice-associated biota are important for their winter survival.","ref":"flores2012","basis":"measured","stages":["juv"],"decisions":["ice_edge"],"causes":["starve"]},{"zh":"南极浮冰区的食蟹海豹，食谱几乎全是磷虾。","en":"Crabeater seals in the pack ice eat krill as almost their only food.","ref":"guerrero2021","basis":"related","stages":["juv","adult"],"causes":["seal"]}],"existing":{"events.1":"remove","events.5":"remove","events.34":"atkinson2004","decisions.3":"remove","decisions.4":"remove","decisions.5":"flores2012"}},"lanternfish":{"refs":{"yang2026":{"a":"Yang et al.","y":2026,"t":"Dynamics of daily vertical migration in mesopelagic fish communities across the Southern Ocean","s":"Proceedings of the Royal Society B: Biological Sciences","u":"https://doi.org/10.1098/rspb.2025.2264"},"matthews2024":{"a":"Matthews et al.","y":2024,"t":"Biological Characteristics of the Glacier Lantern Fish Benthosema glaciale (Myctophidae) in Icelandic Waters and the Irminger Sea During Summer","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.70386"},"valls2021":{"a":"Valls et al.","y":2021,"t":"Diet and feeding behaviour of albacore Thunnus alalunga in the western Mediterranean Sea during the spawning period","s":"Journal of Fish Biology","u":"https://doi.org/10.1111/jfb.14935"},"cherel2018":{"a":"Cherel et al.","y":2018,"t":"Stable isotopes document the winter foraging ecology of king penguins and highlight connectivity between subantarctic and Antarctic ecosystems","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.3883"},"yano2022":{"a":"Yano et al.","y":2022,"t":"14-3-3 proteins are luciferases candidate proteins from lanternfish Diaphus watasei","s":"Photochemical & Photobiological Sciences","u":"https://doi.org/10.1007/s43630-022-00311-2"}},"survival":[],"causes":[],"causeNotes":{"tuna":{"zh":"金枪鱼（长鳍金枪鱼）在产卵季会专门捕食成群垂直迁移的灯笼鱼。","en":"Albacore tuna in the western Mediterranean specialise on aggregations of migrating myctophids during spawning.","ref":"valls2021","basis":"related"},"seabird":{"zh":"王企鹅冬天在亚南极和南极的海域都吃灯笼鱼。","en":"In winter, king penguins preyed on myctophids in both subantarctic and Antarctic waters.","ref":"cherel2018","basis":"related"}},"facts":[{"zh":"南大洋的灯笼鱼约有 14.2 百万吨每天往返上下迁移，占总生物量的近三成。","en":"Of 48.3 million tonnes of Southern Ocean lanternfish, 14.2 million tonnes migrate vertically each day.","ref":"yang2026","basis":"measured","stages":["juv","adult"],"decisions":["dusk"]},{"zh":"冰岛水域采到的冰川灯笼鱼（Benthosema glaciale）年龄为 2 到 6 岁。","en":"Glacier lanternfish sampled in Icelandic waters were 2 to 6 years old.","ref":"matthews2024","basis":"related","stages":["old"]},{"zh":"地中海的长鳍金枪鱼在产卵期专门捕食成群垂直迁移的灯笼鱼。","en":"Albacore in the western Mediterranean fed on migrating myctophids during spawning.","ref":"valls2021","basis":"related","stages":["adult"],"causes":["tuna"]},{"zh":"灯笼鱼用腹侧发光器让身体的影子消失，这叫做反照明。","en":"Lanternfish use ventral light organs to hide their silhouette from below, a strategy called counterillumination.","ref":"yano2022","basis":"related","stages":["juv","adult"],"decisions":["lure_dim"]},{"zh":"冬天的王企鹅在两个海区都捕食灯笼鱼。","en":"In winter, king penguins preyed on myctophids in both subantarctic and Antarctic zones.","ref":"cherel2018","basis":"related","stages":["adult"],"causes":["seabird"]}],"existing":{"events.8":"yano2022","decisions.5":"yano2022"}},"layer_hen":{"refs":{"plosone2016mort":{"a":"Weeks et al.","y":2016,"t":"Implications for Welfare, Productivity and Sustainability of the Variation in Reported Levels of Mortality for Laying Hen Flocks Kept in Different Housing Systems: A Meta-Analysis of Ten Studies","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0146394"},"avd2016lesions":{"a":"Kajlich et al.","y":2016,"t":"Incidence, Severity, and Welfare Implications of Lesions Observed Postmortem in Laying Hens from Commercial Noncage Farms in California and Iowa","s":"Avian Diseases","u":"https://doi.org/10.1637/11247-080415-Reg.1"},"avd2016vent":{"a":"Kajlich et al.","y":2016,"t":"Incidence, Severity, and Welfare Implications of Lesions Observed Postmortem in Laying Hens from Commercial Noncage Farms in California and Iowa","s":"Avian Diseases","u":"https://doi.org/10.1637/11247-080415-Reg.1"},"poultsci2015keel":{"a":"Petrik et al.","y":2015,"t":"On-farm comparison of keel fracture prevalence and other welfare indicators in conventional cage and floor-housed laying hens in Ontario, Canada","s":"Poultry Science","u":"https://doi.org/10.3382/ps/pev039"},"frontvet2016keel":{"a":"Casey-Trott & Widowski","y":2016,"t":"Behavioral Differences of Laying Hens with Fractured Keel Bones within Furnished Cages","s":"Frontiers in Veterinary Science","u":"https://doi.org/10.3389/fvets.2016.00042"},"ps2026nc":{"a":"Butler-Lund et al.","y":2026,"t":"A multiple correspondence analysis of necropsy findings in non-caged laying hens that died during the production period","s":"Poultry Science","u":"https://doi.org/10.1016/j.psj.2026.106734"},"sweden2009cann":{"a":"Fossum et al.","y":2009,"t":"Causes of mortality in laying hens in different housing systems in 2001 to 2004","s":"Acta Veterinaria Scandinavica","u":"https://doi.org/10.1186/1751-0147-51-3"},"plosone2015perch":{"a":"Stratmann et al.","y":2015,"t":"Soft perches in an aviary system reduce incidence of keel bone damage in laying hens","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0122568"},"tsg2006":{"a":"German federal law, consolidated text","y":2006,"t":"Tierschutzgesetz (TierSchG)","s":"Bundesgesetzblatt, Germany","u":"https://www.gesetze-im-internet.de/tierschg/BJNR012770972.html"},"avd2019structure":{"a":"Fulton","y":2019,"t":"Health of Commercial Egg Laying Chickens in Different Housing Systems","s":"Avian Diseases","u":"https://doi.org/10.1637/11942-080618-Reg.1"}},"survival":[{"from":126,"to":490,"surv":0.9,"ref":"plosone2016mort","basis":"measured","zh":"自由放养的蛋鸡群到 60–80 周龄时，平均累计死亡率约 10%。","en":"In free-range laying flocks, about 10% of hens had died by 60 to 80 weeks of age on average."}],"causes":[],"causeNotes":{"keel":{"zh":"龙骨骨折在各种饲养系统中都很常见。","en":"Keel bone fractures are highly prevalent in laying hens in all housing systems.","ref":"frontvet2016keel","basis":"measured"},"peck":{"zh":"啄食同类导致的死亡在蛋鸡中是已知的死因之一。","en":"Cannibalism, meaning pecking that leads to death, is a recognised cause of hen mortality.","ref":"sweden2009cann","basis":"measured"},"infect":{"zh":"输卵管炎和腹膜炎是非笼养蛋鸡最常见的死因之一。","en":"Salpingitis-peritonitis is among the most common diagnosed causes of death in non-caged hens.","ref":"ps2026nc","basis":"measured"},"prolapse":{"zh":"泄殖腔脱出在出现死亡或淘汰的蛋鸡中是常见的病变。","en":"Cloacal prolapse is a common lesion in hens examined after death or culling.","ref":"avd2016lesions","basis":"measured"},"cage_trap":{"zh":"在棚舍结构中被卡住而死亡的鸡，在某些鸡舍里比较常见。","en":"Some hens die after being caught in the housing structure, most often in aviary systems.","ref":"avd2019structure","basis":"measured"}},"facts":[{"zh":"在安大略省的农场里，平养鸡群的龙骨骨折率比笼养鸡群高。","en":"On Ontario farms, keel fractures were 48.3% in floor-housed flocks versus 24.8% in cage flocks.","ref":"poultsci2015keel","basis":"measured","stages":["layer"],"causes":["keel"],"decisions":["perch"]},{"zh":"自由放养蛋鸡群到 60–80 周龄时，平均累计死亡率约 10%，但各群差异很大。","en":"Free-range flocks averaged about 10% cumulative mortality at 60 to 80 weeks of age.","ref":"plosone2016mort","basis":"measured","stages":["layer","spent"]},{"zh":"在死亡或被淘汰的非笼养母鸡中，泄殖腔脱出占 30.5%。","en":"In noncage hens examined after death or culling, 30.5% had cloacal prolapse.","ref":"avd2016lesions","basis":"measured","stages":["layer"],"causes":["prolapse"]},{"zh":"非笼养蛋鸡中，啄肛和龙骨变形等病变在至少 40% 的母鸡上可见。","en":"In noncage hens, vent cannibalism and keel deformation were seen in at least 40% of hens.","ref":"avd2016vent","basis":"measured","stages":["layer"],"causes":["peck","keel"]},{"zh":"德国法律禁止无合理理由地处死蛋鸡品种的雏鸡（公雏）。","en":"German law prohibits killing chicks of domestic hens, with limited exceptions.","ref":"tsg2006","basis":"official","stages":["chick"]}],"existing":{"events.0":"remove","events.9":"frontvet2016keel","decisions.0":"remove","decisions.2":"plosone2015perch"}},"lion":{"refs":{"luangwa2018":{"a":"Mweetwa et al.","y":2018,"t":"Quantifying lion (Panthera leo) demographic response following a three-year moratorium on trophy hunting","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0197030"},"hwange2024":{"a":"Dejeante et al.","y":2024,"t":"Counter-strategies to infanticide: The importance of cubs in determining lion habitat selection and social interactions","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.14045"},"ngorongoro2004":{"a":"Kissui & Packer","y":2004,"t":"Top-down population regulation of a top predator: lions in the Ngorongoro Crater","s":"Proceedings of the Royal Society of London. Series B: Biological Sciences","u":"https://doi.org/10.1098/rspb.2004.2797"},"cms_lion":{"a":"CMS (Convention on Migratory Species)","y":2023,"t":"Conservation Status of the African Lion","s":"CMS","u":"https://www.cms.int/en/node/653"},"bs_gir":{"a":"Business Standard (citing Gujarat Forest Department)","y":2020,"t":"Guj's lion count rises to 674 from 523, PM hopes positive trend continues","s":"Business Standard","u":"https://business-standard.com/article/current-affairs/guj-s-lion-count-rises-to-674-from-523-pm-hopes-positive-trend-continues-120061100126_1.html"}},"survival":[],"causes":[],"causeNotes":{"infanticide":{"zh":"狮子是会杀婴的物种，雄狮可以留在幼崽身边，也可以巡逻领地来防止别的雄狮入侵。","en":"Lions are an infanticidal species; males can stay near cubs or patrol their territory against rival males.","ref":"hwange2024","basis":"measured"}},"facts":[{"zh":"赞比亚南卢安瓜的研究发现，暂停三年狩猎后，亚成年雄狮的存活率升高了 17.1 个百分点，成年雄狮升高了 14.0 个百分点。","en":"In South Luangwa, Zambia, a three-year hunting pause raised survival by 17.1 points for subadult males and 14.0 points for adult males.","ref":"luangwa2018","basis":"measured","stages":["sub","adult"]},{"zh":"恩戈罗戈罗火山口的狮群在 1994 至 2001 年间遭遇三次疾病暴发，种群一直没能恢复到环境容量。","en":"In Ngorongoro Crater, three disease outbreaks between 1994 and 2001 stopped the lion population from recovering.","ref":"ngorongoro2004","basis":"measured"},{"zh":"2020 年，古吉拉特邦森林部数出了 674 头亚洲狮。","en":"In 2020, Gujarat's forest department counted 674 Asiatic lions.","ref":"bs_gir","basis":"official","flags":["gir"]},{"zh":"狮子是会杀婴的物种，雄狮有两种办法保护幼崽：留在幼崽身边，或是更勤地巡逻领地。","en":"Lions are an infanticidal species; males can guard cubs by staying close to them or by patrolling their territory.","ref":"hwange2024","basis":"measured","stages":["cub"],"causes":["infanticide"]}],"existing":{"events.6":"remove","events.22":"cms_lion","events.34":"bs_gir","decisions.1":"remove"}},"mayfly":{"refs":{"gcb2016":{"a":"Verberk et al.","y":2016,"t":"Field and laboratory studies reveal interacting effects of stream oxygenation and warming on aquatic ectotherms","s":"Global Change Biology","u":"https://doi.org/10.1111/gcb.13240"},"mayflies2019":{"a":"Jacobus et al.","y":2019,"t":"Mayflies (Ephemeroptera) and Their Contributions to Ecosystem Services","s":"Insects","u":"https://doi.org/10.3390/insects10060170"},"mayflies2019b":{"a":"Jacobus et al.","y":2019,"t":"Mayflies (Ephemeroptera) and Their Contributions to Ecosystem Services","s":"Insects","u":"https://doi.org/10.3390/insects10060170"},"mayflies2019c":{"a":"Jacobus et al.","y":2019,"t":"Mayflies (Ephemeroptera) and Their Contributions to Ecosystem Services","s":"Insects","u":"https://doi.org/10.3390/insects10060170"}},"survival":[],"causes":[],"causeNotes":{"low_oxygen":{"zh":"在缺氧的水里，两种欧洲蜉蝣稚虫的致死温度分别降低了 5.5 和 8.2°C。","en":"In low-oxygen water, the lethal temperature for two European mayfly nymph species dropped by 5.5 and 8.2 °C.","ref":"gcb2016","basis":"related"}},"facts":[{"zh":"蜉蝣的有翅成虫没有功能性的口器和消化系统，不吃东西。","en":"Winged adult mayflies have no working mouthparts or digestive system, so they do not feed.","ref":"mayflies2019","basis":"measured","stages":["imago"]},{"zh":"蜉蝣独有亚成虫这一阶段，在现存昆虫中是唯一的。","en":"Mayflies are the only living insects with a subimago stage.","ref":"mayflies2019b","basis":"measured","stages":["subimago"]},{"zh":"蜉蝣稚虫的取食方式多样，有的是收集者，有的是滤食者，还有的是主动捕食者。","en":"Mayfly nymphs feed in several ways, including as collectors, filterers, scrapers and active predators.","ref":"mayflies2019c","basis":"measured","stages":["nymph"]}],"existing":{"events.4":"remove","events.18":"mayflies2019"}},"mite":{"refs":{"krause2019":{"a":"Krause et al.","y":2019,"t":"Shift in trophic niches of soil microarthropods with conversion of tropical rainforest into plantation systems as indicated by stable isotopes (15N, 13C)","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0224520"},"vonsaltzwedel2014":{"a":"von Saltzwedel et al.","y":2014,"t":"Evidence for Frozen-Niche Variation in a Cosmopolitan Parthenogenetic Soil Mite Species (Acari, Oribatida)","s":"PLoS ONE","u":"https://doi.org/10.1371/journal.pone.0113268"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"甲螨是土壤里数量最多的小动物之一，参与落叶分解和养分循环。","en":"Oribatid mites are among the most abundant soil animals and take part in decomposition and nutrient cycling.","ref":"krause2019","basis":"related","stages":["proto","deuto","adult","old"]},{"zh":"一种分布很广的甲螨是孤雌生殖的，不经雄螨也能繁殖。","en":"A widespread oribatid soil mite species reproduces parthenogenetically, without males.","ref":"vonsaltzwedel2014","basis":"related","stages":["adult"]}],"existing":{"events.5":"krause2019","events.12":"vonsaltzwedel2014"}},"mosquito":{"refs":{"balestrino2022":{"a":"Balestrino et al.","y":2022,"t":"Field Performance Assessment of Irradiated Aedes albopictus Males Through Mark–Release–Recapture Trials With Multiple Release Points","s":"Frontiers in Bioengineering and Biotechnology","u":"https://doi.org/10.3389/fbioe.2022.876677"},"helgen1989":{"a":"Helgen","y":1989,"t":"Larval Mosquitoes as Vulnerable Prey: Chaoborus Predation","s":"Canadian Journal of Fisheries and Aquatic Sciences","u":"https://doi.org/10.1139/f89-209"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"野外释放的白纹伊蚊雄蚊，每天的存活率与空气相对湿度呈正相关。","en":"Released adult male Asian tiger mosquitoes survived each day more often when the air was more humid.","ref":"balestrino2022","basis":"related","stages":["adult"]},{"zh":"在水里，伊蚊幼虫比同处一地的小型水蚤更容易被幽蚊幼虫捕食。","en":"Aedes mosquito larvae are much more vulnerable to Chaoborus predator larvae than the small water fleas (Daphnia) they coexist with.","ref":"helgen1989","basis":"related","stages":["larva"]}],"existing":{"decisions.1":"remove"}},"nematode":{"refs":{"tan1999":{"a":"Tan et al.","y":1999,"t":"Killing of Caenorhabditis elegans by Pseudomonas aeruginosa used to model mammalian bacterial pathogenesis","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.96.2.715"},"tan1999slow":{"a":"Tan et al.","y":1999,"t":"Killing of Caenorhabditis elegans by Pseudomonas aeruginosa used to model mammalian bacterial pathogenesis","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.96.2.715"},"lee2011":{"a":"Lee et al.","y":2011,"t":"Nictation, a dispersal behavior of the nematode Caenorhabditis elegans, is regulated by IL2 neurons","s":"Nature Neuroscience","u":"https://doi.org/10.1038/nn.2975"},"hsueh2017":{"a":"Hsueh et al.","y":2017,"t":"Nematophagous fungus Arthrobotrys oligospora mimics olfactory cues of sex and food to lure its nematode prey","s":"eLife","u":"https://doi.org/10.7554/elife.20023"},"shi2014":{"a":"Shi & Murphy","y":2014,"t":"Mating Induces Shrinking and Death in Caenorhabditis Mothers","s":"Science","u":"https://doi.org/10.1126/science.1242958"},"duan2025":{"a":"Duan et al.","y":2025,"t":"Nutrient State-Dependent Ascarosides and Nematode Immune Response Limit the Predation of Arthrobotrys oligospora","s":"Microorganisms","u":"https://doi.org/10.3390/microorganisms13122816"},"felix2011":{"a":"Félix et al.","y":2011,"t":"Natural and experimental infection of Caenorhabditis nematodes by novel viruses related to nodaviruses","s":"PLoS Biology","u":"https://doi.org/10.1371/journal.pbio.1000586"},"mcgill2015":{"a":"McGill et al.","y":2015,"t":"Anhydrobiosis and freezing-tolerance: adaptations that facilitate the establishment of Panagrolaimus nematodes in polar habitats","s":"PLOS ONE","u":"https://doi.org/10.1371/journal.pone.0116084"},"eren2026":{"a":"Eren et al.","y":2026,"t":"Predatory aggression evolved through adaptations to noradrenergic circuits","s":"Nature","u":"https://doi.org/10.1038/s41586-025-10009-x"}},"survival":[],"causes":[],"causeNotes":{"pathogen":{"zh":"铜绿假单胞菌这样的细菌能在几天内把线虫杀死，线虫吃进去的细菌会在体内致病。","en":"The bacterium Pseudomonas aeruginosa kills C. elegans, with slow killing taking several days on minimal medium.","ref":"tan1999","basis":"related"},"fungus":{"zh":"食线虫真菌会形成陷阱，像捕食者一样捉住线虫。","en":"Nematode-trapping fungi are soil predators that catch nematodes, a typical predator-prey relationship.","ref":"duan2025","basis":"related"},"pristionchus":{"zh":"Pristionchus pacificus 是一种会捕食其他线虫的肉食性线虫。","en":"Pristionchus pacificus is a predatory nematode that hunts other nematodes.","ref":"eren2026","basis":"related"},"dry":{"zh":"一些土壤线虫能失去几乎全部水分仍能存活。","en":"Some soil nematodes can survive losing both free and bound water.","ref":"mcgill2015","basis":"related"}},"facts":[{"zh":"用基础培养基培养的铜绿假单胞菌，要花几天时间才能把线虫杀死。","en":"PA14 grown on minimal medium kills C. elegans slowly, over several days.","ref":"tan1999slow","basis":"related","stages":["larva","adult","old"],"causes":["pathogen"],"decisions":["pseudomonas"]},{"zh":"食线虫真菌会释放气味，把线虫引过来。","en":"The trapping fungus Arthrobotrys oligospora releases odours that attract C. elegans and other nematodes.","ref":"hsueh2017","basis":"related","stages":["larva","adult","old"],"causes":["fungus"],"decisions":["fungus_trap"]},{"zh":"许多线虫会站起来、摆动头部，这种行为能把它们送到新的地方。","en":"Many nematodes stand on their tails and wave their heads, a behaviour that disperses them.","ref":"lee2011","basis":"related","decisions":["nictation"]},{"zh":"与雄虫交配后，雌雄同体会缩小，并在停止产卵后不久死去。","en":"After mating, a hermaphrodite mother shrinks and dies soon after she stops producing offspring.","ref":"shi2014","basis":"related","stages":["adult","old"],"decisions":["male"]},{"zh":"食线虫真菌捕食线虫，是土壤里典型的捕食与被捕食关系。","en":"Nematode-trapping fungi prey on nematodes in soil, a typical predator-prey relationship.","ref":"duan2025","basis":"related","stages":["larva","adult","old"],"causes":["fungus"]},{"zh":"2011 年在野生线虫中发现了两种新的 RNA 病毒。","en":"In 2011, two new RNA viruses were found in wild C. elegans and C. briggsae isolates.","ref":"felix2011","basis":"related","stages":["adult","old"]}],"existing":{"events.0":"remove","events.4":"remove","events.9":"remove","events.11":"remove","events.14":"felix2011","events.29":"remove","decisions.0":"remove","decisions.1":"remove","decisions.2":"lee2011","decisions.3":"hsueh2017","decisions.4":"shi2014"}},"panda":{"refs":{"cpv2025":{"a":"Zhou et al.","y":2025,"t":"First Identification of CPV-2c Infection in a Wild Cub Giant Panda (Ailuropoda melanoleuca) Suggesting an Emerging Transmission From Wildlife and Domestic Dogs","s":"Transboundary and Emerging Diseases","u":"https://doi.org/10.1155/tbed/6716483"},"fmr2021":{"a":"Bi et al.","y":2021,"t":"Field metabolic rates of giant pandas reveal energetic adaptations","s":"Scientific Reports","u":"https://doi.org/10.1038/s41598-021-01872-5"},"captive2025":{"a":"Luo et al.","y":2025,"t":"Exploring Captive Giant Panda Reproduction: Maternal and Offspring Factor Correlations from 324 Breeding Events","s":"Animals","u":"https://doi.org/10.3390/ani15081182"}},"survival":[],"causes":[],"causeNotes":{"disease":{"zh":"2020 年在卧龙自然保护区发现的一只年幼野生大熊猫，经检查确诊为犬细小病毒感染。","en":"A young wild giant panda found dead in Wolong in 2020 was diagnosed with canine parvovirus, a disease that threatens wild cubs.","ref":"cpv2025","basis":"measured"}},"facts":[{"zh":"大熊猫常常坐在一片竹子里，一吃就是好几个小时。","en":"Giant pandas often sit in one patch of bamboo and eat for hours at a time.","ref":"fmr2021","basis":"measured","stages":["young","adult"]},{"zh":"圈养繁殖记录中，单胎幼崽出生时比双胞胎重。","en":"In captive breeding records, single cubs were heavier at birth than twins.","ref":"captive2025","basis":"related","stages":["cub"],"decisions":["twin_nest"]},{"zh":"2020 年，卧龙自然保护区发现的一只年幼野生大熊猫因犬细小病毒死亡。","en":"A young wild panda found dead in Wolong in 2020 was infected with canine parvovirus.","ref":"cpv2025","basis":"measured","stages":["cub","young"],"causes":["disease"]}],"existing":{"events.0":"remove","events.9":"remove","events.10":"remove","decisions.2":"remove"}},"penguin":{"refs":{"lescornec2025":{"a":"Le Scornec et al.","y":2025,"t":"Intrinsic and extrinsic drivers of juvenile survival in emperor penguins","s":"Journal record (AGRIS abstract; journal listed as Polar Biology in a 2024 thesis)","u":"https://agris.fao.org/search/en/records/682f33fad0cf3796e621592b"},"lescornec2025_mass":{"a":"Le Scornec et al.","y":2025,"t":"Intrinsic and extrinsic drivers of juvenile survival in emperor penguins","s":"Journal record (AGRIS abstract)","u":"https://agris.fao.org/search/en/records/682f33fad0cf3796e621592b"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"帝企鹅幼鸟的年存活率在不同年份差别很大，从 0.08 到 0.48。","en":"Emperor penguin juvenile survival varied between 0.08 and 0.48 from year to year.","ref":"lescornec2025","basis":"measured","stages":["juv"]},{"zh":"幼鸟的存活和它离开父母时的体重有关，体重又受雏鸟期海冰多少影响。","en":"Juvenile survival depends on body mass, which tracks sea ice during the chick-rearing period.","ref":"lescornec2025_mass","basis":"measured","stages":["chick","juv"]}],"existing":{"opening":"remove"}},"pig":{"refs":{"rvsc2018crush":{"a":"Rangstrup-Christensen et al.","y":2018,"t":"Causes of preweaning mortality in organic outdoor sow herds","s":"Research in Veterinary Science","u":"https://doi.org/10.1016/j.rvsc.2018.02.010"},"pvm2012farmers":{"a":"KilBride et al.","y":2012,"t":"A cohort study of preweaning piglet mortality and farrowing accommodation on 112 commercial pig farms in England","s":"Preventive Veterinary Medicine","u":"https://doi.org/10.1016/j.prevetmed.2011.11.011"},"pvm2012rate":{"a":"KilBride et al.","y":2012,"t":"A cohort study of preweaning piglet mortality and farrowing accommodation on 112 commercial pig farms in England","s":"Preventive Veterinary Medicine","u":"https://doi.org/10.1016/j.prevetmed.2011.11.011"},"animals2025diarrhea":{"a":"Ambrós et al.","y":2025,"t":"Efficacy of a New Commercial Vaccine Against Clostridioides difficile and Clostridium perfringens Type A for Recurrent Swine Neonatal Diarrhea Under Field Conditions","s":"Animals","u":"https://doi.org/10.3390/ani15091200"},"pathogens2026resp":{"a":"Barna et al.","y":2026,"t":"Epidemiological Analysis of Environmental Factors Affecting Porcine Pleuropneumonia in a Herd Endemic for Actinobacillus pleuropneumoniae","s":"Pathogens","u":"https://doi.org/10.3390/pathogens15050513"},"pathogens2026heat":{"a":"Barna et al.","y":2026,"t":"Epidemiological Analysis of Environmental Factors Affecting Porcine Pleuropneumonia in a Herd Endemic for Actinobacillus pleuropneumoniae","s":"Pathogens","u":"https://doi.org/10.3390/pathogens15050513"},"tas2020postweaning":{"a":"Gebhardt et al.","y":2020,"t":"Postweaning mortality in commercial swine production. I: review of non-infectious contributing factors","s":"Translational Animal Science","u":"https://doi.org/10.1093/tas/txaa068"},"dtw2002hungary":{"a":"Hungarian farrow-to-finish unit","y":2002,"t":"Emergency-culling and mortality in growing/fattening pigs in a large Hungarian \"farrow-to-finish\" production unit","s":"Deutsche Tierärztliche Wochenschrift","u":"https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=11838293&retmode=xml"},"phm2026b5":{"a":"Loscertales et al.","y":2026,"t":"A pantothenic acid deficiency outbreak causing mortality and neuromuscular disorders in newborn and nursery piglets","s":"Porcine Health Management","u":"https://doi.org/10.1186/s40813-026-00527-z"}},"survival":[],"causes":[{"stages":["suckle"],"shares":{"crush":0.83},"ref":"rvsc2018crush","basis":"related","zh":"在有机户外养殖的母猪群里，出生后四天内死亡的仔猪中，83% 是被母猪压死。","en":"In organic outdoor herds, crushing caused 83% of piglet deaths up to day four after birth."}],"causeNotes":{"scour":{"zh":"新生仔猪腹泻会增加仔猪死亡率。","en":"Neonatal diarrhoea increases piglet mortality and slows weight gain.","ref":"animals2025diarrhea","basis":"related"},"resp":{"zh":"呼吸道疾病导致的死亡在温度和湿度升高的时期更多。","en":"Deaths from respiratory disease rose during periods of higher temperature or humidity.","ref":"pathogens2026resp","basis":"measured"},"heat":{"zh":"气候因素，尤其是温度和湿度，会影响育肥猪的死亡率。","en":"Climate, especially temperature and humidity, affects mortality in finishing pigs.","ref":"pathogens2026heat","basis":"measured"}},"facts":[{"zh":"在英国的农场中，农场主报告称，压死健康的仔猪是最常见的死因，占活产仔猪哺乳期死亡的 55%。","en":"Farmers reported that crushing caused 55% of live-born preweaning piglet deaths.","ref":"pvm2012farmers","basis":"measured","stages":["suckle"],"causes":["crush"]},{"zh":"在英国的 112 个农场中，活产仔猪的哺乳期死亡率为 12%。","en":"Live-born piglets had 12% preweaning mortality in the English farms studied.","ref":"pvm2012rate","basis":"measured","stages":["suckle"]},{"zh":"工业平均的断奶后死亡率在保育、育肥或断奶到出栏阶段，约为 4% 到 8%。","en":"Industry averages for postweaning mortality are 4 to 8% in nursery and finishing stages.","ref":"tas2020postweaning","basis":"related","stages":["nursery","finish"]},{"zh":"匈牙利一个大型繁育育肥场的生长育肥猪，年均紧急淘汰和死亡率为 8.62%。","en":"In one large Hungarian farrow-to-finish unit, growing pigs had an average annual culling and mortality rate of 8.62%.","ref":"dtw2002hungary","basis":"measured","stages":["finish"]},{"zh":"西班牙一个猪场的一次泛酸缺乏疫情中，仔猪死亡率曾高达 65%。","en":"In one Spanish farm outbreak, piglet mortality reached up to 65% during a pantothenic acid deficiency.","ref":"phm2026b5","basis":"related","stages":["suckle"]}],"existing":{"decisions.2":"remove"}},"pigeon":{"refs":{"bto_rockdove_juv":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_adult":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_clutch":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_inc":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"},"bto_rockdove_fledge":{"a":"BTO","y":2024,"t":"Rock Dove (BirdFacts)","s":"British Trust for Ornithology species account (wild ancestor of feral pigeons)","u":"https://bto.org/understanding-birds/birdfacts/rock-dove"}},"survival":[{"from":35,"to":400,"surv":0.57,"ref":"bto_rockdove_juv","basis":"related","zh":"野生岩鸽的幼鸽在第一年约有 57% 能活下来，城市鸽数据不足。","en":"About 57% of young wild rock doves survive their first year."},{"from":400,"to":1130,"surv":0.442,"ref":"bto_rockdove_adult","basis":"related","zh":"野生岩鸽的成鸽每年约有三分之二活到下一年。","en":"About two-thirds of adult wild rock doves survive each year."}],"causes":[],"causeNotes":{},"facts":[{"zh":"岩鸽一窝通常只产 2 枚蛋。","en":"Wild rock doves typically lay 2 eggs per clutch.","ref":"bto_rockdove_clutch","basis":"related","stages":["egg"]},{"zh":"岩鸽孵蛋大约 16 到 19 天。","en":"Rock doves incubate their eggs for about 16 to 19 days.","ref":"bto_rockdove_inc","basis":"related","stages":["egg"]},{"zh":"岩鸽幼鸽大约 35 到 37 天后离巢。","en":"Young rock doves leave the nest after about 35 to 37 days.","ref":"bto_rockdove_fledge","basis":"related","stages":["squab"]},{"zh":"野生岩鸽的幼鸽第一年存活率约为 57%。","en":"About 57% of young rock doves survive their first year.","ref":"bto_rockdove_juv","basis":"related","stages":["juv"]},{"zh":"野生岩鸽的成鸽每年存活率约为 66.5%。","en":"Adult rock doves survive each year at about 66.5%.","ref":"bto_rockdove_adult","basis":"related","stages":["adult"]}],"existing":{"opening":"remove"}},"rat":{"refs":{"panksepp2003":{"a":"Panksepp & Burgdorf","y":2003,"t":"\"Laughing\" rats and the evolutionary antecedents of human joy?","s":"Physiology & Behavior","u":"https://doi.org/10.1016/s0031-9384(03)00159-8"},"lambert2008":{"a":"Lambert et al.","y":2008,"t":"The effect of habitat management on home-range size and survival of rural Norway rat populations","s":"Journal of Applied Ecology","u":"https://doi.org/10.1111/j.1365-2664.2008.01543.x"},"ruiz2024":{"a":"Ruiz-López et al.","y":2024,"t":"No evidence of mutations associated with anticoagulant resistance in gene Vkorc1 in brown and black rats from Barcelona","s":"Science of The Total Environment","u":"https://doi.org/10.1016/j.scitotenv.2024.176321"}},"survival":[],"causes":[],"causeNotes":{"poison":{"zh":"城市里的褐家鼠常被抗凝血类毒饵毒死。","en":"City brown rats are often controlled with anticoagulant poison.","ref":"ruiz2024","basis":"measured"}},"facts":[{"zh":"被挠痒的大鼠会发出约 50 千赫兹的超声“笑声”。","en":"Tickled rats emit ultrasonic chirps of about 50 kHz.","ref":"panksepp2003","basis":"measured","stages":["juv","adult"]},{"zh":"在农场建筑附近清理掉遮蔽物，会让那里的鼠群数量和存活率下降。","en":"Changing habitat near farm buildings reduced the survival rate of Norway rat populations.","ref":"lambert2008","basis":"measured","stages":["adult"]},{"zh":"城市里的褐家鼠常被抗凝血类毒饵控制。","en":"City brown rats are often controlled with anticoagulant poison.","ref":"ruiz2024","basis":"measured","stages":["juv","adult","old"],"causes":["poison"],"decisions":["bait"]}],"existing":{"events.15":"panksepp2003"}},"salmon":{"refs":{"welch_late":{"a":"Welch et al.","y":2011,"t":"In situ measurement of coastal ocean movements and survival of juvenile Pacific salmon","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1014044108"},"welch_decline":{"a":"Welch et al.","y":2011,"t":"In situ measurement of coastal ocean movements and survival of juvenile Pacific salmon","s":"Proceedings of the National Academy of Sciences","u":"https://doi.org/10.1073/pnas.1014044108"},"araki_rapid":{"a":"Araki et al.","y":2008,"t":"Fitness of hatchery-reared salmonids in the wild","s":"Evolutionary Applications","u":"https://doi.org/10.1111/j.1752-4571.2008.00026.x"},"araki_nonlocal":{"a":"Araki et al.","y":2008,"t":"Fitness of hatchery-reared salmonids in the wild","s":"Evolutionary Applications","u":"https://doi.org/10.1111/j.1752-4571.2008.00026.x"}},"survival":[],"causes":[],"causeNotes":{},"facts":[{"zh":"一些太平洋鲑种群的大量死亡，发生在洄游的后期，离出生的河也更远。","en":"In some salmon populations, much juvenile mortality happened late in the migration and far from the home river.","ref":"welch_late","basis":"measured","stages":["ocean_juv"]},{"zh":"许多太平洋和大西洋的鲑鱼种群，在过去二十年里回归的数量急剧减少，海里的死亡率很高。","en":"Many Pacific and Atlantic salmon populations have had sharply falling returns and high ocean mortality over the past two decades.","ref":"welch_decline","basis":"measured","stages":["ocean_juv","ocean_adult"]},{"zh":"人工繁殖的鲑鱼只经过一两代圈养，在野外的适应力就可能很快下降。","en":"Hatchery-reared salmonids can lose fitness in the wild very quickly, after one or two generations of captive rearing.","ref":"araki_rapid","basis":"related","decisions":["hatch_release"]},{"zh":"外地来的人工繁殖鱼群，在野外的繁殖表现普遍很差。","en":"Nonlocal hatchery stocks consistently reproduce very poorly in the wild.","ref":"araki_nonlocal","basis":"related","decisions":["hatch_release"]}],"existing":{"events.2":"remove","events.15":"remove","events.20":"remove","events.24":"remove","decisions.0":"remove","decisions.3":"remove","decisions.4":"remove","decisions.6":"araki_rapid"}},"sardine":{"refs":{"srep2015":{"a":"Garrido et al.","y":2015,"t":"Born small, die young: Intrinsic, size-selective mortality in marine larval fish","s":"Scientific Reports","u":"https://doi.org/10.1038/srep17065"},"srep2015b":{"a":"Garrido et al.","y":2015,"t":"Born small, die young: Intrinsic, size-selective mortality in marine larval fish","s":"Scientific Reports","u":"https://doi.org/10.1038/srep17065"},"yatsu2019":{"a":"Yatsu","y":2019,"t":"Review of population dynamics and management of small pelagic fishes around the Japanese Archipelago","s":"Fisheries Science","u":"https://doi.org/10.1007/s12562-019-01305-3"},"yatsu2019b":{"a":"Yatsu","y":2019,"t":"Review of population dynamics and management of small pelagic fishes around the Japanese Archipelago","s":"Fisheries Science","u":"https://doi.org/10.1007/s12562-019-01305-3"},"bordes2025":{"a":"Bordes et al.","y":2025,"t":"Disentangling the influence of density dependence, size dependence and environmental effects on fish population dynamics","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.70177"},"caputo2022":{"a":"Caputo et al.","y":2022,"t":"Inter- and intra-specific trophic interactions of coastal delphinids off the eastern coast of South Africa inferred from stable isotope analysis","s":"Marine Environmental Research","u":"https://doi.org/10.1016/j.marenvres.2022.105784"},"bartashevich2024":{"a":"Bartashevich et al.","y":2024,"t":"Collective anti-predator escape manoeuvres through optimal attack and avoidance strategies","s":"Communications Biology","u":"https://doi.org/10.1038/s42003-024-07267-2"}},"survival":[],"causes":[],"causeNotes":{"purse":{"zh":"大型围网船队在 1980 年代大量投入，海洋生产力下降时，过度捕捞随之出现。","en":"Large purse-seine fleets built up in the 1980s, when ocean productivity was falling, and overfishing followed.","ref":"yatsu2019b","basis":"related"},"dolphin":{"zh":"南非东岸的海豚被认为会跟随成群沙丁鱼的聚集而移动。","en":"Dolphins off South Africa are thought to follow pulses of shoaling sardines.","ref":"caputo2022","basis":"related"},"tuna":{"zh":"红肉旗鱼会攻击成群的沙丁鱼，鱼群的逃避方式也会改变攻击的成败。","en":"Striped marlin attack schooling sardines, and the school's escape pattern shapes each attack.","ref":"bartashevich2024","basis":"related"},"starve":{"zh":"很多早期死亡发生在没有捕食者的卵黄期和混合摄食期，原因是幼体自身的缺陷。","en":"Much early larval mortality happens in the absence of predators, during the yolk and early feeding period.","ref":"srep2015","basis":"related"}},"facts":[{"zh":"沙丁鱼仔鱼的很大一部分死亡发生在没有捕食者的卵黄期和混合摄食期。","en":"A large part of larval fish mortality happens during the yolk and early feeding period, without predators.","ref":"srep2015","basis":"related","stages":["egg","larva"],"causes":["starve"]},{"zh":"像沙丁鱼这样产卵多的小型鱼类，大部分仔鱼体型小，几乎没有存活机会。","en":"Small pelagic fish spawn many eggs, so most larvae are small and have almost no chance to survive.","ref":"srep2015b","basis":"related","stages":["egg","larva"],"decisions":["spawn"]},{"zh":"日本小型中上层鱼类的种群波动，主要取决于早期存活率的变化。","en":"Variation in early survival is a key driver of population swings in Japanese small pelagic fish.","ref":"yatsu2019","basis":"related","stages":["larva","juv"]},{"zh":"日本沙丁鱼的过度捕捞，与 1980 年代投入过多的大型围网船队有关。","en":"Overfishing was driven by large purse-seine fleets built in the 1980s when ocean productivity was poor.","ref":"yatsu2019b","basis":"related","stages":["juv","adult"],"decisions":["purse"],"causes":["purse"]},{"zh":"大西洋东北部比斯开湾的沙丁鱼，自然死亡率在 1 岁和 3 岁时受种群密度影响。","en":"In Bay of Biscay sardines, natural mortality at age 1 and age 3 depends on population density.","ref":"bordes2025","basis":"measured","stages":["juv","adult"]},{"zh":"南非东岸的海豚被认为跟随沙丁鱼的聚集而移动，因此会一起捕食。","en":"Dolphins off South Africa are thought to follow the pulses of shoaling sardines.","ref":"caputo2022","basis":"related","stages":["juv","adult"],"causes":["dolphin"]},{"zh":"红肉旗鱼攻击成群沙丁鱼时，鱼群的逃避方式决定了攻击的成败。","en":"Striped marlin attack schooling sardines, and the school's escape pattern shapes how well those attacks work.","ref":"bartashevich2024","basis":"related","stages":["juv","adult"],"causes":["tuna"]}],"existing":{"decisions.0":"srep2015b","decisions.2":"remove"}},"sea_turtle":{"refs":{"tort_incub":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"},"tort_nonhatch":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"},"tort_pred":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"},"tort_emerge":{"a":"Fowler","y":1979,"t":"Hatching Success and Nest Predation in the Green Sea Turtle, Chelonia Mydas, at Tortuguero, Costa Rica","s":"Ecology","u":"https://doi.org/10.2307/1936863"}},"survival":[{"from":0,"to":60,"surv":0.515,"ref":"tort_emerge","basis":"measured","zh":"在托图格罗，算上被毁的巢，大约一半的卵能变成爬出沙面的幼龟。","en":"At Tortuguero, counting destroyed nests, about half of the eggs became hatchlings that left the sand."}],"causes":[],"causeNotes":{},"facts":[{"zh":"在哥斯达黎加的托图格罗，一窝卵平均约 104 枚，沙里孵化平均约 62 天。","en":"A green turtle nest at Tortuguero held about 104 eggs and took about 62 days to incubate.","ref":"tort_incub","basis":"measured","stages":["egg"]},{"zh":"托图格罗的海龟卵中，大约 13% 没有孵化出来。","en":"About 13% of all eggs deposited at Tortuguero did not hatch.","ref":"tort_nonhatch","basis":"measured","stages":["egg"]},{"zh":"在托图格罗的研究区，狗、长鼻浣熊和秃鹫毁掉了 38% 的巢。","en":"At Tortuguero, dogs, coatis and vultures destroyed 38% of study-area nests.","ref":"tort_pred","basis":"measured","stages":["egg"]},{"zh":"成功的巢里，平均有 83% 的卵孵出并爬出沙面。","en":"In successful study-area nests, the mean emergence percentage was 83%.","ref":"tort_emerge","basis":"measured","stages":["hatch"]}],"existing":{"events.1":"remove","events.3":"remove","events.50":"remove","decisions.3":"remove"}},"sheep":{"refs":{"awassi_lamb":{"a":"Ceyhan & Kozaklı","y":2023,"t":"The survival analysis of some environmental factors associated with lamb mortality in Awassi sheep","s":"Tropical Animal Health and Production","u":"https://doi.org/10.1007/s11250-023-03821-y"},"algeria_lamb":{"a":"Benmebarek et al.","y":2025,"t":"Epidemiological, pathological and microbiological investigation of neonatal lamb mortality in the region of Constantine, Algeria","s":"Veterinary Record Open","u":"https://doi.org/10.1002/vro2.70021"},"algeria_causes":{"a":"Benmebarek et al.","y":2025,"t":"Epidemiological, pathological and microbiological investigation of neonatal lamb mortality in the region of Constantine, Algeria","s":"Veterinary Record Open","u":"https://doi.org/10.1002/vro2.70021"},"kopp_nsw":{"a":"Kopp et al.","y":2020,"t":"A Survey of New South Wales Sheep Producer Practices and Perceptions on Lamb Mortality and Ewe Supplementation","s":"Animals","u":"https://doi.org/10.3390/ani10091586"},"kopp_mortality":{"a":"Kopp et al.","y":2020,"t":"A Survey of New South Wales Sheep Producer Practices and Perceptions on Lamb Mortality and Ewe Supplementation","s":"Animals","u":"https://doi.org/10.3390/ani10091586"},"bighorn_lamb":{"a":"Cain et al.","y":2018,"t":"Survival and cause-specific mortality of desert bighorn sheep lambs","s":"The Journal of Wildlife Management","u":"https://doi.org/10.1002/jwmg.21597"},"kendrick2001":{"a":"Kendrick et al.","y":2001,"t":"Sheep don't forget a face","s":"Nature","u":"https://doi.org/10.1038/35102669"}},"survival":[{"from":0,"to":90,"surv":0.757,"ref":"awassi_lamb","basis":"measured","zh":"在一项 Awassi 羊的研究中，羔羊从出生到断奶前约 75.7% 能活下来。","en":"About 75.7% of lambs in this Awassi sheep study survived to weaning."}],"causes":[],"causeNotes":{"lamb_cold":{"zh":"在阿尔及利亚的一项研究中，饥饿和低体温综合征是新生羔羊的死因之一。","en":"Starvation-hypothermia was among the causes of death in neonatal lambs in an Algerian study.","ref":"algeria_causes","basis":"measured"},"pneu":{"zh":"羔羊的呼吸道疾病也是常见的死因之一。","en":"Respiratory disorders were among the causes of death in surveyed neonatal lambs.","ref":"algeria_causes","basis":"measured"},"predator":{"zh":"澳洲的研究者认为，多数情况下捕食对羔羊死亡的影响有限。","en":"An Australian producer survey concludes predation has limited impact on lamb deaths in most cases.","ref":"kopp_nsw","basis":"measured"}},"facts":[{"zh":"在阿尔及利亚的一项调查中，羔羊出生后早期的死亡率为 5.74%。","en":"In an Algerian farm survey, 5.74% of lambs died in the neonatal period.","ref":"algeria_lamb","basis":"measured","stages":["newborn"],"causes":["lamb_cold"]},{"zh":"澳洲的生产者估计，出生到做标记之间的羔羊死亡率通常在 20% 到 25% 之间。","en":"Published Australian estimates put lamb mortality between birth and marking at 20-25%.","ref":"kopp_mortality","basis":"measured","stages":["newborn","lamb"]}],"existing":{"events.3":"kendrick2001"}},"sparrow":{"refs":{"bto_sparrow":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_juv":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_inc":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_fledge":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_broods":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_clutch":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"},"bto_sparrow_decline":{"a":"BTO","y":2024,"t":"House Sparrow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://bto.org/learn/about-birds/birdfacts/house-sparrow?page=1"}},"survival":[{"from":26,"to":391,"surv":0.489,"ref":"bto_sparrow_juv","basis":"measured","zh":"在英国，离巢的幼雀大约一半能活过第一年。","en":"About half of juvenile sparrows in Britain survive their first year."},{"from":391,"to":1121,"surv":0.326,"ref":"bto_sparrow","basis":"measured","zh":"在英国，成年麻雀每年约有 57% 活到下一年。","en":"About 57% of adult sparrows in Britain survive each year."}],"causes":[],"causeNotes":{},"facts":[{"zh":"英国麻雀一窝通常产 4 到 5 枚蛋。","en":"British sparrows usually lay 4 to 5 eggs per clutch.","ref":"bto_sparrow_clutch","basis":"measured","stages":["egg"]},{"zh":"雌麻雀孵蛋大约 12 到 15 天。","en":"The female sparrow incubates the eggs for about 12 to 15 days.","ref":"bto_sparrow_inc","basis":"measured","stages":["egg"]},{"zh":"雏雀在巢中大约 14 到 17 天后离巢。","en":"Nestlings leave the nest after about 14.5 to 17 days.","ref":"bto_sparrow_fledge","basis":"measured","stages":["nest"]},{"zh":"英国的麻雀一年通常养 2 到 3 窝。","en":"British sparrows typically raise 2 to 3 broods a year.","ref":"bto_sparrow_broods","basis":"measured","stages":["adult"]},{"zh":"英国的麻雀数量 1995 到 2024 年间下降了 18%。","en":"The British sparrow population fell 18% between 1995 and 2024.","ref":"bto_sparrow_decline","basis":"measured","stages":["adult"]}],"existing":{"events.2":"remove","events.3":"remove","events.10":"remove","events.15":"remove","events.16":"bto_sparrow_broods","decisions.0":"bto_sparrow_fledge","decisions.1":"remove"}},"spider":{"refs":{"bell2005":{"a":"Bell et al.","y":2005,"t":"Ballooning dispersal using silk: world fauna, phylogenies, genetics and models","s":"Bulletin of Entomological Research","u":"https://doi.org/10.1079/ber2004350"},"elgar1992":{"a":"Elgar","y":1992,"t":"Sexual cannibalism in spiders and other invertebrates","s":"Cannibalism","u":"https://doi.org/10.1093/oso/9780198546504.003.0007"}},"survival":[],"causes":[],"causeNotes":{"cannibal":{"zh":"有些蜘蛛的雌性会试图吃掉雄性配偶。","en":"Certain spiders are known to attempt to eat their mates.","ref":"elgar1992","basis":"related"}},"facts":[{"zh":"许多蜘蛛的幼体会靠放出的丝飘浮在空中迁移，这叫做“气球扩散”。","en":"Spiders, spider mites and moth larvae disperse by aerial silk ballooning.","ref":"bell2005","basis":"related","stages":["juv"],"acts":["explore"]}],"existing":{"events.19":"remove","events.22":"elgar1992","decisions.0":"bell2005"}},"springtail":{"refs":{"thakur2018":{"a":"Thakur et al.","y":2018,"t":"Temperature effects on prey and basal resources exceed that of predators in an experimental community","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.4695"},"thakur2018diet":{"a":"Thakur et al.","y":2018,"t":"Temperature effects on prey and basal resources exceed that of predators in an experimental community","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.4695"}},"survival":[],"causes":[],"causeNotes":{"mite":{"zh":"捕食螨是跳虫的凶猛天敌。","en":"Predatory mites are voracious predators of Collembola species.","ref":"thakur2018","basis":"related"}},"facts":[{"zh":"跳虫大多是真菌的啃食者，也会吃落叶里的碎屑。","en":"Springtails are generally fungal grazers, but also eat litter debris.","ref":"thakur2018diet","basis":"related","stages":["sub","adult"],"acts":["forage"]}],"existing":{"events.3":"remove","events.10":"remove","decisions.0":"remove","decisions.1":"remove","decisions.2":"remove","decisions.4":"remove"}},"squid":{"refs":{"gutierrez2023":{"a":"Gutiérrez et al.","y":2023,"t":"Parasite assemblages in volatile host stocks: inter- and intra-cohort variability restrict their value as biological tags for squid stock assessment","s":"Parasitology","u":"https://doi.org/10.1017/s0031182023001051"},"jiang2026":{"a":"Jiang et al.","y":2026,"t":"Ignoring death after spawning misrepresents the population dynamics of marine semelparous species","s":"Journal of Applied Ecology","u":"https://doi.org/10.1111/1365-2664.70572"},"goto2019":{"a":"Goto & Takanashi","y":2019,"t":"Changes in the strategy of a small-scale jigging fishery for Japanese flying squid Todarodes pacificus off northeastern Japan","s":"Fisheries Science","u":"https://doi.org/10.1007/s12562-019-01360-w"},"lee2025":{"a":"Lee et al.","y":2025,"t":"Long-term variability analysis of the habitat suitability index for Todarodes pacificus (Japanese common squid) using MODIS-Aqua dataset in the East/Japan Sea, South Korea","s":"Marine Environmental Research","u":"https://doi.org/10.1016/j.marenvres.2025.107537"}},"survival":[],"causes":[],"causeNotes":{"jig":{"zh":"鱿鱼钓船在岩手县外海的渔场，渔获下降后会不断换渔场找鱼。","en":"Jigging fleets off Iwate kept moving to new grounds to find more squid as catches fell.","ref":"goto2019","basis":"related"},"old":{"zh":"这种鱿鱼一生只繁殖一次，产卵之后的成体在种群模型里会被移除。","en":"Squid are semelparous: adults are removed from the population after they spawn.","ref":"jiang2026","basis":"related"}},"facts":[{"zh":"近亲阿根廷短鳍鱿鱼一生约只有一年，生长很快。","en":"A close relative, Illex argentinus, grows rapidly over a one-year lifespan.","ref":"gutierrez2023","basis":"related","stages":["adult","old"]},{"zh":"这种鱿鱼一生只繁殖一次，产卵后的死亡要算进种群模型。","en":"Post-spawning death must be included in models of semelparous squid populations.","ref":"jiang2026","basis":"related","stages":["old"]},{"zh":"岩手县外海的鱿鱼钓渔船，渔获下降后会转换渔场。","en":"Jigging fleets off Iwate shifted grounds to exploit more abundant squid when catches fell.","ref":"goto2019","basis":"related","stages":["juv","adult"],"causes":["jig"]},{"zh":"在日本海（韩国称东海），这种鱿鱼的栖息适宜度下降，同时年渔获量也下降。","en":"Habitat suitability for this squid declined in the East/Japan Sea, matching a drop in its annual catch.","ref":"lee2025","basis":"measured","stages":["adult"],"causes":["jig"]}],"existing":{"events.14":"jiang2026","decisions.0":"remove","decisions.2":"remove"}},"swallow":{"refs":{"ece3_swallow":{"a":"Grüebler et al.","y":2014,"t":"Equal nonbreeding period survival in adults and juveniles of a long-distant migrant bird","s":"Ecology and Evolution","u":"https://doi.org/10.1002/ece3.984"},"bto_swallow_adult":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_juv":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_fledge":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_inc":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_clutch":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_broods":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"},"bto_swallow_decline":{"a":"BTO","y":2024,"t":"Swallow (BirdFacts)","s":"British Trust for Ornithology species account","u":"https://www.bto.org/learn/about-birds/birdfacts/swallow"}},"survival":[{"from":36,"to":57,"surv":0.32,"ref":"ece3_swallow","basis":"measured","zh":"幼燕离巢后头三周，只有约三成能活下来。","en":"About a third of young swallows survive the first three weeks after leaving the nest."},{"from":401,"to":1131,"surv":0.14,"ref":"bto_swallow_adult","basis":"measured","zh":"在英国，成年家燕每年约有 37% 活到下一年。","en":"About 37% of adult swallows in Britain survive each year."}],"causes":[],"causeNotes":{},"facts":[{"zh":"家燕孵蛋大约 16 到 18 天。","en":"Female swallows incubate their eggs for about 16 to 18 days.","ref":"bto_swallow_inc","basis":"measured","stages":["egg"]},{"zh":"英国的家燕一窝通常产 4 到 5 枚蛋。","en":"British swallows usually lay 4 to 5 eggs per clutch.","ref":"bto_swallow_clutch","basis":"measured","stages":["egg"]},{"zh":"英国的家燕一年通常繁殖 2 窝。","en":"British swallows typically raise 2 broods a year.","ref":"bto_swallow_broods","basis":"measured","stages":["adult"]},{"zh":"幼燕在第一年里约有 40% 能活下来。","en":"About 39.5% of juvenile swallows survive their first year.","ref":"bto_swallow_juv","basis":"measured","stages":["fledge"]},{"zh":"英国的家燕数量 1995 到 2024 年间下降了 23%。","en":"The UK breeding swallow population fell 23% between 1995 and 2024.","ref":"bto_swallow_decline","basis":"measured","stages":["adult"]}],"existing":{"events.6":"bto_swallow_fledge","events.13":"remove","decisions.0":"remove","decisions.1":"remove","decisions.3":"remove"}},"termite":{"refs":{"quarcoo2019":{"a":"Quarcoo et al.","y":2019,"t":"Temperature-Mediated Variations in Behavior and Mortality Caused by Non-Repellent Insecticides in Subterranean Termites (Blattodea: Rhinotermitidae)","s":"Insects","u":"https://doi.org/10.3390/insects10020037"},"quarcoo2019bait":{"a":"Quarcoo et al.","y":2019,"t":"Temperature-Mediated Variations in Behavior and Mortality Caused by Non-Repellent Insecticides in Subterranean Termites (Blattodea: Rhinotermitidae)","s":"Insects","u":"https://doi.org/10.3390/insects10020037"},"wen2026":{"a":"Wen et al.","y":2026,"t":"Differential Responses of the Ant Odontoponera transversa to Termite Chemical Signals: Evidence for Prey Preference","s":"Insects","u":"https://doi.org/10.3390/insects17050501"},"chen2022":{"a":"Chen et al.","y":2022,"t":"The effect of ergosterol on the allogrooming behavior of termites in response to the entomopathogenic fungus Metarhizium anisopliae","s":"Insect Science","u":"https://doi.org/10.1111/1744-7917.13055"}},"survival":[],"causes":[],"causeNotes":{"ant":{"zh":"蚂蚁是白蚁的主要天敌，会捕食白蚁。","en":"Ants are considered the major predators of termites.","ref":"wen2026","basis":"related"},"fungus":{"zh":"白蚁接触绿僵菌孢子后，舔毛清洁的次数明显增加，这是它们对真菌的行为反应。","en":"Coptotermes workers exposed to Metarhizium spores groom themselves much more often, a behavioural response to the fungus.","ref":"chen2022","basis":"measured"},"bait":{"zh":"杀虫剂会让台湾乳白蚁等白蚁中毒死亡，温度会影响死亡情况。","en":"Insecticides such as fipronil and indoxacarb cause termite mortality, and temperature also affects it.","ref":"quarcoo2019bait","basis":"measured"}},"facts":[{"zh":"在 15–30°C 的实验里，台湾乳白蚁工蚁的存活率约为 88%–94%。","en":"In lab tests between 15 and 30 °C, Formosan termite workers survived at 88–94%.","ref":"quarcoo2019","basis":"measured","stages":["adult"]}],"existing":{"events.17":"remove"}},"wolf":{"refs":{"cubaynes2014":{"a":"Cubaynes et al.","y":2014,"t":"Density-dependent intraspecific aggression regulates survival in northern Yellowstone wolves (Canis lupus)","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.12238"},"cubaynes_age":{"a":"Cubaynes et al.","y":2014,"t":"Density-dependent intraspecific aggression regulates survival in northern Yellowstone wolves (Canis lupus)","s":"Journal of Animal Ecology","u":"https://doi.org/10.1111/1365-2656.12238"},"liberg2012":{"a":"Liberg et al.","y":2012,"t":"Shoot, shovel and shut up: cryptic poaching slows restoration of a large carnivore in Europe","s":"Proceedings of the Royal Society B: Biological Sciences","u":"https://doi.org/10.1098/rspb.2011.1275"},"suutarinen2017":{"a":"Suutarinen & Kojola","y":2017,"t":"Poaching regulates the legally hunted wolf population in Finland","s":"Biological Conservation","u":"https://doi.org/10.1016/j.biocon.2017.08.031"},"suutarinen_surv":{"a":"Suutarinen & Kojola","y":2017,"t":"Poaching regulates the legally hunted wolf population in Finland","s":"Biological Conservation","u":"https://doi.org/10.1016/j.biocon.2017.08.031"},"creel2010":{"a":"Creel & Rotella","y":2010,"t":"Meta-analysis of relationships between human offtake, total mortality and population dynamics of gray wolves (Canis lupus)","s":"PLoS ONE","u":"https://doi.org/10.1371/journal.pone.0012918"},"nps":{"a":"Cassidy, K. (National Park Service)","y":2025,"t":"Research Report: Using Radio Collars to Study Yellowstone Wolves","s":"National Park Service","u":"https://www.nps.gov/articles/using-radio-collars-to-study-yellowstone-wolves.htm"},"ethwolf2024":{"a":"Marino et al.","y":2024,"t":"Concurrent Rabies and Canine Distemper Outbreaks and Infection in Endangered Ethiopian Wolves","s":"Emerging Infectious Diseases","u":"https://doi.org/10.3201/eid3012.240432"}},"survival":[],"causes":[{"stages":["juv","young","adult","old"],"shares":{"gun":0.5},"ref":"liberg2012","basis":"measured","zh":"在斯堪的纳维亚，偷猎约占狼死亡的一半（所有年龄合计）。","en":"In Scandinavia, poaching caused about half of wolf deaths across all ages.","flags":["europe_farm"]}],"causeNotes":{"gun":{"zh":"在芬兰，偷猎是狼的首要死因，其次是合法猎杀。","en":"In Finland, poaching was the main cause of wolf death, ahead of legal hunting.","ref":"suutarinen2017","basis":"measured"},"pack_fight":{"zh":"在黄石北部，狼的密度越高，狼之间的争斗越多，成年狼存活率越低。","en":"In northern Yellowstone, higher wolf density meant more fighting between wolves and lower adult survival.","ref":"cubaynes2014","basis":"measured"},"disease":{"zh":"埃塞俄比亚狼是狼的近亲，它们在 2019 年同时爆发狂犬病和犬瘟热。","en":"Ethiopian wolves, close relatives of grey wolves, had concurrent rabies and canine distemper outbreaks in 2019.","ref":"ethwolf2024","basis":"related"}},"facts":[{"zh":"在斯堪的纳维亚，偷猎约占狼死亡的一半。","en":"In Scandinavia, poaching caused about half of wolf deaths.","ref":"liberg2012","basis":"measured","causes":["gun"],"flags":["europe_farm"]},{"zh":"在芬兰，偷猎是狼的首要死因，其次是合法猎杀。","en":"In Finland, poaching was the main cause of wolf death, ahead of legal hunting.","ref":"suutarinen2017","basis":"measured","causes":["gun"],"flags":["europe_farm"]},{"zh":"芬兰模型显示，偷猎严重时狼每年存活率约 0.11–0.24，没有偷猎时约 0.43–0.60。","en":"Finnish models put yearly wolf survival at 0.11–0.24 with heavy poaching and 0.43–0.60 with none.","ref":"suutarinen_surv","basis":"measured","causes":["gun"],"flags":["europe_farm"]},{"zh":"黄石的狼中，一岁狼和成年狼的存活率相近，六岁以上的成年狼存活率更低。","en":"In Yellowstone, yearlings and adults survived at similar rates, but adults older than six survived less well.","ref":"cubaynes_age","basis":"measured","stages":["adult","old"],"flags":["yellowstone"]},{"zh":"黄石北部，狼的密度升高时狼之间的争斗增多，成年狼的存活率随之下降。","en":"In northern Yellowstone, higher wolf density increased fights between wolves and lowered adult survival.","ref":"cubaynes2014","basis":"measured","stages":["adult"],"causes":["pack_fight"],"flags":["yellowstone"]},{"zh":"北美蒙大拿和爱达荷的狼，在取消保护的那一年有 37.1% 被人类捕杀。","en":"In Montana and Idaho, 37.1% of wolves were killed by people in the year they lost federal protection.","ref":"creel2010","basis":"measured","causes":["gun"],"flags":["yellowstone"]},{"zh":"1995 和 1996 年放归狼后，黄石一直用无线电项圈监测和研究狼。","en":"Since the 1995 and 1996 reintroductions, radio collars have been the main tool for studying Yellowstone wolves.","ref":"nps","basis":"official","flags":["yellowstone"]}],"existing":{"events.6":"remove","events.16":"remove","events.26":"nps","decisions.2":"remove"}}};
+// Original pixel sprites for the collectible card, drawn in code: flat shapes on a 36×30 grid, outlined group by group.
+(function () {
+  const W = 36, H = 30, INK = '#17131a', BL = '#ff9fb2', PK = '#e8607c', WH = '#fffaf0';
+  let out, layer, top, vec = null;   // vec: smooth drawing of the same shapes (see toon)
+  const put = (x, y, c) => { x = Math.floor(x); y = Math.floor(y); if (x >= 0 && y >= 0 && x < W && y < H) layer[y * W + x] = c; };
+  const E = (cx, cy, rx, ry, c) => { if (vec) return void vec.ops.push(['E', c, cx, cy, rx, ry]); for (let y = Math.floor(cy - ry); y <= cy + ry; y++) for (let x = Math.floor(cx - rx); x <= cx + rx; x++) { const a = (x + 0.5 - cx) / rx, b = (y + 0.5 - cy) / ry; if (a * a + b * b <= 1) put(x, y, c); } };
+  const R = (x, y, w, h, c) => { if (vec) return void vec.ops.push(['R', c, x, y, w, h]); for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) put(x + i, y + j, c); };
+  const P = (c, ...p) => { if (vec) return void vec.ops.push(['P', c, ...p]); for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { let s = false; for (let i = 0, j = p.length - 2; i < p.length; j = i, i += 2) { const X = x + 0.5, Y = y + 0.5; if ((p[i + 1] > Y) !== (p[j + 1] > Y) && X < (p[j] - p[i]) * (Y - p[i + 1]) / (p[j + 1] - p[i + 1]) + p[i]) s = !s; } if (s) put(x, y, c); } };
+  const L = (c, w, ...p) => { if (vec) return void vec.ops.push(['L', c, w, ...p]); for (let k = 0; k + 3 < p.length; k += 2) { const dx = p[k + 2] - p[k], dy = p[k + 3] - p[k + 1], n = Math.ceil(Math.max(Math.abs(dx), Math.abs(dy))) || 1; for (let i = 0; i <= n; i++) { const x = Math.round(p[k] + dx * i / n), y = Math.round(p[k + 1] + dy * i / n); R(x, y, w, w, c); } } };
+  const D = (c, ...p) => { if (vec) return void vec.ops.push(['D', c, ...p]); for (let i = 0; i < p.length; i += 2) put(p[i], p[i + 1], c); };
+  const dim = (c, k) => '#' + [1, 3, 5].map((i) => Math.max(0, Math.min(255, Math.round(parseInt(c.slice(i, i + 2), 16) * k))).toString(16).padStart(2, '0')).join('');
+  const fresh = () => { if (vec) { vec.ops = []; return; } layer = new Array(W * H).fill(null); };
+  // close a group: shade its underside, outline it, lay it over what is already there
+  const G = (noShade, ol) => { if (vec) return vec.group(noShade, ol);
+    const g = layer, at = (x, y) => (x < 0 || y < 0 || x >= W || y >= H ? null : g[y * W + x]);
+    top = new Array(W * H).fill(false);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (at(x, y)) { for (const [a, b] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) if (!at(x + a, y + b) && x + a >= 0 && y + b >= 0 && x + a < W && y + b < H) out[(y + b) * W + x + a] = ol || INK; }
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const c = at(x, y); if (c) { out[y * W + x] = !noShade && (!at(x, y + 1) || !at(x, y + 2)) ? dim(c, 0.86) : c; top[y * W + x] = true; } }
+    fresh();
+  };
+  const K = () => { if (vec) return vec.clip(); layer.forEach((c, i) => { if (c && top[i]) out[i] = c; }); fresh(); };   // details clipped to the last group
+  const N = () => { if (vec) return vec.over(); layer.forEach((c, i) => { if (c) out[i] = c; }); fresh(); };              // details, no clip
+  const face = (x, y, gap, o = {}) => { if (vec) return vec.face(x, y, gap, o);
+    const e = o.eye || INK; [x, x + gap].forEach((k) => { R(k, y, 2, o.tall ? 3 : 2, e); D(WH, o.gl ? k + 1 : k, y); });
+    if (o.blush !== false) { const b = o.blush || BL, by = y + (o.tall ? 3 : 2); R(x - 2, by, 2, 1, b); R(x + gap + 2, by, 2, 1, b); }
+    const m = x + gap / 2, my = y + (o.tall ? 3 : 2);
+    if (o.nose) R(m, my - 1, 2, 1, o.nose);
+    if (o.mouth !== false) { if (o.mouth === 'open') R(m, my + 1, 2, 2, PK); else R(m, my + (o.nose ? 1 : 0), 2, 1, o.mouth || PK); }
+    N();
+  };
+  // ---- templates -----------------------------------------------------------------
+  const quad = (o) => {
+    if (o.tail) { o.tail(); G(); }
+    R(16, 22, 3, 5, dim(o.leg || o.c, 0.8)); R(29, 22, 3, 5, dim(o.leg || o.c, 0.8)); G();
+    E(22.5, 18.5, 9.5, 5.5, o.c); R(13, 21, 4, 6, o.leg || o.c); R(26, 21, 4, 6, o.leg || o.c); G();
+    if (o.belly) { E(20, 24, 7, 4, o.belly); K(); }
+    if (o.foot) { R(13, 25, 4, 2, o.foot); R(26, 25, 4, 2, o.foot); K(); }
+    if (o.spots) { o.spots(); K(); }
+    if (o.back) { o.back(); }
+    if (o.ears) { o.ears(); }
+    E(10.5, 12.5, o.hx || 8, o.hy || 7, o.h || o.c); G();
+    if (o.mark) { o.mark(); K(); }
+    if (o.earIn) { o.earIn(); N(); }
+    face(o.fx ?? 6, o.fy ?? 12, o.gap ?? 8, o.face);
+    if (o.over) o.over();
+  };
+  const bird = (o) => {
+    if (o.tail) { o.tail(); G(); }
+    L(o.f || '#f0a048', 1, 15, 24, 15, 27); L(o.f || '#f0a048', 1, 20, 24, 20, 27); R(13, 27, 4, 1, o.f || '#f0a048'); R(18, 27, 4, 1, o.f || '#f0a048'); G(true);
+    E(18, 18, o.bx || 9, o.by || 7.5, o.c); E(o.hx ?? 13, o.hy ?? 10, 7, 6.5, o.h || o.c); G();
+    E(15, 21, 6.5, 5, o.b || WH); K(); if (o.mark) { o.mark(); K(); }
+    E(23, 17.5, 5, 4, o.w || dim(o.c, 0.8)); G(); if (o.wing) { o.wing(); K(); }
+    if (o.beak) { o.beak(); G(); } face(o.fx ?? 8, o.fy ?? 9, o.gap ?? 8, { mouth: false, ...o.face }); if (o.over) o.over();
+  };
+  const fish = (o) => {
+    P(o.t || o.c, 27, 16, 34, 9, 33, 16, 34, 23); G(); if (o.fin) { o.fin(); G(); }
+    E(17, 16, o.rx || 13, o.ry || 7.5, o.c); G(); E(16, 21, 12, 5, o.b || WH); K(); if (o.mark) { o.mark(); K(); }
+    P(o.t || o.c, 16, 18, 22, 18, 21, 23); G(); R(8, 13, 2, 3, o.eye || INK); D(WH, 8, 13); R(10, 17, 2, 1, BL); R(4, 18, 3, 1, PK); N(); if (o.over) o.over();
+  };
+  const bubbles = () => { D('#9fdcff', 3, 6, 4, 5, 5, 6, 4, 7, 2, 10); N(); };
+  const S = {};
+  // ---- mammals -------------------------------------------------------------------
+  S.dog = () => quad({ c: '#f0b878', belly: WH, foot: WH, tail: () => { E(32, 11, 3, 4, '#f0b878'); E(32.5, 9.5, 2, 2, WH); R(29, 13, 3, 4, '#f0b878'); }, ears: () => { P('#c98a4e', 3, 7, 1, 15, 4, 17, 7, 8); P('#c98a4e', 18, 7, 20, 15, 17, 17, 14, 8); }, mark: () => { E(10.5, 16, 5, 5, WH); R(10, 5, 2, 8, WH); }, face: { nose: INK } });
+  S.cat = () => quad({ c: '#f2a65a', belly: WH, foot: WH, tail: () => { L('#f2a65a', 3, 30, 16, 33, 12, 32, 7); L('#d97f35', 3, 32, 9, 32, 9); R(32, 5, 3, 2, WH); }, spots: () => { R(20, 13, 2, 4, '#d97f35'); R(24, 13, 2, 4, '#d97f35'); R(28, 14, 2, 4, '#d97f35'); }, ears: () => { P('#f2a65a', 3, 10, 3, 2, 10, 7); P('#f2a65a', 18, 10, 18, 2, 11, 7); }, earIn: () => { D(BL, 4, 5, 4, 6, 5, 6, 16, 5, 16, 6, 15, 6); }, mark: () => { E(10.5, 17, 5, 3.5, WH); R(10, 6, 1, 3, '#d97f35'); R(7, 6, 1, 2, '#d97f35'); R(13, 6, 1, 2, '#d97f35'); }, face: { nose: PK, eye: '#2b5c3a' } });
+  S.wolf = () => quad({ c: '#9aa4b0', belly: '#e8ecee', foot: '#e8ecee', tail: () => { P('#7c8794', 29, 15, 34, 12, 36, 18, 33, 24, 30, 20); }, back: () => { E(23, 13.5, 7, 2, '#7c8794'); K(); }, ears: () => { P('#7c8794', 3, 11, 2, 1, 9, 7); P('#7c8794', 18, 11, 19, 1, 12, 7); }, earIn: () => { D('#d9b8b4', 4, 5, 4, 6, 5, 6, 16, 5, 16, 6, 15, 6); }, mark: () => { E(7, 16.5, 4.5, 4, WH); E(14, 16.5, 4.5, 4, WH); R(9, 5, 3, 6, '#7c8794'); }, face: { nose: INK, eye: '#5a3c10' } });
+  S.lion = () => quad({ c: '#eebd6c', belly: '#fbe3b4', tail: () => { L('#eebd6c', 2, 30, 17, 33, 14, 33, 9); E(33.5, 8, 2.2, 2.6, '#8b4f24'); }, ears: () => { E(10.5, 12.5, 10.5, 9.8, '#a8622c'); E(10.5, 12.5, 9, 8.2, '#c47a38'); E(4, 5.5, 2.3, 2.3, '#eebd6c'); E(17, 5.5, 2.3, 2.3, '#eebd6c'); }, hx: 6.8, hy: 6, mark: () => { E(10.5, 12.5, 6.8, 6, '#eebd6c'); E(10.5, 16.2, 4, 3, WH); }, face: { nose: '#5a2f1c' } });
+  S.panda = () => quad({ c: WH, leg: '#2c2830', tail: () => E(32, 17, 2.5, 2.5, WH), spots: () => R(13, 12, 5, 12, '#2c2830'), ears: () => { E(4, 6, 3.2, 3.2, '#2c2830'); E(17, 6, 3.2, 3.2, '#2c2830'); }, mark: () => { E(7, 12.8, 2.7, 3, '#2c2830'); E(15, 12.8, 2.7, 3, '#2c2830'); }, face: { nose: INK, eye: '#0c0a0d' }, over: () => { L('#6dae4a', 1, 8, 24, 15, 17); D('#8fd062', 9, 21, 10, 20, 11, 22, 13, 18, 14, 21); N(); } });
+  S.elephant = () => quad({ c: '#a9b4c4', belly: '#c3ccd8', foot: '#8c97a8', tail: () => L('#a9b4c4', 1, 31, 15, 34, 19, 34, 21), ears: () => { E(4.8, 12, 4, 6.5, '#93a0b3'); E(17, 12, 4.5, 6.5, '#93a0b3'); }, earIn: () => { E(3.4, 12.5, 1.6, 4, '#dbaebb'); }, hx: 7, fx: 6, fy: 10, face: { mouth: false }, over: () => { L('#a9b4c4', 3, 9, 14, 9, 21, 6, 23); G(); D('#8c97a8', 9, 16, 10, 16, 10, 18, 11, 18, 10, 20); N(); P(WH, 5, 15, 8, 17, 5, 19); P(WH, 13, 17, 16, 15, 16, 19); G(true); } });
+  S.cattle = () => quad({ c: WH, foot: '#4a3f44', tail: () => { L(WH, 1, 31, 15, 34, 18, 34, 22); R(33, 22, 3, 3, INK); }, spots: () => { E(20, 15, 4, 3, '#2f2a30'); E(29, 19, 3.5, 3, '#2f2a30'); }, ears: () => { E(2, 10, 3, 2, '#2f2a30'); E(19, 10, 3, 2, '#2f2a30'); P('#e8d7a8', 5, 7, 4, 2, 8, 6); P('#e8d7a8', 16, 7, 17, 2, 13, 6); }, mark: () => { E(15.5, 9, 4.5, 5, '#2f2a30'); E(10.5, 18, 6, 4, '#f5b5bd'); }, face: { mouth: '#b55a6a', gl: 0 }, over: () => { D('#b55a6a', 8, 16, 13, 16); N(); } });
+  S.pig = () => quad({ c: '#f7b4bf', belly: '#fbd0d5', foot: '#c97f8d', tail: () => { D('#f0909f', 32, 15, 33, 14, 34, 15, 33, 16, 34, 13, 35, 12); }, ears: () => { P('#ef98a8', 3, 10, 2, 2, 9, 7); P('#ef98a8', 18, 10, 19, 2, 12, 7); }, face: { mouth: false, blush: '#f58a9c' }, over: () => { E(11, 15.5, 4, 2.6, '#ef8ea0'); G(true); D('#a84a60', 9, 15, 12, 15); N(); R(10, 18, 2, 1, PK); N(); } });
+  S.sheep = () => { const c = '#fdf6e6'; R(15, 22, 3, 5, '#4d4146'); R(29, 22, 3, 5, '#4d4146'); R(12, 22, 3, 5, '#5c4e54'); R(26, 22, 3, 5, '#5c4e54'); G(); [[16, 14], [21, 13], [26, 14], [30, 17], [29, 21], [24, 22], [18, 22], [14, 19], [22, 18]].forEach(([x, y]) => E(x, y, 4.2, 3.8, c)); G(); D('#e4d8bf', 20, 16, 21, 17, 26, 17, 27, 18, 24, 20, 17, 20, 18, 19, 29, 20); K(); E(3, 12, 3, 1.8, '#6a5a61'); E(18, 12, 3, 1.8, '#6a5a61'); E(10.5, 13.5, 6.5, 6, '#5c4e54'); G(); [[6, 8], [10.5, 6.5], [15, 8]].forEach(([x, y]) => E(x, y, 3.2, 2.8, c)); G(); R(7, 12, 2, 3, WH); R(13, 12, 2, 3, WH); R(7, 13, 1, 2, INK); R(13, 13, 1, 2, INK); R(5, 15, 2, 1, BL); R(15, 15, 2, 1, BL); R(10, 16, 2, 1, PK); N(); };
+  S.goat = () => quad({ c: '#efe3cf', belly: WH, foot: '#6b5a4c', leg: '#e2d3ba', tail: () => P('#efe3cf', 30, 15, 34, 11, 34, 15), ears: () => { P('#8a7a68', 6, 7, 4, 0, 8, 1, 10, 7); P('#8a7a68', 15, 7, 17, 0, 13, 1, 11, 7); E(2, 11, 3, 1.8, '#d9c4a4'); E(19, 11, 3, 1.8, '#d9c4a4'); }, hx: 7, mark: () => { R(10, 5, 2, 8, '#b98e5e'); E(11, 17, 4, 3, WH); }, face: { nose: '#5b4038', eye: '#4a3410' }, over: () => { P('#f7efe0', 8, 19, 14, 19, 11, 25); G(); } });
+  S.rat = () => quad({ c: '#b0977f', belly: '#e9dccb', foot: '#f2b0b0', tail: () => L('#f0a9a9', 1, 30, 21, 34, 23, 35, 18, 33, 14), ears: () => { E(3, 6, 4, 4, '#b0977f'); E(18, 6, 4, 4, '#b0977f'); }, earIn: () => { E(3, 6, 2.3, 2.3, '#f2b0b0'); E(18, 6, 2.3, 2.3, '#f2b0b0'); }, hx: 7, hy: 6.2, mark: () => E(10.5, 16, 4, 3.4, '#e9dccb'), face: { nose: PK }, over: () => { R(0, 15, 4, 1, '#7a6858'); R(17, 15, 4, 1, '#7a6858'); N(); } });
+  S.chimpanzee = () => { const c = '#4a3b38', s = '#e8b98f'; R(7, 18, 4, 8, c); R(25, 18, 4, 8, c); G(); E(18, 21, 8, 6, c); G(); E(18, 22, 4.5, 4, s); K(); R(11, 25, 5, 3, s); R(20, 25, 5, 3, s); G(); R(6, 24, 4, 3, s); R(26, 24, 4, 3, s); G(); E(7, 11, 3.5, 4, s); E(29, 11, 3.5, 4, s); G(); E(18, 10.5, 10, 8.5, c); G(); E(14, 9.5, 4.5, 4, s); E(22, 9.5, 4.5, 4, s); E(18, 14.5, 6.5, 4, s); K(); R(14, 9, 2, 3, INK); D(WH, 14, 9); R(20, 9, 2, 3, INK); D(WH, 20, 9); R(11, 13, 2, 1, BL); R(23, 13, 2, 1, BL); D('#8a5a44', 17, 13, 18, 13); R(16, 16, 4, 1, PK); N(); };
+  S.human = () => { const s = '#f6cba4', h = '#4a342c', c = '#f5c542'; R(13, 23, 4, 5, '#4d6fa8'); R(19, 23, 4, 5, '#4d6fa8'); G(); R(8, 18, 3, 5, s); R(25, 18, 3, 5, s); G(); P(c, 12, 16, 24, 16, 27, 24, 9, 24); G(); R(17, 18, 2, 6, '#e0a82e'); K(); E(18, 9.5, 10, 8.5, h); G(); E(18, 11.5, 8, 6.2, s); K(); P(h, 10, 9, 10, 4, 26, 4, 26, 9, 21, 6, 17, 9, 14, 7); K(); face(13, 11, 8, { tall: 1 }); D(h, 18, 0, 19, 0, 17, 1); N(); };
+  S.bat = () => { const c = '#7a5b63', w = '#5d4250'; P(w, 15, 14, 4, 5, 0, 18, 5, 16, 8, 20, 11, 18, 15, 22); P(w, 21, 14, 32, 5, 36, 18, 31, 16, 28, 20, 25, 18, 21, 22); G(); L('#7d6070', 1, 15, 15, 4, 8); L('#7d6070', 1, 20, 15, 31, 8); K(); P(c, 11, 10, 10, 1, 17, 7); P(c, 25, 10, 26, 1, 19, 7); E(18, 12.5, 7.5, 6.5, c); E(18, 20, 5.5, 5.5, c); G(); D('#eaa7b0', 12, 4, 12, 5, 13, 6, 23, 4, 23, 5, 22, 6); E(18, 21, 3.5, 3.5, '#c9a08f'); N(); face(13, 11, 8, { nose: '#3a2830' }); D(WH, 17, 15, 19, 15); N(); R(16, 26, 1, 2, '#3a2830'); R(19, 26, 1, 2, '#3a2830'); N(); };
+  S.blue_whale = () => { const c = '#5f8fc4'; P(c, 28, 15, 35, 5, 31, 6, 29, 9, 25, 6, 27, 13); G(); E(15, 17, 14, 8.5, c); P(c, 22, 10, 31, 12, 30, 17, 24, 23); G(); E(12, 23, 12, 6, '#dcecf5'); K(); [4, 7, 10, 13, 16].forEach((x) => R(x, 20, 1, 7, '#b7d2e4')); K(); P('#4a78ad', 17, 20, 23, 20, 21, 27); G(); R(7, 15, 2, 3, INK); D(WH, 7, 15); R(8, 19, 3, 1, BL); R(1, 19, 4, 1, '#3f6a9c'); N(); L('#bfe8ff', 1, 14, 7, 14, 4, 11, 1); L('#bfe8ff', 1, 14, 4, 17, 1); D('#bfe8ff', 10, 2, 18, 2, 9, 4, 19, 4); N(); };
+  // ---- birds ---------------------------------------------------------------------
+  S.sparrow = () => bird({ c: '#b98a5a', h: '#9b6b40', b: '#efe2cc', w: '#8a5d38', tail: () => P('#7d5433', 26, 17, 35, 13, 34, 18, 27, 22), mark: () => { E(9, 12, 3, 2.5, '#f3e9d8'); R(10, 14, 6, 3, '#40302c'); }, wing: () => { R(20, 16, 8, 1, '#d8b184'); R(20, 19, 8, 1, '#6a4527'); }, beak: () => P('#5a5048', 11, 11, 15, 11, 13, 15), face: {} });
+  S.swallow = () => bird({ c: '#2f4d86', h: '#2f4d86', b: '#fbeee0', w: '#243d6d', f: '#6b4a3c', tail: () => { P('#243d6d', 25, 17, 36, 9, 30, 18); P('#243d6d', 25, 20, 36, 24, 29, 21); }, mark: () => E(13, 14, 5, 2.5, '#c8522f'), wing: () => R(20, 16, 8, 1, '#5c7fc0'), beak: () => P('#403a44', 11, 11, 15, 11, 13, 14), face: { eye: '#0d0d14' } });
+  S.pigeon = () => bird({ c: '#a8b2c2', h: '#7f8ca2', b: '#c2cad6', w: '#8f9bae', f: '#e0707f', tail: () => P('#6d788c', 26, 17, 35, 19, 34, 23, 26, 23), mark: () => { R(8, 14, 11, 1, '#6fb391'); R(8, 15, 11, 2, '#a884bd'); }, wing: () => { R(21, 15, 2, 6, '#4f5a6e'); R(25, 15, 2, 6, '#4f5a6e'); }, beak: () => P('#5a5560', 11, 11, 15, 11, 13, 15), face: { eye: '#8a2f1c' }, over: () => { R(12, 10, 2, 1, WH); N(); } });
+  S.penguin = () => { const c = '#2b3340'; R(13, 26, 4, 2, '#f0a048'); R(20, 26, 4, 2, '#f0a048'); G(); P(c, 9, 14, 4, 23, 8, 24, 11, 18); P(c, 27, 14, 32, 23, 28, 24, 25, 18); G(); E(18, 18.5, 9.5, 8.5, c); E(18, 10, 9, 8, c); G(); E(18, 21, 7, 7, WH); E(18, 14, 6, 2, '#ffd977'); K(); E(13.5, 11, 4, 4, WH); E(22.5, 11, 4, 4, WH); K(); E(9.8, 11, 1.6, 2.6, '#ffc040'); E(26.2, 11, 1.6, 2.6, '#ffc040'); K(); P('#f0a048', 16, 12, 20, 12, 18, 16); G(); face(13, 9, 8, { mouth: false }); };
+  S.duck = () => bird({ c: '#fff3d0', h: '#fff3d0', b: WH, w: '#f2dfae', f: '#f0923a', tail: () => P('#fff3d0', 26, 16, 33, 11, 32, 18), wing: () => { R(21, 18, 7, 1, '#d9c183'); }, beak: () => { E(13, 13, 4.5, 2, '#f59a3c'); }, face: {} });
+  S.broiler = () => bird({ c: WH, h: WH, b: WH, w: '#ece4d2', bx: 10, f: '#f2b23e', tail: () => P('#ece4d2', 26, 16, 33, 10, 34, 18), mark: () => {}, wing: () => R(21, 18, 7, 1, '#cfc4aa'), beak: () => { P('#f2b23e', 11, 11, 15, 11, 13, 14); }, over: () => { E(11, 3.5, 1.6, 2, '#e24b4b'); E(13.5, 2.5, 1.6, 2.2, '#e24b4b'); E(16, 3.5, 1.6, 2, '#e24b4b'); G(); E(13, 16, 1.5, 2, '#e24b4b'); G(); } });
+  S.layer_hen = () => bird({ c: '#c0703c', h: '#cf8047', b: '#e0a06a', w: '#a0582c', f: '#f2b23e', tail: () => { P('#8a4722', 25, 16, 31, 7, 35, 10, 32, 19); }, wing: () => { R(20, 16, 8, 1, '#d18a52'); R(20, 19, 8, 1, '#7d431f'); }, beak: () => P('#f2b23e', 11, 11, 15, 11, 13, 14), over: () => { E(11, 3.5, 1.6, 2, '#e24b4b'); E(13.5, 2.5, 1.6, 2.2, '#e24b4b'); E(16, 3.5, 1.6, 2, '#e24b4b'); G(); E(13, 16, 1.5, 2, '#e24b4b'); G(); E(30, 26, 3, 3, '#f6e3c8'); G(); } });
+  // ---- fish & sea ----------------------------------------------------------------
+  S.sardine = () => { fish({ c: '#6f9fc9', b: '#eef5fa', t: '#5783ad', ry: 6, mark: () => [13, 16, 19, 22].forEach((x) => D('#2f5078', x, 14, x + 1, 14)) }); bubbles(); };
+  S.salmon = () => fish({ c: '#e2705f', b: '#fde0d2', t: '#c4543f', ry: 7.5, fin: () => P('#c4543f', 14, 10, 20, 5, 23, 10), mark: () => { D('#8f3527', 13, 11, 16, 12, 19, 11, 22, 13, 24, 12, 18, 14, 14, 13); P('#b04433', 15, 24, 18, 12, 19, 24); } });
+  S.farmed_carp = () => { fish({ c: '#8aa867', b: '#eef1d6', t: '#6f8d4f', ry: 8, fin: () => P('#6f8d4f', 12, 10, 18, 5, 22, 10), mark: () => [[12, 12], [16, 11], [20, 12], [24, 14], [14, 15], [18, 15], [22, 16]].forEach(([x, y]) => D('#6a8a48', x, y, x + 1, y + 1, x + 2, y)) }); bubbles(); };
+  S.lanternfish = () => { fish({ c: '#39508c', b: '#5c78bb', t: '#2c3f74', ry: 7, mark: () => { [5, 9, 13, 17, 21, 25].forEach((x) => D('#9ff5ff', x, 20)); [11, 15, 19].forEach((x) => D('#9ff5ff', x, 17)); } }); R(6, 12, 5, 5, WH); G(true); R(7, 13, 3, 3, INK); D(WH, 7, 13); N(); D('#9ff5ff', 2, 24, 1, 23, 3, 23, 30, 4, 31, 5, 29, 5); N(); };
+  S.greenland_shark = () => { const c = '#7c8a91'; P(c, 27, 15, 35, 6, 33, 15, 34, 22); G(); P(c, 16, 11, 22, 5, 23, 12); G(); E(16, 16.5, 14.5, 7, c); G(); E(14, 22, 12, 5, '#d4dbdc'); K(); P(c, 14, 20, 22, 20, 21, 27); G(); D('#5c6a71', 14, 14, 14, 15, 14, 16, 16, 14, 16, 15, 16, 16, 18, 14, 18, 15, 18, 16, 24, 12, 26, 14, 22, 11); K(); R(7, 13, 2, 3, INK); D(WH, 7, 13); R(8, 17, 3, 1, BL); R(3, 19, 5, 1, '#4a565c'); D(WH, 4, 20, 6, 20); N(); };
+  S.sea_turtle = () => { const c = '#7fb36a', s = '#8a6a3c'; P(c, 13, 18, 6, 26, 12, 27, 18, 21); P(c, 26, 20, 33, 25, 29, 26, 23, 22); G(); P(c, 30, 19, 35, 20, 30, 22); G(); E(21.5, 15.5, 11, 8, s); G(); E(21.5, 14, 4, 3, '#b08a52'); E(14.5, 15, 2.4, 2.6, '#b08a52'); E(28.5, 15, 2.4, 2.6, '#b08a52'); E(21.5, 20, 4, 2, '#b08a52'); R(11, 21, 21, 2, '#e8d59a'); K(); E(8, 14, 6.5, 6, c); G(); D('#5d8f4d', 6, 9, 9, 9, 11, 11); K(); face(4, 13, 6, {}); bubbles(); };
+  S.octopus = () => { const c = '#e0785c'; [[5, 23], [10, 25], [22, 25], [27, 23]].forEach(([x, y], i) => { E(x + 2, y, 3, 3, c); }); L(c, 4, 8, 19, 3, 22, 1, 19); L(c, 4, 25, 19, 30, 22, 32, 19); L(c, 4, 11, 20, 9, 25); L(c, 4, 16, 20, 16, 25); L(c, 4, 21, 20, 23, 25); G(); E(18, 12, 10, 9.5, c); R(10, 14, 16, 7, c); G(); D('#c45c42', 13, 5, 15, 4, 22, 6, 24, 8, 12, 8, 20, 4); K(); face(13, 13, 8, { tall: 1, mouth: 'open' }); D('#ffd0bf', 10, 26, 17, 26, 24, 26, 2, 23, 33, 23); N(); };
+  S.squid = () => { const c = '#f0a8a0'; P(c, 18, 0, 8, 11, 28, 11); G(); [10, 13, 16, 19, 22, 25].forEach((x, i) => L(c, 2, x, 20, x + (i < 3 ? -1 : 0), 27)); L(c, 1, 8, 20, 4, 28); L(c, 1, 28, 20, 32, 28); G(); P(c, 18, 2, 10, 12, 10, 18, 26, 18, 26, 12); E(18, 17, 8.5, 5, c); G(); D('#d27a75', 16, 7, 19, 9, 15, 11, 21, 12, 18, 5); K(); face(13, 16, 8, {}); };
+  S.krill = () => { const c = '#f7a37e'; [12, 16, 20, 24].forEach((x) => L('#f08a63', 1, x, 20, x - 2, 25)); G(true); P(c, 29, 17, 35, 13, 34, 18, 35, 23, 29, 21); G(); E(17, 16, 13, 5.5, c); G(); [15, 19, 23, 27].forEach((x) => R(x, 10, 1, 13, '#e0805a')); K(); E(13, 17, 3, 3, '#d85f4a'); K(); L('#f08a63', 1, 6, 13, 1, 6); L('#f08a63', 1, 8, 12, 5, 4); N(); R(6, 14, 3, 3, INK); D(WH, 6, 14); R(9, 17, 2, 1, BL); R(5, 19, 2, 1, PK); N(); D('#9ff5ff', 18, 20, 22, 20, 26, 19); N(); };
+  S.farmed_shrimp = () => { const c = '#b9c4c0'; L('#c79a8a', 1, 8, 11, 2, 4, 1, 1); L('#c79a8a', 1, 10, 10, 7, 3, 9, 0); N(); [10, 13, 16].forEach((x) => L('#d8a894', 1, x, 20, x - 2, 26)); G(true); P('#e88f74', 25, 24, 33, 21, 34, 27, 27, 28); G(); E(24, 18, 7.5, 8, c); E(14, 15.5, 9.5, 6, c); G(); [16, 20, 24, 28].forEach((x) => L('#93a09c', 1, x, 9, x - 1, 26)); K(); P(c, 8, 11, 1, 9, 8, 13); G(); R(7, 13, 3, 3, INK); D(WH, 7, 13); R(10, 17, 2, 1, BL); R(6, 18, 2, 1, PK); N(); };
+  S.copepod = () => { const c = '#9fd8e8'; L('#6fb4c9', 1, 14, 9, 6, 6, 1, 12, 0, 18); L('#6fb4c9', 1, 21, 9, 29, 6, 34, 12, 35, 18); N(); [[9, 19], [10, 22]].forEach(([x, y]) => L('#6fb4c9', 1, 14, y - 2, x, y)); [[26, 19], [25, 22]].forEach(([x, y]) => L('#6fb4c9', 1, 21, y - 2, x, y)); N(); R(16, 22, 4, 5, c); D(c, 15, 27, 14, 28, 20, 27, 21, 28); G(); E(18, 14, 7.5, 9.5, c); G(); R(12, 17, 12, 1, '#7cbdd1'); R(12, 20, 12, 1, '#7cbdd1'); K(); E(18, 15, 2.5, 3, '#f2a36b'); K(); R(17, 7, 2, 2, '#d63c3c'); D(WH, 17, 7); R(14, 10, 2, 1, BL); R(20, 10, 2, 1, BL); R(17, 10, 2, 1, PK); N(); E(11, 24, 2.3, 3, '#f7cf8f'); G(); E(25, 24, 2.3, 3, '#f7cf8f'); G(); };
+  // ---- small land animals ---------------------------------------------------------
+  S.frog = () => { const c = '#7cc24f'; E(8, 23, 6, 4, dim(c, 0.9)); E(28, 23, 6, 4, dim(c, 0.9)); G(); E(18, 20, 10, 7, c); G(); E(18, 23, 7, 5, '#f3f0c4'); K(); R(9, 25, 5, 2, c); R(22, 25, 5, 2, c); G(); E(11, 7, 4, 4, c); E(25, 7, 4, 4, c); E(18, 12.5, 11.5, 7, c); G(); D('#4f9a38', 15, 9, 20, 9, 17, 11, 24, 11, 12, 12); K(); R(9, 5, 4, 4, WH); R(23, 5, 4, 4, WH); N(); R(10, 6, 2, 3, INK); R(24, 6, 2, 3, INK); R(11, 15, 14, 1, '#3c7a2c'); D('#3c7a2c', 10, 14, 25, 14); R(8, 14, 2, 1, BL); R(26, 14, 2, 1, BL); N(); };
+  S.earthworm = () => { const c = '#e39a8e'; L(c, 5, 4, 22, 9, 22, 13, 18, 18, 18, 22, 22, 26, 22, 28, 17, 27, 11); E(28, 9, 6, 5.5, c); G(); [[7, 22], [11, 20], [16, 18], [21, 20], [25, 23], [28, 18]].forEach(([x, y]) => R(x, y, 1, 5, '#c9776b')); K(); R(12, 17, 4, 7, '#f2b9a6'); K(); R(25, 8, 2, 2, INK); D(WH, 25, 8); R(30, 8, 2, 2, INK); D(WH, 30, 8); R(23, 11, 2, 1, BL); R(32, 11, 2, 1, BL); R(27, 11, 3, 1, PK); N(); };
+  S.nematode = () => { const c = '#f3e7c9'; L(c, 4, 3, 24, 8, 25, 13, 22, 15, 17, 19, 13, 24, 13, 26, 10); E(26, 9, 5.5, 5, c); G(); L('#dcc79b', 1, 6, 26, 14, 24, 17, 18, 22, 15); K(); R(23, 8, 2, 2, INK); D(WH, 23, 8); R(28, 8, 2, 2, INK); D(WH, 28, 8); R(21, 11, 2, 1, BL); R(30, 11, 2, 1, BL); R(25, 11, 3, 1, PK); N(); };
+  S.mite = () => { const c = '#8a5a3c'; [[5, 12], [3, 18], [5, 24]].forEach(([x, y]) => L('#6a432c', 2, 13, 18, x, y)); [[30, 12], [32, 18], [30, 24]].forEach(([x, y]) => L('#6a432c', 2, 22, 18, x, y)); G(); E(18, 17, 10.5, 9.5, c); G(); E(14, 12, 4, 2.5, '#b27a54'); D('#6a432c', 12, 22, 18, 24, 24, 22, 22, 11); K(); face(13, 16, 8, {}); };
+  S.springtail = () => { const c = '#8d93c9'; L('#6b70a8', 2, 29, 22, 33, 26, 29, 27, 23, 27); G(true); [12, 16, 20].forEach((x) => R(x, 23, 2, 4, '#6b70a8')); G(); E(21, 18, 10, 6.5, c); G(); [17, 21, 25].forEach((x) => R(x, 11, 1, 14, '#747ab4')); K(); L('#6b70a8', 2, 8, 9, 4, 3); L('#6b70a8', 2, 12, 9, 14, 3); G(true); E(10, 14, 7.5, 6.5, c); G(); face(6, 13, 6, {}); };
+  const bug = (o) => { (o.legs || [[12, 8], [16, 14], [21, 22], [26, 28]]).forEach(([a, b]) => L(o.l, 2, a, 22, b, 26)); G(true); };
+  S.aphid = () => { const c = '#a5d66a'; [[13, 10], [19, 18], [25, 28]].forEach(([a, b]) => L('#6f9c3f', 1, a, 22, b, 27)); G(true); L('#6f9c3f', 1, 28, 12, 31, 8); L('#6f9c3f', 1, 31, 15, 35, 12); G(true); E(22, 17, 10.5, 7.5, c); G(); D('#86b84c', 18, 14, 22, 13, 26, 15, 20, 18, 25, 19); K(); L('#6f9c3f', 1, 8, 9, 3, 4, 1, 4); L('#6f9c3f', 1, 12, 9, 12, 2, 14, 1); N(); E(10, 15, 7, 6.5, c); G(); face(6, 14, 6, { eye: '#8a1f2c' }); };
+  S.ant = () => { const c = '#5a3a30'; [[14, 10], [18, 17], [21, 25]].forEach(([a, b]) => L('#3f2822', 1, a, 20, b, 27)); [[14, 12], [20, 22]].forEach(([a, b]) => L('#3f2822', 1, a, 20, b, 27)); N(); E(28, 18, 6.5, 6, c); G(); E(19, 18.5, 4, 3.5, '#6b463a'); G(); L('#3f2822', 1, 7, 8, 4, 3, 1, 3); L('#3f2822', 1, 12, 8, 14, 3, 17, 3); N(); E(10, 13.5, 8, 7, c); G(); E(7, 9, 2, 1, '#8a5f50'); K(); face(6, 13, 6, {}); R(27, 15, 3, 1, '#8a5f50'); N(); };
+  S.termite = () => { const c = '#f3dfb8'; [[14, 10], [18, 17], [22, 25], [26, 30]].forEach(([a, b]) => L('#c9a872', 1, a, 22, b, 27)); G(true); E(25, 19, 9, 5.5, c); G(); [21, 25, 29].forEach((x) => R(x, 13, 1, 12, '#e0c591')); K(); L('#c9a872', 1, 6, 8, 2, 4); L('#c9a872', 1, 13, 8, 17, 4); N(); E(10, 14, 8, 7, '#e8b56a'); G(); face(6, 13, 6, {}); P('#8a5a2c', 7, 20, 10, 20, 9, 23); P('#8a5a2c', 13, 20, 10, 20, 11, 23); N(); };
+  S.spider = () => { const c = '#6a5468'; [[4, 8, 1, 18], [5, 14, 1, 24], [7, 18, 4, 27], [10, 20, 9, 27]].forEach(([x, y, a, b]) => L('#4c3a4c', 2, 14, 17, x, y, a, b)); [[30, 8, 33, 18], [29, 14, 33, 24], [27, 18, 30, 27], [24, 20, 25, 27]].forEach(([x, y, a, b]) => L('#4c3a4c', 2, 20, 17, x, y, a, b)); G(true); E(18, 10.5, 8, 7, c); G(); D('#e9c46a', 16, 7, 18, 6, 20, 7, 17, 9, 19, 9, 18, 11); K(); E(18, 19, 8, 6.5, c); G(); face(13, 18, 8, {}); D(INK, 16, 16, 19, 16); N(); D(WH, 17, 23, 19, 23); N(); };
+  S.housefly = () => { const c = '#6d7480'; P('#dceef7', 17, 14, 27, 3, 35, 8, 29, 17); G(true); L('#a9c6d6', 1, 20, 13, 31, 7); K(); [[14, 10], [18, 17], [23, 26]].forEach(([a, b]) => L('#3d424b', 1, a, 22, b, 27)); G(true); E(22, 19, 9.5, 5.5, c); G(); [18, 21, 24, 27].forEach((x) => R(x, 14, 1, 10, '#565c68')); K(); E(10, 14.5, 7, 6, '#7f8793'); G(); E(5.5, 13, 3.6, 4.2, '#b8433f'); E(15, 13, 3.6, 4.2, '#b8433f'); G(); D('#f29a8f', 4, 11, 5, 11, 4, 12, 13, 11, 14, 11, 13, 12); R(7, 19, 2, 1, BL); R(12, 19, 2, 1, BL); R(9, 18, 3, 1, PK); N(); };
+  S.mosquito = () => { const c = '#3b3a46'; P('#dceaf4', 17, 12, 26, 1, 33, 4, 24, 14); G(true); [[15, 9, 8, 27], [18, 18, 15, 28], [21, 25, 24, 28], [23, 30, 33, 27]].forEach(([a, m, b, y]) => L('#2a2932', 1, a, 18, m, 22, b, y)); D(WH, 9, 25, 16, 26, 24, 26, 32, 26); N(); E(26, 20, 8, 3.6, c); G(); [22, 25, 28, 31].forEach((x) => R(x, 16, 1, 8, '#f2f2f5')); K(); E(18, 15.5, 5, 4.5, c); G(); R(17, 11, 1, 4, WH); K(); L('#2a2932', 1, 7, 16, 1, 23); L('#6b6a78', 1, 8, 6, 4, 2); L('#6b6a78', 1, 12, 6, 15, 2); N(); E(10, 11.5, 6, 5.5, c); G(); R(6, 10, 3, 3, WH); R(12, 10, 3, 3, WH); R(7, 11, 2, 2, INK); R(13, 11, 2, 2, INK); R(5, 14, 2, 1, BL); R(14, 14, 2, 1, BL); N(); };
+  S.honeybee = () => { const c = '#f7c542'; E(21, 7, 5, 5.5, '#e6f4fb'); G(true); E(27, 8, 4.5, 5, '#e6f4fb'); G(true); P(INK, 31, 18, 36, 20, 31, 21); N(); [[17, 16], [21, 20], [25, 24]].forEach(([a, b]) => L('#3b2c20', 1, a, 24, b, 27)); G(true); E(22, 18, 10.5, 7, c); G(); [18, 23, 28].forEach((x) => R(x, 10, 2, 16, '#4a3626')); K(); L('#3b2c20', 1, 7, 8, 5, 3); L('#3b2c20', 1, 13, 8, 15, 3); D('#3b2c20', 4, 2, 16, 2); N(); E(10, 14.5, 8, 7.2, '#fbd870'); G(); face(5, 13, 8, { tall: 1 }); };
+  S.mayfly = () => { const c = '#c9a86b'; L('#9b7c46', 1, 28, 21, 35, 25); L('#9b7c46', 1, 28, 20, 35, 20); L('#9b7c46', 1, 28, 19, 35, 15); N(); P('#e4f1ee', 16, 15, 20, 0, 31, 3, 27, 14); G(true); L('#b5d0c9', 1, 19, 12, 24, 3); L('#b5d0c9', 1, 22, 12, 28, 5); K(); [[13, 9], [16, 13], [19, 20]].forEach(([a, b]) => L('#9b7c46', 1, a, 21, b, 27)); N(); E(21, 18.5, 9, 4, c); G(); [17, 21, 25].forEach((x) => R(x, 13, 1, 10, '#a5854b')); K(); E(10, 14, 6.5, 6, '#d9bb80'); G(); E(6, 11, 3, 3, '#7c4a2c'); E(14.5, 11, 3, 3, '#7c4a2c'); G(); D(WH, 5, 10, 13, 10); R(6, 16, 2, 1, BL); R(13, 16, 2, 1, BL); R(9, 16, 2, 1, PK); N(); };
+  // ---- plants --------------------------------------------------------------------
+  const soil = (c = '#8a6242') => { E(18, 28, 13, 2.6, c); G(); D(dim(c, 0.75), 10, 28, 15, 27, 22, 28, 26, 27); K(); };
+  const pf = (x, y, gap = 6) => face(x, y, gap, {});
+  S.moss = () => { soil('#6d5a42'); [[9, 22, 6, 5], [27, 22, 6, 5], [18, 20, 9, 7.5]].forEach(([x, y, a, b]) => { E(x, y, a, b, '#7fb548'); G(); }); D('#a6d66a', 12, 16, 16, 14, 21, 15, 24, 18, 7, 19, 28, 19, 10, 21); N(); [[11, 8], [18, 5], [25, 8]].forEach(([x, y]) => { L('#9a6a3c', 1, x, y, x, y + 8); N(); E(x + 0.5, y, 1.8, 2, '#b5622f'); G(); }); pf(14, 20); };
+  S.grass = () => { soil(); [[18, 26, 18, 5], [17, 26, 10, 8], [19, 26, 27, 8], [16, 26, 5, 14], [20, 26, 31, 15]].forEach(([a, b, x, y]) => { P('#78c257', a - 2, b, a + 2, b, x, y); G(); }); [[18, 5], [17, 8], [20, 8], [18, 2]].forEach(([x, y]) => E(x + 0.5, y, 1.5, 1.6, '#cfe08f')); G(); E(18, 22, 6, 5, '#8ed06a'); G(); pf(14, 21); };
+  S.wheat = () => { soil(); P('#c9a94a', 15, 26, 18, 26, 8, 13); P('#c9a94a', 18, 26, 21, 26, 29, 14); G(); R(17, 14, 2, 13, '#d9b650'); G(); [[18, 4], [15, 7], [21, 7], [15, 11], [21, 11], [18, 13], [18, 9], [15, 15], [21, 15]].forEach(([x, y]) => E(x, y, 2.6, 2.6, '#f2c95a')); G(); [[18, 1], [14, 2], [22, 2], [11, 5], [25, 5]].forEach(([x, y]) => L('#b88e2f', 1, 18, 7, x, y)); N(); [[18, 4], [15, 7], [21, 7], [15, 11], [21, 11], [18, 9]].forEach(([x, y]) => E(x, y, 2, 2, '#f7d87a')); K(); E(18, 20.5, 6.5, 5.5, '#f2c95a'); G(); pf(14, 20); };
+  S.rice = () => { E(18, 27.5, 15, 2.4, '#8ecbe6'); G(); D(WH, 9, 27, 24, 28); N(); P('#8cc45a', 14, 26, 18, 26, 5, 11); P('#8cc45a', 18, 26, 22, 26, 31, 11); G(); L('#b7c65a', 2, 17, 24, 17, 8, 22, 4, 28, 8, 29, 14); G(); [[23, 4], [26, 6], [28, 9], [29, 12], [29, 15], [25, 9], [27, 13], [21, 6]].forEach(([x, y]) => { E(x, y, 1.6, 2, '#f2d97a'); G(); }); E(17, 21, 6.5, 5.5, '#a3d46e'); G(); pf(13, 20); };
+  S.duckweed = () => { E(18, 24, 17, 5, '#7cc4e2'); G(true); D(WH, 6, 24, 29, 25, 10, 27); N(); L('#d4efd8', 1, 18, 22, 17, 28); N(); E(28, 18, 5.5, 4.5, '#8fd15f'); G(); E(7, 19, 4.5, 3.8, '#8fd15f'); G(); E(17.5, 16, 9.5, 8.5, '#7bc24c'); G(); E(14, 11, 3, 1.5, '#aee37f'); K(); pf(13, 15, 8); };
+  S.dandelion = () => { soil(); P('#5fa548', 17, 26, 4, 19, 8, 23, 3, 25); P('#5fa548', 19, 26, 32, 19, 28, 23, 33, 25); G(); R(17, 15, 2, 12, '#8fc765'); G(); for (let k = 0; k < 14; k++) { const a = k * Math.PI / 7; E(18 + Math.cos(a) * 7.5, 10 + Math.sin(a) * 7, 2.4, 2.4, '#f7c52e'); } E(18, 10, 8, 7.5, '#ffd84a'); G(); E(18, 10.5, 6, 5.5, '#ffe27a'); K(); pf(14, 9); [[31, 5], [33, 10], [4, 6]].forEach(([x, y]) => { D('#f3f3f3', x, y - 1, x - 1, y - 2, x + 1, y - 2, x, y - 2); D('#8a6a4a', x, y, x, y + 1); N(); }); };
+  S.eelgrass = () => { E(18, 28, 15, 2.4, '#e3cf98'); G(); [[10, '#4f9c5c', 7], [26, '#4f9c5c', 29], [14, '#6bbd6f', 15], [22, '#6bbd6f', 21]].forEach(([x, c, t]) => { L(c, 3, x, 26, x + 2, 18, x - 1, 11, t, 4); G(); }); E(18, 21, 6, 5.5, '#7ccf7f'); G(); pf(14, 20); D('#bfeaff', 5, 8, 31, 6, 32, 9, 3, 13, 18, 4); N(); };
+  S.arabidopsis = () => { soil(); [[6, 24], [11, 21], [25, 21], [30, 24]].forEach(([x, y]) => { E(x, y, 5, 2.8, '#6cb35a'); G(); }); L('#8ac56c', 1, 18, 18, 18, 4); L('#8ac56c', 1, 18, 12, 12, 7); L('#8ac56c', 1, 18, 11, 24, 7); G(true); [[18, 3], [11, 6], [25, 6]].forEach(([x, y]) => { E(x, y - 2, 1.5, 1.5, WH); E(x, y + 2, 1.5, 1.5, WH); E(x - 2, y, 1.5, 1.5, WH); E(x + 2, y, 1.5, 1.5, WH); G(true); R(x - 1, y - 1, 2, 2, '#f7d24a'); N(); }); E(18, 21.5, 6.5, 5.5, '#82c76a'); G(); pf(14, 21); };
+  const trunk = (c, x = 15, w = 6, y = 18) => { P(c, x, y, x + w, y, x + w + 1, 28, x - 1, 28); G(); };
+  S.spruce = () => { soil(); trunk('#8a5e3c', 16, 4, 22); [[18, 26, 13, 13], [18, 19, 11, 9], [18, 13, 8.5, 1]].forEach(([x, b, w, t], i) => { P(['#2f7050', '#3a8560', '#46996e'][i], x - w, b, x + w, b, x, t); G(); }); D('#7cc49a', 10, 24, 14, 21, 24, 22, 13, 17, 22, 15, 17, 9, 19, 6); N(); pf(14, 15); };
+  S.bristlecone = () => { E(18, 28, 14, 2.4, '#b8a58e'); G(); P('#a9825c', 13, 28, 24, 28, 22, 20, 25, 13, 20, 14, 18, 8, 14, 12, 8, 9, 13, 17); G(); L('#7d5c3e', 1, 16, 26, 18, 20, 16, 14); L('#7d5c3e', 1, 20, 26, 20, 18); L('#d4b08a', 1, 14, 25, 15, 18); K(); [[7, 8, 5, 3.6], [18, 5, 6, 4], [27, 10, 6, 4], [29, 16, 4, 3]].forEach(([x, y, a, b]) => { E(x, y, a, b, '#4c8a5c'); G(); D('#7fbd86', x - 2, y - 2, x + 1, y - 1, x - 1, y); N(); }); pf(15, 19, 6); };
+  S.oak = () => { soil(); trunk('#8a5a38', 14, 8, 17); D('#6a4226', 17, 22, 17, 23, 20, 25, 15, 26); K(); [[9, 13, 7, 6], [27, 13, 7, 6], [18, 7, 8, 6], [12, 8, 6, 5], [24, 8, 6, 5], [18, 14, 10, 6.5]].forEach(([x, y, a, b]) => E(x, y, a, b, '#6fae45')); G(); D('#9ed36c', 12, 4, 13, 4, 20, 3, 8, 10, 25, 7, 28, 10); N(); [[6, 18], [29, 17]].forEach(([x, y]) => { E(x, y + 1, 1.6, 2.2, '#d9a05c'); E(x, y - 1, 2, 1.2, '#8a5a38'); G(); }); pf(14, 12); };
+  S.bamboo = () => { soil(); [[8, 6, '#6fb04c'], [26, 4, '#6fb04c']].forEach(([x, y, c]) => { R(x, y, 3, 22, c); G(); [10, 16, 22].forEach((k) => R(x, k, 3, 1, '#4f8a35')); K(); }); R(14, 0, 8, 27, '#8cc95e'); G(); [5, 25].forEach((k) => R(14, k, 8, 1, '#5f9c3f')); R(15, 0, 1, 27, '#b4e389'); K(); [[10, 8, 3, 5], [23, 6, 31, 3], [23, 12, 32, 13], [7, 12, 1, 14]].forEach(([a, b, x, y]) => { P('#5da343', a, b, (a + x) / 2, Math.min(b, y) - 2, x, y, (a + x) / 2, Math.max(b, y) + 1); G(); }); pf(14, 14); };
+  S.mangrove = () => { E(18, 27, 17, 2.8, '#86c5de'); G(true); [[15, 5], [16, 11], [20, 25], [21, 31]].forEach(([a, b]) => { L('#a0623f', 2, a, 17, (a + b) / 2, 19, b, 27); }); R(16, 14, 4, 12, '#a0623f'); G(); [[10, 10, 7, 5], [26, 10, 7, 5], [18, 7, 9, 6], [18, 12, 10, 5]].forEach(([x, y, a, b]) => E(x, y, a, b, '#4ea05c')); G(); D('#86cf8c', 12, 5, 17, 3, 24, 6, 8, 9); N(); [[7, 15], [29, 15]].forEach(([x, y]) => { R(x, y, 2, 6, '#8fb84c'); G(); }); pf(14, 10); D(WH, 4, 26, 30, 27); N(); };
+  S.acai = () => { soil(); P('#a5876a', 16, 14, 19, 14, 20, 27, 15, 27); G(); [17, 20, 23].forEach((y) => R(14, y, 7, 1, '#866a50')); K(); [[18, 11, 2, 6, 4, 10], [18, 11, 34, 6, 32, 10], [18, 11, 4, 17, 8, 18], [18, 11, 32, 17, 28, 18], [18, 11, 10, 0, 14, 1], [18, 11, 26, 0, 22, 1]].forEach((p) => { P('#58a84e', p[0] - 2, p[1], p[0] + 2, p[1] - 2, p[2], p[3], p[4], p[5]); G(); }); [[13, 17], [15, 18], [14, 20], [12, 19]].forEach(([x, y]) => { E(x, y, 1.6, 1.6, '#4a2a5e'); }); G(); E(18, 12, 6, 5.5, '#73c064'); G(); pf(14, 11); };
+  S.saguaro = () => { E(18, 28, 15, 2.2, '#e3bf85'); G(); const c = '#5fa664'; R(5, 11, 5, 7, c); E(7.5, 11, 2.5, 3, c); R(5, 16, 10, 5, c); G(); R(26, 8, 5, 8, c); E(28.5, 8, 2.5, 3, c); R(20, 14, 11, 5, c); G(); R(13, 6, 10, 21, c); E(18, 6, 5, 5, c); G(); [15, 20].forEach((x) => [4, 8, 22, 25].forEach((y) => D('#3f7f4a', x, y))); R(17, 20, 1, 6, '#4b9152'); K(); [[15, 1], [18, 0], [21, 1]].forEach(([x, y]) => E(x, y + 1, 1.6, 1.6, WH)); G(true); R(17, 1, 2, 1, '#f7d24a'); N(); pf(14, 11); };
+  S.flytrap = () => { soil('#a3835c'); P('#7cbf5a', 18, 27, 4, 22, 6, 26); P('#7cbf5a', 18, 27, 32, 22, 30, 26); G(); R(17, 16, 2, 11, '#8fce68'); G(); R(6, 17, 1, 7, '#8fce68'); G(); E(6, 15, 3.5, 2.6, '#d85a68'); G(); D('#7cbf5a', 3, 12, 5, 12, 7, 12, 9, 12); N(); for (let x = 8; x <= 27; x += 3) { R(x, 1, 1, 4, '#cfe88f'); } G(true); E(18, 10, 10.5, 7, '#7cc95a'); G(); E(18, 7, 8.5, 3.4, '#e0606e'); K(); R(10, 8, 17, 1, '#f39aa4'); K(); pf(14, 12); };
+  // ---- shared early stages ---------------------------------------------------------
+  const tint = { frog: '#dff2e8', salmon: '#f79a6c', sea_turtle: '#fdf3e2', duck: '#e9f2ee', penguin: '#f2f5f7', sparrow: '#e6ddd0', swallow: '#fbeee4', pigeon: '#fdfaf4' };
+  const STAGE = {
+    egg: (id) => { const c = tint[id] || '#f6ecd2'; E(18, 17, 9, 11, c); G(); E(14, 12, 2, 3, WH); D(dim(c, 0.85), 22, 12, 24, 17, 12, 20, 20, 24, 23, 22); K(); face(13, 17, 8, {}); },
+    grub: () => { const c = '#fbeed2'; [[28, 21, 6, 6], [22, 20, 7, 7], [16, 19.5, 7.5, 7.5]].forEach(([x, y, a, b]) => { E(x, y, a, b, c); G(); }); E(10, 18, 8.5, 8.5, c); G(); face(5, 17, 8, {}); },
+    wiggler: () => { const c = '#b9a98a'; L(c, 4, 11, 13, 17, 17, 22, 21, 27, 21, 31, 17); G(); [16, 20, 24, 28].forEach((x) => R(x, 14, 1, 10, '#95866a')); K(); L('#7d7058', 2, 31, 16, 34, 10); G(true); E(9, 11, 7, 6.5, c); G(); face(5, 10, 6, {}); bubbles(); },
+    pupa: (id) => { const c = id === 'mosquito' ? '#8f8168' : id === 'housefly' ? '#8a4a2c' : '#f3e2bd'; E(18, 16, 8.5, 11.5, c); G(); [10, 20, 24].forEach((y) => R(9, y, 18, 1, dim(c, 0.82))); K(); R(13, 15, 3, 1, INK); R(20, 15, 3, 1, INK); R(11, 17, 2, 1, BL); R(23, 17, 2, 1, BL); N(); },
+    seed: () => { soil(); E(18, 20, 7.5, 6.5, '#b98552'); G(); E(15, 16, 2, 1.2, '#dcae7a'); K(); face(14, 19, 6, {}); D('#8ccf5f', 18, 12, 18, 11, 17, 10, 19, 10); N(); },
+    sprout: () => { soil(); R(17, 14, 2, 13, '#8fce68'); G(); P('#7cc95a', 17, 14, 8, 11, 4, 4, 13, 6); G(); P('#7cc95a', 19, 14, 28, 11, 32, 4, 23, 6); G(); E(18, 21, 6, 5, '#9bd975'); G(); face(14, 20, 6, {}); },
+    tadpole: () => { P('#5f7a54', 19, 13, 35, 8, 33, 15, 35, 22, 19, 20); G(); E(13, 16, 10, 8.5, '#6f8d60'); G(); E(12, 21, 7, 4, '#cfdcb8'); K(); face(8, 15, 8, {}); bubbles(); },
+  };
+  const PLANTS = new Set(['moss', 'grass', 'wheat', 'rice', 'duckweed', 'dandelion', 'eelgrass', 'arabidopsis', 'spruce', 'bamboo', 'mangrove', 'oak', 'acai', 'saguaro', 'bristlecone', 'flytrap']);
+  const kindOf = (id, st) => (st === 'egg' && id !== 'earthworm' ? 'egg' : st === 'larva' && id === 'mosquito' ? 'wiggler' : st === 'larva' && /^(housefly|honeybee|ant)$/.test(id) ? 'grub' : st === 'pupa' ? 'pupa' : st === 'tadpole' ? 'tadpole' : PLANTS.has(id) && st === 'seed' ? 'seed' : PLANTS.has(id) && st === 'seedling' && !/eelgrass|grass/.test(id) ? 'sprout' : null);
+  function draw(id, stage) { out = new Array(W * H).fill(null); fresh(); const k = kindOf(id, stage); (k ? STAGE[k] : S[id] || STAGE.egg)(id); return out; }
+  // the place behind the animal: a few flat bands and specks
+  const HAB = {}; const put2 = (h, s) => s.split(' ').forEach((id) => { HAB[id] = h; });
+  put2('sea', 'copepod krill sardine squid octopus blue_whale sea_turtle eelgrass'); put2('deep', 'lanternfish greenland_shark'); put2('pond', 'frog duckweed farmed_carp farmed_shrimp salmon mayfly mangrove rice'); put2('soil', 'nematode mite springtail earthworm termite'); put2('snow', 'penguin wolf spruce'); put2('farm', 'pig duck broiler layer_hen sheep cattle wheat goat'); put2('town', 'pigeon rat dog cat human sparrow housefly'); put2('dry', 'lion saguaro elephant bristlecone'); put2('night', 'bat mosquito'); put2('wood', 'panda chimpanzee bamboo oak moss acai spider');
+  const BG = { sea: ['#bfe9f5', '#8fd2ea', '#f0dfb0', '#fff'], deep: ['#31477f', '#243563', '#1b2749', '#8fe6ff'], pond: ['#d3f0e6', '#a9dfd0', '#9bd08a', '#fff'], soil: ['#e0c3a0', '#c9a27a', '#a67d56', '#f3dfc2'], snow: ['#dcebf7', '#c3dcf0', '#fbfdff', '#fff'], farm: ['#cfeafb', '#e9f4cf', '#a8d477', '#fff'], town: ['#fde6cf', '#f8d4b8', '#cdbfae', '#fff'], dry: ['#ffe9b8', '#fbd58a', '#e3b66c', '#fff'], night: ['#5a5f97', '#474b80', '#3a3d68', '#ffe9a8'], wood: ['#dff2cf', '#bfe3a8', '#8fc272', '#fff'], meadow: ['#d8f0fb', '#e3f4cc', '#a5d777', '#fff'] };
+  function scene(id, w, h, salt) {
+    const b = BG[HAB[id] || 'meadow'], o = new Array(w * h).fill(b[0]); let s = (salt >>> 0) || 7; const rnd = () => (s = (s * 1103515245 + 12345) >>> 0) / 4294967296;
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const e = Math.sin(x / 5 + salt) * 1.2, g = Math.sin(x / 3.4 + salt) * 0.8; if (y > h * 0.52 + e) o[y * w + x] = b[1]; if (y > h * 0.84 + g) o[y * w + x] = b[2]; }
+    for (let k = 0; k < 14; k++) { const x = Math.floor(rnd() * w), y = Math.floor(rnd() * h * 0.5), big = k < 3; if (big && !/deep|night|soil/.test(HAB[id] || '')) for (let j = 0; j < 2; j++) for (let i = j; i < 6 - j; i++) { const q = (y + 1 - j) * w + Math.min(w - 1, x + i); if (q >= 0 && q < o.length) o[q] = b[3]; } else o[y * w + x] = b[3]; }
+    for (let k = 0; k < 12; k++) { const x = Math.floor(rnd() * w), y = Math.floor(h * 0.87 + rnd() * h * 0.12); o[Math.min(h - 1, y) * w + x] = dim(b[2], 0.86); }
+    return o;
+  }
+  // paint onto a 2d context: cell = pixel size; white rim keeps the animal clear of the place behind
+  function paint(g, x0, y0, cell, cols, rows, id, stage, salt) {
+    const bg = scene(id, cols, rows, salt || 3), sp = draw(id, stage); bg.forEach((c, i) => { g.fillStyle = c; g.fillRect(x0 + (i % cols) * cell, y0 + Math.floor(i / cols) * cell, cell, cell); });
+    const ox = Math.floor((cols - W) / 2), oy = rows - H - 1, at = (x, y) => (x < 0 || y < 0 || x >= W || y >= H ? null : sp[y * W + x]);
+    for (let y = -1; y <= H; y++) for (let x = -1; x <= W; x++) { const c = at(x, y), rim = !c && [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([a, b]) => at(x + a, y + b)); if (c || rim) { g.fillStyle = c || '#ffffff'; g.fillRect(x0 + (x + ox) * cell, y0 + (y + oy) * cell, cell, cell); } }
+  }
+  // the same characters drawn smoothly: round joins, soft underside, large eyes
+  function toon(g, x0, y0, u, id, stage, opt = {}) {
+    const w = Math.ceil(W * u), h = Math.ceil(H * u), pad = Math.ceil(u * 3), mk = () => { const c = document.createElement('canvas'); c.width = w + pad * 2; c.height = h + pad * 2; const q = c.getContext('2d'); q.translate(pad, pad); q.lineJoin = q.lineCap = 'round'; return [c, q]; };
+    const ink = opt.ink || '#2a1f2d', ow = opt.ow || 0.85, [OC, O] = mk(); let last = null;
+    const draw = (q, ops, col, grow) => ops.forEach((o) => {
+      const c = col || o[1]; q.fillStyle = q.strokeStyle = c; q.beginPath();
+      if (o[0] === 'E') { q.ellipse(o[2] * u, o[3] * u, o[4] * u, o[5] * u, 0, 0, 7); q.fill(); if (grow) { q.lineWidth = grow * 2; q.stroke(); } }
+      else if (o[0] === 'R') { const [, , x, y, a, b] = o; q.roundRect(x * u, y * u, a * u, b * u, Math.min(a, b) * u * (Math.min(a, b) <= 1.2 ? 0.5 : 0.42)); q.fill(); if (grow) { q.lineWidth = grow * 2; q.stroke(); } }
+      else if (o[0] === 'P') { for (let i = 2; i < o.length; i += 2) q[i === 2 ? 'moveTo' : 'lineTo'](o[i] * u, o[i + 1] * u); q.closePath(); q.lineWidth = u * 1.1 + (grow || 0) * 2; q.stroke(); q.fill(); }
+      else if (o[0] === 'L') { const k = o[2] / 2; for (let i = 3; i + 1 < o.length; i += 2) { const X = (o[i] + k) * u, Y = (o[i + 1] + k) * u; if (i === 3) q.moveTo(X, Y); else if (i + 3 < o.length) q.quadraticCurveTo(X, Y, (X + (o[i + 2] + k) * u) / 2, (Y + (o[i + 3] + k) * u) / 2); else q.lineTo(X, Y); } q.lineWidth = o[2] * u * (o[2] > 1 ? 1 : 0.8) + (grow || 0) * 2; q.stroke(); }
+      else if (o[0] === 'D') { for (let i = 2; i < o.length; i += 2) { q.beginPath(); q.arc((o[i] + 0.5) * u, (o[i + 1] + 0.5) * u, u * 0.6 + (grow || 0), 0, 7); q.fill(); } }
+    });
+    vec = { ops: [], eyes: [],
+      group(noShade, ol) { const ops = vec.ops; vec.ops = []; draw(O, ops, ol || ink, ow * u); const [c, q] = mk(); draw(q, ops); if (!noShade) { const [c2, q2] = mk(); draw(q2, ops, 'rgba(60,20,70,1)'); q2.globalCompositeOperation = 'destination-out'; q2.setTransform(1, 0, 0, 1, 0, 0); q2.drawImage(c, -u * 0.35, -u * 1.5); q.save(); q.setTransform(1, 0, 0, 1, 0, 0); q.globalCompositeOperation = 'source-atop'; q.globalAlpha = 0.16; q.drawImage(c2, 0, 0); q.restore(); }
+        O.save(); O.setTransform(1, 0, 0, 1, 0, 0); O.drawImage(c, 0, 0); O.restore(); last = c; },
+      clip() { const ops = vec.ops; vec.ops = []; const [c, q] = mk(); draw(q, ops); if (last) { q.setTransform(1, 0, 0, 1, 0, 0); q.globalCompositeOperation = 'destination-in'; q.drawImage(last, 0, 0); } O.save(); O.setTransform(1, 0, 0, 1, 0, 0); O.drawImage(c, 0, 0); O.restore(); },
+      over() { const ops = vec.ops; vec.ops = []; draw(O, ops); },
+      face(x, y, gap, o) { const big = o.tall ? 1.7 : 1.45, dark = ink; [x, x + gap].forEach((k) => { const X = (k + 1) * u, Y = (y + (o.tall ? 1.5 : 1.1)) * u; vec.eyes.push([x0 + X, y0 + Y]); O.fillStyle = dark; O.beginPath(); O.ellipse(X, Y, u * 1.2, u * big, 0, 0, 7); O.fill(); if (o.eye) { O.fillStyle = o.eye; O.beginPath(); O.ellipse(X, Y + u * 0.35, u * 0.85, u * big * 0.62, 0, 0, 7); O.fill(); } O.fillStyle = '#fff'; O.beginPath(); O.arc(X - u * 0.4, Y - u * 0.55, u * 0.45, 0, 7); O.fill(); O.beginPath(); O.arc(X + u * 0.42, Y + u * 0.5, u * 0.2, 0, 7); O.fill(); });
+        const by = (y + (o.tall ? 4 : 3.2)) * u; if (o.blush !== false) { O.fillStyle = o.blush || '#ff8fa8'; O.globalAlpha = 0.75; [x - 0.9, x + gap + 2.9].forEach((k) => { O.beginPath(); O.ellipse(k * u, by, u * 1.35, u * 0.8, 0, 0, 7); O.fill(); }); O.globalAlpha = 1; }
+        const m = (x + gap / 2 + 1) * u, my = (y + (o.tall ? 3 : 2)) * u; if (o.nose) { O.fillStyle = o.nose; O.beginPath(); O.ellipse(m, my, u * 1.05, u * 0.72, 0, 0, 7); O.fill(); }
+        if (o.mouth !== false) { O.strokeStyle = dark; O.lineWidth = u * 0.42; const yy = my + (o.nose ? u * 0.9 : u * 0.5); if (o.mouth === 'open') { O.fillStyle = '#e8607c'; O.beginPath(); O.arc(m, yy, u * 1.2, 0, Math.PI); O.closePath(); O.fill(); O.stroke(); } else { O.beginPath(); if (o.nose) { O.arc(m - u * 0.75, yy, u * 0.75, 0.1, Math.PI * 0.95); O.stroke(); O.beginPath(); O.arc(m + u * 0.75, yy, u * 0.75, Math.PI * 0.05, Math.PI - 0.1); } else O.arc(m, yy - u * 0.2, u * 0.95, 0.15, Math.PI - 0.15); O.stroke(); } } },
+    };
+    let seen = []; try { const k = kindOf(id, stage); (k ? STAGE[k] : S[id] || STAGE.egg)(id); } finally { seen = vec.eyes; vec = null; }
+    if (opt.rim) { const [c, q] = mk(); q.setTransform(1, 0, 0, 1, 0, 0); for (let i = 0; i < 32; i++) q.drawImage(OC, Math.cos(i * Math.PI / 16) * opt.rim * u, Math.sin(i * Math.PI / 16) * opt.rim * u); q.globalCompositeOperation = 'source-in'; q.fillStyle = opt.rimColor || '#fff'; q.fillRect(0, 0, c.width, c.height); g.save(); if (opt.shadow) { g.shadowColor = opt.shadow; g.shadowBlur = u * 1.6; g.shadowOffsetY = u * 0.9; } g.drawImage(c, x0 - pad, y0 - pad); g.restore(); }
+    g.drawImage(OC, x0 - pad, y0 - pad); return seen;
+  }
+  window.PIX = { toon, habitat: (id) => HAB[id] || 'meadow', draw, scene, paint, W, H, ids: Object.keys(S), kindOf };
+})();
 
 ;
 // Sharing, with no backend: a whole life is packed into the link's #fragment, and drawn as an image card.
@@ -15393,21 +21393,22 @@ window.LUNHUI_URL = "https://nextlife.top/";
   const isPublic = () => !!window.LUNHUI_URL || (!FRAMED && !/^(localhost|127\.|\[::1\])/.test(location.hostname));
 
   // ---------- link codec: only lowercase letters, digits and hyphens ----------
-  // life-<species>-<minutes>-<cause>-<offspring>-<escapes>-<traits>-<strip>-<rolls>-<awards>-<choices>
+  // life-<species>-<minutes>-<cause>-<offspring>-<escapes>-<traits>-<strip>-<rolls>-<stars>-<choices>[-<moments>]
   const b36 = (n) => Math.max(0, Math.round(n)).toString(36);
   const num = (s, max) => { const n = parseInt(s, 36); return Number.isFinite(n) ? Math.min(n, max) : 0; };
   function encode(d) {
-    return ['life', d.id.replace(/_/g, ''), b36(d.cal * 1440), d.cause, b36(d.off), b36(d.esc), `${d.con}${d.tem}`, d.strip || 'x', d.rolls.length ? d.rolls.map(b36).join('') : 'x', d.awards.length ? `s${d.awards[0]}` : 'x', b36(d.ch)].join('-');
+    return ['life', d.id.replace(/_/g, ''), b36(d.cal * 1440), d.cause, b36(d.off), b36(d.esc), `${d.con}${d.tem}${d.sex || 0}`, d.strip || 'x', d.rolls.length ? d.rolls.map(b36).join('') : 'x', d.awards.length ? `s${d.awards[0]}` : 'x', b36(d.ch)].concat((d.miles || []).length ? [d.miles.map((m) => m[0] + b36(Math.max(0, m[1])).slice(-1) + b36(Math.max(0, m[2])).slice(-1) + b36(m[3] * 1440).padStart(7, '0').slice(-7)).join('')] : []).join('-');
   }
   function decode(hash, ids) {
     const p = String(hash || '').split('-');
-    if (p.length !== 11 || p[0] !== 'life' || p.some((x) => !/^[a-z0-9]+$/.test(x))) return null;
+    if ((p.length !== 11 && p.length !== 12) || p[0] !== 'life' || p.some((x) => !/^[a-z0-9]+$/.test(x))) return null;
     const id = ids.find((x) => x.replace(/_/g, '') === p[1]);
     if (!id) return null;
     return {
       id, cal: num(p[2], 1e10) / 1440, cause: p[3].slice(0, 2), off: num(p[4], 1e12), esc: num(p[5], 999),
-      con: Math.min(+p[6][0] || 0, 2), tem: Math.min(+p[6][1] || 0, 3), strip: p[7] === 'x' ? '' : p[7].replace(/[^gyrz]/g, '').slice(0, 12),
+      con: Math.min(+p[6][0] || 0, 2), tem: Math.min(+p[6][1] || 0, 3), sex: Math.min(+p[6][2] || 0, 4), strip: p[7] === 'x' ? '' : p[7].replace(/[^gyrz]/g, '').slice(0, 12),
       rolls: p[8] === 'x' ? [] : [...p[8]].slice(0, 6).map((c) => num(c, 35)), awards: /^s[0-3]$/.test(p[9]) ? [+p[9][1]] : [], ch: num(p[10], 9999),
+      miles: ((p[11] || '').match(/[a-z0-9]{10}/g) || []).slice(0, 8).filter((x) => /^[schkde]/.test(x)).map((x) => [x[0], num(x[1], 35), num(x[2], 35), num(x.slice(3), 5e9) / 1440]),
     };
   }
 
@@ -15467,50 +21468,9 @@ window.LUNHUI_URL = "https://nextlife.top/";
     return lines;
   }
   function fit(g, text, font, size, max, min = 34) { let s = size; do { g.font = font.replace('%', s); if (g.measureText(text).width <= max) break; s -= 3; } while (s > min); return s; }
-  async function card(d) {
-    const W = 1080, P = 72, C = { bg: '#0c1514', panel: '#16231f', ink: '#e6eee9', mute: '#93a49d', line: '#2a3c36', acc: '#ff7a4d', cyan: '#6cc6c0', bad: '#ef7560', good: '#7fc58a', warn: '#e6b450' };
-    const text = [d.name, d.about, d.evidence, d.stat, d.cause, d.lived].join('');
-    const want = ['900 90px "Noto Serif SC"', '600 60px "Noto Serif SC"', '400 34px "Noto Sans SC"', '500 34px "Noto Sans SC"', '400 60px "Ma Shan Zheng"', '400 28px "IBM Plex Mono"'];
-    if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled(want.map((f) => document.fonts.load(f, text + d.foot))), new Promise((r) => setTimeout(r, 2500))]);
-    const c = document.createElement('canvas'); c.width = W; c.height = 2000; const g = c.getContext('2d');
-    g.fillStyle = C.bg; g.fillRect(0, 0, W, 2000);
-    const pic = d.photo ? await new Promise((r) => { const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = d.photo; }) : null;
-    g.fillStyle = C.panel; g.fillRect(0, 0, W, 560);
-    if (pic) { const k = Math.max(W / pic.width, 560 / pic.height), w = pic.width * k, h = pic.height * k, f = (d.focus || '50% 50%').split(' ').map((x) => parseFloat(x) / 100); g.drawImage(pic, (W - w) * f[0], (560 - h) * f[1], w, h); }
-    if (d.credit) { g.font = `400 20px ${BODY}`; let t = d.credit; while (g.measureText(t).width > W - 80) t = t.slice(0, -2); const w = g.measureText(t).width; g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(W - w - 28, 522, w + 28, 38); g.fillStyle = '#fff'; g.fillText(t, W - w - 14, 548); }
-    g.fillStyle = C.acc; g.fillRect(0, 560, W, 54);
-    g.fillStyle = '#1a0d07'; g.font = `500 26px ${MONO}`; g.textBaseline = 'middle'; g.textAlign = 'left'; g.fillText(d.odds, P, 588);
-    if (d.stars !== null && d.stars !== undefined) { g.textAlign = 'right'; g.font = '30px sans-serif'; g.fillText('★'.repeat(d.stars) + '☆'.repeat(3 - d.stars), W - P, 588); } g.textAlign = 'left'; g.textBaseline = 'alphabetic';
-    let y = 690;
-    g.fillStyle = C.mute; g.font = `400 34px ${BODY}`; g.fillText(d.lead, P, y);
-    y += 98; fit(g, d.name, `900 %px ${DISPLAY}`, 92, W - P * 2); g.fillStyle = C.ink; g.fillText(d.name, P, y);
-    g.font = `400 28px ${BODY}`; g.fillStyle = C.mute; y += 50; wrap(g, d.about, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 40; }); y -= 18;
-    y += 92; fit(g, d.lived, `600 %px ${DISPLAY}`, 64, W - P * 2); g.fillStyle = C.ink; g.fillText(d.lived, P, y);
-    y += 52; g.font = `400 34px ${BODY}`; g.fillStyle = C.bad; wrap(g, d.cause, W - P * 2).slice(0, 2).forEach((l) => { g.fillText(l, P, y); y += 44; });
-    // life strip
-    y += 4; const cells = d.strip.split(''); const cw = Math.min(64, (W - P * 2) / (cells.length + 1) - 8);
-    cells.concat('x').forEach((s, i) => { g.fillStyle = { g: C.good, y: C.warn, r: C.bad, z: C.line, x: C.ink }[s]; g.fillRect(P + i * (cw + 8), y, cw, 26); });
-    y += 66;
-    const panel = (h) => { g.fillStyle = C.panel; g.beginPath(); if (g.roundRect) g.roundRect(P, y, W - P * 2, h, 16); else g.rect(P, y, W - P * 2, h); g.fill(); };
-    panel(132); fit(g, d.stat, `600 %px ${DISPLAY}`, 46, W - P * 2 - 72); g.fillStyle = C.cyan; g.fillText(d.stat, P + 36, y + 66);
-    g.fillStyle = C.mute; g.font = `400 24px ${BODY}`; g.fillText(d.statNote, P + 36, y + 108); y += 152;
-    if (d.evidence) {
-      g.font = `400 30px ${BODY}`; const ev = wrap(g, d.evidence, W - P * 2 - 72).slice(0, 4), h = 118 + ev.length * 44; panel(h);
-      g.fillStyle = C.good; g.font = `500 26px ${BODY}`; g.fillText(d.evidenceLabel, P + 36, y + 50);
-      g.fillStyle = C.ink; g.font = `400 30px ${BODY}`; ev.forEach((l, i) => g.fillText(l, P + 36, y + 100 + i * 44));
-      fit(g, d.evidenceSrc, `400 %px ${BODY}`, 24, W - P * 2 - 72, 16); g.fillStyle = C.mute; g.fillText(d.evidenceSrc, P + 36, y + h - 22); y += h;
-    }
-    // footer sits below whatever the text needed
-    const H = Math.max(1440, Math.ceil(y + 210)), fy = H - 70; g.fillStyle = C.ink; g.font = d.en ? `900 62px ${DISPLAY}` : `400 72px ${BRUSH}`; g.fillText(d.foot, P, fy);
-    const m = isPublic() ? qr(d.url) : null;
-    if (m) { const q = 150, x0 = W - P - q, y0 = H - q - 30, u = q / (m.length + 4); g.fillStyle = '#fff'; g.fillRect(x0, y0, q, q); g.fillStyle = '#000'; m.forEach((r, yy) => r.forEach((on, xx) => { if (on) g.fillRect(x0 + (xx + 2) * u, y0 + (yy + 2) * u, u + 0.4, u + 0.4); })); }
-    const out = document.createElement('canvas'); out.width = W; out.height = H; out.getContext('2d').drawImage(c, 0, 0);
-    return out;
-  }
-
   // ---------- actions ----------
   async function saveImage(canvas, filename) {
-    const blob = await new Promise((r) => canvas.toBlob(r, 'image/png'));
+    const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', 0.93));
     if (window.claude && window.claude.use) {
       const dl = await window.claude.use('downloads').catch(() => null);
       if (dl) { try { await dl.save({ filename, data: blob }); return 'saved'; } catch (e) { return e && e.code === 'declined' ? 'declined' : 'hold'; } }
@@ -15520,18 +21480,161 @@ window.LUNHUI_URL = "https://nextlife.top/";
     return 'saved';
   }
   async function sysShare(canvas, text, url) {
-    const blob = await new Promise((r) => canvas.toBlob(r, 'image/png'));
-    const file = new File([blob], 'life.png', { type: 'image/png' });
+    const blob = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', 0.93));
+    const file = new File([blob], 'life.jpg', { type: 'image/jpeg' });
     const withFile = navigator.canShare && navigator.canShare({ files: [file] });
     await navigator.share(withFile ? { files: [file], text } : { text, url });
   }
   window.SOCIAL = {
-    encode, decode, qr, card, saveImage, sysShare,
+    encode, decode, qr, saveImage, sysShare,
     url: (code) => `${base()}#${code}`,
     canSysShare: () => !FRAMED && !!navigator.share,
     x: (t) => `https://x.com/intent/post?text=${encodeURIComponent(t)}`,
     weibo: (t) => `https://service.weibo.com/share/share.php?title=${encodeURIComponent(t)}`,
   };
+})();
+
+;
+// Built by tools/cards.py: cut-outs, eyes and colours for the share card.
+window.CARDS = {"acai": {"lum": 0.59, "hue": 215, "sh": 215, "sat": 0.24}, "ant": {"w": 618, "h": 437, "e": "", "lum": 0.5, "eye": [[0.375, 0.19]], "hue": 150, "sh": 35, "sat": 0.28}, "aphid": {"w": 488, "h": 273, "e": "", "lum": 0.6, "eye": [[0.91, 0.68]], "hue": 85, "sh": 75, "sat": 0.53}, "arabidopsis": {"w": 734, "h": 889, "e": "RT", "lum": 0.57, "hue": 95, "sh": 95, "sat": 0.24}, "bamboo": {"lum": 0.27, "hue": 75, "sh": 75, "sat": 0.43}, "bat": {"w": 400, "h": 337, "e": "", "lum": 0.46, "eye": [[0.22, 0.1]], "hue": 245, "sh": 25, "sat": 0.35}, "blue_whale": {"lum": 0.16, "hue": 195, "sh": 195, "sat": 0.5}, "bristlecone": {"lum": 0.38, "hue": 35, "sh": 35, "sat": 0.26}, "broiler": {"lum": 0.42, "hue": 45, "sh": 45, "sat": 0.48}, "cat": {"w": 784, "h": 572, "e": "", "lum": 0.25, "eye": [[0.073, 0.205], [0.157, 0.205]], "hue": 35, "sh": 35, "sat": 0.15}, "cattle": {"w": 660, "h": 385, "e": "", "lum": 0.36, "eye": [[0.105, 0.17], [0.175, 0.16]], "hue": 95, "sh": 45, "sat": 0.49}, "chimpanzee": {"w": 961, "h": 768, "e": "LTB", "lum": 0.4, "eye": [[0.385, 0.31], [0.59, 0.33]], "hue": 85, "sh": 195, "sat": 0.24}, "copepod": {"w": 876, "h": 569, "e": "", "lum": 0.34, "eye": [[0.93, 0.22]], "hue": 195, "sh": 25, "sat": 0.4}, "dandelion": {"w": 716, "h": 726, "e": "", "lum": 0.57, "hue": 55, "sh": 105, "sat": 0.19}, "dog": {"w": 638, "h": 596, "e": "", "lum": 0.55, "eye": [[0.055, 0.18], [0.15, 0.185]], "hue": 200, "sh": 35, "sat": 0.35}, "duck": {"w": 778, "h": 441, "e": "", "lum": 0.59, "eye": [[0.73, 0.13]], "hue": 75, "sh": 25, "sat": 0.43}, "duckweed": {"lum": 0.36, "hue": 85, "sh": 85, "sat": 0.87}, "earthworm": {"w": 673, "h": 687, "e": "", "lum": 0.46, "eye": [[0.42, 0.05]], "hue": 28, "sh": 25, "sat": 0.3}, "eelgrass": {"lum": 0.58, "hue": 45, "sh": 45, "sat": 0.21}, "elephant": {"w": 673, "h": 485, "e": "", "lum": 0.42, "eye": [[0.34, 0.28]], "hue": 25, "sh": 25, "sat": 0.27}, "farmed_carp": {"w": 1024, "h": 724, "e": "LRT", "lum": 0.32, "eye": [[0.21, 0.45]], "hue": 65, "sh": 65, "sat": 0.35}, "farmed_shrimp": {"w": 908, "h": 368, "e": "", "lum": 0.4, "eye": [[0.84, 0.25]], "hue": 35, "sh": 35, "sat": 0.17}, "flytrap": {"w": 944, "h": 478, "e": "T", "lum": 0.45, "hue": 55, "sh": 45, "sat": 0.53}, "frog": {"w": 434, "h": 324, "e": "", "lum": 0.47, "eye": [[0.22, 0.25]], "hue": 92, "sh": 45, "sat": 0.42}, "goat": {"w": 796, "h": 626, "e": "", "lum": 0.3, "eye": [[0.105, 0.17]], "hue": 32, "sh": 35, "sat": 0.4}, "grass": {"lum": 0.48, "hue": 85, "sh": 85, "sat": 0.53}, "greenland_shark": {"w": 584, "h": 307, "e": "", "lum": 0.39, "eye": [[0.84, 0.755]], "hue": 205, "sh": 205, "sat": 0.41}, "honeybee": {"w": 650, "h": 513, "e": "", "lum": 0.43, "eye": [[0.255, 0.69]], "hue": 44, "sh": 25, "sat": 0.62}, "housefly": {"w": 518, "h": 502, "e": "", "lum": 0.61, "eye": [[0.1, 0.79], [0.22, 0.94]], "hue": 200, "sh": 25, "sat": 0.3}, "human": {"lum": 0.42, "hue": 215, "sh": 215, "sat": 0.23}, "krill": {"w": 830, "h": 512, "e": "", "lum": 0.5, "eye": [[0.685, 0.21]], "hue": 205, "sh": 45, "sat": 0.5}, "lanternfish": {"w": 675, "h": 314, "e": "R", "lum": 0.4, "eye": [[0.145, 0.08]], "hue": 205, "sh": 215, "sat": 0.53}, "layer_hen": {"lum": 0.48, "hue": 15, "sh": 15, "sat": 0.17}, "lion": {"w": 666, "h": 361, "e": "", "lum": 0.44, "eye": [[0.22, 0.37], [0.31, 0.39]], "hue": 35, "sh": 35, "sat": 0.47}, "mangrove": {"w": 858, "h": 664, "e": "", "lum": 0.38, "hue": 85, "sh": 85, "sat": 0.28}, "mayfly": {"w": 832, "h": 924, "e": "", "lum": 0.51, "eye": [[0.82, 0.13]], "hue": 85, "sh": 65, "sat": 0.56}, "mite": {"w": 596, "h": 392, "e": "", "lum": 0.3, "eye": [[0.9, 0.72]], "hue": 225, "sh": 15, "sat": 0.42}, "mosquito": {"w": 952, "h": 469, "e": "", "lum": 0.31, "eye": [[0.66, 0.5]], "hue": 25, "sh": 25, "sat": 0.39}, "moss": {"lum": 0.47, "hue": 105, "sh": 105, "sat": 0.61}, "nematode": {"lum": 0.74, "hue": 55, "sh": 55, "sat": 0.09}, "oak": {"lum": 0.48, "hue": 65, "sh": 65, "sat": 0.47}, "octopus": {"w": 922, "h": 595, "e": "B", "lum": 0.4, "eye": [[0.44, 0.19]], "hue": 195, "sh": 195, "sat": 0.71}, "panda": {"w": 300, "h": 471, "e": "", "lum": 0.39, "eye": [[0.35, 0.16], [0.55, 0.18]], "hue": 85, "sh": 85, "sat": 0.2}, "penguin": {"w": 922, "h": 553, "e": "B", "lum": 0.3, "eye": [[0.526, 0.31]], "hue": 215, "sh": 45, "sat": 0.34}, "pig": {"w": 733, "h": 598, "e": "RB", "lum": 0.55, "eye": [[0.18, 0.465], [0.39, 0.5]], "hue": 350, "sh": 25, "sat": 0.35}, "pigeon": {"w": 770, "h": 543, "e": "B", "lum": 0.41, "eye": [[0.475, 0.07]], "hue": 25, "sh": 225, "sat": 0.23}, "rat": {"w": 363, "h": 397, "e": "", "lum": 0.5, "eye": [[0.51, 0.57], [0.71, 0.58]], "hue": 200, "sh": 25, "sat": 0.25}, "rice": {"lum": 0.43, "hue": 75, "sh": 75, "sat": 0.82}, "saguaro": {"lum": 0.51, "hue": 215, "sh": 215, "sat": 0.38}, "salmon": {"lum": 0.45, "hue": 175, "sh": 175, "sat": 0.54}, "sardine": {"lum": 0.34, "hue": 185, "sh": 185, "sat": 0.58}, "sea_turtle": {"w": 870, "h": 529, "e": "", "lum": 0.44, "eye": [[0.885, 0.21]], "hue": 195, "sh": 15, "sat": 0.4}, "sheep": {"w": 532, "h": 597, "e": "B", "lum": 0.6, "eye": [[0.16, 0.11], [0.31, 0.1]], "hue": 205, "sh": 35, "sat": 0.35}, "sparrow": {"w": 500, "h": 594, "e": "", "lum": 0.55, "eye": [[0.4, 0.17]], "hue": 18, "sh": 15, "sat": 0.3}, "spider": {"w": 458, "h": 616, "e": "", "lum": 0.5, "eye": [[0.45, 0.42]], "hue": 265, "sh": 45, "sat": 0.25}, "springtail": {"w": 884, "h": 404, "e": "", "lum": 0.71, "eye": [[0.36, 0.4]], "hue": 35, "sh": 35, "sat": 0.03}, "spruce": {"lum": 0.5, "hue": 75, "sh": 75, "sat": 0.19}, "squid": {"w": 1020, "h": 568, "e": "", "lum": 0.29, "eye": [[0.28, 0.45]], "hue": 205, "sh": 25, "sat": 0.35}, "swallow": {"w": 570, "h": 383, "e": "", "lum": 0.38, "eye": [[0.115, 0.055]], "hue": 215, "sh": 45, "sat": 0.5}, "termite": {"lum": 0.38, "hue": 335, "sh": 335, "sat": 0.68}, "wheat": {"lum": 0.45, "hue": 215, "sh": 215, "sat": 0.49}, "wolf": {"w": 933, "h": 728, "e": "RB", "lum": 0.5, "eye": [[0.18, 0.45], [0.37, 0.47]], "hue": 210, "sh": 35, "sat": 0.18}};
+
+;
+// The collectible card has three faces: cover (photograph), toon (drawn character) and meme. Canvas only, 1080×1512.
+(function () {
+  const W = 1080, H = 1512, SERIF = '"Noto Serif SC","Songti SC","STSong",Georgia,serif', SANS = '"Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,sans-serif', BOD = '"Bodoni Moda","Didot","Noto Serif SC",serif', COR = '"Cormorant Garamond",Georgia,serif', CUTE = '"ZCOOL KuaiLe","Yuanti SC",sans-serif', ROUND = '"M PLUS Rounded 1c","Yuanti SC","Noto Sans SC",sans-serif', CUTE_EN = '"Baloo 2","Arial Rounded MT Bold",sans-serif';
+  const FONTS = 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Bodoni+Moda:opsz,wght@6..96,500..700&family=Cormorant+Garamond:ital,wght@1,500;1,600&family=M+PLUS+Rounded+1c:wght@500;700&family=Noto+Sans+SC:wght@400;500;700;900&family=Noto+Serif+SC:wght@500;600;900&family=ZCOOL+KuaiLe&display=swap';
+  let linked = false;
+  async function fonts(text) {
+    if (!linked) { linked = true; const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = FONTS; document.head.append(l); await Promise.race([new Promise((r) => { l.onload = l.onerror = r; }), new Promise((r) => setTimeout(r, 3000))]); }
+    const want = ['500 40px "Noto Serif SC"', '600 40px "Noto Serif SC"', '900 90px "Noto Serif SC"', '400 30px "Noto Sans SC"', '500 30px "Noto Sans SC"', '700 30px "Noto Sans SC"', '900 30px "Noto Sans SC"', '500 190px "Bodoni Moda"', '600 190px "Bodoni Moda"', 'italic 500 30px "Cormorant Garamond"', '400 90px "ZCOOL KuaiLe"', '700 30px "M PLUS Rounded 1c"', '500 30px "M PLUS Rounded 1c"', '800 90px "Baloo 2"'];
+    if (document.fonts && document.fonts.load) await Promise.race([Promise.allSettled(want.map((f) => document.fonts.load(f, text))), new Promise((r) => setTimeout(r, 4500))]);
+  }
+  const load = (s) => (s ? new Promise((r) => { const i = new Image(); i.onload = () => r(i); i.onerror = () => r(null); i.src = s; }) : Promise.resolve(null));
+  const mk = (w = W, h = H) => { const c = document.createElement('canvas'); c.width = Math.max(1, Math.round(w)); c.height = Math.max(1, Math.round(h)); return c; };
+  const rr = (g, x, y, w, h, r) => { g.beginPath(); if (g.roundRect) g.roundRect(x, y, w, h, r); else g.rect(x, y, w, h); };
+  const lin = (g, a, b, c, d, st) => { const q = g.createLinearGradient(a, b, c, d); st.forEach(([o, k]) => q.addColorStop(o, k)); return q; };
+  const rad = (g, x, y, r0, r1, st) => { const q = g.createRadialGradient(x, y, r0, x, y, r1); st.forEach(([o, k]) => q.addColorStop(o, k)); return q; };
+  const rng = (s) => () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const seed = (id) => [...id].reduce((a, c) => (a * 33 + c.charCodeAt(0)) >>> 0, 7);
+  function wrap(g, t, max) { const L = []; let c = ''; for (const k of String(t).match(/[⺀-鿿　-ヿ＀-￯‘-”…]|\s+|[^\s⺀-鿿　-ヿ＀-￯‘-”…]+/g) || []) { if (g.measureText(c + k).width > max && c) { if (/^[，。！？；：、”’」』）…]$/.test(k)) { L.push(c + k); c = ''; continue; } L.push(c); c = k.trim() ? k : ''; } else c += k; } if (c.trim()) L.push(c); return L; }
+  function fit(g, t, f, s, max, min = 20) { while (s > min) { g.font = f.replace('%', s); if (g.measureText(t).width <= max) break; s -= 2; } return s; }
+  // the two sentences, as large as the space allows
+  function two(g, sum, x, y, w, maxH, f0, f1, s0, c0, c1, put) {
+    let s = s0, A, B; for (; s > 19; s--) { g.font = f0.replace('%', s); A = wrap(g, sum[0] || '', w); g.font = f1.replace('%', Math.round(s * 0.8)); B = wrap(g, sum[1] || '', w); if (A.length * s * 1.38 + 4 + B.length * s * 0.8 * 1.42 <= maxH) break; }
+    g.textAlign = 'left'; const draw = put || ((t, X, Y) => g.fillText(t, X, Y)); g.font = f0.replace('%', s); g.fillStyle = c0; A.forEach((l) => { draw(l, x, y, 0); y += s * 1.38; }); y += 4; g.font = f1.replace('%', Math.round(s * 0.8)); g.fillStyle = c1; B.forEach((l) => { draw(l, x, y - s * 0.12, 1); y += s * 0.8 * 1.42; });
+  }
+  let noise; function grain(g, a) { if (!noise) { noise = mk(300, 300); const n = noise.getContext('2d'), d = n.createImageData(300, 300), r = rng(5); for (let i = 0; i < d.data.length; i += 4) { d.data[i] = d.data[i + 1] = d.data[i + 2] = r() * 255; d.data[i + 3] = 255; } n.putImageData(d, 0, 0); } g.save(); g.globalAlpha = a; g.globalCompositeOperation = 'overlay'; g.fillStyle = g.createPattern(noise, 'repeat'); g.fillRect(0, 0, W, H); g.restore(); }
+  function qrAt(g, url, x, y, s, fg, bg, pad = 1.4) { const m = window.SOCIAL.qr(url); if (!m) return; const u = s / (m.length + pad * 2); if (bg) { g.fillStyle = bg; rr(g, x, y, s, s, s * 0.05); g.fill(); } g.fillStyle = fg; m.forEach((r, yy) => r.forEach((on, xx) => { if (on) g.fillRect(x + (xx + pad) * u, y + (yy + pad) * u, u + 0.5, u + 0.5); })); }
+  const tint = (im, f) => { const c = mk(im.width, im.height), g = c.getContext('2d'); g.drawImage(im, 0, 0); g.globalCompositeOperation = 'source-atop'; f(g, im.width, im.height); return c; };
+  // fur keeps a rim of the old background: pull the edge colours in from further inside
+  function clean(im) {
+    const w = im.width, h = im.height, c = mk(w, h), g = c.getContext('2d', { willReadFrequently: true }); g.drawImage(im, 0, 0); const D = g.getImageData(0, 0, w, h), o = D.data, R = 5, src = new Uint8ClampedArray(o);
+    for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const i = (y * w + x) * 4; if (src[i + 3] < 8) continue; let edge = src[i + 3] < 250; if (!edge) for (const [a, b] of [[R, 0], [-R, 0], [0, R], [0, -R]]) { const X = x + a, Y = y + b; if (X >= 0 && Y >= 0 && X < w && Y < h && src[(Y * w + X) * 4 + 3] < 128) { edge = true; break; } } if (!edge) continue;
+      let r = 0, gg = 0, b = 0, n = 0; for (let k = 0; k < 16; k++) { const a = k * Math.PI / 8, X = Math.round(x + Math.cos(a) * R * 2.2), Y = Math.round(y + Math.sin(a) * R * 2.2); if (X < 0 || Y < 0 || X >= w || Y >= h) continue; const j = (Y * w + X) * 4; if (src[j + 3] > 250) { r += src[j]; gg += src[j + 1]; b += src[j + 2]; n++; } }
+      if (n) { const m = (o[i] * 0.3 + o[i + 1] * 0.59 + o[i + 2] * 0.11) / Math.max(12, (r * 0.3 + gg * 0.59 + b * 0.11) / n), k = Math.min(1.5, Math.max(0.6, m)); o[i] = r / n * k; o[i + 1] = gg / n * k; o[i + 2] = b / n * k; } }
+    g.putImageData(D, 0, 0); return c;
+  }
+  const big = (d) => { const m = String(d.lived).match(/([\d.,]+)\s*([^\s\d]+)/); return m ? [m[1], m[2]] : [d.lived, '']; };
+  const hsl = (h, s, l, a) => `hsla(${h},${s}%,${l}%,${a === undefined ? 1 : a})`;
+  function palette(C) { const h = C.hue, s = Math.round(Math.min(46, 10 + C.sat * 62)); return C.lum < 0.42 ? { hi: hsl(h, s, 95), mid: hsl(h, s, 80), lo: hsl(h, s, 52), type: hsl(h, Math.min(60, s + 22), 14), ink: hsl(h, Math.min(60, s + 22), 12), veil: (a) => hsl(h, s, 90, a) } : { hi: hsl(h, s, 74), mid: hsl(h, s + 6, 48), lo: hsl(h, s + 8, 16), type: hsl(h, 40, 96), ink: hsl(h, 30, 96), veil: (a) => hsl(h, s + 8, 11, a) }; }
+
+  // ---------- face 1: cover ----------
+  async function cover(d) {
+    const c = mk(), g = c.getContext('2d'), C = d.C, photoOnly = !d.cut, p = palette(photoOnly ? { ...C, lum: 0.9 } : C); g.textBaseline = 'alphabetic'; g.imageSmoothingQuality = 'high';
+    g.fillStyle = rad(g, W * 0.5, H * 0.42, 60, 1150, [[0, p.hi], [0.55, p.mid], [1, p.lo]]); g.fillRect(0, 0, W, H);
+    if (photoOnly && d.photo) { const ph = 1260, k = Math.max(W / d.photo.width, ph / d.photo.height), w = d.photo.width * k, h = d.photo.height * k, f = (d.focus || '50% 50%').split(' ').map((x) => parseFloat(x) / 100); g.drawImage(d.photo, (W - w) * f[0], (ph - h) * f[1], w, h); g.fillStyle = lin(g, 0, 0, 0, 620, [[0, p.veil(0.78)], [0.6, p.veil(0.28)], [1, p.veil(0)]]); g.fillRect(0, 0, W, 620); }
+    const mast = () => { g.fillStyle = p.type; if (d.en) { g.save(); g.translate(W / 2, 0); g.scale(1, 2.35); let s = fit(g, 'NEXT LIFE', '600 %px ' + BOD, 260, 980); g.textAlign = 'center'; g.fillText('NEXT LIFE', 0, 140 / 2.35 + s * 0.73); g.restore(); } else { g.font = '900 468px ' + SERIF; g.textAlign = 'left'; g.fillText('轮', 46, 520); g.textAlign = 'right'; g.fillText('回', W - 46, 520); } };
+    if (photoOnly) { g.save(); g.globalAlpha = 0.94; mast(); g.restore(); } else mast();
+    g.font = '500 23px ' + SANS; g.fillStyle = p.type; g.textAlign = 'left'; g.fillText(d.no, 60, 86); g.textAlign = 'center'; g.fillText(d.serial || '', W / 2, 86); g.textAlign = 'right'; g.fillText(d.tierName, W - 60, 86); g.fillRect(60, 108, W - 120, 2);
+    if (d.cut) {
+      const im0 = d.cut, e = C.e || ''; let b;
+      if (e.includes('B')) { const k = Math.max(830 / im0.height, W * 0.92 / im0.width), w = im0.width * k, h = im0.height * k; b = { w, h, x: /R/.test(e) && !/L/.test(e) ? W - w + 2 : /L/.test(e) && !/R/.test(e) ? -2 : (W - w) / 2, y: 1225 - h }; } else { const k = Math.min((W + 40) / im0.width, 780 / im0.height); let w = im0.width * k, h = im0.height * k; if (/[LR]/.test(e) && w < W) { const q = Math.min(1.35, (W + 20) / w); w *= q; h *= q; } b = { w, h, x: /R/.test(e) && !/L/.test(e) ? W - w + 2 : /L/.test(e) && !/R/.test(e) ? -2 : (W - w) / 2 }; b.y = Math.max(330, Math.min(430 + (740 - h) * 0.35, 1080 - h)); g.save(); g.translate(b.x + w / 2, b.y + h * 0.985); g.scale(w * 0.46, h * 0.07); g.fillStyle = rad(g, 0, 0, 0, 1, [[0, 'rgba(0,0,0,.45)'], [1, 'rgba(0,0,0,0)']]); g.fillRect(-1, -1, 2, 2); g.restore(); }
+      const im = tint(clean(im0), (q, w, h) => { q.fillStyle = lin(q, 0, 0, w, h, [[0, 'rgba(255,255,255,.10)'], [0.6, 'rgba(0,0,0,0)'], [1, 'rgba(0,0,0,.26)']]); q.fillRect(0, 0, w, h); q.globalAlpha = 0.13; q.fillStyle = p.mid; q.fillRect(0, 0, w, h); });
+      g.save(); g.shadowColor = 'rgba(0,0,0,.38)'; g.shadowBlur = 70; g.shadowOffsetX = 14; g.shadowOffsetY = 26; g.drawImage(im, b.x, b.y, b.w, b.h); g.restore();
+    }
+    g.fillStyle = lin(g, 0, 950, 0, H, [[0, p.veil(0)], [0.32, p.veil(0.55)], [0.52, p.veil(0.94)], [1, p.veil(1)]]); g.fillRect(0, 950, W, H - 950);
+    const ink = p.ink, [n, u] = big(d); g.fillStyle = ink; g.textAlign = 'right'; g.font = '500 46px ' + SERIF; const uw = g.measureText(u).width, long = String(n).length; g.fillText(u, W - 60, 1208); g.font = u ? `500 ${long > 4 ? 120 : long > 3 ? 150 : 190}px ${BOD}` : `600 60px ${SERIF}`; const nw = g.measureText(n).width; g.fillText(n, W - 66 - uw, 1208);
+    g.textAlign = 'left'; fit(g, d.name, '900 %px ' + SERIF, 128, W - 150 - uw - nw, 34); g.fillText(d.name, 56, 1208); fit(g, d.latin, 'italic 500 %px ' + COR, 34, 560); g.fillText(d.latin, 60, 1256); g.textAlign = 'right'; fit(g, `${d.livedLabel} ${d.lived} · ${d.sex}`, '500 %px ' + SANS, 24, 430); g.fillText(`${d.livedLabel} ${d.lived} · ${d.sex}`, W - 60, 1256); g.fillRect(60, 1288, W - 120, 2);
+    two(g, d.sum, 60, 1344, 730, 150, '600 %px ' + SERIF, '400 %px ' + SANS, 34, ink, ink);
+    qrAt(g, d.url, W - 60 - 150, 1306, 150, '#111', '#fff', 2); g.font = '600 20px ' + SANS; g.fillStyle = ink; g.textAlign = 'right'; g.fillText('nextlife.top', W - 62, 1482);
+    if (d.credit) { g.save(); g.globalAlpha = 0.55; g.font = '400 15px ' + SANS; g.textAlign = 'left'; g.fillText(d.credit, 60, 1494); g.restore(); }
+    grain(g, 0.1); return c;
+  }
+  // ---------- face 2: drawn character ----------
+  const TOON = { sea: ['#35b6c9', '#a6ecdf', '#14304f', '#ffd9e2', '#ff8fa8', '#f0d79a', '#f8e7b8', '#dcb86c'], deep: ['#3a4fa8', '#8ea2ea', '#141b48', '#c6f7ff', '#6fd6f2', '#2c3a86', '#38499c', '#1f2a68'], pond: ['#ffb3c7', '#ffe4dc', '#173a2a', '#d7f36b', '#86cf47', '#63b8a4', '#86d0b6', '#3f8f7c'], soil: ['#e8a86a', '#ffe2b8', '#3f2418', '#fff0b8', '#ffc65a', '#a86c3f', '#bf8352', '#7f4c29'], snow: ['#8fd3f7', '#d8f1ff', '#1d2b5e', '#ffd84f', '#ff9f3f', '#eaf6ff', '#ffffff', '#bfe0f5'], farm: ['#8fdc7c', '#eafab0', '#3d2410', '#ffe25a', '#ffb52e', '#6cc25c', '#8ad66e', '#4b9f47'], town: ['#ffc56b', '#fff0c9', '#3a2233', '#ff8f8f', '#f2606f', '#8fcf86', '#abe09b', '#62a65c'], dry: ['#ffb84d', '#ffe7a8', '#4a1f16', '#fff3c4', '#ffd25e', '#e9a94b', '#f3c468', '#c9842c'], night: ['#7b6fd0', '#cabfff', '#221a48', '#ffe9a8', '#ffc95a', '#4c4593', '#5f58ad', '#383270'], wood: ['#b5e3a0', '#f3fbd8', '#1f3a22', '#fff0a8', '#ffc95a', '#79bd68', '#97d383', '#55964a'], meadow: ['#ff9d76', '#ffe0b8', '#1d2553', '#fff6da', '#ffd07a', '#8ac77a', '#a8dc8c', '#5fa257'] };
+  async function toon(d) {
+    const c = mk(), g = c.getContext('2d'), [A, B, INK, M1, M2, G1, G2, G3] = TOON[window.PIX.habitat(d.id)] || TOON.meadow, rnd = rng(seed(d.id)); g.textBaseline = 'alphabetic';
+    g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.save(); rr(g, 34, 34, W - 68, H - 68, 64); g.clip(); g.fillStyle = lin(g, 0, 0, 0, H, [[0, A], [1, B]]); g.fillRect(0, 0, W, H);
+    g.save(); g.translate(W / 2, 660); for (let i = 0; i < 18; i++) { g.rotate(Math.PI / 9); g.fillStyle = 'rgba(255,255,255,.13)'; g.beginPath(); g.moveTo(0, 0); g.lineTo(1500, -118); g.lineTo(1500, 118); g.fill(); } g.restore();
+    for (let i = 0; i < 26; i++) { const x = rnd() * W, y = 60 + rnd() * 1000, r = 6 + Math.pow(rnd(), 3) * 46; g.fillStyle = 'rgba(255,255,255,.22)'; g.beginPath(); if (i % 4 === 0) { for (let k = 0; k < 10; k++) { const a = k * Math.PI / 5 - 1.57, q = k % 2 ? r * 0.45 : r; g[k ? 'lineTo' : 'moveTo'](x + Math.cos(a) * q, y + Math.sin(a) * q); } g.closePath(); } else g.arc(x, y, r, 0, 7); g.fill(); }
+    const mast = (t, x, al, f, y) => { g.font = f; g.textAlign = al; g.lineJoin = 'round'; g.lineWidth = 40; g.strokeStyle = INK; g.strokeText(t, x, y + 8); g.lineWidth = 18; g.strokeStyle = '#fff'; g.strokeText(t, x, y); g.fillStyle = lin(g, 0, 130, 0, 520, [[0, M1], [1, M2]]); g.fillText(t, x, y); };
+    if (d.en) { mast('NEXT', 70, 'left', '800 250px ' + CUTE_EN, 330); mast('LIFE', W - 70, 'right', '800 250px ' + CUTE_EN, 470); } else { mast('轮', 66, 'left', '400 452px ' + CUTE, 500); mast('回', W - 66, 'right', '400 452px ' + CUTE, 500); }
+    [[1010, G1, 50, 0.006], [1070, G2, 36, 0.009]].forEach(([y, col, a, f]) => { g.fillStyle = col; g.beginPath(); g.moveTo(0, H); for (let x = 0; x <= W; x += 10) g.lineTo(x, y + Math.sin(x * f + y) * a); g.lineTo(W, H); g.fill(); });
+    for (let i = 0; i < 34; i++) { const x = rnd() * W, y = 1090 + rnd() * 60; g.strokeStyle = G3; g.lineWidth = 6; g.lineCap = 'round'; g.beginPath(); g.moveTo(x, y); g.lineTo(x - 9, y - 18); g.moveTo(x, y); g.lineTo(x + 9, y - 18); g.stroke(); }
+    const u = 26; g.fillStyle = 'rgba(30,16,50,.18)'; g.beginPath(); g.ellipse(W / 2, 350 + 28 * u, 330, 34, 0, 0, 7); g.fill(); window.PIX.toon(g, (W - 36 * u) / 2, 350, u, d.id, d.stage, { ink: INK, ow: 0.62, rim: 0.95, shadow: 'rgba(40,20,60,.35)' });
+    g.fillStyle = '#fffdf8'; g.beginPath(); g.moveTo(0, H); g.lineTo(0, 1180); for (let i = 0; i <= 10; i++) g.arc(i * W / 10, 1180, W / 20 + 4, Math.PI, 0); g.lineTo(W, H); g.fill();
+    const pill = (x, t, right, bg, fg) => { g.font = '700 27px ' + ROUND; const w = g.measureText(t).width + 44, X = right ? x - w : x; g.fillStyle = bg; rr(g, X, 74, w, 52, 26); g.fill(); g.fillStyle = fg; g.textAlign = 'left'; g.fillText(t, X + 22, 110); }; pill(80, d.no, false, '#fff', INK); pill(W - 80, d.tierName, true, INK, '#fff');
+    const [n, uu] = big(d), F = d.en ? '800 %px ' + CUTE_EN : '400 %px ' + CUTE; g.textAlign = 'right'; g.font = F.replace('%', 52); const uw = g.measureText(uu).width; g.fillStyle = INK; g.fillText(uu, W - 84, 1276); g.font = F.replace('%', String(n).length > 3 ? 110 : uu ? 168 : 60); const nw = g.measureText(n).width; g.lineJoin = 'round'; g.lineWidth = 16; g.strokeStyle = INK; g.strokeText(n, W - 96 - uw, 1280); g.fillStyle = M2; g.fillText(n, W - 96 - uw, 1280);
+    g.textAlign = 'left'; g.fillStyle = INK; fit(g, d.name, F, 104, W - 200 - uw - nw, 34); g.fillText(d.name, 84, 1276); g.save(); g.globalAlpha = 0.66; fit(g, d.latin, 'italic 600 %px ' + COR, 30, 560); g.fillText(d.latin, 88, 1318); g.restore(); g.textAlign = 'right'; fit(g, `${d.lived} · ${d.sex}`, '700 %px ' + ROUND, 25, 420); g.fillText(`${d.lived} · ${d.sex}`, W - 84, 1324);
+    two(g, d.sum, 86, 1372, 740, 104, '700 %px ' + ROUND, '500 %px ' + ROUND, 31, INK, INK); qrAt(g, d.url, W - 80 - 112, 1332, 112, INK, null, 0.5); g.fillStyle = INK; g.font = '700 20px ' + ROUND; g.textAlign = 'right'; g.fillText('nextlife.top', W - 82, 1464); g.restore(); return c;
+  }
+  // ---------- face 3: the meme ----------
+  async function meme(d) {
+    const c = mk(), g = c.getContext('2d'), C = d.C, rnd = rng(seed(d.id) + 1), t = mk(), q = t.getContext('2d'); q.imageSmoothingQuality = 'high';
+    q.fillStyle = rad(q, W / 2, 640, 60, 900, [[0, '#ffe14a'], [0.45, '#ff7a1a'], [1, '#a3122c']]); q.fillRect(0, 0, W, H); q.save(); q.translate(W / 2, 680); for (let i = 0; i < 30; i++) { q.rotate(Math.PI / 15); q.fillStyle = 'rgba(255,255,90,.5)'; q.beginPath(); q.moveTo(0, 0); q.lineTo(1500, -40); q.lineTo(1500, 60); q.fill(); } q.restore();
+    let b, eyes = C.eye || [[0.5, 0.42]];
+    if (d.cut) {
+      const e = C.e || '', fw = /[LR]/.test(e) ? 1.04 : 0.9, k = W * fw / d.cut.width, w = W * fw, h = Math.min(800, Math.max(560, d.cut.height * k)); b = { x: /L/.test(e) && !/R/.test(e) ? -2 : /R/.test(e) && !/L/.test(e) ? W - w + 2 : (W - w) / 2, y: /B/.test(e) ? 1190 - h : 400 + (760 - h) / 2, w, h }; if (d.cut.height > d.cut.width * 1.15) { b.w = Math.min(w, 800 * d.cut.width / d.cut.height * 1.45); b.h = 800; b.x = (W - b.w) / 2; b.y = 390; }
+      const im = tint(d.cut, (z, w2, h2) => { z.globalCompositeOperation = 'color-dodge'; z.globalAlpha = 0.28; z.fillStyle = '#ff9a3c'; z.fillRect(0, 0, w2, h2); z.globalAlpha = 1; z.globalCompositeOperation = 'destination-in'; z.drawImage(d.cut, 0, 0); z.globalCompositeOperation = 'overlay'; z.globalAlpha = 0.9; z.drawImage(d.cut, 0, 0); });
+      const bulge = (y) => 1 + 0.2 * Math.sin(Math.PI * y / b.h); for (let y = 0; y < b.h; y += 3) { const s = bulge(y); q.drawImage(im, 0, y / b.h * im.height, im.width, Math.max(1, 3 / b.h * im.height + 1), b.x - (s - 1) * b.w / 2, b.y + y, b.w * s, 4); }
+      eyes = eyes.map(([ex, ey]) => { const s = bulge(ey * b.h); return [b.x - (s - 1) * b.w / 2 + ex * b.w * s, b.y + ey * b.h]; });
+    } else {
+      // no cut-out: the drawn character takes the burn instead
+      const u = 25; const seen = window.PIX.toon(q, (W - 36 * u) / 2, 400, u, d.id, d.stage, { ink: '#2a0d10', ow: 0.62, rim: 0.9 }); eyes = seen.length ? seen : [[W / 2 - 180, 750]];
+    }
+    q.globalCompositeOperation = 'lighter'; eyes.forEach(([x, y]) => { const s = eyes.length > 1 ? 0.62 : 1; q.fillStyle = rad(q, x, y, 0, 220 * s, [[0, '#fff'], [0.08, '#ffd0d0'], [0.3, 'rgba(255,0,0,.75)'], [1, 'rgba(255,0,0,0)']]); q.fillRect(0, 0, W, H); for (let i = 0; i < 6; i++) { q.save(); q.translate(x, y); q.rotate(i * Math.PI / 6 + 0.2); q.scale(1, 0.035); q.fillStyle = rad(q, 0, 0, 0, 560 * s, [[0, 'rgba(255,255,255,.95)'], [0.4, 'rgba(255,90,60,.6)'], [1, 'rgba(255,0,0,0)']]); q.fillRect(-600, -600, 1200, 1200); q.restore(); } });
+    const s = mk(300, 420), z = s.getContext('2d', { willReadFrequently: true }); z.drawImage(t, 0, 0, 300, 420); const D = z.getImageData(0, 0, 300, 420), o = D.data; for (let i = 0; i < o.length; i += 4) for (let k = 0; k < 3; k++) o[i + k] = Math.round(((o[i + k] - 128) * 1.55 + 136 + (rnd() - 0.5) * 46) / 30) * 30; z.putImageData(D, 0, 0); for (let i = 0; i < 130; i++) { const x = Math.floor(rnd() * 37) * 8, y = Math.floor(rnd() * 52) * 8; z.drawImage(s, x, y, 8, 8, x + (rnd() - 0.5) * 5, y, 9, 8); }
+    g.imageSmoothingEnabled = false; g.drawImage(s, 0, 0, W, H); g.imageSmoothingEnabled = true; g.textBaseline = 'alphabetic'; g.lineJoin = 'round';
+    const tx = (T2, x, y, f, st, lw) => { g.strokeStyle = st; g.lineWidth = lw; g.strokeText(T2, x, y); g.fillStyle = f; g.fillText(T2, x, y); }; g.textAlign = 'center';
+    if (d.en) { let fs = fit(g, 'REBORN', '900 %px ' + SANS, 300, 1000); g.save(); g.translate(W / 2, 0); g.scale(1, 1.25); tx('REBORN', 0, (110 + fs * 0.95) / 1.25 + 20, '#fff', '#000', 34); g.restore(); } else { g.font = '900 380px ' + SANS; g.save(); g.translate(W / 2, 0); g.scale(1.02, 0.82); tx('投胎了', 0, 430, '#fff', '#000', 34); g.restore(); }
+    g.font = '500 28px ' + SANS; tx(`${d.tierName}  ${d.no}`, W / 2, 58, '#fff', '#000', 8);
+    g.save(); g.translate(W / 2, 1240); g.rotate(-0.03); const l2 = d.memeLine; fit(g, l2, '900 %px ' + SANS, 120, W - 60); tx(l2, 0, 0, '#ffef00', '#000', 26); g.restore(); fit(g, `${d.lived}  ${d.sex}`, '900 %px ' + SANS, 60, 900); tx(`${d.lived}  ${d.sex}`, W / 2, 1322, '#fff', '#e00012', 16);
+    two(g, d.sum, 40, 1378, 800, 108, '900 %px ' + SANS, '700 %px ' + SANS, 30, '#fff', '#fff', (l, x, y) => { g.lineWidth = 8; g.strokeStyle = '#000'; g.strokeText(l, x, y); g.fillText(l, x, y); }); qrAt(g, d.url, W - 40 - 150, 1316, 150, '#000', '#fff'); g.textAlign = 'right'; g.font = '900 24px ' + SANS; tx('nextlife.top', W - 40, 1496, '#fff', '#000', 7);
+    return c;
+  }
+  const FACES = { cover, toon, meme };
+  async function card(d, face = 'cover') {
+    await fonts([d.name, d.latin, d.lived, d.sex, d.livedLabel, d.tierName, d.memeLine, d.serial, ...(d.sum || []), '轮回投胎了NEXT LIFEREBORNnextlife.top0123456789/·'].join(''));
+    const C = (window.CARDS || {})[d.id] || { hue: 30, sat: 0.3, lum: 0.5 }, cut = face !== 'toon' && C.w && !(d.ownPhoto && face === 'cover') ? await load(`${d.asset || ''}img/c/${d.id}.webp`) : null, photo = face === 'cover' && !cut ? await load(d.photo) : null;
+    return (FACES[face] || cover)({ ...d, C, cut, photo });
+  }
+  window.CARD = { card, faces: Object.keys(FACES) };
+})();
+
+;
+// What a life leaves behind to think about. Questions have no right answer; answers stay in this browser.
+(function () {
+  const Q = {
+    farm: { zh: ['你离开的日子，大多在出生之前就由别人定好了。这一生，算是你自己的吗？', ['算', '不算', '活着的每一刻算']], en: ['The day you would leave was mostly set by others before you were born. Was this life your own?', ['Yes', 'No', 'Each moment of it was']] },
+    crop: { zh: ['你被种下，被照料，也被收割。照料和利用，分得开吗？', ['分得开', '分不开', '看是谁在照料']], en: ['You were sown, cared for and harvested. Can care and use be told apart?', ['They can', 'They cannot', 'It depends on who cares']] },
+    brief: { zh: ['这一生很短。短，会让它更轻，还是更重？', ['更轻', '更重', '和长短无关']], en: ['This life was short. Does that make it lighter, or heavier?', ['Lighter', 'Heavier', 'Length has nothing to do with it']] },
+    young: { zh: ['和你一起出生的，绝大多数都没有长大，你也是。没有长大的一生，算完整吗？', ['算', '不算', '完整不是用长度算的']], en: ['Most of those born with you never grew up, and neither did you. Is a life that never grew up whole?', ['Yes', 'No', 'Wholeness is not counted in length']] },
+    many: { zh: ['和你一起出生的，绝大多数都没有长大，你长大了。靠的是什么？', ['运气', '每一次选择', '两样都说不清']], en: ['Most of those born with you never grew up. You did. What was it?', ['Luck', 'Each choice', 'I cannot tell them apart']] },
+    social: { zh: ['你的一生都给了一个群体，自己没有后代。这是牺牲，还是你本来就是它的一部分？', ['是牺牲', '我就是它的一部分', '没有“我”可以牺牲']], en: ['Your whole life went to a colony, and you left no young. Was that a sacrifice, or were you simply part of it?', ['A sacrifice', 'I was part of it', 'There was no "I" to give up']] },
+    pet: { zh: ['把命运交给另一种动物，换来食物和陪伴。如果能选，你愿意吗？', ['愿意', '不愿意', '要看遇到谁']], en: ['To hand your fate to another kind of animal, for food and company: would you, if you could choose?', ['I would', 'I would not', 'It depends on whom I meet']] },
+    old: { zh: ['活得足够久，就会看着身边的都离开。还想活这么久吗？', ['想', '不想', '想，但要有同伴']], en: ['Live long enough and you see everyone around you go. Would you still want to live this long?', ['Yes', 'No', 'Yes, with company']] },
+    hunter: { zh: ['为了活下去，你吃掉了别的生命。这算残忍吗？', ['算', '不算', '只有能选择时才算']], en: ['To stay alive you ate other lives. Was that cruel?', ['Yes', 'No', 'Only if there was a choice']] },
+    city: { zh: ['你靠人类剩下的东西活着，也常常死在人类手里。你们算邻居吗？', ['算', '不算', '只有一方知道']], en: ['You lived on what people left over, and people are often how your kind die. Are you neighbours?', ['Yes', 'No', 'Only one side knows it']] },
+    still: { zh: ['你从没有离开过扎根的地方。没有走动过的一生，少了什么吗？', ['少了很多', '什么都没少', '也多了些什么']], en: ['You never left the place you took root. Was anything missing from a life that never moved?', ['A great deal', 'Nothing', 'Something was gained too']] },
+    human: { zh: ['如果重来一次，出生地、家庭、性别全部重新抽，你敢抽吗？', ['敢', '不敢', '先看看概率']], en: ['If you could start over with birthplace, family and sex all drawn again, would you dare to draw?', ['I would', 'I would not', 'Show me the odds first']] },
+    any: { zh: ['如果没有人看见，也没有人记得，这一生发生过吗？', ['发生过', '没有', '我刚刚看见了']], en: ['If no one saw it and no one remembers, did this life happen?', ['It did', 'It did not', 'I have just seen it']] },
+  };
+  const G = {}; const set = (k, s) => s.split(' ').forEach((id) => { G[id] = k; });
+  set('farm', 'broiler layer_hen pig cattle sheep goat duck farmed_shrimp farmed_carp'); set('crop', 'wheat rice'); set('brief', 'mayfly mosquito housefly copepod nematode aphid springtail mite'); set('many', 'sardine krill frog sea_turtle salmon lanternfish'); set('social', 'ant honeybee termite'); set('pet', 'dog cat'); set('old', 'elephant blue_whale greenland_shark bristlecone spruce saguaro oak'); set('hunter', 'wolf lion spider octopus squid swallow bat flytrap chimpanzee'); set('city', 'sparrow pigeon rat'); set('still', 'moss grass duckweed eelgrass arabidopsis acai bamboo mangrove dandelion'); set('human', 'human');
+  // deaths in which people had a hand, by cause id
+  const H = {}; const hum = (id, s) => { H[id] = new Set(s.split(' ')); };
+  hum('acai', 'felled clearing'); hum('bamboo', 'cut'); hum('bat', 'turbine roost_closed'); hum('blue_whale', 'ship net'); hum('bristlecone', 'felled'); hum('broiler', 'slaughter crowd transport'); hum('cat', 'car poison euth'); hum('cattle', 'slaughter'); hum('chimpanzee', 'gunshot snare'); hum('dandelion', 'mow'); hum('arabidopsis', 'mow'); hum('dog', 'car poison end'); hum('duck', 'old'); hum('duckweed', 'drained'); hum('earthworm', 'plough pesticide'); hum('eelgrass', ''); hum('elephant', 'poacher conflict'); hum('farmed_carp', 'transport old'); hum('farmed_shrimp', 'old'); hum('flytrap', 'poached'); hum('goat', 'butcher'); hum('grass', 'mow herbicide'); hum('greenland_shark', 'bycatch trawl'); hum('honeybee', 'pesticide'); hum('housefly', 'swat zapper insecticide'); hum('human', 'accident'); hum('krill', 'trawl'); hum('layer_hen', 'slaughter cage_trap'); hum('lion', 'herder poacher'); hum('mosquito', 'swat bti'); hum('moss', 'harvest'); hum('oak', 'felled'); hum('octopus', 'trap'); hum('panda', 'habitat poach'); hum('pig', 'slaughter'); hum('pigeon', 'car spike'); hum('rat', 'trap poison'); hum('rice', 'harvest'); hum('saguaro', 'cut'); hum('salmon', 'net'); hum('sardine', 'purse'); hum('sea_turtle', 'longline gillnet plastic boat'); hum('sheep', 'slaughter'); hum('sparrow', 'collide'); hum('spruce', 'felled'); hum('squid', 'jig'); hum('termite', 'bait'); hum('wheat', 'harvest'); hum('wolf', 'gun road poison');
+  window.ASK = { key: (id, grown) => { const k = G[id] || 'any'; return k === 'many' && !grown ? 'young' : k; }, q: (k, en) => Q[k][en ? 'en' : 'zh'], byPeople: (id, cause) => !!(H[id] && H[id].has(cause)), keys: Object.keys(Q) };
 })();
 
 ;
@@ -15942,6 +22045,150 @@ window.PHOTOS = {
   "w": 1000,
   "h": 667
  },
+ "moss": {
+  "artist": "External Affairs",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/5681397",
+  "taxon": "Sphagnum",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "grass": {
+  "artist": "Ульяна Ярцева",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/381770881",
+  "taxon": "Poa annua",
+  "focus": "50% 50%",
+  "w": 768,
+  "h": 1024
+ },
+ "wheat": {
+  "artist": "Forest and Kim Starr",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/161035690",
+  "taxon": "Triticum aestivum",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "rice": {
+  "artist": "zebedeugalinha",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/541798910",
+  "taxon": "Oryza sativa",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "duckweed": {
+  "artist": "Attila Oláh",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/49914517",
+  "taxon": "Lemna minor",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 1024
+ },
+ "dandelion": {
+  "artist": "Jason Grant",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/127729932",
+  "taxon": "Taraxacum officinale",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "eelgrass": {
+  "artist": "Sue Carnahan",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/354551082",
+  "taxon": "Zostera marina",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "arabidopsis": {
+  "artist": "Alex Abair",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/6850052",
+  "taxon": "Arabidopsis thaliana",
+  "focus": "50% 50%",
+  "w": 768,
+  "h": 1024
+ },
+ "spruce": {
+  "artist": "Igor Balashov",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/155561420",
+  "taxon": "Picea abies",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "bamboo": {
+  "artist": "Eric Knight",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/16725597",
+  "taxon": "Phyllostachys edulis",
+  "focus": "50% 50%",
+  "w": 681,
+  "h": 1024
+ },
+ "mangrove": {
+  "artist": "James St. John",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/125165299",
+  "taxon": "Rhizophora mangle",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 681
+ },
+ "oak": {
+  "artist": "Wolfgang Jauch",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/654174819",
+  "taxon": "Quercus robur",
+  "focus": "50% 50%",
+  "w": 768,
+  "h": 1024
+ },
+ "acai": {
+  "artist": "Eric Schmidt",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/503471839",
+  "taxon": "Euterpe precatoria",
+  "focus": "50% 50%",
+  "w": 768,
+  "h": 1024
+ },
+ "saguaro": {
+  "artist": "John Brew",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/34304159",
+  "taxon": "Carnegiea gigantea",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "bristlecone": {
+  "artist": "Jim Morefield",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/13961536",
+  "taxon": "Pinus longaeva",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 768
+ },
+ "flytrap": {
+  "artist": "David Hill",
+  "lic": "CC BY 4.0",
+  "page": "https://www.inaturalist.org/photos/108567955",
+  "taxon": "Dionaea muscipula",
+  "focus": "50% 50%",
+  "w": 1024,
+  "h": 683
+ },
  "termite": {
   "artist": "Scott Bauer, USDA",
   "lic": "Public domain",
@@ -15990,8 +22237,71 @@ window.PHOTOS = {
 };
 
 ;
-// Built by data/bio/build.js — do not edit.
-window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["膜翅目","Hymenoptera"],"family":["蚁科","Formicidae"],"genus":["铺道蚁属","Tetramorium"]},"sections":{"intro":{"zh":"草地铺道蚁是一种蚂蚁，原产于欧洲、摩洛哥和西亚，现已在许多其他大陆形成分布广泛的种群。","en":"Tetramorium caespitum, the pavement ant, is a species of ant native to Europe, Morocco and western Asia. It is now found on many other continents.","refs":["wiki"]},"body":{"zh":"身体深棕色，腿色较浅。工蚁通常体长约 3.25 毫米，是不育的雌性，身体上有两个明显的隆起；蚁后约 8 毫米。","en":"Bodies are dark brown with pale legs. A typical worker is about 3.25 mm long and is a sterile female, while the queen is about 8 mm long. Workers have two clearly visible humps.","refs":["adw"]},"habitat":{"zh":"多在人行道、石块和路面下筑巢，也会在房屋的缝隙中筑巢。偏好 10–40 摄氏度的温度范围。工蚁常在人行道和道路上觅食。","en":"They tend to nest under sidewalks, stones and pavement, and in crevices of buildings. Workers are commonly found on pavements and roads, usually searching for food.","refs":["wiki","adw"]},"diet":{"zh":"是杂食性的清道夫，几乎吃遇到的任何残余食物，偏好含糖食物，也会在巢中储存种子和谷物。","en":"They are scavengers that eat almost anything left in their territory. They are drawn toward sugary food, and they store seeds and grains in the nest for later use.","refs":["adw"]},"repro":{"zh":"一个蚁群可以有多只蚁后。处女蚁后和雄蚁在婚飞中交配，之后蚁后脱翅建巢，雄蚁随即死亡。每只蚁后每天可产卵数枚到四十枚，由工蚁照料。","en":"A colony can have more than one queen. After the nuptial flight, the young queens start new nests and the males die. Queens lay from five to forty eggs a day, and workers care for the brood.","refs":["adw"]},"life":{"zh":"它们对入侵巢穴的其他蚂蚁十分好斗，体内的毒素使身体味道很差。","en":"They are aggressive toward nest intruders, and their bodies taste foul because of a toxin.","refs":["adw"]},"status":{"zh":"在北美已有分布，美国东部和南部的大部分地区都能见到。它们会在路面和建筑地基下挖掘，可能造成损害。","en":"It has also spread to North America, where it is now found in most of the eastern and southern United States. It excavates soil under roads and walkways.","refs":["adw"]}},"refs":{"wiki":{"title":"Tetramorium caespitum","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Tetramorium_caespitum"},"adw":{"title":"Tetramorium caespitum","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Tetramorium_caespitum/"}}},"aphid":{"sci":"Acyrthosiphon pisum","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["半翅目","Hemiptera"],"family":["蚜科","Aphididae"],"genus":["无网长管蚜属","Acyrthosiphon"]},"sections":{"intro":{"zh":"豌豆蚜（Acyrthosiphon pisum）是蚜科的一种吸食植物汁液的昆虫，也是一种常用于生物学研究的模式生物。","en":"The pea aphid (Acyrthosiphon pisum) is a sap-sucking insect in the family Aphididae. It is also a model organism for biological study whose genome has been sequenced.","refs":["wiki","adw"]},"body":{"zh":"成体体长可达约 4 毫米，是比较大型的蚜虫。与许多蚜虫不同，豌豆蚜通常不会形成密集的群体，个体不会一直待在出生的地方。","en":"Adults are a rather large aphid, reaching about 4 millimetres in body length. Unlike many aphid species, pea aphids do not tend to form dense colonies where individuals stay where they were born.","refs":["wiki"]},"habitat":{"zh":"已知可寄主 20 多个豆科属，包括豌豆、三叶草、紫花苜蓿和蚕豆等饲料作物。多在叶片背面、芽和豆荚上取食。","en":"It is known to host more than 20 legume genera, including forage crops such as pea, clover, alfalfa and broad bean. It usually feeds on the lower sides of leaves, buds and pods.","refs":["wiki"]},"diet":{"zh":"用口针刺入植物组织，吸食韧皮部中的汁液。这种吸食会直接削弱植物，影响产量。","en":"It feeds by piercing plant tissue with its stylets and sucking up phloem sap. This sap intake can directly weaken the plants, although pea aphids seldom reach densities high enough to greatly reduce crop production.","refs":["wiki","adw"]},"repro":{"zh":"秋季产下受精卵，越冬后在春季孵化。之后雌蚜多以孤雌胎生的方式繁殖，每只雌蚜一生约产一百只。","en":"Fertilised eggs laid in autumn overwinter and hatch in spring. Adult females then reproduce by viviparous parthenogenesis, and each one has around a hundred offspring in her lifetime.","refs":["wiki"]},"life":{"zh":"成虫寿命约 30 天。种群数量在初夏最高，之后因捕食和寄生而下降。","en":"An adult lives about 30 days. Population densities peak in early summer and then fall through predation and parasitism. Natural predators and parasitoids are among its enemies.","refs":["wiki"]},"status":{"zh":"是农业上重要的蚜虫，会吸食作物汁液，并可作为多种植物病毒的传播媒介。其学名下包含若干适应不同寄主的生物型。","en":"It is considered among the aphid species of major agronomical importance. It can sap crops and act as a vector of plant viral diseases. Its name covers several biotypes specialised on different host species.","refs":["wiki"]}},"refs":{"wiki":{"title":"Acyrthosiphon pisum","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Acyrthosiphon_pisum"},"adw":{"title":"Aphididae","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Aphididae/"}}},"bat":{"sci":"Pipistrellus abramus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["翼手目","Chiroptera"],"family":["蝙蝠科","Vespertilionidae"],"genus":["伏翼属","Pipistrellus"]},"sections":{"intro":{"zh":"东亚伏翼又称日本家蝠，是一种蝙蝠，分布于东亚。","en":"The Japanese pipistrelle, also known as the Japanese house bat, is a vesper bat found across East Asia.","refs":["wiki"]},"body":{"zh":"成年个体体长约 3.6 至 4.8 厘米，翼长约 3.2 至 3.6 厘米。","en":"An adult has a body length of 3.6 to 4.8 cm and a wing length of 3.2 to 3.6 cm.","refs":["wiki"]},"habitat":{"zh":"它常在老房子的屋顶内或天花板下栖息，分布于中国大陆和台湾、乌苏里地区、朝鲜半岛和日本。","en":"It roosts under the ceiling or inside the roof of old buildings, and is found from China and Taiwan to the Ussuri region, Korea and Japan.","refs":["wiki"]},"diet":{"zh":"它吃甲虫、石蛾、蝇类、膜翅目昆虫、蛾类和半翅目昆虫等。","en":"It feeds on beetles, caddisflies, flies, hymenopterans, moths and true bugs.","refs":["wiki"]}},"refs":{"wiki":{"title":"Japanese pipistrelle","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Pipistrellus_abramus"}}},"blue_whale":{"sci":"Balaenoptera musculus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["须鲸科","Balaenopteridae"],"genus":["须鲸属","Balaenoptera"]},"sections":{"intro":{"zh":"蓝鲸（Balaenoptera musculus）是一种须鲸，也是须鲸科中最大的海洋哺乳动物。它是已知有史以来最大的动物。","en":"The blue whale (Balaenoptera musculus) is a species of baleen whale and the largest marine mammal in the rorqual family Balaenopteridae. It is the largest animal known to have ever existed.","refs":["wiki"]},"body":{"zh":"蓝鲸的最大可确认体长为 29.9 至 30.5 米，体重可达 190 至 200 吨。它的身体细长，背部为灰蓝色，腹面颜色较浅。","en":"Blue whales reach a maximum confirmed length of 29.9 to 30.5 m and weigh up to 190 to 200 tonnes. Their long, slender bodies are greyish-blue above and somewhat lighter below.","refs":["wiki"]},"habitat":{"zh":"蓝鲸分布在世界各大洋中。多数种群夏季在靠近极地的海域觅食，冬季则回到近热带的繁殖区。","en":"Blue whales are found in all of the world's oceans. Most populations migrate between summer feeding areas near the poles and winter breeding grounds near the tropics.","refs":["adw","wiki"]},"diet":{"zh":"蓝鲸是滤食性动物，食物几乎完全是磷虾。蓝鲸每天可以吞食 3 至 4 吨磷虾。蓝鲸和其他大型须鲸是磷虾的重要捕食者。","en":"Blue whales are filter feeders whose diet consists almost exclusively of krill, and they can ingest 3 to 4 tons of krill per day. Blue whales, and other large baleen whales, are important predators of krill.","refs":["wiki","adw"]},"repro":{"zh":"妊娠期可能为 10 至 12 个月，幼鲸出生时重 2 至 3 吨。雌鲸约 5 岁达到性成熟，之后每 2 至 3 年产一次幼鲸。","en":"Gestation may last 10 to 12 months, and calves weigh 2 to 3 tonnes at birth. Females reach sexual maturity at about 5 years old and give birth every 2 to 3 years.","refs":["wiki","adw"]},"life":{"zh":"蓝鲸的寿命估计可达 110 年，有研究认为其寿命为 80 至 90 年。由于体型极大，蓝鲸几乎没有天敌。","en":"Longevity has been estimated at as high as 110 years, and studies suggest a lifespan of 80 to 90 years. Blue whales have virtually no natural predators because of their extreme size.","refs":["adw"]},"status":{"zh":"蓝鲸曾被捕鲸者猎杀到近乎灭绝，直到 1966 年国际捕鲸委员会禁止了所有蓝鲸捕猎。国际自然保护联盟自 2018 年起将其列为濒危物种。","en":"Whalers hunted blue whales almost to extinction until the International Whaling Commission banned all blue whale hunting in 1966. The IUCN has listed them as endangered as of 2018.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Blue whale","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Blue_whale"},"adw":{"title":"Balaenoptera musculus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Balaenoptera_musculus/"}}},"broiler":{"sci":"Gallus gallus domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["鸡形目","Galliformes"],"family":["雉科","Phasianidae"],"genus":["原鸡属","Gallus"]},"sections":{"intro":{"zh":"肉鸡是专门为肉用而培育和饲养的鸡。","en":"A broiler is any chicken bred and raised specifically for meat production.","refs":["wiki"]},"body":{"zh":"现代商品肉鸡在 5 至 7 周内就能长到约 2 公斤的屠宰体重。","en":"Modern commercial broilers reach a slaughter weight of about 2 kg in only 5 to 7 weeks.","refs":["wiki"]},"habitat":{"zh":"肉鸡通常以雌雄混养的方式，在大型鸡舍里集中饲养，饲养密度通常较高。","en":"Broilers are usually grown as mixed-sex flocks in large sheds under intensive conditions, and usually kept at high stocking densities.","refs":["wiki"]},"life":{"zh":"快速生长可能导致猝死综合征等代谢疾病，在欧洲会使高达 3% 的鸡死亡。由于快速选育，肉鸡还容易出现骨骼畸形、皮肤和眼部损伤以及心脏病。","en":"Rapid growth can cause sudden death syndrome and other disorders, which kill up to 3% of birds in Europe. Broilers are also prone to skeletal and heart problems.","refs":["wiki"]},"status":{"zh":"截至 2018 年，全球肉鸡雏鸡的估计数量约为二百三十亿只。","en":"As of 2018, the estimated worldwide broiler chick population was about 23 billion.","refs":["wiki"]}},"refs":{"wiki":{"title":"Broiler","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Broiler"}}},"cat":{"sci":"Felis catus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["猫科","Felidae"],"genus":["猫属","Felis"]},"sections":{"intro":{"zh":"家猫（Felis catus）是一种小型的被驯化的食肉哺乳动物，是猫科中唯一被驯化的物种。","en":"The domestic cat (Felis catus) is a small domesticated carnivorous mammal. It is the only domesticated species of the cat family, Felidae, and its relationship with people has lasted thousands of years.","refs":["wiki"]},"body":{"zh":"成年家猫的体重范围为 4.1 至 5.4 公斤，平均体长约 76.2 厘米。尽管家猫有许多品种，但它们的体型和大小都非常相似。","en":"Adult domestic cats weigh from 4.1 to 5.4 kg, and the average length is 76.2 cm. Although there are many breeds of domestic cats, all have a very similar body shape and size.","refs":["adw"]},"habitat":{"zh":"家猫主要生活在人类居住的地方，野化的猫群大多也生活在人类聚居区附近。","en":"Domestic cats primarily live in areas of human habitation and are somewhat constrained to developed areas. Most feral populations live near current or past human settlements.","refs":["adw"]},"diet":{"zh":"猫是专性肉食动物，适应了低纤维、易消化的肉类食物。它们的爪子可以伸缩，适合捕捉老鼠之类的小型猎物。","en":"Cats are obligate carnivores that have adapted to a low-fibre, highly digestible meat diet. They have retractable claws suited to catching small prey such as mice and rats.","refs":["wiki"]},"repro":{"zh":"家猫的妊娠期为 60 至 67 天。大多数小猫在出生后 7 至 8 周断奶，并能完全独立生活。","en":"Gestation ranges from 60 to 67 days. Most kittens are weaned by 7 to 8 weeks after birth. As many as 18 kittens in a single litter has been reported.","refs":["adw"]},"life":{"zh":"在野外，家猫的平均寿命没有可靠的资料；圈养的个体预计可以活到约 14 年。野生的捕食者偶尔会捕食家猫。","en":"There is no information on the average lifespan of domestic cats in the wild, while captive individuals are expected to live about 14 years. Domestic cats are occasionally preyed on by wild predators, such as coyotes and foxes.","refs":["adw"]},"status":{"zh":"全世界估计有六亿只家猫。家猫数量很多，在许多地区，猫的过度繁殖是一个主要问题。","en":"An estimated 600 million domestic cats live worldwide, including 400 million in Asia. Domestic cats are abundant, and overpopulation is a major issue throughout various parts of their global distribution.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Cat","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Cat"},"adw":{"title":"Felis catus (domestic cat)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Felis_catus/"}}},"cattle":{"sci":"Bos taurus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["牛科","Bovidae"],"genus":["牛属","Bos"]},"sections":{"intro":{"zh":"牛（家牛，Bos taurus）是大型的家畜，属于牛科偶蹄类。大约一万年前，人类开始从野生原牛中驯化出家牛。","en":"Cattle (Bos taurus) are large, domesticated bovid ungulates widely kept as livestock. Taurine cattle were first domesticated from wild aurochs about 10,500 years ago, in central Anatolia, the Levant and Western Iran.","refs":["wiki"]},"body":{"zh":"家牛体型大，身体粗壮。它们上颌没有门齿，而是有一层厚厚的齿垫，靠圆周式的磨动咀嚼草料。","en":"Domestic cows are large, sturdy animals, and they have no upper incisors. Instead, they have a thick layer called the dental pad, and their jaws are designed for the circular grinding motion used when chewing plants.","refs":["adw"]},"habitat":{"zh":"家牛遍布世界各地。很多牛在草场上饲养，让牛群在大片草地上放牧；它们是在草场上出生和长大的。","en":"Domestic cows are common and can be found throughout the world. Cattle are born and raised on rangelands, often by letting herds graze on the grasses of large tracts of rangeland.","refs":["adw","wiki"]},"diet":{"zh":"牛是反刍动物，以草、茎叶等植物为食。它们的消化系统专门用来分解富含纤维素的植物。","en":"Cattle are ruminants, and domestic cows feed on grasses, stems and other herbaceous plant material. Their digestive system is highly specialized for processing plant material such as grass rich in cellulose.","refs":["adw","wiki"]},"repro":{"zh":"母牛怀孕约九个月，每胎通常只生一头小牛。母牛约一岁时达到性成熟，繁殖可持续到约十二岁。小牛大约吃奶六个月。","en":"One calf is born after approximately nine months of gestation. Females reach sexual maturity at approximately one year, and young domestic cows nurse for approximately six months.","refs":["adw","wiki"]},"life":{"zh":"家牛的最长寿命可超过 20 年，但寿命常因人类的淘汰而缩短。家牛是群居动物，生活在称为牛群的群体中。","en":"Maximum lifespan in domestic cows may exceed 20 years, but lifespan is often limited by human culling. Domestic cows are social animals and live in groups called herds.","refs":["adw"]},"status":{"zh":"作为一个物种，牛并不受威胁；人们对保护正在快速消失的稀有品种有一定兴趣。","en":"As a species, cattle are not threatened, although there is some interest in conserving rapidly disappearing rare breeds.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Cattle","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Cattle"},"adw":{"title":"Bos taurus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Bos_taurus/"}}},"chimpanzee":{"sci":"Pan troglodytes","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["灵长目","Primates"],"family":["人科","Hominidae"],"genus":["黑猩猩属","Pan"]},"sections":{"intro":{"zh":"黑猩猩（Pan troglodytes）是一种中等体型的大型类人猿，分布在非洲赤道地区的森林和草原中。它与倭黑猩猩同属黑猩猩属，是与人类亲缘关系最近的现存物种之一。","en":"The chimpanzee (Pan troglodytes) is a medium-sized great ape found in the forests and savannas of equatorial Africa. It shares the genus Pan with the bonobo, and the two are humans' closest living relatives.","refs":["wiki"]},"body":{"zh":"黑猩猩全身长着粗硬的黑毛，脸、手指、脚趾、手掌和脚掌没有毛。野外的雄性平均体重约 40 公斤，雌性约 30 公斤。","en":"Chimpanzees are covered in coarse black hair, with bare faces, fingers, toes, palms and soles. In the wild, males weigh an average of 40 kg and females 30 kg.","refs":["wiki"]},"habitat":{"zh":"黑猩猩利用的生境类型很多，既有热带雨林，也有森林与草原的镶嵌环境和山地森林，山地森林海拔可达 2750 米。","en":"Chimpanzees use many habitat types. Although they are typically thought of as living in tropical rainforests, they also occur in forest-savanna mosaics and mountain forests at elevations up to 2,750 m.","refs":["adw"]},"diet":{"zh":"黑猩猩是杂食动物，主要吃水果，也吃其他植物和昆虫，有时还会猎捕小型猴子。","en":"Chimpanzees are broadly omnivorous. They primarily eat fruit, but also eat other plant material and insects, and will even hunt smaller monkeys. In a study in Budongo Forest, Uganda, chimpanzees spent 64.5% of their feeding time on fruits.","refs":["adw","wiki"]},"repro":{"zh":"妊娠期为 202 至 260 天，平均 230 天，通常只生一只幼崽。幼崽会经常骑在母亲身上，直到约 3.5 至 4.5 岁断奶。","en":"Gestation lasts 202 to 260 days, with a mean of 230 days, and a single young is usually born. Young chimpanzees regularly ride on their mothers until weaning at 3.5 to 4.5 years.","refs":["adw"]},"life":{"zh":"黑猩猩通常能活到 40 至 60 岁，但在一些野外群体中，平均寿命要短得多，例如泰伊群体的平均寿命只有 13 年。在贡贝的一个群体中，约 58% 已知死因的死亡是由疾病造成的。","en":"Chimpanzees can live from 40 to 60 years, but average life expectancy in some wild groups is much lower, at 13 years in Taï. In one Gombe group, around 58% of deaths with known causes were due to disease.","refs":["adw","wiki"]},"status":{"zh":"黑猩猩在 国际自然保护联盟红色名录中被列为濒危物种。人类向雨林和混交林的扩张，使黑猩猩的种群面临威胁。","en":"The chimpanzee is listed on the IUCN Red List as an endangered species. Its populations are jeopardized by human expansion into rainforests and mixed forests.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Chimpanzee","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Chimpanzee"},"adw":{"title":"Pan troglodytes","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Pan_troglodytes/"}}},"copepod":{"sci":"Calanoida","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["桡足纲","Copepoda"],"order":["哲水蚤目","Calanoida"]},"sections":{"intro":{"zh":"桡足类是一类小型甲壳动物，几乎生活在所有淡水和海水环境中。飞马哲水蚤是其中的一种大型浮游桡足类，在北大西洋的浮游动物中数量很多。","en":"Copepods are small crustaceans found in nearly every freshwater and saltwater habitat. Calanus finmarchicus, a calanoid copepod, is one of the most common zooplankton in the North Atlantic.","refs":["wiki","wiki_cal"]},"body":{"zh":"飞马哲水蚤被认为是较大的桡足类，成体通常体长 2–4 毫米。身体多呈水滴形，大多数种类的身体几乎透明。","en":"Calanus finmarchicus is considered a large copepod, typically 2–4 millimetres long. Copepods usually have a teardrop-shaped body, and in most species it is almost totally transparent.","refs":["wiki","wiki_cal"]},"habitat":{"zh":"主要分布在北海和挪威海，也遍布北大西洋较冷的水域，从海面到约 4000 米深处都能找到。","en":"Calanus finmarchicus is most commonly found in the North Sea and the Norwegian Sea. It is also found throughout the colder waters of the North Atlantic, and can live from the ocean surface down to about 4,000 metres deep.","refs":["wiki_cal"]},"diet":{"zh":"主要以浮游植物为食，包括硅藻、甲藻和其他微型海洋生物。多数自由生活的桡足类会逐个捕捉食物细胞，它也可能以微型浮游动物为食。","en":"Calanus finmarchicus primarily feeds on phytoplankton, including diatoms, dinoflagellates and other photosynthetic marine organisms. Most free-living copepods catch their food cells one by one, and some evidence suggests it also eats microzooplankton.","refs":["wiki_cal","wiki"]},"repro":{"zh":"成体几乎只在表层海水中繁殖。卵直径通常约 0.05 毫米，2–3 天孵化成无节幼体，之后蜕皮五到六次。","en":"Adults reproduce almost exclusively in surface waters. Calanus eggs are typically 0.05 mm in diameter and hatch in 2–3 days into nauplius larvae, which moult five or six times.","refs":["wiki_cal","wiki"]},"life":{"zh":"冬季许多个体会下沉到 500–2500 米深处休眠，以度过食物匮乏的季节。慢游的海马也会捕食桡足类。","en":"In winter, many individuals sink to depths of 500 to 2,500 metres and rest there. Copepods are also hunted by predators such as the seahorse.","refs":["wiki_cal","wiki"]},"status":{"zh":"是北大西洋亚极区水域中最常见的浮游动物之一，也是北大西洋食物网的关键组成部分，为鱼类、虾类和鲸类提供食物。","en":"Calanus finmarchicus is one of the most commonly found zooplankton in the subarctic North Atlantic. It is a key component of the food web there, providing food for fish, shrimp and whales.","refs":["wiki_cal"]}},"refs":{"wiki":{"title":"Copepod","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Copepod"},"wiki_cal":{"title":"Calanus finmarchicus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Calanus_finmarchicus"}}},"dog":{"sci":"Canis lupus familiaris","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["犬科","Canidae"],"genus":["犬属","Canis"]},"sections":{"intro":{"zh":"狗（Canis lupus familiaris）是由狼驯化而来的家养动物，也是最早被人类驯化的物种，驯化历史距今一万四千年以上。","en":"Dogs are a domesticated descendant of wolves, and they share a common ancestor with the modern gray wolf. They were the first species to be domesticated, over 14,000 years ago, before the development of agriculture.","refs":["wiki"]},"body":{"zh":"家狗的体型和外形差异极大。不同品种之间头骨、身体和四肢的比例差异，超过了整个食肉目内的差异。","en":"Domestic dogs come in a wide variety of shapes and sizes. Body proportions differ between breeds more than across the entire order of carnivores. Most breeds were derived from small numbers of founders within the last 200 years.","refs":["wiki","adw"]},"habitat":{"zh":"家狗与人类相伴，遍布世界各地，生活在多种多样的生境中。它们被人类培育用于多种用途。","en":"Domestic dogs are found in association with humans worldwide and in a wide variety of habitats. Feral domestic dogs maintain home ranges that they defend against others and may move around throughout the year.","refs":["adw"]},"diet":{"zh":"野化的家狗会吃各种食物，包括动物和水果。人类食物中，发霉的奶酪、洋葱和巧克力对狗可能是致命的。","en":"Feral domestic dogs will eat a variety of foods, including animals and fruits. Human foods such as moldy cheese, onions and chocolate can be fatal to dogs.","refs":["adw"]},"repro":{"zh":"家狗的怀孕期约 9 周，一窝幼崽从一只到几十只不等。幼犬约 8 至 10 周龄时断奶。","en":"Dogs have a gestation period of 9 weeks, and a litter can range from one puppy to dozens. Puppies are weaned at about 8 to 10 weeks of age.","refs":["adw"]},"life":{"zh":"得到良好照顾的家狗可以活到 12 年或更久，体型较大的品种寿命通常较短。野化的家狗可能被任何大型捕食者捕食。","en":"Well-cared-for dogs can live 12 years or more, and larger breeds generally have shorter lifespans. Feral dogs may be preyed upon by any large predator.","refs":["adw"]},"status":{"zh":"全球的狗估计有七亿到十亿只，分布于世界各地。狗曾被培育用于拉车、看守、狩猎、放牧和作伴等许多用途。","en":"The global dog population is estimated at 700 million to 1 billion, spread across the world. Dogs have been bred for many purposes, including herding, hunting, guarding and as companions.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Dog","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Dog"},"adw":{"title":"Canis lupus familiaris (dog)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Canis_lupus_familiaris/"}}},"duck":{"sci":"Anas platyrhynchos domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["雁形目","Anseriformes"],"family":["鸭科","Anatidae"],"genus":["鸭属","Anas"]},"sections":{"intro":{"zh":"养殖鸭以北京鸭为主，是全球主要的商品水禽。","en":"Waterfowl, primarily ducks, are important commercial poultry worldwide. The Pekin duck is the predominant breed in this production.","refs":["pmc"]},"body":{"zh":"一只典型的北京鸭在 4 至 5 周龄时就能达到上市体重，约 3 至 4 公斤。","en":"A typical Pekin duck reaches market weight of about 3 to 4 kg in 4 to 5 weeks.","refs":["pmc"]},"habitat":{"zh":"肉鸭通常饲养在鸭舍里。育雏阶段需要较高的温度，鸭舍内的相对湿度则要保持较低。","en":"Pekin ducks are kept in duck houses. Brooding systems keep birds at a temperature of at least 20 to 25 °C during the first weeks, and a lower relative humidity is preferred in the house.","refs":["pmc"]},"diet":{"zh":"饲料按生长阶段配制，饲料中不能含有抗球虫药物，因为它们对鸭子有毒。鸭子应当通过乳头式饮水线饮水。","en":"Feed is formulated for each growth phase and must contain no anticoccidial medications, which can be toxic to ducks. Pekin ducks should be given drinking water through pin-metered nipple lines.","refs":["pmc"]},"repro":{"zh":"很多商品鸭是在商业孵化场里孵出的。孵化温度是影响雏鸭质量的众多因素之一。","en":"Many commercial ducks are hatched in commercial hatcheries. Incubation temperature is only one of many factors that affect hatchling quality.","refs":["pmc"]},"status":{"zh":"水禽，主要是鸭，是全球重要的商品家禽，而且这一产业的规模增长很快。","en":"Waterfowl, primarily ducks, are important commercial poultry worldwide, and the industry is growing rapidly.","refs":["pmc"]}},"refs":{"pmc":{"title":"Centennial Review: History and husbandry recommendations for raising Pekin ducks in research or commercial production","source":"PubMed Central","url":"https://pmc.ncbi.nlm.nih.gov/articles/PMC8261006/"}}},"earthworm":{"sci":"Lumbricus terrestris","lineage":{"phylum":["环节动物门","Annelida"],"class":["环带纲","Clitellata"],"order":["单向蚓目","Haplotaxida"],"family":["正蚓科","Lumbricidae"],"genus":["正蚓属","Lumbricus"]},"sections":{"intro":{"zh":"陆正蚓是一种大型蚯蚓，可能原产于西欧，现已在世界多地广泛分布。","en":"Lumbricus terrestris is a large, reddish earthworm thought to be native to Western Europe. It is now widely distributed around the world, and it is the example earthworm used by many biology students.","refs":["wiki"]},"body":{"zh":"成体通常长 110–200 毫米，直径约 7–10 毫米，身体约有 120–170 节。身体横切面呈圆柱形，后部宽而扁平。","en":"It is generally 110 to 200 millimetres long, about 7 to 10 millimetres in diameter, and has around 120 to 170 segments. Its body is cylindrical in cross section, except for the broad, flattened posterior section.","refs":["wiki"]},"habitat":{"zh":"它挖掘深而直立的洞穴，常住在半永久性的洞穴中，并可退到较深的土层。常见于温带地区的花园和农田土壤中。","en":"It is a deep-burrowing earthworm that builds vertical burrows and lives in semi-permanent burrows. It is common in garden and agricultural soils of the temperate zone.","refs":["wiki"]},"diet":{"zh":"主要以地表的枯落叶为食，也会吃死昆虫、土壤微生物和粪便。它会爬到地表取食。","en":"It is a detritivore that eats mainly dead leaves on the soil surface. It also eats dead insects, soil microorganisms and faeces, and it surfaces to feed.","refs":["wiki"]},"repro":{"zh":"同时具有雌雄两性，两条蚯蚓相互交换精子完成交配。受精在卵茧中进行，几周后幼虫孵出。发育成熟通常需要一年以上。","en":"It is a simultaneous hermaphrodite, and two worms exchange sperm when they mate. Fertilisation takes place in a cocoon, and young worms emerge after a few weeks. Adulthood takes at least a year.","refs":["wiki"]},"life":{"zh":"自然寿命尚不清楚，圈养个体曾活过六年。夏季高温和干燥时，它会退到洞穴最深处。","en":"Its natural lifespan is unknown, though captive individuals have lived six years. In hot, dry summers it retreats to the deepest parts of its burrow.","refs":["wiki"]},"status":{"zh":"在欧洲西北部大西洋沿岸的一些地区，它因外来扁虫的捕食而受到局部威胁。在美国中北部被视为入侵物种。","en":"In parts of northwestern Europe it is locally endangered by introduced flatworm predators. It is considered invasive in the north central United States, where it does not do well in tilled fields.","refs":["wiki"]}},"refs":{"wiki":{"title":"Lumbricus terrestris","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Lumbricus_terrestris"}}},"elephant":{"sci":"Loxodonta africana","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["长鼻目","Proboscidea"],"family":["象科","Elephantidae"],"genus":["非洲象属","Loxodonta"]},"sections":{"intro":{"zh":"非洲草原象（Loxodonta africana）是现存最大的陆生动物。它们以家族群生活，雌象组成的群体由一头母象领导。","en":"The African savanna elephant (Loxodonta africana) is the largest living land organism. Its herds are led by a matriarch and consist of females and their young.","refs":["adw","wiki"]},"body":{"zh":"非洲草原象是现存最大的陆生动物。雌象体重约 2000 至 3500 公斤，肩高 2.2 至 2.6 米；雄象更大，体重约 4500 至 6100 公斤，肩高 3.2 至 4 米。","en":"Females weigh 2,000 to 3,500 kg and stand 2.2 to 2.6 m at the shoulder. Males are larger, weighing 4,500 to 6,100 kg and standing 3.2 to 4 m at the shoulder.","refs":["adw"]},"habitat":{"zh":"非洲象分布在非洲的许多生境中，包括草原、雨林、林地和灌丛，偶尔也会出现在沙漠和海滩。","en":"African elephants are found in many habitats of Africa such as savannas, rain forests, woodlands, scrub forests, occasionally deserts, and beaches. The African bush elephant inhabits a variety of habitats such as forests, grasslands, woodlands, wetlands and agricultural land.","refs":["adw","wiki"]},"diet":{"zh":"非洲象是草食动物，吃树叶、果实、草本植物、草，以及树根、嫩枝和树皮。成年象每天最多可吃约 150 公斤食物。","en":"African elephants are herbivores. Their diet includes tree foliage, fruits, herbs, grasses, roots, twigs and bark, and adults can eat up to 150 kg of food per day.","refs":["adw","wiki"]},"repro":{"zh":"妊娠期约 22 个月，是哺乳动物中最长的。非洲象大约每 3 至 9 年繁殖一次。幼象完全依靠母乳，约四个月断奶，但有时仍会喝母乳直到三岁。","en":"Gestation lasts about 22 months, the longest of any mammal. African elephants breed once every 3 to 9 years. Offspring are completely dependent on their mother's milk until they are weaned at four months.","refs":["wiki","adw"]},"life":{"zh":"野外的非洲象平均寿命约 60 至 70 年。由于体型巨大，许多捕食者很难捕食成年象。","en":"In the wild, African elephants live an average of 60 to 70 years. Because of their size, they are not easy prey for many predators.","refs":["adw"]},"status":{"zh":"自 2021 年起，国际自然保护联盟红色名录将该物种列为濒危。东非大约有十三万七千头象，分布在六个国家。","en":"Since 2021, the IUCN Red List has listed this species as Endangered. In East Africa there are roughly 137,000 elephants, distributed across six countries in a wide array of habitats.","refs":["wiki"]}},"refs":{"wiki":{"title":"African bush elephant","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/African_bush_elephant"},"adw":{"title":"Loxodonta africana","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Loxodonta_africana/"}}},"farmed_carp":{"sci":"Ctenopharyngodon idella","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["鲤形目","Cypriniformes"],"family":["鲤科","Cyprinidae"],"genus":["草鱼属","Ctenopharyngodon"]},"sections":{"intro":{"zh":"草鱼是一种大型草食性淡水鱼，原产远东地区，在中国已作为食用鱼养殖了数百年。这里描述的是池塘养殖的草鱼。","en":"The grass carp is a large herbivorous freshwater fish native to the Pacific Far East. It has been cultivated as a food fish in China for centuries.","refs":["wiki"]},"body":{"zh":"草鱼生长很快，典型体长约 60 到 100 厘米，最大可长到 45 千克。","en":"Grass carp grow very rapidly, with a typical length of about 60 to 100 centimetres and a maximum weight of about 45 kilograms.","refs":["wiki"]},"habitat":{"zh":"草鱼生活在大河的湖泊、池塘和回水区，偏好水草丰富、水流缓慢或静止的水体。它的原产地从越南北部延伸到阿穆尔河。","en":"Grass carp inhabit lakes, ponds and backwaters of large rivers, preferring slow-flowing or standing water with abundant vegetation. Their native range runs from northern Vietnam to the Amur River.","refs":["wiki"]},"diet":{"zh":"成鱼主要吃水生植物，每天能吃掉相当于自身体重三倍的食物。","en":"Adult grass carp feed mainly on aquatic plants and can eat up to three times their own body weight each day.","refs":["wiki"]},"repro":{"zh":"草鱼性成熟需要约 5 年。在 20 到 30 摄氏度的水温下产卵，野外的草鱼在水流较快的河流中产卵。","en":"Grass carp have long maturation periods of 5 years. They spawn at temperatures of 20 to 30 °C, and in the wild they spawn in fast-moving rivers.","refs":["wiki"]},"life":{"zh":"一项研究认为草鱼通常能活 5 到 9 年，最长记录为 11 年。","en":"One study found that grass carp live 5 to 9 years, with the oldest surviving 11 years.","refs":["wiki"]},"status":{"zh":"草鱼是报告产量最高的养殖鱼类，每年养殖产量超过五百万吨。在中国，它是最常见的淡水养殖鱼之一。","en":"Grass carp has the largest reported farmed production of any fish species, over five million tonnes per year. It is one of the most common freshwater farmed fish in China.","refs":["wiki"]}},"refs":{"wiki":{"title":"Grass carp","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Grass_carp"}}},"farmed_shrimp":{"sci":"Litopenaeus vannamei","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["软甲纲","Malacostraca"],"order":["十足目","Decapoda"],"family":["对虾科","Penaeidae"],"genus":["滨对虾属","Litopenaeus"]},"sections":{"intro":{"zh":"凡纳滨对虾是东太平洋的一种对虾，常被捕捞或养殖作为食物。这里描述的是养殖个体。","en":"The whiteleg shrimp is a prawn of the eastern Pacific Ocean that is commonly caught or farmed for food. This entry describes farmed individuals.","refs":["wiki"]},"body":{"zh":"最大体长可达 230 毫米。","en":"The whiteleg shrimp grows to a maximum length of about 230 millimetres.","refs":["wiki"]},"habitat":{"zh":"凡纳滨对虾原产东太平洋，从墨西哥索诺拉州延伸到秘鲁北部。它需要全年水温保持在 20 摄氏度以上，因此只适合温暖的地区。成虾生活在海洋中，深度可达 72 米；幼虾生活在河口。","en":"It is native to the eastern Pacific, from the Mexican state of Sonora to northern Peru. It is restricted to areas where the water stays above 20 °C throughout the year. Adults live in the ocean at depths to 72 metres, and juveniles live in estuaries.","refs":["wiki"]},"status":{"zh":"在西半球，它是养殖最多的对虾。全球白对虾产量约为 5 百万公吨。养殖中的主要风险是病毒病，如白斑综合征和陶拉综合征。","en":"Litopenaeus vannamei is the most commonly cultured shrimp in the western hemisphere, and global production of white shrimp is about 5 million metric tons. Farms are limited by viral diseases such as white spot syndrome and Taura syndrome.","refs":["usgs","wiki"]}},"refs":{"wiki":{"title":"Litopenaeus vannamei","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Litopenaeus_vannamei"},"usgs":{"title":"Litopenaeus vannamei (Pacific white shrimp)","source":"USGS Nonindigenous Aquatic Species Database","url":"https://nas.er.usgs.gov/queries/FactSheet.aspx?SpeciesID=1212"}}},"frog":{"sci":"Pelophylax nigromaculatus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["两栖纲","Amphibia"],"order":["无尾目","Anura"],"family":["蛙科","Ranidae"],"genus":["侧褶蛙属","Pelophylax"]},"sections":{"intro":{"zh":"黑斑侧褶蛙是东亚的一种真蛙，1861 年首次被描述。它分布广泛，数量多，是常见的蛙类。","en":"The black-spotted pond frog is a species of true frog found in East Asia, first described in 1861. It is a widespread and common frog.","refs":["wiki"]},"body":{"zh":"成年雄蛙吻肛长约 62 毫米，雌蛙约 74 毫米。背部通常有大块深色斑点，并有一条浅色的背中线。","en":"Adult males measure about 62 millimetres and females about 74 millimetres in snout-vent length. The back usually has large dark spots and a light mid-dorsal line.","refs":["wiki"]},"habitat":{"zh":"它分布于中国大陆大部分地区、俄罗斯阿穆尔河流域、朝鲜半岛和日本大部分地区。不见于 2200 米以上的地区，通常生活在静水或缓流水体附近。","en":"It is found across much of mainland China, the Amur River valley, the Korean Peninsula and most of Japan. It is not found above 2200 m and is typically found in or near stagnant or slow-moving water.","refs":["wiki"]},"diet":{"zh":"它是机会型捕食者，主要吃昆虫，包括黄蜂和胡蜂。","en":"It is an opportunistic predator that mainly eats insects, including wasps and hornets.","refs":["wiki"]},"repro":{"zh":"繁殖季紧接在冬眠之后。大约两岁时可能达到性成熟。据报道，每窝卵数为 1800 到 3000 枚或 600 到 5000 枚，卵产在浅水中。","en":"The mating season occurs soon after hibernation, and maturity is probably reached at about two years. Clutch sizes have been reported as 1800 to 3000 or 600 to 5000 eggs, laid in shallow water.","refs":["wiki"]},"life":{"zh":"这种蛙的寿命可达 13 年。","en":"The total life span may reach 13 years.","refs":["wiki"]},"status":{"zh":"它分布广泛、数量很多。在朝鲜半岛，它被认为是最常见的真蛙，并长期被人捕来作食物。土库曼斯坦、欧胡岛和塞班岛也有人为引入的种群。","en":"It is a widespread and common frog. On the Korean Peninsula it has been considered the most common true frog and has been hunted for food for centuries. There are also introduced populations in Turkmenistan, Oahu and Saipan.","refs":["wiki"]}},"refs":{"wiki":{"title":"Pelophylax nigromaculatus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Pelophylax_nigromaculatus"}}},"goat":{"sci":"Capra hircus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["牛科","Bovidae"],"genus":["山羊属","Capra"]},"sections":{"intro":{"zh":"山羊（家山羊，Capra hircus）是主要被人类饲养的家畜。它是最早被驯化的动物之一，大约一万年前在伊朗开始被驯化。","en":"The goat (Capra hircus) is a species of caprine kept mostly as livestock. It was one of the first animals to be domesticated, in Iran around 10,000 years ago.","refs":["wiki"]},"body":{"zh":"山羊的瞳孔是横向的狭缝形，这使它们在明亮和昏暗的环境中都能看得清楚。","en":"Goats have horizontal, slit-shaped pupils, which let them see well in both well-lit and dark conditions. As with other mammal ruminants, they are even-toed ungulates.","refs":["wiki"]},"habitat":{"zh":"山羊在世界许多地方饲养。家山羊几乎在所有生境中都有饲养，它们的产品包括山羊奶、山羊奶酪、羊皮、羊肉和羊毛。","en":"Goats are raised in many parts of the world, with products including goat milk, goat cheese, goatskin, goat meat, and wool. Domestic goats have been raised in almost all habitats.","refs":["adw","wiki"]},"diet":{"zh":"山羊是反刍动物，以草和灌木为食。山羊能选择吃哪些草，通常会避开被粪便污染的草。","en":"Domestic goats are ruminants and eat grasses and shrubs. Goats can choose what grasses they will eat and generally avoid grass covered in feces, and in captivity they eat roughage.","refs":["adw"]},"repro":{"zh":"山羊的怀孕期约 150 天。小羊出生后几小时内就能走动并跟随母羊，约十个月后断奶。","en":"Gestation lasts about 150 days. Young goats are able to walk and follow their mother within hours of birth, and are weaned at about 10 months.","refs":["wiki","adw"]},"life":{"zh":"家山羊在圈养条件下通常能活到约 15 岁，有个体活到过 22 岁。作为家养动物，山羊很容易遭到捕食。","en":"Domestic goats typically live to about 15 years in captivity, and one individual has lived to 22 years old. As a domesticated species, goats are very susceptible to predation.","refs":["adw"]},"status":{"zh":"2024 年全世界的山羊超过十一亿八千万只，其中印度的数量最多。每年约有五亿六千四百万只山羊被屠宰取肉。","en":"More than 1.18 billion goats were recorded worldwide in 2024, and India has the most. Almost 564 million goats are slaughtered for meat each year.","refs":["wiki"]}},"refs":{"wiki":{"title":"Goat","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Goat"},"adw":{"title":"Capra hircus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Capra_hircus/"}}},"greenland_shark":{"sci":"Somniosus microcephalus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["软骨鱼纲","Chondrichthyes"],"order":["角鲨目","Squaliformes"],"family":["睡鲨科","Somniosidae"],"genus":["睡鲨属","Somniosus"]},"sections":{"intro":{"zh":"格陵兰睡鲨是一种大型鲨鱼，分布于北大西洋和北冰洋，是已知寿命最长的脊椎动物。","en":"The Greenland shark is a large shark of the family Somniosidae, inhabiting the North Atlantic and Arctic Oceans. It has the longest lifespan of any known vertebrate.","refs":["wiki"]},"body":{"zh":"成年个体通常长约 4 到 5 米，已确认的最大个体长 6.4 米。","en":"Adults grow to around 4 to 5 metres long, and the largest confirmed specimen measured 6.4 metres.","refs":["wiki"]},"habitat":{"zh":"它偏好冷水和深水，生活深度范围为 100 到 1200 米。","en":"It prefers cold water and deep water, between 100 and 1,200 metres deep.","refs":["wiki"]},"diet":{"zh":"它是广食性的捕食者，也吃腐肉。主要吃鲱鱼、鲑鱼、鳕鱼等鱼类，也吃海豹。","en":"It is a generalist feeder that also eats carrion. It mainly eats fish such as herring, salmon and cod, and also seals.","refs":["wiki"]},"repro":{"zh":"格陵兰睡鲨约 150 年才性成熟。它是卵胎生，妊娠期估计为 8 到 18 年，据报道每窝最多可产 10 只幼崽。","en":"Greenland sharks reach sexual maturity around 150 years of age. They are born alive after an estimated gestation of 8 to 18 years, and a litter may contain up to 10 pups.","refs":["wiki"]},"life":{"zh":"据估计，这一物种的寿命至少为 272 年，是已知脊椎动物中最长的。","en":"The species is estimated to live at least 272 years, the longest lifespan of any known vertebrate.","refs":["wiki"]},"status":{"zh":"其种群状况研究较少。格陵兰、挪威和冰岛仍有以其肝油为对象的渔业。海冰减少也可能影响它的猎物。","en":"Its population status is not well known. It supports a liver oil fishery in Greenland, Norway and Iceland.","refs":["adw","wiki"]}},"refs":{"wiki":{"title":"Greenland shark","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Greenland_shark"},"adw":{"title":"Somniosus microcephalus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Somniosus_microcephalus/"}}},"honeybee":{"sci":"Apis mellifera","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["膜翅目","Hymenoptera"],"family":["蜜蜂科","Apidae"],"genus":["蜜蜂属","Apis"]},"sections":{"intro":{"zh":"西方蜜蜂是最早被人类驯化的昆虫之一，至今仍是养蜂人饲养的主要蜜蜂。这里描述的是其中的工蜂，它是雌性，平时不能繁殖。","en":"The western honey bee was one of the first domesticated insects and is still the main bee kept by beekeepers. This entry describes the worker, a female that is normally non-reproductive.","refs":["wiki"]},"body":{"zh":"成年工蜂体长约 10 到 15 毫米。","en":"Adult workers are about 10 to 15 millimetres long.","refs":["adw","wiki"]},"habitat":{"zh":"西方蜜蜂现已分布于除南极洲以外的各大洲。它原本在非洲、中东和欧洲一带自然扩散，其后的大范围扩展是人类造成的。","en":"The western honey bee can be found on every continent except Antarctica. It spread naturally through Africa, the Middle East and Europe, and humans are responsible for much of its additional range.","refs":["wiki"]},"diet":{"zh":"工蜂从花上采集花蜜和花粉，把花蜜酿成蜂蜜，储存在蜂巢中。","en":"Workers collect flower nectar and pollen. They convert the nectar into honey, which is stored in the hive.","refs":["wiki"]},"repro":{"zh":"工蜂由受精卵发育而来，是通常不能繁殖的雌性。健康的蜂群中，所有的卵都由蜂王产下。","en":"Workers develop from fertilized diploid eggs and are normally non-reproductive females. In a healthy colony, the queen lays all the eggs.","refs":["wiki"]},"life":{"zh":"夏季出生的工蜂通常只活 2 到 4 周，在冬天存活下来的工蜂可活到 11 个月。工蜂面临的主要威胁是害虫和疾病，尤其是瓦螨和蜂群崩溃失调症。","en":"Summer workers live about 2 to 4 weeks, while those that survive the winter can live as long as 11 months. The main threats include pests and diseases, especially the Varroa mite and colony collapse disorder.","refs":["adw","wiki"]},"status":{"zh":"截至 2025 年，国际自然保护联盟红色名录将西方蜜蜂评为数据缺乏。它是养蜂人用来生产蜂蜜和传粉的主要蜂种。","en":"As of 2025, the western honey bee was assessed as Data Deficient on the IUCN Red List. It is the main species beekeepers keep for honey production and pollination.","refs":["wiki"]}},"refs":{"wiki":{"title":"Western honey bee","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Western_honey_bee"},"adw":{"title":"Apis mellifera","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Apis_mellifera/"}}},"housefly":{"sci":"Musca domestica","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["双翅目","Diptera"],"family":["蝇科","Muscidae"],"genus":["家蝇属","Musca"]},"sections":{"intro":{"zh":"家蝇可能是全球分布最广的昆虫，原产地或在中东，随人类活动扩散到世界各地。成虫呈灰色到黑色，胸部有四条深色纵纹。","en":"The housefly has spread around the world as a commensal of humans, probably from a place of origin in the Middle East. Adults are grey to black, with four dark longitudinal lines on the thorax.","refs":["wiki"]},"body":{"zh":"成虫体长通常为 6 到 7 毫米，眼睛为红色。雌蝇的眼睛间距更宽，身体比雄蝇稍大。","en":"Adults are usually 6 to 7 millimetres long and have red compound eyes. Females are slightly larger than males, with the eyes set farther apart.","refs":["wiki"]},"habitat":{"zh":"家蝇几乎分布于世界各地，北极和热带都有。它在热带数量尤其多。","en":"The housefly is probably the insect with the widest distribution in the world. It is present in the Arctic as well as the tropics, where it is abundant.","refs":["wiki"]},"diet":{"zh":"成蝇主要吃动物性物质、腐肉和粪便，也吃牛奶、含糖物质和腐烂的果蔬。它们先用唾液软化固体食物，再把食物吸入口中。","en":"Adults mainly eat animal matter, carrion and feces, but also consume milk, sugary substances and rotting fruit and vegetables. They soften solid food with saliva before sucking it up.","refs":["wiki"]},"repro":{"zh":"雌蝇通常只交配一次，并把精子储存起来慢慢使用。它把卵成批产在腐烂的有机物上，每批约 100 枚。卵孵化成蛆后，经过两到五天的发育化为蛹；整个生活史在最适条件下只需七到十天。","en":"A female usually mates only once and stores the sperm for later use. She lays batches of about 100 eggs on decaying organic matter, and the larvae pupate after two to five days. Under optimal conditions the whole life cycle takes seven to ten days.","refs":["wiki"]},"life":{"zh":"成蝇通常能活两到四周，有些会在冬天休眠。它的天敌包括鸟类、爬行动物、昆虫和蜘蛛，一种致死真菌会在约五天内杀死感染的苍蝇。","en":"Adults normally live for two to four weeks and some hibernate in winter. Predators include birds, reptiles, amphibians, insects and spiders, and the fungus Entomophthora muscae kills infected flies in about five days.","refs":["wiki"]},"status":{"zh":"家蝇数量极多，不属于受威胁物种，但被视为害虫，因为它们会携带病原体并污染食物。","en":"Houseflies are highly abundant and not threatened or endangered. They are considered pests because they can carry pathogens and contaminate food.","refs":["adw","wiki"]}},"refs":{"wiki":{"title":"Housefly","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Housefly"},"adw":{"title":"Musca domestica","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Musca_domestica/"}}},"human":{"sci":"Homo sapiens","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["灵长目","Primates"],"family":["人科","Hominidae"],"genus":["人属","Homo"]},"sections":{"intro":{"zh":"人类（智人，Homo sapiens）是数量最多、分布最广的灵长类动物。人类用两条腿直立行走，体毛稀少，大脑大而结构复杂，能发展出复杂的技术、文化和语言。","en":"Humans (Homo sapiens) are the most abundant and widespread primate species. They walk upright on two legs, have little body hair, and have large, complex brains.","refs":["wiki"]},"habitat":{"zh":"人类分布在全球各地的陆地环境中，除南极洲以外的各大洲以及大多数适合居住的海岛上都有永久定居点。人类还大范围改造栖息地，使其他物种能生存的范围缩小。","en":"Humans live in all terrestrial habitats worldwide, with permanent settlements on every continent except Antarctica. They also modify habitats extensively, which leaves a much smaller set of other species able to live in those areas.","refs":["adw"]},"diet":{"zh":"人类是杂食动物，既吃植物也吃动物，饮食随当地的食物资源而有很大不同。有些文化只吃素，依靠植物蛋白质获取营养。人类还会用火烹饪食物。","en":"Humans are omnivores that eat a wide variety of plant and animal food, and they have used fire to cook it. Some cultures eat a vegetarian diet.","refs":["wiki","adw"]},"repro":{"zh":"人类全年都能繁殖。妊娠期平均约 40 周。新生儿出生时无法自理，父母双方通常都会共同照顾后代。","en":"Humans can breed throughout the year. Pregnancy lasts an average of 40 weeks, and newborns are helpless at birth, so both parents usually care for the young.","refs":["adw","wiki"]},"life":{"zh":"多数人能活到 50 至 80 岁，前提是能度过最脆弱的童年。人类几乎没有天敌，在一些地区的生态系统中常处于食物链的顶端。","en":"Most humans live 50 to 80 years, provided they survive childhood. Humans have few natural predators and often sit at or near the top of the food chain in regional ecosystems.","refs":["adw"]},"status":{"zh":"全球人口在 2026 年已超过八十亿，但一些地区或孤立的人群可能因经济、疾病、栖息地退化、迁移和文化消退而数量下降。","en":"Over 8.3 billion humans lived on Earth in 2026, although some regional or isolated populations may be in decline.","refs":["adw","wiki"]}},"refs":{"wiki":{"title":"Human","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Human"},"adw":{"title":"Homo sapiens","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Homo_sapiens/"}}},"krill":{"sci":"Euphausia superba","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["软甲纲","Malacostraca"],"order":["磷虾目","Euphausiacea"],"family":["磷虾科","Euphausiidae"],"genus":["磷虾属","Euphausia"]},"sections":{"intro":{"zh":"南极磷虾（Euphausia superba）是分布于南大洋南极水域的一种小型甲壳动物，常成群游动，是南极生态系统中的关键物种。","en":"Antarctic krill (Euphausia superba) is a small, swimming crustacean found in Antarctic waters of the Southern Ocean. It lives in large schools and is a key species in the Antarctic ecosystem.","refs":["wiki","adw"]},"body":{"zh":"成体体长约 5–6.5 厘米，平均体重约 2 克，身体呈粉红色，外壳坚硬。","en":"Adults are 5 to 6.5 centimetres long and weigh about 2 grams on average. The body is pink and slightly opaque, with a hard, calcified exoskeleton.","refs":["wiki","adw"]},"habitat":{"zh":"生活在南大洋和印度洋一侧的南极开阔海域，包括南极半岛一带，分布范围从南极大陆架边缘延伸到南极极锋带。成体多在表层至约 350 米深的水层活动。","en":"Antarctic krill live in open Antarctic waters, including the Antarctic Peninsula region. Their distribution spans the Antarctic continental shelf break to the Antarctic Polar Frontal Zone. Adults are found from the surface to depths of 350 metres.","refs":["adw"]},"diet":{"zh":"主要以浮游植物为食，尤其是很小的硅藻，它们用胸足组成的“摄食篮”从水中滤取食物。也会捕食桡足类等小型浮游动物。","en":"Antarctic krill feed mainly on phytoplankton, especially very small diatoms, which they filter from the water with a feeding basket. They can also catch copepods and other small zooplankton.","refs":["wiki"]},"repro":{"zh":"雌虫一次可产卵约 6000–10000 枚，多在深水中产卵，卵会在海底附近开始发育。达到成熟通常需要两到三年。","en":"Females lay about 6,000 to 10,000 eggs at a time, in deep water, and eggs begin development on the sea floor. Krill reach maturity after two to three years.","refs":["wiki","adw"]},"life":{"zh":"寿命平均约 5–7 年。它是许多海洋哺乳动物、鱼类和鸟类的食物，成群游动可减少个体被捕食的风险。","en":"The average lifespan of Antarctic krill is 5 to 7 years. It is prey for many marine mammals, fishes and birds, and schooling helps it avoid being singled out by predators.","refs":["adw"]},"status":{"zh":"是地球上数量最多的动物物种之一；过度捕捞受到一些保护团体的关注。","en":"It is one of the most abundant animal species on the planet. Overfishing is a concern to some conservation groups.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Antarctic krill","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Antarctic_krill"},"adw":{"title":"Euphausia superba (Antarctic krill)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Euphausia_superba/"}}},"lanternfish":{"sci":"Myctophidae","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["灯笼鱼目","Myctophiformes"],"family":["灯笼鱼科","Myctophidae"]},"sections":{"intro":{"zh":"灯笼鱼是灯笼鱼科（Myctophidae）的小型中层鱼类，因能发出生物荧光而得名，遍布全球大洋，是分布最广的脊椎动物之一。","en":"Lanternfish are small mesopelagic fish of the family Myctophidae. They are named after their conspicuous use of bioluminescence, are found in oceans worldwide, and are among the most widely distributed vertebrates.","refs":["wiki"]},"body":{"zh":"体长多为 2 至 30 厘米，多数不到 15 厘米。身体上的发光器呈成对排列，集中在身体两侧和头部，可发出微弱的蓝、绿或黄色光。","en":"Lanternfish are generally 2 to 30 centimetres long, with most under 15 centimetres. Their light-producing organs are arranged in rows on the body and head, and they emit a weak blue, green or yellow light.","refs":["wiki"]},"habitat":{"zh":"白天多数种类停留在 300 至 1500 米深的中层水域，黄昏后上升到 10 至 100 米深的表层水域。多数种类在大陆坡上方成群游动。","en":"By day most species stay between 300 and 1,500 metres deep, and at sundown they rise to between 10 and 100 metres. Most species remain near the coast, schooling over the continental slope.","refs":["wiki"]},"diet":{"zh":"夜间在表层水中取食浮游动物，黎明前又回到黑暗的深水中。它们黄昏上浮，被认为一定程度上是为了躲避捕食。","en":"At night they feed on zooplankton in the surface layers and return to the depths by daybreak. They rise at dusk partly to avoid predation.","refs":["wiki"]},"life":{"zh":"它们是许多海洋动物的重要食物，会被鲸、海豚、大型中上层鱼类、鲨鱼和海鸟（尤其是企鹅）等捕食。","en":"Lanternfish are a major source of food for many marine animals. They are heavily preyed upon by whales and dolphins, large pelagic fish such as salmon, tuna and sharks, and sea birds, notably penguins.","refs":["wiki"]},"status":{"zh":"是分布最广、数量最多的脊椎动物之一，估计生物量可达 1.8 至 16 千兆吨。南非近海、亚南极区和阿曼湾有商业捕捞。","en":"Lanternfish are among the most widely distributed and populous vertebrates, with an estimated global biomass of 1.8 to 16 gigatonnes. Commercial fisheries for them exist off South Africa, in the sub-Antarctic and in the Gulf of Oman.","refs":["wiki"]}},"refs":{"wiki":{"title":"Lanternfish","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Lanternfish"}}},"layer_hen":{"sci":"Gallus gallus domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["鸡形目","Galliformes"],"family":["雉科","Phasianidae"],"genus":["原鸡属","Gallus"]},"sections":{"intro":{"zh":"用于产蛋的鸡称为蛋鸡。蛋鸡产蛋量高，但通常在产蛋期结束后也会被宰杀作为肉用。","en":"Chickens kept for eggs are called layers. Flocks are usually slaughtered after about 12 months of egg production, when they are considered economically unviable.","refs":["wiki"]},"body":{"zh":"部分商品蛋鸡品种一年可产 300 多枚蛋。","en":"Some commercial breeds can produce over 300 eggs a year.","refs":["wiki"]},"habitat":{"zh":"许多国家的蛋鸡养在层架式铁笼中，每个笼子通常养 3 至 8 只鸡，每只鸡分到的空间常被形容为小于一张 A4 纸，约 623 平方厘米。","en":"Most hens in many countries are housed in battery cages of 3 to 8 hens, with less space per bird than a sheet of A4 paper (623 cm2).","refs":["wiki"]},"repro":{"zh":"商品蛋鸡通常在 16 至 21 周龄开始产蛋，约 25 周龄后产蛋率逐渐下降。","en":"Commercial hens usually begin laying at 16 to 21 weeks of age, and production gradually declines from about 25 weeks.","refs":["wiki"]},"life":{"zh":"鸡在自然状态下可以活 6 年以上，但商品蛋鸡通常在产蛋约 12 个月后就被淘汰宰杀。","en":"Chickens can naturally live 6 or more years, but commercial laying flocks are usually slaughtered after about 12 months of egg production.","refs":["wiki"]},"status":{"zh":"全球每年有六百多亿只鸡被宰杀食用。","en":"More than 60 billion chickens are killed for consumption each year.","refs":["wiki"]}},"refs":{"wiki":{"title":"Poultry farming","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Poultry_farming"}}},"lion":{"sci":"Panthera leo","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["猫科","Felidae"],"genus":["豹属","Panthera"]},"sections":{"intro":{"zh":"狮（Panthera leo）是豹属中的大型猫科动物，现今只分布在撒哈拉以南非洲和印度。狮是一种群居的猫科动物，它们组成的群体称为狮群。","en":"The lion (Panthera leo) is a large cat of the genus Panthera, living only in sub-Saharan Africa and India. It is a social species that forms groups called prides.","refs":["wiki"]},"body":{"zh":"雄狮比雌狮大，并有明显的鬃毛。成年雄狮通常体重约 189 公斤，有记录的最重雄狮重 272 公斤。","en":"Adult male lions are larger than females and have a prominent mane. Adult males typically weigh 189 kg, and the heaviest recorded male weighed 272 kg.","refs":["wiki","adw"]},"habitat":{"zh":"狮子生活在草原、稀树草原和灌丛中。非洲狮生活在有大量猎物的平原或稀树草原上。","en":"Lions inhabit grasslands, savannas and shrublands. African lions live in plains or savanna habitat with a large prey base, and they can also live in most habitats except tropical rainforests.","refs":["adw","wiki"]},"diet":{"zh":"狮子是顶级捕食者，主要捕食中型和大型有蹄类哺乳动物。雌狮通常结群共同狩猎。","en":"Lions are apex predators. Their prey consists mainly of medium-sized to large hooved mammals, particularly blue wildebeest, plains zebra, African buffalo, gemsbok and giraffe, and groups of females usually hunt together.","refs":["wiki"]},"repro":{"zh":"雌狮 4 岁起可以繁殖，雄狮 5 岁起可以繁殖。一胎生一到六只幼崽，妊娠期约 3.5 个月。","en":"Females breed from 4 years of age and males from 5 years. One to six cubs are born after a gestation of 3.5 months. Mother lions keep their cubs in hiding until they reach about 8 weeks of age.","refs":["adw"]},"life":{"zh":"雌狮通常比雄狮活得长。雄狮在五到九岁时最为强壮，但很少有雄狮能活过十岁。成年狮子除人类迫害外没有天敌。","en":"Female lions typically live longer than males. Males reach their prime between five and nine years, but few survive past ten years of age. Adult lions have no natural predators, apart from persecution by humans.","refs":["adw"]},"status":{"zh":"自 1996 年起，国际自然保护联盟红色名录将狮子列为易危。非洲各国的狮子数量自二十世纪九十年代初以来下降了约 43%。","en":"The IUCN has listed the lion as Vulnerable since 1996, because African populations have declined by about 43% since the early 1990s. African lions now live in scattered populations across sub-Saharan Africa.","refs":["wiki"]}},"refs":{"wiki":{"title":"Lion","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Lion"},"adw":{"title":"Panthera leo","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Panthera_leo/"}}},"mayfly":{"sci":"Ephemeroptera","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["蜉蝣目","Ephemeroptera"]},"sections":{"intro":{"zh":"蜉蝣是蜉蝣目（Ephemeroptera）的水生昆虫，已知全世界超过 3000 种。幼虫生活在淡水中，成虫阶段非常短暂。","en":"Mayflies are aquatic insects in the order Ephemeroptera. Over 3,000 species, grouped into over 400 genera, are known worldwide, and their immature stages live in fresh water.","refs":["wiki"]},"body":{"zh":"成虫有长尾丝，翅不能平放在腹部上方，静止时直立。幼虫体长约 3–30 毫米，随种类而不同。","en":"Adults have long tails, and their wings do not fold flat over the abdomen. Nymphs range from 3 to 30 millimetres long, depending on species.","refs":["wiki"]},"habitat":{"zh":"幼虫主要生活在溪流中石块下、腐烂植物或沉积物里，少数种类生活在湖泊中。幼虫的存在通常表示水体清洁、含氧量高。","en":"Nymphs mainly live in streams, under rocks, in decaying vegetation or in sediments. Few species live in lakes. Their presence indicates clean, highly oxygenated water.","refs":["wiki"]},"diet":{"zh":"多数幼虫以藻类、硅藻和碎屑为食，少数种类捕食摇蚊等小型昆虫幼虫。成虫不取食。","en":"Most nymphs eat algae, diatoms or detritus, while a few prey on midge larvae and other small insect larvae. Some can switch feeding groups as they grow. Adults do not feed.","refs":["wiki"]},"repro":{"zh":"雌虫通常产卵数百到三千枚，卵多落入水中并沉到底部。雄虫常在水面上方成群舞动，雌虫飞入其中，在空中交配。","en":"Females typically lay between four hundred and three thousand eggs, which usually sink to the bottom. Males swarm a few metres above the water, and mating takes place in the air.","refs":["wiki"]},"life":{"zh":"成虫寿命很短，有的种类只有几分钟。亚成虫阶段通常不超过 24 小时。鱼类是它们的主要捕食者之一。","en":"Adult lifespan is very short, and in some species lasts only minutes. The subimago stage rarely lasts more than 24 hours, and fish are among the main predators.","refs":["wiki"]},"status":{"zh":"在一两天的羽化期内数量极多，钓鱼者常选用仿照它的人造钓饵。幼虫是水生食物链中的重要环节。","en":"During a hatch, mayflies are extremely abundant, and fly fishermen use artificial flies that resemble them. Their nymphs form an important part of the aquatic food chain.","refs":["wiki"]}},"refs":{"wiki":{"title":"Mayfly","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Mayfly"}}},"mite":{"sci":"Oribatida","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["蛛形纲","Arachnida"],"order":["疥螨目","Sarcoptiformes"]},"sections":{"intro":{"zh":"甲螨（Oribatida）是螨类中的一个类群，也叫苔螨，是森林土壤中数量最多的节肢动物之一。","en":"Oribatid mites, or Oribatida, are a group of mites, also known as moss mites or beetle mites. They are by far the most prevalent arthropods in forest soils.","refs":["wiki"]},"body":{"zh":"体长约 0.2–1.4 毫米。许多成体具有矿化的外骨骼，有些种类还能把腿收到甲下。","en":"Oribatid mites range from 0.2 to 1.4 millimetres long. Many adults have a mineralized exoskeleton, and some can tuck their legs underneath their protective armour.","refs":["wiki"]},"habitat":{"zh":"多数种类生活在潮湿的林地表面和落叶层中，在有厚有机质层的森林中密度最高。少数种类生活在水生植物上，还有些种类适应干燥环境。","en":"Most species live on the moist forest floor and in its leaf litter, and their density is highest in forests with thick organic layers. A few species live on aquatic plants, and some are suited to dry conditions.","refs":["wiki"]},"diet":{"zh":"以活的或死亡的植物、真菌、地衣和腐肉等为食，有些种类会捕食其他小动物。同一种的幼体和成体取食习性可能不同。","en":"They feed on living and dead plant and fungal material, lichens and carrion, and some species are predatory. Feeding habits may differ between immatures and adults of the same species.","refs":["wiki"]},"repro":{"zh":"发育很慢，在温带森林土壤中从卵到成体可能需要几个月到两年，成体寿命相对较长。","en":"Development is slow. In temperate forest soils, it can take from several months to two years to go from egg to adult, and adults live a relatively long time.","refs":["wiki"]},"life":{"zh":"成体寿命相对较长。成体有硬化的外甲，部分种类能把腿收到甲下，以防御捕食。毒蛙会捕食部分甲螨。","en":"Adults live a relatively long time. They are protected by a hard armour, and some can tuck their legs beneath it. Poison dart frogs prey on some species.","refs":["wiki"]},"status":{"zh":"已知约 12000 种，全球总数估计在 60000 至 120000 种之间。它们是森林土壤中数量最多的节肢动物之一。","en":"About 12000 species have been identified, and the total number is estimated at 60000 to 120000. They are by far the most prevalent arthropods in forest soils.","refs":["wiki"]}},"refs":{"wiki":{"title":"Oribatida","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Oribatida"}}},"mosquito":{"sci":"Aedes albopictus","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["双翅目","Diptera"],"family":["蚊科","Culicidae"],"genus":["伊蚊属","Aedes"]},"sections":{"intro":{"zh":"白纹伊蚊分布于世界热带和亚热带地区。它的腿和身体上有白色条纹，因此常被称为虎纹蚊。","en":"The Asian tiger mosquito is found in the tropical and subtropical areas of the world. It has white bands on its legs and body, which is why it is often called a tiger mosquito.","refs":["wiki"]},"body":{"zh":"成虫体长不到 10 毫米，身体上有醒目的黑白相间斑纹。雄蚊比雌蚊小约 20%。","en":"Adults are less than 10 millimetres long and have a striking black and white pattern. Males are roughly 20% smaller than females.","refs":["wiki"]},"habitat":{"zh":"白纹伊蚊原产东南亚，现在热带和亚热带地区都有分布。它也能适应较凉爽的温带地区，并在那里越冬。","en":"The Asian tiger mosquito originally came from Southeast Asia and is now found in tropical and subtropical areas of the world. It has also adapted to cooler temperate regions, where it hibernates over winter.","refs":["wiki"]},"diet":{"zh":"只有雌蚊需要吸血，用来发育卵；雌雄蚊平时都以花蜜和植物汁液为食。","en":"Only females need a blood meal, which they use to develop their eggs. Both sexes otherwise feed on nectar and other sweet plant juices.","refs":["wiki"]},"repro":{"zh":"雌蚊把卵产在积水附近而不是直接产在水里，卵被水淹没后开始孵化。","en":"Females lay their eggs near water rather than directly in it. The eggs begin hatching once they are submerged in a stagnant pool of water.","refs":["wiki","adw"]},"life":{"zh":"在温带、湿度较高的环境里，成蚊的平均寿命约为 30 到 40 天。幼虫的天敌包括其他蚊子幼虫、扁虫和水生甲虫。","en":"In a temperate climate with relatively high humidity, average adult lifespan was 30 to 40 days. Its larvae are eaten by other mosquito larvae, flatworms and swimming beetles.","refs":["wiki","adw"]},"status":{"zh":"白纹伊蚊是重要的卫生害虫和病媒，能传播登革热、基孔肯雅热等病毒，白天也常在人群附近活动。","en":"It is an important disease vector and pest. It can transmit viruses such as dengue and Chikungunya fever, and it often flies and feeds in daytime near humans.","refs":["wiki"]}},"refs":{"wiki":{"title":"Aedes albopictus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Aedes_albopictus"},"adw":{"title":"Aedes albopictus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Aedes_albopictus/"}}},"nematode":{"sci":"Nematoda","lineage":{"phylum":["线虫动物门","Nematoda"]},"sections":{"intro":{"zh":"线虫是线虫动物门（Nematoda）的动物，身体呈细长的蠕虫状，表面有一层有弹性的角质层。它们已适应地球上几乎所有的生态系统。","en":"Nematodes, or roundworms, are worm-like animals covered by a flexible cuticle. They have adapted to nearly every ecosystem on Earth, from marine and fresh water to soils and the polar regions.","refs":["wiki","adw"]},"body":{"zh":"身体两侧对称，外面包着一层有弹性的角质层，身体结构简单。消化管为管状，两端都有开口。","en":"Their body is bilaterally symmetrical and their body plan is simple. The muscles run only lengthwise, and the digestive tube has openings at both ends.","refs":["wiki","adw"]},"habitat":{"zh":"生活在海水、淡水和土壤中，约 90% 的线虫生活在土壤表层 15 厘米以内。它们的分布从极地延伸到热带。","en":"Nematodes live in seas, fresh water and soils. About 90% of them live in the top 15 centimetres of soil, and they are found from the polar regions to the tropics.","refs":["wiki"]},"diet":{"zh":"自由生活的种类以细菌、藻类、真菌、腐殖质和小型动物为食。线虫可以每分钟吃掉多达 5000 个细菌，并帮助调节土壤中的细菌数量。","en":"Free-living species feed on bacteria, algae, fungi, small animals and dead matter. Nematodes may eat up to 5000 bacteria per minute, and they can effectively regulate soil bacterial populations.","refs":["wiki"]},"repro":{"zh":"多数种类为雌雄异体，通过交配受精。卵孵化出的幼虫外形与成虫基本相同，但生殖系统尚未发育。","en":"Most nematode species have separate sexes. In free-living species, eggs hatch into larvae that look essentially like the adults but have an underdeveloped reproductive system.","refs":["wiki"]},"life":{"zh":"许多种类是寄生者，会感染人、家畜和作物，部分植物寄生线虫会造成严重的作物损失。土壤中也有能捕食线虫的真菌。","en":"A number of nematodes are parasites of humans, livestock and crops. Plant-parasitic nematodes include several groups causing severe crop losses, and predatory fungi that trap them live in soil.","refs":["adw","wiki"]},"status":{"zh":"在许多生境中，线虫的个体数和物种数常超过其他动物，甚至能在地壳的很深处找到。","en":"They often outnumber other animals in both number of individuals and number of species. They are found in every part of the Earth's lithosphere, even at great depths.","refs":["wiki"]}},"refs":{"wiki":{"title":"Nematode","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Nematode"},"adw":{"title":"Nematoda (roundworms)","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Nematoda/"}}},"octopus":{"sci":"Octopus vulgaris","lineage":{"phylum":["软体动物门","Mollusca"],"class":["头足纲","Cephalopoda"],"order":["八腕目","Octopoda"],"family":["章鱼科","Octopodidae"],"genus":["章鱼属","Octopus"]},"sections":{"intro":{"zh":"普通章鱼是一种软体动物，属于头足纲。它是研究最多的章鱼之一，也是最聪明的章鱼之一。","en":"The common octopus is a mollusk belonging to the class Cephalopoda. It is one of the most studied octopus species and also one of the most intelligent.","refs":["wiki"]},"body":{"zh":"成体胴长可达 25 厘米，腕长可达 1 米，体重最多约 9 千克。","en":"It grows to a mantle length of 25 centimetres, with arms up to 1 metre long, and may weigh up to 9 kilograms.","refs":["wiki"]},"habitat":{"zh":"普通章鱼分布于热带、亚热带和温带海域。它多生活在较浅、多岩石的近岸海底，通常不深于 200 米。","en":"The common octopus lives in tropical, subtropical and temperate waters worldwide. It prefers the floor of shallow, rocky coastal waters, often no deeper than 200 metres.","refs":["wiki"]},"diet":{"zh":"它主要以腹足类和双壳类为食，也偏爱螃蟹和龙虾，几乎能吃掉任何能抓到的猎物。","en":"It feeds mainly on gastropods and bivalves. Crabs and lobsters are also preferred prey, and it will eat almost anything it can catch.","refs":["adw","wiki"]},"repro":{"zh":"雌章鱼一生可产十万到五十万枚卵，卵附着在浅水的基质上。雌性在产卵和孵化期间很少离开卵群，幼体孵出后不久便死去。","en":"A female lays 100,000 to 500,000 eggs in her lifetime, attached to a substrate in shallow water. She rarely leaves the egg mass while brooding and usually dies shortly after the last embryos hatch.","refs":["adw"]},"life":{"zh":"普通章鱼的寿命约为 12 到 24 个月。","en":"The common octopus has a life span of 12 to 24 months.","refs":["adw"]},"status":{"zh":"普通章鱼是重要的渔业对象，每年捕捞量超过两万吨，主要由底拖网在非洲西北海岸捕获。目前没有被特别列为濒危，但存在过度捕捞的风险。","en":"The common octopus is a major fishery species, with more than 20,000 tonnes harvested annually, mainly by bottom trawls off northwest Africa. There is potential for overfishing, but at this time it is not at any specific risk.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Common octopus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Common_octopus"},"adw":{"title":"Octopus vulgaris","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Octopus_vulgaris/"}}},"panda":{"sci":"Ailuropoda melanoleuca","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["熊科","Ursidae"],"genus":["大熊猫属","Ailuropoda"]},"sections":{"intro":{"zh":"大熊猫（Ailuropoda melanoleuca）是中国特有的熊科物种。它的身体大部分是白色的，眼睛、耳朵、四肢和肩部有黑色斑块。","en":"The giant panda (Ailuropoda melanoleuca) is a bear species endemic to China. It is characterised by a white coat with black patches around the eyes, ears, legs and shoulders.","refs":["wiki"]},"body":{"zh":"大熊猫身体圆胖，成年个体通常体重 100 至 115 公斤，体长 1.2 至 1.9 米。前掌上有一个类似拇指的结构，帮助它抓住竹子。","en":"Giant pandas have a rotund body. Adults typically weigh 100 to 115 kg and are typically 1.2 to 1.9 m long. A thumb-like structure on the forepaw helps hold bamboo in place while feeding.","refs":["wiki"]},"habitat":{"zh":"大熊猫生活在有竹子的山地森林中。它们分布在中国六个山区的小而分散的种群中，主要在四川，也分布在陕西和甘肃。","en":"Giant pandas inhabit montane forests where bamboo is present. They live in small, fragmented populations in six mountainous regions, mainly in Sichuan, and also in Shaanxi and Gansu.","refs":["adw","wiki"]},"diet":{"zh":"大熊猫以竹子为主食，几乎全部食物都是竹子和竹笋。成年大熊猫每天约吃 9 至 14 公斤竹笋，每天可花 10 至 12 小时进食。","en":"Giant pandas are mostly herbivores, with a diet consisting almost entirely of bamboo and bamboo shoots. An average panda eats 9 to 14 kg of bamboo shoots per day and can spend 10 to 12 hours a day feeding.","refs":["wiki","adw"]},"repro":{"zh":"妊娠期在 95 至 160 天之间，变化较大。新生幼崽是粉红色的，眼睛看不见，没有牙齿，体重只有 90 至 130 克。母熊猫通常把幼崽抚养 18 至 24 个月，并可能每 2 年或更久才繁殖一次。","en":"The gestation period is somewhere between 95 and 160 days. A newborn cub is pink, blind and toothless, weighing 90 to 130 g. Females rear cubs for 18 to 24 months and may breed every 2 years or less often.","refs":["wiki","adw"]},"life":{"zh":"圈养条件下，正常的最长寿命约为 26 年，有一只大熊猫曾活到约 34 岁。成年大熊猫几乎没有天敌，但幼崽容易遭到雪豹、黄喉貂、鹰、野狗和亚洲黑熊等动物的攻击。","en":"In captivity, the normal maximum life expectancy is 26 years, and one panda lived to about 34 years. Adult giant pandas have few natural predators, but young cubs are vulnerable to attacks by snow leopards, yellow-throated martens, eagles, feral dogs and Asian black bears.","refs":["adw","wiki"]},"status":{"zh":"自 2016 年起，国际自然保护联盟红色名录将大熊猫列为易危。全国大熊猫调查估计，野生大熊猫的数量已增至 1864 只（1.5 岁以上，不含依赖母亲的幼崽）。","en":"The IUCN has listed the giant panda as Vulnerable since 2016. A national survey estimated the wild population, aged over 1.5 years, at 1,864 individuals.","refs":["wiki"]}},"refs":{"wiki":{"title":"Giant panda","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Giant_panda"},"adw":{"title":"Ailuropoda melanoleuca","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Ailuropoda_melanoleuca/"}}},"penguin":{"sci":"Aptenodytes forsteri","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["企鹅目","Sphenisciformes"],"family":["企鹅科","Spheniscidae"],"genus":["王企鹅属","Aptenodytes"]},"sections":{"intro":{"zh":"帝企鹅是现存企鹅中最高、最重的一种，只分布于南极洲。它是唯一在南极冬季繁殖的企鹅物种。","en":"The emperor penguin is the tallest and heaviest living penguin and lives only in Antarctica. It is the only penguin species that breeds during the Antarctic winter.","refs":["wiki","adw"]},"body":{"zh":"雌雄体形和羽色相近，体长可达 100 厘米，体重约 22 至 45 公斤。头部和背部是黑色，腹部是白色，胸部淡黄，耳斑亮黄。","en":"Males and females look alike in size and plumage. They reach about 100 cm in length and weigh 22 to 45 kg, with black heads and backs and white bellies.","refs":["wiki"]},"habitat":{"zh":"帝企鹅只生活在南极洲及其附近海域。它们几乎总在近岸的稳定海冰上繁殖，离岸最远约 18 公里。","en":"Emperor penguins live only in the Antarctic. They almost always breed on stable pack ice near the coast, up to 18 km offshore.","refs":["wiki","adw"]},"diet":{"zh":"主要吃鱼，也吃磷虾等甲壳类和鱿鱼等头足类。觅食时可在水下停留约 20 分钟，潜水深度最大可达 535 米。","en":"It feeds mainly on fish, along with crustaceans such as krill and cephalopods such as squid. While hunting, it can stay submerged for about 20 minutes and dive to 535 m.","refs":["wiki"]},"repro":{"zh":"雌雄企鹅要在冰面上跋涉 50 至 120 公里到达繁殖地，繁殖地可能有数千只个体。雌鸟只产一枚卵，由雄鸟孵化两个多月，雌鸟则回海里觅食。","en":"Emperor penguins walk 50 to 120 km over the ice to breeding colonies of up to several thousand birds. The female lays a single egg, which the male incubates for just over two months while the female feeds at sea.","refs":["wiki"]},"life":{"zh":"野外寿命通常约 20 年，少数个体可能活到 50 岁。主要的威胁包括饥饿、捕食者和恶劣天气。","en":"The typical lifespan in the wild is 20 years, and some individuals may live to 50. Main dangers include starvation, predators and harsh weather.","refs":["wiki","adw"]},"status":{"zh":"国际自然保护联盟在 2012 年把帝企鹅从无危调整为近危。主要风险是食物资源减少，原因包括气候变化和工业捕捞。","en":"The IUCN Red List moved the emperor penguin from least concern to near threatened in 2012. The main risks are declining food supply from climate change and industrial fishing.","refs":["wiki"]}},"refs":{"wiki":{"title":"Emperor penguin","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Emperor_penguin"},"adw":{"title":"Aptenodytes forsteri","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Aptenodytes_forsteri/"}}},"pig":{"sci":"Sus scrofa domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["猪科","Suidae"],"genus":["猪属","Sus"]},"sections":{"intro":{"zh":"猪是一种杂食性、已驯化的偶蹄类哺乳动物，人们主要饲养它来获取猪肉。","en":"The pig is an omnivorous, domesticated, even-toed hoofed mammal. It is farmed mainly for its meat, which is called pork.","refs":["wiki"]},"body":{"zh":"成年猪体重一般在 140 至 300 公斤之间，有些品种可以超过这个范围。","en":"Adult pigs generally weigh between 140 and 300 kg, though some breeds can exceed this range.","refs":["wiki"]},"habitat":{"zh":"在工业化国家，猪的饲养已大多转向大规模的集约化养殖。","en":"In industrialized nations, pig production has largely switched to large-scale intensive farming.","refs":["wiki"]},"repro":{"zh":"母猪 3 至 12 月龄达到性成熟，未配种时每 18 至 24 天发情一次。妊娠期平均 112 至 120 天。","en":"Female pigs reach sexual maturity at 3 to 12 months of age, and the gestation period averages 112 to 120 days.","refs":["wiki"]},"life":{"zh":"猪的最长寿命约 27 年。","en":"Pigs have a maximum life span of about 27 years.","refs":["wiki"]},"status":{"zh":"中国是世界上最大的猪肉生产国。","en":"China is the world's largest pork producer.","refs":["wiki"]}},"refs":{"wiki":{"title":"Pig","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Pig"}}},"pigeon":{"sci":"Columba livia","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["鸽形目","Columbiformes"],"family":["鸠鸽科","Columbidae"],"genus":["鸽属","Columba"]},"sections":{"intro":{"zh":"城市鸽由家养原鸽逃逸或被放生后野化形成，与原鸽是同一物种。它们以楼房代替崖壁筑巢，在世界上大部分城市都很常见。","en":"Feral pigeons descend from domesticated rock doves that escaped or were released and now live on their own. They are the same species as wild rock doves and are abundant in towns and cities throughout much of the world.","refs":["wiki"]},"body":{"zh":"体形和大小与野生原鸽基本相同，但羽色和斑纹的变化比原鸽丰富得多。城市里的鸽子羽色通常比乡村的更深。","en":"Feral pigeons are essentially the same size and shape as wild rock doves, with far more variation in colour and pattern. Urban pigeons tend to have darker plumage than rural ones.","refs":["wiki"]},"habitat":{"zh":"原鸽原产于欧洲、北非和亚洲西南部。城市野鸽则栖息在楼房等人造建筑上，代替了崖壁。","en":"Rock doves are native to Europe, North Africa and southwestern Asia. Feral pigeons live on man-made structures such as buildings in place of cliffs.","refs":["adw","wiki"]},"diet":{"zh":"它们主要吃种子。在城市里，还会吃爆米花、面包、花生等人类食物。","en":"They eat mainly seeds. In cities, feral pigeons also eat popcorn, cake, peanuts and bread.","refs":["adw"]},"repro":{"zh":"配对关系长期稳定，雄鸟筑巢，雌雄双方共同孵卵。卵在巢做好后不久产下，约 19 天孵化。","en":"Pairs are formed for life, and the male builds the nest. Both sexes incubate the eggs, which hatch about 19 days after being laid.","refs":["adw"]},"status":{"zh":"许多城市把它们视为有害动物，采取措施减少它们的数量。有的城市发现，停止喂食后，本地鸽群数量在几年内明显下降。","en":"Many cities treat feral pigeons as pests and take action to reduce their numbers. Some cities have found that stopping feeding causes a steady population decrease within a few years.","refs":["wiki"]}},"refs":{"wiki":{"title":"Feral pigeon","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Feral_pigeon"},"adw":{"title":"Columba livia","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Columba_livia/"}}},"rat":{"sci":"Rattus norvegicus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["啮齿目","Rodentia"],"family":["鼠科","Muridae"],"genus":["大鼠属","Rattus"]},"sections":{"intro":{"zh":"褐家鼠又称挪威鼠，是常见的城市野生鼠类，除南极洲外几乎遍布各大洲。它们善于记路，能在复杂的下水道和洞穴网络中往来。","en":"The brown rat, also called the Norway rat, is found on every continent except Antarctica. It can learn its way around complex sewer and burrow networks.","refs":["adw"]},"body":{"zh":"成年鼠体长（鼻尖到尾尖）接近 400 毫米，体重约 140 至 500 克。雄鼠通常比雌鼠大。","en":"Adults reach nearly 400 mm from nose to tail and weigh 140 to 500 g. Males are usually larger than females.","refs":["adw"]},"habitat":{"zh":"它们生活在垃圾场、下水道、开阔地和林地等多种环境中，几乎任何有食物和庇护的地方都能找到它们。","en":"They live in a variety of habitats, including garbage dumps, sewers, open fields and woodlands, and nearly anywhere that food and shelter can be found.","refs":["adw"]},"diet":{"zh":"它们主要吃植物，但在可以选择时更偏爱肉类。","en":"Most of the food found in their stomachs is plant material, but they prefer meat when given the option.","refs":["adw"]},"repro":{"zh":"一年四季都能繁殖，寒冷的月份里稍少。怀孕期 22 至 24 天，每胎约 8 只幼鼠，幼鼠 14 至 17 天后睁眼。","en":"Breeding occurs year round, less so in cold months. Gestation lasts 22 to 24 days, with litters of about 8 pups, and the young's eyes open at 14 to 17 days.","refs":["adw"]},"life":{"zh":"在野外，它们通常能活两年以上，圈养时最长可达 4 年。它们被食肉哺乳类、鸟类和爬行类捕食，人类也大量捕杀它们。","en":"In the wild they usually live more than 2 years, and the maximum lifespan in captivity is 4 years. They are preyed on by carnivorous mammals, birds and reptiles, and people kill large numbers of them.","refs":["adw"]},"status":{"zh":"有人认为，褐家鼠是有史以来最严重的哺乳动物害虫之一。","en":"Some consider the brown rat to be the greatest mammal pest of all time.","refs":["adw"]}},"refs":{"adw":{"title":"Rattus norvegicus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Rattus_norvegicus/"}}},"salmon":{"sci":"Oncorhynchus keta","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["鲑形目","Salmoniformes"],"family":["鲑科","Salmonidae"],"genus":["太平洋鲑属","Oncorhynchus"]},"sections":{"intro":{"zh":"大麻哈鱼是一种溯河洄游的鲑科鱼类，原产北太平洋和北极白令地区的沿岸河流。","en":"The chum salmon is an anadromous salmonid fish native to the coastal rivers of the North Pacific and the Beringian Arctic. It is also known as dog salmon or keta salmon.","refs":["wiki"]},"body":{"zh":"成鱼通常重 4.4 到 10.0 千克，平均体长约 60.0 厘米。它是太平洋鲑中仅次于帝王鲑的大型种类。","en":"Adults usually weigh 4.4 to 10.0 kilograms, with an average length of 60.0 centimetres. It is one of the largest Pacific salmon, second only to Chinook salmon.","refs":["wiki","noaa"]},"habitat":{"zh":"大麻哈鱼的自然分布范围是太平洋鲑中最大的，遍及北太平洋沿岸，包括日本、朝鲜、俄罗斯远东和北美的沿岸地区。","en":"Chum salmon have the largest natural range of any Pacific salmon. They are found all around the North Pacific, off the coasts of Japan, Korea and the Russian Far East.","refs":["wiki","noaa"]},"diet":{"zh":"幼鱼以浮游动物和昆虫为食，成鱼吃桡足类、鱼类、软体动物、鱿鱼和被囊动物。","en":"Juveniles eat zooplankton and insects. Adults eat copepods, fishes, mollusks, squid and tunicates.","refs":["wiki","noaa"]},"repro":{"zh":"大麻哈鱼通常从夏末持续产卵到三月，产卵后约两周内死去。雌鱼最多可产 4000 枚卵。","en":"Chum salmon spawn from late summer to March and die about two weeks after returning to fresh water. A female can lay up to 4000 eggs.","refs":["wiki","noaa"]},"life":{"zh":"大麻哈鱼平均能活三到五年，阿拉斯加的大麻哈鱼通常五年性成熟。成鱼的天敌包括鲨鱼、海狮、海豹和虎鲸，幼鱼也会被多种鱼类和鸟类捕食。","en":"Chum salmon live an average of three to five years, and those in Alaska mature at five. Sharks, sea lions, seals and orcas eat adults, while various fish and birds prey on juveniles.","refs":["wiki","noaa"]},"status":{"zh":"2010 年北太平洋大麻哈鱼的登记捕获量约为 313000 吨。其中两个种群被列为受威胁物种，受美国《濒危物种法》保护。","en":"The registered North Pacific harvest was some 313,000 tons in 2010. Two populations have been listed under the US Endangered Species Act as threatened.","refs":["wiki","noaa"]}},"refs":{"wiki":{"title":"Chum salmon","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Chum_salmon"},"noaa":{"title":"Chum Salmon","source":"NOAA Fisheries","url":"https://www.fisheries.noaa.gov/species/chum-salmon"}}},"sardine":{"sci":"Sardinops sagax","lineage":{"phylum":["脊索动物门","Chordata"],"class":["辐鳍鱼纲","Actinopterygii"],"order":["鲱形目","Clupeiformes"],"genus":["拟沙丁鱼属","Sardinops"]},"sections":{"intro":{"zh":"沙丁鱼是多种小型、富含油脂的饵料鱼的统称，属于鲱亚目。这里描述的是其中的太平洋沙丁鱼。","en":"Sardine and pilchard are common names for various species of small, oily forage fish in the herring suborder Clupeoidei. This entry describes the Pacific sardine.","refs":["wiki"]},"body":{"zh":"这一属的鱼体长最长可达 40 厘米。太平洋沙丁鱼背部呈蓝绿色，两侧白色，中线两侧有一到三组深色斑点。","en":"Sardinops species grow up to 40 centimetres long. Pacific sardines are blue-green on the back, with white flanks and one to three sets of dark spots along the middle.","refs":["sardinops","noaa"]},"habitat":{"zh":"太平洋沙丁鱼生活在沿岸和远海的水层中。本属分布于印度洋与太平洋、东太平洋、东南大西洋和西南印度洋。","en":"Pacific sardines live in the water column in nearshore and offshore areas along the coast. The genus is found in the Indo-Pacific, East Pacific, Southeastern Atlantic and southwestern Indian oceans.","refs":["noaa","sardinops"]},"diet":{"zh":"沙丁鱼几乎只吃浮游动物，并会聚集在浮游动物丰富的地方。","en":"Sardines feed almost exclusively on zooplankton and gather wherever it is abundant.","refs":["wiki"]},"status":{"zh":"2025 年的资源评估认为太平洋沙丁鱼已被过度捕捞，目前禁止商业捕捞。种群数量自然波动很大。2015 年，因资源急剧崩溃，相关机构叫停了当季的商业捕捞。","en":"The 2025 stock assessment found Pacific sardine overfished, and commercial fishing is prohibited because the population is below a precautionary level. Population size naturally swings widely, and in 2015 the fishing season was halted after a dramatic collapse in stocks.","refs":["noaa","wiki"]}},"refs":{"wiki":{"title":"Sardine","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Sardine"},"sardinops":{"title":"Sardinops","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Sardinops"},"noaa":{"title":"Pacific Sardine","source":"NOAA Fisheries","url":"https://www.fisheries.noaa.gov/species/pacific-sardine"}}},"sea_turtle":{"sci":"Chelonia mydas","lineage":{"phylum":["脊索动物门","Chordata"],"class":["爬行纲","Reptilia"],"order":["龟鳖目","Testudines"],"family":["海龟科","Cheloniidae"],"genus":["海龟属","Chelonia"]},"sections":{"intro":{"zh":"绿海龟是一种大型海龟，属于海龟科，是绿海龟属中唯一的物种。","en":"The green sea turtle is a species of large sea turtle of the family Cheloniidae. It is the only species in the genus Chelonia.","refs":["wiki"]},"body":{"zh":"成年绿海龟可长到约 1.5 米，成熟个体的平均体重为 68 到 190 千克。","en":"Adult green turtles grow to about 1.5 metres long, and mature individuals average 68 to 190 kilograms.","refs":["wiki"]},"habitat":{"zh":"绿海龟的分布遍及全球热带和亚热带海域。成年海龟大多生活在有茂密海草床的浅海近岸，幼龟的头五年多在开阔的大洋中生活。","en":"Its range extends throughout tropical and subtropical seas around the world. Mature turtles spend most of their time in shallow coastal waters with lush seagrass beds.","refs":["wiki","noaa"]},"diet":{"zh":"成年绿海龟主要吃海草和藻类，也可能吃海绵和其他无脊椎动物。幼龟更偏肉食。","en":"Adult green turtles are primarily herbivores, eating mostly seagrasses and algae, and may also eat sponges and other invertebrates. Juveniles are carnivorous.","refs":["noaa","wiki"]},"repro":{"zh":"雌龟在夜间爬上沙滩挖巢产卵，每窝约产 110 枚卵。卵在温暖的沙中孵化约两个月，雌龟约 25 到 35 年才性成熟。","en":"Females crawl onto beaches at night to dig nests and lay eggs. A nest holds about 110 eggs, which hatch after about two months in warm sand, and females reach maturity at 25 to 35 years.","refs":["wiki","noaa"]},"life":{"zh":"绿海龟可以活到 70 年以上，有的个体可能活到 90 年。虎鲨是绿海龟的主要天敌。","en":"Green turtles are long-lived and could live for at least 70 years, and some may live to 90 years in the wild. The tiger shark is the main predator of the green turtle.","refs":["noaa","wiki"]},"status":{"zh":"历史上，绿海龟因龟脂、龟肉和龟卵被大量捕捉，导致全球数量下降。在美国《濒危物种法》下，共有 11 个种群单元，其中三个为濒危，八个为受威胁。","en":"Historically, green turtles were exploited for their fat, meat and eggs, causing global population declines. Eleven population segments are listed under the US Endangered Species Act, three as endangered and eight as threatened.","refs":["noaa","wiki"]}},"refs":{"wiki":{"title":"Green sea turtle","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Green_sea_turtle"},"noaa":{"title":"Green Sea Turtle","source":"NOAA Fisheries","url":"https://www.fisheries.noaa.gov/species/green-sea-turtle"}}},"sheep":{"sci":"Ovis aries","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["鲸偶蹄目","Artiodactyla"],"family":["牛科","Bovidae"],"genus":["绵羊属","Ovis"]},"sections":{"intro":{"zh":"家羊起源于中东和中亚一带，现在几乎在世界各地都与人类生活在一起。","en":"Domestic sheep live worldwide in association with humans. The first domesticated sheep lived mainly in the Middle East and Central Asia.","refs":["adw"]},"body":{"zh":"家羊品种众多，体形、毛被和有无角因品种而异，有的品种有羊毛，有的没有，有的有角，有的无角。","en":"The physical details of domestic sheep vary greatly among breeds, and selection has produced sheep with or without wool and horns.","refs":["adw"]},"habitat":{"zh":"家羊适应性很强，生活在从温带山林到沙漠的各种环境中。","en":"Domestic sheep live in a wide variety of habitats, from temperate mountain forests to deserts.","refs":["adw"]},"diet":{"zh":"羊主要在草场上吃草，也可以喂食各种干草和燕麦。","en":"Sheep feed mainly on grasses in pasture and can be fed many kinds of hay and oats.","refs":["adw"]},"repro":{"zh":"发情周期约 14 至 20 天，平均 17 天，妊娠期平均约 148 天。每胎通常产一到两只羔羊，羔羊出生几分钟内就能站立吮乳。","en":"Estrus cycles last 14 to 20 days, with 17 days on average. Gestation averages 148 days, and one or two lambs are born to each ewe.","refs":["adw"]},"status":{"zh":"全世界的绵羊数量超过十亿只。自 9000 至 11000 年前被驯化以来，它们为几乎每个国家提供肉、奶、羊毛和皮革。","en":"The world sheep population totals over a billion. Since domestication 9000 to 11000 years ago, sheep have supplied meat, milk, wool and hides in nearly every country.","refs":["adw"]}},"refs":{"adw":{"title":"Ovis aries","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Ovis_aries/"}}},"sparrow":{"sci":"Passer domesticus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["雀形目","Passeriformes"],"family":["雀科","Passeridae"],"genus":["雀属","Passer"]},"sections":{"intro":{"zh":"家麻雀是雀科的一种小型鸟类，几乎分布于世界各地。它与人类居住地关系密切，在城市和乡村都能生活。","en":"The house sparrow is a small bird of the sparrow family Passeridae, found in most parts of the world. It is strongly associated with human habitation and lives in both urban and rural settings.","refs":["wiki"]},"body":{"zh":"体长约 16 厘米，体重约 24 至 39.5 克。雄鸟胸前有一块黑色的斑块，雌鸟没有，雌鸟和幼鸟的羽色偏棕和灰。","en":"The house sparrow is about 16 cm long and weighs 24 to 39.5 g. Males have white cheeks and a black bib, while females do not.","refs":["wiki","adw"]},"habitat":{"zh":"原产欧亚大陆和北非，后来被引入非洲南部、南北美洲和澳大利亚等地。它们多生活在农田、住宅区和城市，很少出现在无人居住的森林和沙漠中。","en":"It is native to Eurasia and North Africa, and was introduced to South America, Australia and other regions. It mostly lives in farms, residential areas and cities.","refs":["adw"]},"diet":{"zh":"它是杂食性鸟类，主要吃谷物和草籽，也捕食昆虫及其幼虫、毛虫等。它常在人类居住的地方取食。","en":"The house sparrow is an omnivore that mainly eats grain and plant seeds, and also catches insects and their larvae. It often feeds where people live.","refs":["wiki"]},"repro":{"zh":"每个繁殖季形成一对一夫一妻的配对。每窝一到八枚卵，一个繁殖季可能产多窝。孵化需要 10 至 14 天，雌雄双方都参与孵卵和喂养幼鸟。","en":"House sparrows form monogamous pairs for each breeding season. A clutch has one to eight eggs, and both sexes incubate them for 10 to 14 days.","refs":["adw"]},"life":{"zh":"野外记录的最长寿命是 13 年 4 个月，但多数个体只能活几年。","en":"The longest recorded wild individual lived 13 years and 4 months, though most live only several years.","refs":["adw"]},"status":{"zh":"国际自然保护联盟的红色名录将它列为无危。它分布广、数量多，但部分地区的数量有所下降。","en":"The IUCN Red List rates the house sparrow as least concern. It is widespread and abundant, although its numbers have declined in some areas.","refs":["wiki"]}},"refs":{"wiki":{"title":"House sparrow","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/House_sparrow"},"adw":{"title":"Passer domesticus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Passer_domesticus/"}}},"spider":{"sci":"Araneus ventricosus","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["蛛形纲","Arachnida"],"order":["蜘蛛目","Araneae"],"family":["园蛛科","Araneidae"],"genus":["园蛛属","Araneus"]},"sections":{"intro":{"zh":"大腹园蛛是一种夜行性圆网蛛，因夜间结网的习性而容易辨认。它的丝曾被广泛研究，具有多种独特的性质。","en":"Araneus ventricosus is a nocturnal orb-weaver spider that is easily identified by its nocturnal web-building behaviour. Its silk has been researched extensively and has several unique properties.","refs":["wiki"]},"body":{"zh":"属于中等体型的圆网蛛，身体常呈棕色、黑色或灰色。与同科其他种类一样，它结圆形的网来捕获猎物。","en":"Araneus ventricosus is a medium-sized orb-weaver, commonly brown, black or grey. Like other members of its family, it constructs circular webs to capture prey, building them throughout the night.","refs":["wiki"]},"habitat":{"zh":"分布于东亚，包括俄罗斯远东、朝鲜半岛、日本、中国大陆和台湾。主要栖息在花园、田野和森林的生态系统中。","en":"It is distributed across East Asia, including the Russian Far East, Korea, Japan, China and Taiwan. It lives mainly in gardens, fields and forest ecosystems.","refs":["wiki"]},"diet":{"zh":"成蛛主要捕食网上的飞行昆虫和其他小型节肢动物。它夜间结网，清晨拆除。","en":"Adults feed mainly on flying insects and small arthropods caught in their webs. It builds its web at night and takes it down each morning.","refs":["wiki"]},"repro":{"zh":"求偶时雄蛛会表演复杂的动作，这是其生殖行为的一部分。用于制作卵囊的丝只由雌蛛的腺体分泌。","en":"Males perform elaborate courtship displays as part of their reproductive behaviour. Only females produce the tubuliform silk used to develop egg coverings, and this silk is made only by glands in female spiders.","refs":["wiki"]}},"refs":{"wiki":{"title":"Araneus ventricosus","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Araneus_ventricosus"}}},"springtail":{"sci":"Collembola","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["弹尾纲","Collembola"]},"sections":{"intro":{"zh":"跳虫（弹尾纲 Collembola）是六足动物中的一个大类群，已不再被视为昆虫。它们多为自由生活的小型动物，数量极多。","en":"Springtails (class Collembola) form the largest of the three lineages of modern hexapods that are no longer considered insects. They are free-living animals and among the most abundant macroscopic animals.","refs":["wiki"]},"body":{"zh":"多数种类体长不到 6 毫米，腹部节数不超过 6 节。腹部第一节下方有一个管状的腹管，可以翻出黏性囊。","en":"Most springtails are less than 6 millimetres long and have six or fewer abdominal segments. They have a tubular ventral tube, with reversible sticky vesicles, on the first abdominal segment.","refs":["wiki"]},"habitat":{"zh":"常见于落叶层和腐烂的有机物中，多数喜欢潮湿环境。许多洞穴也有适应洞穴生活的种类，因为洞穴的高湿度有利于它们。","en":"They are frequently found in leaf litter and decaying material, and prefer moist conditions. Many caves also have cave-adapted species, since the high humidity of caves favours springtails.","refs":["wiki"]},"diet":{"zh":"常以真菌的菌丝和孢子为食，也会吃植物材料、花粉、动物残体和细菌。植食性和食腐性的种类会把有机物碎裂，促进分解。","en":"They commonly eat fungal hyphae and spores, and also plant material, pollen, animal remains and bacteria. Herbivorous and detritivorous species fragment organic material, supporting decomposition.","refs":["wiki"]},"repro":{"zh":"有性生殖时由雄虫放置精子包完成受精。许多跳虫，尤其是生活在较深土层中的种类，通过孤雌生殖繁殖，这一过程受沃尔巴克氏菌属细菌控制。","en":"Sexual reproduction involves males depositing spermatophores. Many springtails, mostly those in deeper soil, reproduce by parthenogenesis, which is controlled by symbiotic Wolbachia bacteria. This favours reproduction over genetic diversity.","refs":["wiki"]},"life":{"zh":"主要天敌包括捕食性螨类和土壤中的蜈蚣类。它们主要靠弹器跳跃逃避捕食，并且对干燥非常敏感。","en":"Predators include mesostigmatan mites and soil centipedes. Jumping with the furcula is their most common way to avoid predation, and they are highly sensitive to drying out.","refs":["wiki"]},"status":{"zh":"据估计，地表每平方米可有约 100000 只，分布几乎遍及全球有土壤的地方。","en":"Estimates reach 100000 individuals per square metre of ground, essentially everywhere on Earth where soil and related habitats occur. Springtails are among the most abundant macroscopic animals.","refs":["wiki"]}},"refs":{"wiki":{"title":"Collembola","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Collembola"}}},"squid":{"sci":"Todarodes pacificus","lineage":{"phylum":["软体动物门","Mollusca"],"class":["头足纲","Cephalopoda"],"order":["开眼目","Oegopsida"],"family":["柔鱼科","Ommastrephidae"],"genus":["褶柔鱼属","Todarodes"]},"sections":{"intro":{"zh":"太平洋褶柔鱼是柔鱼科的一种鱿鱼，分布在北太平洋，主要在日本周围海域。","en":"The Japanese flying squid is a squid of the family Ommastrephidae. It lives in the northern Pacific Ocean, around Japan and along the coast of China up to Russia.","refs":["wiki"]},"body":{"zh":"雌性胴长可达 50 厘米，雄性较小；体重最大约 0.5 千克。","en":"Females have a mantle length of up to 50 centimetres, and males are smaller. The species can weigh up to 0.5 kilograms.","refs":["wiki"]},"habitat":{"zh":"它能适应 5 到 27 摄氏度的水温，多在海洋上层活动，分布范围从日本周围延伸到中国沿岸直至俄罗斯。","en":"It can live in water from 5 to 27 °C and tends to inhabit the upper layers of the ocean. It lives in the northern Pacific Ocean, around Japan and along the coast of China up to Russia.","refs":["wiki"]},"diet":{"zh":"幼体以浮游植物和浮游动物为食。成体主要吃鱼类和甲壳类，也会互相残食，尤其是在网中被困在一起时。","en":"Larvae are believed to feed on phytoplankton and zooplankton. Mature squid eat mainly fish and crustaceans, and will also eat each other, especially when trapped together in nets.","refs":["wiki"]},"repro":{"zh":"雄性先成熟，并把精荚转移给尚未成熟的雌性。雌性随后产下 300 到 4000 枚小卵，卵呈椭圆形或半球形。","en":"Males mature first and transfer their spermatophores to immature females. Females then spawn 300 to 4,000 small, elliptical or semi-spherical eggs.","refs":["wiki"]},"life":{"zh":"太平洋褶柔鱼通常只活一年，产卵后很快死亡。鱿鱼是许多脊椎动物的重要食物。","en":"The Japanese flying squid generally lives only one year and dies after spawning. Many vertebrate predators depend heavily on squid.","refs":["wiki"]},"status":{"zh":"日本、韩国和中国是主要捕捞国，捕捞量多年来有起伏。2010 年为 570427 吨，2012 年为 351229 吨。","en":"Japan, South Korea and, more recently, China are the major fishers of this squid. Catches have fluctuated over the years, from 570,427 tonnes in 2010 to 351,229 tonnes in 2012.","refs":["wiki"]}},"refs":{"wiki":{"title":"Japanese flying squid","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Japanese_flying_squid"}}},"swallow":{"sci":"Hirundo rustica","lineage":{"phylum":["脊索动物门","Chordata"],"class":["鸟纲","Aves"],"order":["雀形目","Passeriformes"],"family":["燕科","Hirundinidae"],"genus":["燕属","Hirundo"]},"sections":{"intro":{"zh":"家燕是世界上分布最广的燕类。它的背部呈蓝色，尾羽长而深分叉，常在农舍和谷仓等人造建筑里筑巢。","en":"The barn swallow is the most widespread swallow in the world. It has blue upperparts and a long, deeply forked tail, and it normally nests in man-made structures.","refs":["wiki"]},"body":{"zh":"体长约 14.6 至 19.9 厘米，体重约 17 至 20 克。上体是有金属光泽的蓝黑色，下体偏浅米色，尾羽长而深分叉。","en":"Barn swallows are about 14.6 to 19.9 cm long and weigh 17 to 20 g. They are metallic blue-black above and pale beige below, with a long, deeply forked tail.","refs":["adw"]},"habitat":{"zh":"它们繁殖于北美、北欧、亚洲中北部、北非、中东、中国南部和日本，冬季飞往南美、南亚、印度尼西亚和密克罗尼西亚。它们常在农田和谷仓等建筑里活动，也会在桥下和老房子的屋檐下筑巢。","en":"They breed in North America, northern Europe, north-central Asia, northern Africa, the Middle East, southern China and Japan, and winter in South America, South Asia, Indonesia and Micronesia. They often nest in farm buildings and under bridges.","refs":["adw"]},"diet":{"zh":"它主要在空中捕捉昆虫为食。育雏时，亲鸟把昆虫压成团，用喉囊运回巢中喂给雏鸟。","en":"It feeds on insects caught in flight. Parents carry insects compressed into a pellet in the throat back to the nest to feed the chicks.","refs":["wiki","adw"]},"repro":{"zh":"雌雄双方共同筑巢，巢壳用泥建造，内衬草和羽毛。一年通常繁殖两窝，雌鸟每窝产 3 至 7 枚卵，孵化需要 13 至 15 天，雏鸟约 20 天后离巢。","en":"Both parents build the nest, and they usually raise two broods each summer. The female lays 3 to 7 eggs, which hatch in 13 to 15 days, and the young leave the nest at about 20 days.","refs":["adw"]},"life":{"zh":"平均寿命约 4 年。有记录的个体曾活到 8 岁，但这属于例外。","en":"The average lifespan is 4 years. Individuals of 8 years have been documented, but these are considered the exception.","refs":["adw"]},"status":{"zh":"国际自然保护联盟在 2019 年的红色名录中将它列为无危。种群总体稳定，但农田面积减少导致它们的数量有所下降。","en":"The species is rated least concern on the 2019 IUCN Red List. Populations are generally considered stable, but declines in farmland have reduced their numbers.","refs":["wiki","adw"]}},"refs":{"wiki":{"title":"Barn swallow","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Barn_swallow"},"adw":{"title":"Hirundo rustica","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Hirundo_rustica/"}}},"termite":{"sci":"Coptotermes formosanus","lineage":{"phylum":["节肢动物门","Arthropoda"],"class":["昆虫纲","Insecta"],"order":["蜚蠊目","Blattodea"],"family":["鼻白蚁科","Rhinotermitidae"],"genus":["乳白蚁属","Coptotermes"]},"sections":{"intro":{"zh":"台湾乳白蚁是一种地下筑巢的白蚁，原产于中国，后来被引入世界上许多地区。","en":"Coptotermes formosanus is a subterranean termite native to China. It has been introduced to many other regions, including Japan, Hawaii, Africa and the United States.","refs":["adw"]},"body":{"zh":"工蚁通常为乳白色，身体结构与蚂蚁相似。兵蚁头部呈橙棕色，前额有一个分泌防御液的腺体。有翅的繁殖蚁体长约 12–15 毫米。","en":"Workers are generally off-white, with an anatomy similar to ants. Soldiers have an orange-brown head and a gland that secretes defensive fluid when disturbed. Winged reproductives are about 12 to 15 mm long.","refs":["adw"]},"habitat":{"zh":"在地下筑巢，巢体由土壤、嚼碎的木材或植物物质，以及白蚁自身的唾液和粪便构成。多生活在潮湿环境中，也会侵入房屋墙壁等建筑。","en":"It nests underground, with nests made of soil, chewed wood or plant matter, saliva and faeces. It lives in moist places, including the walls of homes and buildings.","refs":["adw"]},"diet":{"zh":"以木材为食，肠道内的细菌帮助分解纤维素。不吃木材时，也可能啃食含纤维素的纸板和纸张。","en":"It feeds on wood, and bacteria in its gut help break down the cellulose. When it is not feeding on wood, it may consume other cellulose products such as cardboard and paper.","refs":["adw"]},"repro":{"zh":"有翅繁殖蚁多在黄昏成群飞出，随后脱去翅膀配对，另建新巢。蚁后最初一批产卵约 15–20 枚，几周内孵化。","en":"Winged reproductives swarm at dusk, shed their wings and pair up to start new colonies. The queen's first batch is about 15 to 20 eggs, which hatch within a few weeks.","refs":["adw"]},"life":{"zh":"蚁后寿命可达 15 年，工蚁寿命明显较短。主要天敌包括蚂蚁、蜥蜴、蟾蜍和鸟类，有翅繁殖蚁在飞行时尤其容易被捕食。","en":"A queen can live up to 15 years, while workers live much shorter lives. Ants, lizards, toads and birds are general predators, and swarming reproductives are especially vulnerable.","refs":["adw"]},"status":{"zh":"没有特殊的保护等级。它在许多地区是入侵物种，也被视为家居害虫，会损害树木、建筑和木质结构。","en":"It has no special conservation status. It is an invasive species in many areas, considered a household pest, and it can damage trees, buildings and wooden structures.","refs":["adw"]}},"refs":{"adw":{"title":"Coptotermes formosanus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Coptotermes_formosanus/"}}},"wolf":{"sci":"Canis lupus","lineage":{"phylum":["脊索动物门","Chordata"],"class":["哺乳纲","Mammalia"],"order":["食肉目","Carnivora"],"family":["犬科","Canidae"],"genus":["犬属","Canis"]},"sections":{"intro":{"zh":"灰狼（Canis lupus）是原产于欧亚大陆和北美洲的犬科动物，是犬科中现存最大的野生成员。","en":"The grey wolf (Canis lupus) is a canine native to Eurasia and North America. It is the largest wild member of the dog family, Canidae.","refs":["wiki"]},"body":{"zh":"灰狼的体型因地区而异，南方种群通常比北方种群小。雄狼体重约 30 至 80 公斤，平均 55 公斤；雌狼体重约 23 至 55 公斤，平均 45 公斤。","en":"Gray wolves vary in size by region, and southern populations are generally smaller than northern ones. Males weigh 30 to 80 kg, averaging 55 kg, and females weigh 23 to 55 kg, averaging 45 kg.","refs":["adw"]},"habitat":{"zh":"灰狼分布范围很广，从北极苔原到森林、草原和干旱地区都有它们的踪迹。","en":"Gray wolves occupy a wide variety of habitats, from arctic tundra to forest, prairie and arid landscapes, and they are among the most widely ranging land animals.","refs":["adw"]},"diet":{"zh":"灰狼是肉食动物，也是顶级捕食者，主要捕食大型有蹄类哺乳动物，也吃小型动物、家畜、腐肉和垃圾。狼群通常捕杀大型猎物中最脆弱的个体。","en":"Wolves are carnivores and apex predators that feed on large hooved mammals, as well as smaller animals, livestock, carrion and garbage. Packs usually target the most vulnerable individuals of large prey.","refs":["wiki"]},"repro":{"zh":"狼群中通常只有占优势的一对成年狼繁殖。妊娠期为 60 至 63 天，每窝平均产六到七只幼崽。多数幼狼在 1 至 3 岁时离开出生的狼群。","en":"Only the dominant pair in a pack breeds. Gestation lasts 60 to 63 days, and a litter averages six or seven pups. Most young wolves leave their birth pack when they are 1 to 3 years old.","refs":["adw"]},"life":{"zh":"灰狼在野外最长可活十三年，但平均寿命只有 5 至 6 年。","en":"Gray wolves may live thirteen years in the wild, but the average lifespan is 5 to 6 years.","refs":["adw"]},"status":{"zh":"全球野生灰狼的数量估计约为三十万只，国际自然保护联盟将其评估为无危。","en":"The global wild grey wolf population is estimated at 300,000, and the IUCN has assessed the species as Least Concern. In Canada, 52,000 to 60,000 wolves live in 80% of their historical range.","refs":["wiki"]}},"refs":{"wiki":{"title":"Wolf","source":"Wikipedia","url":"https://en.wikipedia.org/wiki/Wolf"},"adw":{"title":"Canis lupus","source":"Animal Diversity Web","url":"https://animaldiversity.org/accounts/Canis_lupus/"}}}};
+// Small games per species. c: how it gets through a crisis [game, zh, en]; p: things to do oneself [game, action, stages or null, zh name, zh how, en name, en how]
+window.MINI = {
+ copepod: { c: ['hold', '蓄力弹跳，一下子跳开', 'Charge up and leap away in one stroke'], p: [['tap', 'forage', null, '捕捉藻细胞', '点住漂过来的藻细胞', 'Catch algae', 'Touch the cells as they drift past']] },
+ krill: { c: ['dodge', '倒退着弹开，躲过张开的大口', 'Tail-flip backwards, out of the open mouth'], p: [['tap', 'forage', null, '滤食浮游植物', '点住漂过的浮游植物', 'Filter plankton', 'Touch the plankton as it passes']] },
+ nematode: { c: ['mash', '用力扭动，挣出菌丝', 'Thrash free of the threads'], p: [['seq', 'explore', null, '沿着气味走', '记住气味变浓的方向', 'Follow a scent', 'Remember where the scent grew stronger']] },
+ mite: { c: ['freeze', '缩起腿，等它走开再动', 'Tuck in the legs; move only when it looks away'], p: [['tap', 'forage', null, '啃真菌', '点住菌丝的嫩尖', 'Graze on fungus', 'Touch the tender tips']] },
+ springtail: { c: ['hold', '压住弹器，松手弹出去', 'Press the spring under your body and let go'], p: [['hold', 'explore', ['sub', 'adult', 'old'], '弹跳', '压住弹器，在刚好的时候松开', 'Spring', 'Hold, and let go at the right moment']] },
+ aphid: { c: ['freeze', '拔出口针，趁它没注意掉下去', 'Pull out your mouthparts and drop while it is not looking'], p: [['hold', 'forage', null, '找到韧皮部', '把口针插到刚好的深度', 'Reach the sap', 'Push your mouthparts to just the right depth']] },
+ mayfly: { c: ['dodge', '在水面上左右闪开', 'Swerve above the water'], p: [['balance', 'mate', ['imago'], '婚飞', '在群里上下飞，保持住位置', 'Dance in the swarm', 'Hold your place in the swarm']] },
+ termite: { c: ['mash', '用泥封住破口', 'Seal the breach with mud'], p: [['seq', 'explore', null, '跟着踪迹信息素', '记住转弯的顺序', 'Follow the trail', 'Remember the turns of the scent trail']] },
+ ant: { c: ['mash', '咬住不放，用力挣脱', 'Bite, hold and pull free'], p: [['seq', 'explore', ['forager', 'old'], '记住回巢的路', '记住转弯的顺序', 'Learn the way home', 'Remember the order of turns'], ['mash', 'forage', ['forager', 'old'], '搬运食物', '连续用力，把食物拖回巢', 'Haul food', 'Keep pulling it toward the nest']] },
+ earthworm: { c: ['mash', '用刚毛抓住洞壁往里缩', 'Grip the burrow wall and pull back in'], p: [['hold', 'forage', null, '拖一片落叶下洞', '在刚好的时候收紧身体', 'Drag a leaf down', 'Tighten your body at the right moment']] },
+ spider: { c: ['hold', '拉着丝坠下去', 'Drop on a line of silk'], p: [['balance', 'explore', null, '在丝上走', '保持平衡', 'Walk the thread', 'Keep your balance'], ['freeze', 'hide', null, '在网心等待', '猎物靠近时才动', 'Wait at the hub', 'Move only when it is not facing you']] },
+ housefly: { c: ['dodge', '从手掌下面飞开', 'Fly out from under the hand'], p: [['tap', 'forage', ['adult', 'old'], '用脚尝味道', '点住有糖的地方', 'Taste with your feet', 'Touch the sweet spots'], ['dodge', 'explore', ['adult', 'old'], '满屋子飞', '左右闪，别撞上东西', 'Fly around the room', 'Swerve and do not hit anything']] },
+ mosquito: { c: ['dodge', '从拍下来的手之间穿过去', 'Slip between the clapping hands'], p: [['balance', 'explore', ['adult', 'old'], '顺着呼出的气流飞', '稳住，沿着气味往前', 'Ride the breath plume', 'Stay steady along the trail of breath']] },
+ honeybee: { c: ['dodge', '急转弯，甩开它', 'Turn hard and shake it off'], p: [['seq', 'explore', ['forager'], '看懂摆尾舞', '记住同伴舞蹈的方向', 'Read the waggle dance', 'Remember the directions of the dance'], ['tap', 'forage', ['forager'], '采蜜', '点住开着的花', 'Gather nectar', 'Touch the open flowers']] },
+ farmed_shrimp: { c: ['hold', '收紧腹部，猛地弹开', 'Curl the tail and snap away'], p: [['tap', 'forage', null, '捡饲料', '点住沉下来的颗粒', 'Pick up feed', 'Touch the sinking pellets']] },
+ lanternfish: { c: ['balance', '调整发光，让影子消失', 'Match your glow to the light above'], p: [['tap', 'forage', null, '吃浮游生物', '点住发亮的小点', 'Eat plankton', 'Touch the glowing dots']] },
+ sardine: { c: ['dodge', '跟着鱼群急转', 'Turn with the school'], p: [['balance', 'instinct', null, '守住队形', '保持在鱼群中间', 'Keep formation', 'Stay in the middle of the school']] },
+ farmed_carp: { c: ['mash', '用力甩尾挣脱', 'Thrash your tail and break free'], p: [['tap', 'forage', null, '啃水草', '点住新鲜的草叶', 'Graze on weed', 'Touch the fresh leaves']] },
+ salmon: { c: ['dodge', '在激流里左右闪', 'Swerve in the fast water'], p: [['mash', 'explore', ['spawner'], '逆流而上', '连续用力，别让水冲回去', 'Swim upstream', 'Keep going or the water takes you back'], ['tap', 'forage', null, '追小虾', '点住游过的猎物', 'Chase prey', 'Touch the prey as it passes']] },
+ squid: { c: ['hold', '喷水推进，喷完就走', 'Jet away in one burst'], p: [['tap', 'forage', null, '伸腕捕食', '点住游过的小鱼', 'Strike', 'Touch the passing fish']] },
+ octopus: { c: ['freeze', '变成石头的颜色，等它看别处再走', 'Match the rock; move when it looks away'], p: [['hold', 'forage', null, '撬开贝壳', '用力刚好才能撬开', 'Open a shell', 'Use just enough force']] },
+ frog: { c: ['hold', '蓄力，跳进水里', 'Gather your legs and leap into the water'], p: [['hold', 'forage', ['froglet', 'adult', 'old'], '吐舌头', '在刚好的距离吐出舌头', 'Flick your tongue', 'Let go at just the right distance']] },
+ sea_turtle: { c: ['mash', '拼命划水，游进深处', 'Row hard for deep water'], p: [['mash', 'explore', ['hatch'], '冲向大海', '连续划动，越快越好', 'Dash to the sea', 'Keep rowing, as fast as you can'], ['tap', 'forage', ['juv', 'adult', 'old'], '吃海草', '点住嫩的海草', 'Graze on seagrass', 'Touch the tender blades']] },
+ greenland_shark: { c: ['mash', '慢慢扭动，挣脱绳线', 'Twist slowly free of the line'], p: [['freeze', 'forage', null, '靠近睡着的猎物', '它没动的时候再靠近', 'Approach a sleeper', 'Move only while it is not watching']] },
+ blue_whale: { c: ['dodge', '改变方向，避开船', 'Change course and clear the ship'], p: [['hold', 'forage', null, '张口吞一团磷虾', '在刚好的时候张口', 'Lunge through krill', 'Open your mouth at the right moment']] },
+ sparrow: { c: ['dodge', '钻进灌丛', 'Dive into the bush'], p: [['tap', 'forage', ['fledge', 'adult', 'old'], '捡种子', '点住地上的种子', 'Pick seeds', 'Touch the seeds on the ground'], ['seq', 'mate', null, '唱歌', '记住曲调的顺序', 'Sing', 'Remember the order of notes']] },
+ swallow: { c: ['dodge', '急转俯冲，甩开它', 'Bank hard and dive'], p: [['tap', 'forage', ['fledge', 'adult', 'old'], '空中捕虫', '点住飞过的小虫', 'Catch insects on the wing', 'Touch the insects as they pass'], ['balance', 'explore', ['fledge', 'adult', 'old'], '顶风飞行', '稳住身体', 'Fly into the wind', 'Keep steady']] },
+ pigeon: { c: ['dodge', '侧身急转', 'Roll away sharply'], p: [['tap', 'forage', ['juv', 'adult', 'old'], '捡面包屑', '点住地上的碎屑', 'Pick up crumbs', 'Touch the crumbs'], ['seq', 'explore', ['juv', 'adult', 'old'], '记路回家', '记住转弯的顺序', 'Find the way home', 'Remember the turns']] },
+ penguin: { c: ['balance', '缩紧身体，稳在风里', 'Hunch down and hold against the wind'], p: [['balance', 'rest', null, '护住脚上的蛋或站稳', '在冰上保持平衡', 'Steady on the ice', 'Keep your balance on the ice'], ['tap', 'forage', ['juv', 'adult', 'old'], '潜水捕鱼', '点住游过的鱼', 'Dive for fish', 'Touch the fish as they pass']] },
+ duck: { c: ['mash', '拍着翅膀挣开', 'Beat your wings and break free'], p: [['tap', 'forage', null, '在水槽里找食', '点住漂着的谷粒', 'Dabble', 'Touch the floating grains']] },
+ broiler: { c: ['mash', '用力站起来', 'Struggle to your feet'], p: [['tap', 'forage', null, '啄食', '点住饲料粒', 'Peck', 'Touch the feed']] },
+ layer_hen: { c: ['mash', '扑着翅膀挣开', 'Flap free'], p: [['tap', 'forage', null, '啄食', '点住饲料粒', 'Peck', 'Touch the feed'], ['balance', 'rest', null, '站上栖木', '保持平衡', 'Perch', 'Keep your balance']] },
+ bat: { c: ['dodge', '听着回声闪开', 'Swerve by echo'], p: [['tap', 'forage', ['juv', 'adult', 'old'], '用回声找虫', '点住回声传来的地方', 'Hunt by echo', 'Touch where the echo comes from']] },
+ rat: { c: ['freeze', '趁它没看，溜进洞里', 'Slip into the hole while it looks away'], p: [['seq', 'explore', null, '记住下水道的路', '记住转弯的顺序', 'Learn the sewer', 'Remember the turns']] },
+ pig: { c: ['mash', '用力挤出来', 'Push your way out'], p: [['tap', 'forage', null, '拱地找食', '点住有味道的地方', 'Root around', 'Touch the spots that smell of food']] },
+ sheep: { c: ['dodge', '跟着羊群急转', 'Turn with the flock'], p: [['tap', 'forage', ['lamb', 'young', 'ewe'], '挑嫩草', '点住嫩的草尖', 'Pick tender grass', 'Touch the tender tips']] },
+ cattle: { c: ['mash', '用力站起来', 'Heave yourself up'], p: [['tap', 'forage', ['young', 'growth', 'adult', 'old'], '吃草', '点住一丛丛青草', 'Graze', 'Touch the tufts of grass']] },
+ goat: { c: ['dodge', '跳上陡坡', 'Bound up the steep slope'], p: [['balance', 'explore', ['juv', 'young', 'adult', 'old'], '走窄岩架', '保持平衡', 'Walk the ledge', 'Keep your balance']] },
+ dog: { c: ['dodge', '左右闪开', 'Dodge aside'], p: [['seq', 'explore', ['young', 'adult', 'old'], '跟踪气味', '记住气味转弯的方向', 'Follow a scent', 'Remember where the scent turned']] },
+ cat: { c: ['hold', '蓄力，跳上高处', 'Gather and leap to high ground'], p: [['freeze', 'forage', ['juv', 'adult', 'old'], '潜近猎物', '它没看的时候才往前', 'Stalk', 'Creep only while it is not looking']] },
+ human: { c: ['timing', '', ''], p: [['seq', 'forage', ['school', 'youth'], '背一段课文', '记住顺序', 'Learn a lesson', 'Remember the order']] },
+ elephant: { c: ['mash', '用力冲开', 'Charge through'], p: [['hold', 'forage', ['young', 'adult', 'old'], '用鼻子卷水', '吸到刚好的量', 'Draw water with the trunk', 'Draw just the right amount']] },
+ panda: { c: ['mash', '爬上树', 'Climb the tree'], p: [['tap', 'forage', ['young', 'adult', 'old'], '挑竹笋', '点住嫩的竹笋', 'Pick bamboo shoots', 'Touch the tender shoots']] },
+ chimpanzee: { c: ['dodge', '在树枝间荡开', 'Swing between branches'], p: [['hold', 'forage', ['juv', 'adult', 'old'], '钓白蚁', '把草茎插到刚好的深度', 'Fish for termites', 'Push the stem to the right depth']] },
+ wolf: { c: ['dodge', '左右闪开', 'Dodge aside'], p: [['mash', 'forage', ['young', 'adult', 'old'], '追猎', '保持住速度', 'Run down prey', 'Keep up the pace'], ['seq', 'instinct', ['young', 'adult', 'old'], '回应嚎叫', '记住嚎叫的起伏', 'Answer the howl', 'Remember the rise and fall']] },
+ lion: { c: ['mash', '用力挣开', 'Wrench free'], p: [['freeze', 'forage', ['sub', 'adult', 'old'], '伏击', '它低头时才靠近', 'Ambush', 'Creep while its head is down']] },
+ moss: { c: ['balance', '收住水分，撑过去', 'Hold your water and last it out'], p: [['hold', 'mate', null, '弹出孢子', '压力刚好时打开囊盖', 'Fire the spores', 'Open the lid at the right pressure']] },
+ grass: { c: ['mash', '从基部重新分蘖', 'Tiller again from the base'], p: [['tap', 'forage', null, '追着光斑', '点住落下来的阳光', 'Chase the light', 'Touch the sunlight as it falls']] },
+ wheat: { c: ['balance', '撑住茎秆，别倒伏', 'Keep the stem upright'], p: [['tap', 'forage', null, '追着光斑', '点住落下来的阳光', 'Chase the light', 'Touch the sunlight as it falls']] },
+ rice: { c: ['balance', '在风雨里站住', 'Stand in wind and rain'], p: [['tap', 'forage', null, '追着光斑', '点住落下来的阳光', 'Chase the light', 'Touch the sunlight as it falls']] },
+ duckweed: { c: ['balance', '别被波浪掀翻', 'Do not be turned over by the waves'], p: [['mash', 'mate', null, '分出新的一片', '把养分推向新芽', 'Bud a new frond', 'Push nutrients into the bud']] },
+ dandelion: { c: ['mash', '从根颈重新发芽', 'Sprout again from the crown'], p: [['hold', 'mate', ['flowering', 'old'], '放飞种子', '等到风刚好的时候', 'Let the seeds go', 'Wait for the right gust']] },
+ eelgrass: { c: ['balance', '顺着水流弯腰', 'Bend with the current'], p: [['tap', 'forage', null, '接住透下来的光', '点住水里的光斑', 'Catch the light', 'Touch the spots of light in the water']] },
+ arabidopsis: { c: ['mash', '封住伤口', 'Seal the wound'], p: [['hold', 'mate', null, '选开花的时候', '在刚好的时候抽薹', 'Time your flowering', 'Bolt at the right moment']] },
+ spruce: { c: ['mash', '流出树脂，堵住蛀洞', 'Flood the borings with resin'], p: [['balance', 'hide', ['sapling', 'mature', 'old'], '在大风里站住', '保持平衡', 'Stand in a gale', 'Keep your balance']] },
+ bamboo: { c: ['balance', '压弯了再弹回来', 'Bend and spring back'], p: [['mash', 'forage', ['shoot', 'young'], '一天往上长', '趁水分足，使劲长', 'Shoot upward', 'Grow while the water lasts']] },
+ mangrove: { c: ['balance', '用支柱根撑住', 'Hold on with your prop roots'], p: [['hold', 'mate', null, '放下胎生苗', '等到潮水刚好的时候', 'Drop a propagule', 'Wait for the right tide']] },
+ oak: { c: ['balance', '在风暴里站住', 'Stand through the storm'], p: [['mash', 'mate', ['mature', 'old'], '结满橡子', '把储备都推向枝头', 'A mast year', 'Push your reserves into acorns']] },
+ acai: { c: ['balance', '随风摆动', 'Sway with the wind'], p: [['tap', 'forage', null, '接住林下的光斑', '点住漏下来的阳光', 'Catch sunflecks', 'Touch the light that gets through']] },
+ saguaro: { c: ['mash', '用硬痂封住伤口', 'Wall off the wound'], p: [['mash', 'forage', null, '雨后吸水', '趁雨水还在，快吸', 'Drink after rain', 'Take it up while it lasts']] },
+ bristlecone: { c: ['balance', '在高山的风里站住', 'Stand in the mountain wind'], p: [['hold', 'rest', null, '关上气孔', '在刚好的时候关上', 'Close the stomata', 'Close them at the right moment']] },
+ flytrap: { c: ['mash', '从鳞茎重新发叶', 'Sprout again from the bulb'], p: [['timing', 'forage', ['juvenile', 'adult', 'old'], '合上捕虫夹', '虫子碰到第二根毛时合上', 'Snap shut', 'Close when the second hair is touched']] },
+};
 
 ;
 // Sound and the timing bar. Nothing here decides who you become; the green part of the timing bar equals the stated odds.
@@ -16022,7 +22332,81 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const tm = setTimeout(stop, 7000 + Math.random() * period);
     return stop;
   }
-  window.GAME = { sfx, toggleMute, isMuted: () => muted, quiet: (v) => { quiet = v; }, timing, reduced };
+  // ---------- small games ----------
+  // Each gets a chance p (0–1) that sets how hard it is, and calls done(true|false) once.
+  const el = (h, html) => { h.innerHTML = html; return (q) => h.querySelector(q); };
+  function wrapDone(host, done, stopFns) { let over = false; return (ok) => { if (over) return; over = true; stopFns.forEach((f) => f()); host.classList.add(ok ? 'hit' : 'miss'); sfx(ok ? 'safe' : 'hurt'); setTimeout(() => done(ok), reduced() ? 150 : 650); }; }
+  const press = (b, down, up) => { b.addEventListener('pointerdown', (e) => { e.preventDefault(); down(); }); if (up) ['pointerup', 'pointerleave', 'pointercancel'].forEach((n) => b.addEventListener(n, up)); };
+  function keys(map) { const h = (e) => { const f = map[e.key]; if (f && !e.repeat) { e.preventDefault(); e.stopPropagation(); f(true); } }, u = (e) => { const f = map[e.key]; if (f && f.up) { e.preventDefault(); f.up(); } }; document.addEventListener('keydown', h, true); document.addEventListener('keyup', u, true); return () => { document.removeEventListener('keydown', h, true); document.removeEventListener('keyup', u, true); }; }
+
+  // hold to charge, release inside the marked zone
+  function hold(host, p, t, done) {
+    const w = Math.max(0.13, p * 0.5), start = 0.4 + Math.random() * (0.55 - w), stops = [], fin = wrapDone(host, done, stops);
+    const $ = el(host, `<div class="tbar"><i class="ok" style="left:${start * 100}%;width:${w * 100}%"></i><i class="fill"></i></div><button type="button" class="btn-primary tstop">${t.btn}</button>`);
+    let raf = 0, t0 = 0, x = 0; const fill = $('.fill');
+    const down = () => { if (t0) return; t0 = performance.now(); const loop = (ts) => { x = Math.max(0, (ts - t0) / 1150); fill.style.width = `${Math.min(1, x) * 100}%`; if (x >= 1) return fin(false); raf = requestAnimationFrame(loop); }; raf = requestAnimationFrame(loop); };
+    const up = () => { if (!t0) return; x = (performance.now() - t0) / 1150; fin(x >= start && x <= start + w); };
+    const k = () => down(); k.up = up; stops.push(() => cancelAnimationFrame(raf), keys({ ' ': k, Enter: k })); press($('.tstop'), down, up); $('.tstop').focus();
+    const tm = setTimeout(() => fin(false), 9000); stops.push(() => clearTimeout(tm));
+  }
+  // tap fast enough to fill the bar
+  function mash(host, p, t, done) {
+    const need = Math.round(30 - 20 * p), ms = 4200, stops = [], fin = wrapDone(host, done, stops); let n = 0, t0 = 0;
+    const $ = el(host, `<div class="tbar"><i class="fill"></i></div><div class="tbar thin"><i class="time"></i></div><button type="button" class="btn-primary tstop">${t.btn}</button>`);
+    const hit = () => { if (!t0) { t0 = performance.now(); const loop = (ts) => { const k = (ts - t0) / ms; $('.time').style.width = `${Math.max(0, 1 - k) * 100}%`; if (k >= 1) return fin(false); raf = requestAnimationFrame(loop); }; raf = requestAnimationFrame(loop); } n++; $('.fill').style.width = `${Math.min(1, n / need) * 100}%`; if (n >= need) fin(true); };
+    let raf = 0; stops.push(() => cancelAnimationFrame(raf), keys({ ' ': hit, Enter: hit })); press($('.tstop'), hit); $('.tstop').focus();
+    const tm = setTimeout(() => { if (!t0) fin(false); }, 9000); stops.push(() => clearTimeout(tm));
+  }
+  // three lanes: be somewhere else when it lands
+  function dodge(host, p, t, done) {
+    const waves = 6, ms = 620 + p * 760, stops = [], fin = wrapDone(host, done, stops); let lane = 1, w = 0;
+    const $ = el(host, `<div class="lanes">${[0, 1, 2].map((i) => `<div class="lane" data-l="${i}"><i class="drop"></i><b class="me"></b></div>`).join('')}</div><div class="row two"><button type="button" class="btn-primary" data-m="-1">◀</button><button type="button" class="btn-primary" data-m="1">▶</button></div>`);
+    const ls = [...host.querySelectorAll('.lane')], draw = () => ls.forEach((l, i) => l.classList.toggle('on', i === lane)); draw();
+    const mv = (d) => { lane = Math.max(0, Math.min(2, lane + d)); draw(); };
+    host.querySelectorAll('[data-m]').forEach((b) => press(b, () => mv(+b.dataset.m))); ls.forEach((l) => press(l, () => { lane = +l.dataset.l; draw(); }));
+    let tm = 0; const wave = () => {
+      if (w++ >= waves) return fin(true); const safe = Math.floor(Math.random() * 3), bad = [0, 1, 2].filter((i) => i !== safe); const hit = p < 0.35 || Math.random() < 0.5 ? bad : [Math.random() < 0.7 && bad.includes(lane) ? lane : bad[Math.floor(Math.random() * 2)]];
+      ls.forEach((l, i) => { const d = l.querySelector('.drop'); d.style.transition = 'none'; d.style.top = '-30%'; d.style.opacity = hit.includes(i) ? 1 : 0; void d.offsetWidth; d.style.transition = `top ${ms}ms linear`; d.style.top = hit.includes(i) ? '74%' : '-30%'; });
+      tm = setTimeout(() => { if (hit.includes(lane)) return fin(false); wave(); }, ms);
+    };
+    tm = setTimeout(wave, 600); stops.push(() => clearTimeout(tm), keys({ ArrowLeft: () => mv(-1), ArrowRight: () => mv(1) }));
+  }
+  // move only while it is not looking
+  function freeze(host, p, t, done) {
+    const warn = 260 + p * 620, stops = [], fin = wrapDone(host, done, stops); let look = false, moving = false, x = 0, raf = 0, last = 0, tm = 0; const t0 = performance.now();
+    const $ = el(host, `<div class="eye" aria-live="polite">${t.away}</div><div class="tbar"><i class="fill"></i></div><button type="button" class="btn-primary tstop">${t.btn}</button>`); const eye = $('.eye');
+    const phase = () => { look = false; eye.className = 'eye'; eye.textContent = t.away; tm = setTimeout(() => { eye.className = 'eye soon'; eye.textContent = t.soon; tm = setTimeout(() => { look = true; eye.className = 'eye look'; eye.textContent = t.look; tm = setTimeout(phase, 700 + Math.random() * 800); }, warn); }, 700 + Math.random() * 900); };
+    phase(); const down = () => { moving = true; }, up = () => { moving = false; };
+    const loop = (ts) => { const dt = last ? ts - last : 0; last = ts; if (moving) { if (look) return fin(false); x += dt / 2600; $('.fill').style.width = `${Math.min(1, x) * 100}%`; if (x >= 1) return fin(true); } if (ts - t0 > 14000) return fin(false); raf = requestAnimationFrame(loop); }; raf = requestAnimationFrame(loop);
+    const k = () => down(); k.up = up; press($('.tstop'), down, up); $('.tstop').focus(); stops.push(() => cancelAnimationFrame(raf), () => clearTimeout(tm), keys({ ' ': k, Enter: k }));
+  }
+  // repeat what was shown
+  function seq(host, p, t, done) {
+    const n = p > 0.45 ? 3 : p > 0.3 ? 4 : 5, A = ['▲', '▶', '▼', '◀'], K = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'], s = Array.from({ length: n }, () => Math.floor(Math.random() * 4)), stops = [], fin = wrapDone(host, done, stops); let i = 0, ready = false, tm = 0;
+    const $ = el(host, `<div class="eye show">…</div><div class="row four">${A.map((a, k) => `<button type="button" class="btn-primary" data-a="${k}" disabled>${a}</button>`).join('')}</div>`); const box = $('.show');
+    const show = (k) => { if (k >= n) { ready = true; box.textContent = t.go; host.querySelectorAll('[data-a]').forEach((b) => { b.disabled = false; }); return; } box.textContent = A[s[k]]; sfx('pick'); tm = setTimeout(() => { box.textContent = ' '; tm = setTimeout(() => show(k + 1), 160); }, 620); };
+    tm = setTimeout(() => show(0), 500); const hit = (k) => { if (!ready) return; if (s[i] !== k) return fin(false); box.textContent = A[k]; if (++i >= n) fin(true); };
+    host.querySelectorAll('[data-a]').forEach((b) => press(b, () => hit(+b.dataset.a))); stops.push(() => clearTimeout(tm), keys(Object.fromEntries(K.map((k, j) => [k, () => hit(j)])))); const t2 = setTimeout(() => fin(false), 20000); stops.push(() => clearTimeout(t2));
+  }
+  // touch the targets before they are gone
+  function tap(host, p, t, done) {
+    const total = 9, need = 6, ms = 720 + p * 760, stops = [], fin = wrapDone(host, done, stops); let n = 0, k = 0, tm = 0;
+    const $ = el(host, `<div class="field"></div><p class="small muted cnt">0 / ${need}</p>`), f = $('.field'), c = $('.cnt');
+    const next = () => { if (n >= need) return fin(true); if (k++ >= total) return fin(false); f.innerHTML = ''; const b = document.createElement('button'); b.type = 'button'; b.className = 'target'; b.setAttribute('aria-label', t.btn); b.style.left = `${6 + Math.random() * 80}%`; b.style.top = `${8 + Math.random() * 70}%`; let got = false; press(b, () => { if (got) return; got = true; n++; c.textContent = `${n} / ${need}`; b.classList.add('got'); sfx('pick'); clearTimeout(tm); tm = setTimeout(next, 180); }); f.append(b); b.focus(); tm = setTimeout(next, ms); };
+    tm = setTimeout(next, 500); stops.push(() => clearTimeout(tm), keys({ ' ': () => { const b = f.querySelector('.target:not(.got)'); if (b) b.dispatchEvent(new PointerEvent('pointerdown', { bubbles: true, cancelable: true })); } }));
+  }
+  // keep the marker near the middle
+  function balance(host, p, t, done) {
+    const half = 0.2 + p * 0.22, ms = 6000, push = 1.5 - p * 0.9, stops = [], fin = wrapDone(host, done, stops); let x = 0, v = 0, force = 0, wind = 0, raf = 0, last = 0; const t0 = performance.now();
+    const $ = el(host, `<div class="tbar"><i class="ok" style="left:${(0.5 - half) * 100}%;width:${half * 200}%"></i><i class="mk" style="left:50%"></i></div><div class="tbar thin"><i class="time"></i></div><div class="row two"><button type="button" class="btn-primary" data-m="-1">◀</button><button type="button" class="btn-primary" data-m="1">▶</button></div>`);
+    const loop = (ts) => { const dt = Math.min(50, last ? ts - last : 16) / 1000; last = ts; if (Math.random() < 0.03) wind = (Math.random() - 0.5) * 2; v += (wind * push + x * 1.3 * push + force * 2.6) * dt; v *= 0.985; x += v * dt; $('.mk').style.left = `${(0.5 + x) * 100}%`; const k = (ts - t0) / ms; $('.time').style.width = `${Math.max(0, 1 - k) * 100}%`; if (Math.abs(x) > half) return fin(false); if (k >= 1) return fin(true); raf = requestAnimationFrame(loop); }; raf = requestAnimationFrame(loop);
+    const F = (d) => { const f = () => { force = d; }; f.up = () => { force = 0; }; return f; };
+    host.querySelectorAll('[data-m]').forEach((b) => press(b, F(+b.dataset.m), () => { force = 0; })); stops.push(() => cancelAnimationFrame(raf), keys({ ArrowLeft: F(-1), ArrowRight: F(1) }));
+  }
+  const GAMES = { hold, mash, dodge, freeze, seq, tap, balance };
+  function play(kind, host, p, t, done) { if (!GAMES[kind] || reduced()) { timing(host, p, t.btn, done); return; } GAMES[kind](host, p, t, done); }
+
+  window.GAME = { sfx, toggleMute, play, isMuted: () => muted, quiet: (v) => { quiet = v; }, timing, reduced };
 })();
 
 ;
@@ -16031,8 +22415,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   const $ = (s) => document.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
 
-  const UNIT = { hour: 1 / 24, day: 1, week: 7, month: 30.4, year: 365 };
-  const FINER = { year: 'month', month: 'week', week: 'day', day: 'hour' };
+  const UNIT = { hour: 1 / 24, day: 1, week: 7, month: 30.4, year: 365, decade: 3650, century: 36500 };
+  const FINER = { century: 'decade', decade: 'year', year: 'month', month: 'week', week: 'day', day: 'hour' };
   const BASE_MS = 1000;
   const BIRTH_YEAR = new Date().getFullYear();
 
@@ -16045,7 +22429,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   const D = LANG === 'zh' ? window.UI.zh : straight(window.UI[LANG]);
   const dig = (o, k) => k.split('.').reduce((x, p) => (x == null ? x : x[p]), o);
   const fmt = (str, v = {}) => String(str).replace(/\{(\w+)\}/g, (m, x) => (x in v ? v[x] : m));
-  const T = (k, v) => { const x = dig(D, k) ?? dig(window.UI.zh, k); return typeof x === 'string' ? fmt(x, v) : x; };
+  let plantLife = false;   // while living (or looking back on) a plant's life, its own wording is used
+  const T = (k, v) => { const x = (plantLife ? dig(D.plant, k) : undefined) ?? dig(D, k) ?? dig(window.UI.zh, k); return typeof x === 'string' ? fmt(x, v) : x; };
   const Tn = (k, n, v) => { const arr = T(k); return fmt(arr[(n - 1) % arr.length], v); };
   const UNITNAME = T('unit');
   const KIND = T('kind');
@@ -16054,7 +22439,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : LANG;
     if (EN && !(window.I18N_SP && window.I18N_SP[LANG])) {
       const sc = document.createElement('script');
-      sc.src = `${window.ASSET || ''}i18n/${LANG}.js?v=619f1644`; sc.onload = run; sc.onerror = run;
+      sc.src = `${window.ASSET || ''}i18n/${LANG}.js?v=63b906ad`; sc.onload = run; sc.onerror = run;
       document.head.appendChild(sc);
     } else run();
   }
@@ -16086,7 +22471,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     let H = 0; sp.survival = [[0, 1]]; dH.forEach((h, i) => { H += h; sp.survival.push([xs[i + 1], Math.exp(-H)]); });
   }
   Object.values(SP).forEach((sp) => {
-    sp.stages.forEach((st) => { st._quiet = /egg|pupa|^卵|蛹|胚/.test(st.id + '|' + st.name) || /卵|蛹|胚胎/.test(st.name); });
+    sp.stages.forEach((st) => { st._quiet = sp.kingdom === 'plant' ? /^(seed|spore)$/.test(st.id) : /egg|pupa|^卵|蛹|胚/.test(st.id + '|' + st.name) || /卵|蛹|胚胎/.test(st.name.replace(/产卵/g, '')); });
     (sp.causes || []).forEach((c) => { if (typeof c.escape !== 'boolean') c.escape = c.id !== 'old' && c.id !== 'slaughter' && ESC_YES.test(c.short) && !ESC_NO.test(c.short); });
     const sc = (sp.causes || []).find((x) => /starv|hunger|饿/.test(x.id + x.short)); sp._starve = sc && sc.id;
     (sp.causes || []).forEach((c) => { c._cull = /屠宰|收获|淘汰|出塘|上市|宰杀/.test(c.short); c._eaten = /吃|吞|叼|捕|咬/.test(c.short) && !/饿|毒|网/.test(c.short); });
@@ -16114,12 +22499,49 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     sp.events.forEach((e, i) => set(e, `events.${i}`)); sp.decisions.forEach((e, i) => set(e, `decisions.${i}`)); sp.causes.forEach((e, i) => set(e, `causes.${i}`)); set(sp.opening, 'opening');
   });
   const txt = (o) => (EN ? straight(o.en) : o.zh);
+  Object.entries(window.EXTRA_CAUSES || {}).forEach(([id, a]) => { if (SP[id]) a.forEach(([stages, cid, escape, w, zs, zt, es, et]) => SP[id].causes.push({ id: cid, stages, escape, w, short: EN ? es : zs, text: EN ? et : zt, _eaten: /吃|咬|抓|捕|叼|吞/.test(zs), _cull: false })); });
+  Object.entries(window.DROP_CAUSE_STAGES || {}).forEach(([id, m]) => Object.entries(m).forEach(([cid, drop]) => { const c = SP[id] && SP[id].causes.find((x) => x.id === cid); if (c) c.stages = (c.stages || SP[id].stages.map((x) => x.id)).filter((x) => !drop.includes(x)); }));
+  // Choices (data/choices.js): only what has a checked source and fits the life stage is offered.
+  // lines about a beginning belong to the beginning of a stage
+  const EARLY = EN ? /\b(first (time|leaf|root|shoot|day|meal|flight)|just (hatched|born|emerged|learned|opened)|newly (hatched|born)|for the first time|yolk sac)\b/i : /第一次|刚刚?(孵|出生|离|会|学|睁|长出|破|从|爬)|破膜|破壳|刚出|出生(时|后|的第)|还不会|第一(片|根|天|口)/;
+  Object.values(SP).forEach((sp) => sp.events.forEach((e) => { if (EARLY.test(e.text)) e._early = true; }));
+  const stagePart = (st) => { const i = L.sp.stages.indexOf(st), end = (L.sp.stages[i + 1] || { from: L.sp.maxAge }).from; return end > st.from ? (L.age - st.from) / (end - st.from) : 0; };
+  const applyPlay = () => Object.values(SP).forEach((sp) => {
+    const ch = sp._ch = (window.CHOICES || {})[sp.id] || null; if (!ch) return;
+    (ch.badEvents || []).forEach((i) => { if (sp.events[i]) sp.events[i]._bad = true; });
+    const badIdle = new Set(ch.badIdle || []); if (sp.idle) sp.idle = sp.idle.filter((_, i) => !badIdle.has(i));
+    Object.entries(ch.badActionText || {}).forEach(([k, a]) => { const x = sp.actions && sp.actions[k]; if (x && x.text) x.text = x.text.filter((_, i) => !a.includes(i)); });
+    sp._decisions = sp.decisions;   // full list, so links to past lives keep their indexes
+    sp.decisions.forEach((d) => { const r = ch.decisions[d.id]; if (!r || r.remove) d._off = true; else { d._stages = r.stages; if (!r.nosource) d._src = r; } });
+    if (ch.opening.replace) sp.opening = encOf(ch.opening.replace, '__opening'); else if (sp.opening && !ch.opening.nosource) sp.opening._src = ch.opening;
+    sp.causes.forEach((c) => { const r = ch.causes[c.id]; if (r && !r.nosource) c._src = r; });
+  });
+  // in the built site this data arrives after the first screen
+  let playOK = !!window.CHOICES; if (playOK) applyPlay();
+  const playReady = playOK || !window.PLAY_SRC ? Promise.resolve() : new Promise((res) => { const go = () => { const s = document.createElement('script'); s.src = window.PLAY_SRC; s.onload = () => { playOK = true; applyPlay(); res(); }; s.onerror = () => { s.remove(); setTimeout(go, 2500); }; document.head.append(s); }; go(); });
+  if (!window.PLAY_SRC) playOK = true;
+  function encOf(e, id) {
+    const x = EN ? straight(e.en) : e.zh;
+    return { id, title: x.title, body: x.body, _src: e.ref ? { ref: e.ref, zh: e.why.zh, en: e.why.en } : null, options: ['a', 'b'].map((k) => ({ t: x[k][0], hint: x[k][1], eff: e[k].eff, risk: e[k].risk, result: x[k][2] })) };
+  }
+  const srcLine = (sp, r) => { const q = r && sp._ch && sp._ch.refs[r.ref]; return q ? `<div class="fact"><b>${T('evData')}</b> ${esc(txt(r))} <a class="src" target="_blank" rel="noopener" href="${esc(q.u)}">${esc(EN ? `${q.s}: ${q.t}` : `来源：${SRCZH[q.s] || ORG[q.s] || q.s}`)} ↗</a></div>` : ''; };
+  const SRCZH = { 'USGS Nonindigenous Aquatic Species Database': '美国地质调查局外来水生物种数据库', 'USDA Forest Service Fire Effects Information System': '美国林务局火影响信息系统', 'Fire Effects Information System (FEIS), USDA Forest Service': '美国林务局火影响信息系统', 'National Park Service, Everglades National Park': '美国国家公园管理局（大沼泽地国家公园）', 'National Park Service, Saguaro National Park': '美国国家公园管理局（巨人柱国家公园）', 'NC State University Extension, Plant Toolbox': '北卡罗来纳州立大学植物资料库', 'The Woodland Trust': '英国林地信托', 'PubMed Central': '美国国家医学图书馆论文库', Wikipedia: '维基百科', 'Animal Diversity Web': '动物多样性网', NOAA: '美国国家海洋和大气管理局', 'NOAA Fisheries': '美国国家海洋渔业局', FAO: '联合国粮农组织', IUCN: '世界自然保护联盟', BTO: '英国鸟类学信托', 'British Trust for Ornithology': '英国鸟类学信托', 'Cornell Lab of Ornithology': '康奈尔鸟类学实验室', AmphibiaWeb: '两栖动物网', FishBase: '鱼类数据库', WHO: '世界卫生组织' };
   const ORG = { WHO: '世界卫生组织', 'World Bank': '世界银行', BTO: '英国鸟类学信托', 'NOAA Fisheries': '美国国家海洋渔业局', 'UN News': '联合国新闻', ILO: '国际劳工组织', ITU: '国际电信联盟' };
   const cite = (r) => (EN ? `${r.a} ${r.y}${r.s ? ` · ${r.s}` : ''}` : `来源：${ORG[r.a] || String(r.a).replace(/ et al\.?/, ' 等').replace(' & ', '、')}，${r.y}`);
   function link(sp, key) { const r = sp._ev.refs[key]; return r ? `<a class="src" target="_blank" rel="noopener" href="${esc(r.u)}">${esc(cite(r))} ↗</a>` : ''; }
   const badge = (b) => `<span class="ev ev-${b}">${T(`basis.${b}`)}</span>`;
   const evLine = (sp, o) => `<p class="evline">${badge(o.basis)} ${esc(txt(o))} ${link(sp, o.ref)}</p>`;
   const PH = window.PHOTOS || {};
+  const SPH = window.STAGE_PHOTOS || {};
+  // the photograph for a life stage: its own if there is one; from maturity on, the main photograph; otherwise the main one, marked as adult
+  function stagePhoto(sp, st) {
+    const own = (SPH[sp.id] || {})[st.id]; if (own) return { ...own, url: `${ASSET}img/s/${sp.id}-${st.id}.webp`, own: true };
+    const m = PH[sp.id]; if (!m) return null;
+    const i = sp.stages.indexOf(st), next = sp.stages[i + 1], grown = !next || next.from > (sp.maturity || sp.maxAge) || i >= sp.stages.length - 2;
+    return { ...m, url: photoUrl(sp), own: false, adultOnly: !grown };
+  }
+  const creditOf = (p) => (p ? `<a class="credit" target="_blank" rel="noopener" href="${esc(p.page)}">${T('photoBy', { a: esc(p.artist), l: esc(licName(p.lic)) })}</a>` : '');
+  const stageCap = (p) => (p && p.adultOnly ? T('stageAdult') : p && p.own && p.taxon && p.note !== 0 ? (EN ? p.en : p.zh) || '' : '');
   const licName = (x) => (EN ? x : x.replace('Public domain', '公有领域'));
   const photo = (sp) => PH[sp.id] || null;
   const photoUrl = (sp) => (PH[sp.id] ? `${ASSET}img/${sp.id}.webp` : '');
@@ -16178,16 +22600,16 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     if (EN) {
       if (days < 1 / 24) return pl(Math.max(1, Math.round(days * 1440)), 'minute');
       if (days < 2) return pl(Math.round(days * 24), 'hour');
-      if (days < 60) { const d = Math.floor(days), h = Math.round((days - d) * 24); return h && d < 10 ? `${pl(d, 'day')} ${pl(h, 'hour')}` : pl(d, 'day'); }
+      if (days < 60) { const d = Math.floor(days), h = Math.min(23, Math.round((days - d) * 24)); return h && d < 10 ? `${pl(d, 'day')} ${pl(h, 'hour')}` : pl(d, 'day'); }
       if (days < 730) { const m = Math.floor(days / 30.4); return m < 3 ? pl(Math.floor(days / 7), 'week') : pl(m, 'month'); }
-      const y = Math.floor(days / 365), m = Math.floor((days - y * 365) / 30.4);
+      const y = Math.floor(days / 365), m = Math.min(11, Math.floor((days - y * 365) / 30.4));
       return m && y < 10 ? `${pl(y, 'year')} ${pl(m, 'month')}` : pl(y, 'year');
     }
     if (days < 1 / 24) return `${Math.max(1, Math.round(days * 1440))} 分钟`;
     if (days < 2) return `${Math.round(days * 24)} 小时`;
-    if (days < 60) { const d = Math.floor(days), h = Math.round((days - d) * 24); return h && d < 10 ? `${d} 天 ${h} 小时` : `${d} 天`; }
+    if (days < 60) { const d = Math.floor(days), h = Math.min(23, Math.round((days - d) * 24)); return h && d < 10 ? `${d} 天 ${h} 小时` : `${d} 天`; }
     if (days < 730) { const m = Math.floor(days / 30.4); return m < 3 ? `${Math.floor(days / 7)} 周` : `${m} 个月`; }
-    const y = Math.floor(days / 365), m = Math.floor((days - y * 365) / 30.4);
+    const y = Math.floor(days / 365), m = Math.min(11, Math.floor((days - y * 365) / 30.4));
     return m && y < 10 ? `${y} 年 ${m} 个月` : `${y} 年`;
   }
   function stamp(cal, unit) {
@@ -16270,17 +22692,22 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
 
   // ---------- modes ----------
   const MODES = T('modes');
-  let mode = store.get('lunhui.mode', 'real');
-  if (!MODES.some((m) => m[0] === mode)) mode = 'real';
+  let mode = store.get('lunhui.mode', 'even');
+  if (!MODES.some((m) => m[0] === mode)) mode = 'even';
+  // the same kind for everyone on the same day; every kind comes round once in a cycle
+  const dayNo = () => { const t = new Date(); return Math.floor((Date.UTC(t.getFullYear(), t.getMonth(), t.getDate()) - Date.UTC(2026, 10, 25)) / 864e5) + 1; };
+  function dayKind(n) { const a = ODDS.slice(), c = Math.floor((n - 1) / a.length); let s = (c + 1) * 7919; const r = () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a[((n - 1) % a.length + a.length) % a.length]; }
   function pool(m) {
-    if (m === 'vert') return ODDS.filter((o) => o.group !== 'invert');
+    if (m === 'daily') return [dayKind(dayNo())];
+    if (m === 'vert') return ODDS.filter((o) => o.group !== 'invert' && o.group !== 'plant');
+    if (m === 'plant') return ODDS.filter((o) => o.group === 'plant');
     if (m === 'mammal') return ODDS.filter((o) => o.group === 'mammal');
     if (m === 'pick') return ODDS.filter((o) => o.id === $('#pick').value);
     return ODDS;
   }
   const weightOf = (m, o) => (m === 'even' ? 1 : o.pop);
   function draw(m) { const p = pool(m); return wpick(p, (o) => weightOf(m, o)); }
-  function shareIn(m, id) { const p = pool(m); const t = p.reduce((a, o) => a + weightOf(m, o), 0); const o = p.find((x) => x.id === id); return o ? weightOf(m, o) / t : 0; }
+  function shareIn(m, id) { if (m === 'daily') m = 'even'; const p = pool(m); const t = p.reduce((a, o) => a + weightOf(m, o), 0); const o = p.find((x) => x.id === id); return o ? weightOf(m, o) / t : 0; }
 
   // ---------- home ----------
   function renderHome() {
@@ -16298,6 +22725,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const hum = oddsOf('human');
     $('#oddsnote').textContent = T('oddsNote', { n: top.length - 2, rest: pct(rest), human: oneIn(hum.pop / TOTAL) });
 
+    $('#demo').innerHTML = [['penguin', 'cover'], ['cat', 'toon'], ['wolf', 'meme']].map(([id, f]) => `<figure><img loading="lazy" width="360" height="504" src="${ASSET}img/demo/${EN ? 'en' : 'zh'}-${f}.webp" alt="${esc(SP[id].name)}"></figure>`).join('');
     $('#whats').innerHTML = top.slice(0, 2).map((o) => { const sp = SP[o.id]; return `<button type="button" class="what" data-sp="${o.id}"><span class="em">${icon(sp, 84)}</span><div><h3>${esc(T('whatTitle', { art: art(sp.name), sp: lc(sp.name) }))}</h3><p>${esc(about(o.id))}</p><span class="morelink">${T('bio.open')}</span></div></button>`; }).join('');
     $('#modes').innerHTML = MODES.map(([k, label]) => `<button class="btn" type="button" data-mode="${k}" aria-pressed="${k === mode}">${label}</button>`).join('');
     $('#pick').innerHTML = ODDS.map((o) => `<option value="${o.id}">${esc(SP[o.id].name)}</option>`).join('');
@@ -16305,7 +22733,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     updateMode();
 
     const maxL = Math.log10(top[0].pop), minL = 3;
-    $('#oddslist').innerHTML = top.map((o) => {
+    const oddsRow = (o) => {
       const s = SP[o.id];
       const confLabel = T('conf')[o.conf];
       const w = clamp((Math.log10(o.pop) - minL) / (maxL - minL), 0.01, 1) * 100;
@@ -16315,12 +22743,14 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
         <span class="bar"><i style="width:${w}%"></i></span>
         <span class="od">${oneIn(o.pop / TOTAL)}</span>
       </${s ? 'button' : 'div'}>`;
-    }).join('') + `<p class="small muted" style="padding-top:8px">${T('logScale')}</p>`;
+    };
+    const plantOf = (o) => o.group === 'plant';
+    $('#oddslist').innerHTML = `<h3 class="grp">${T('group.animal')}</h3>${top.filter((o) => !plantOf(o)).map(oddsRow).join('')}<h3 class="grp">${T('group.plant')}</h3>${top.filter(plantOf).map(oddsRow).join('')}` + `<p class="small muted" style="padding-top:8px">${T('logScale')}</p>`;
   }
   function updateMode() {
     document.querySelectorAll('#modes [data-mode]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
     $('#pickrow').hidden = mode !== 'pick';
-    $('#modenote').textContent = MODES.find((m) => m[0] === mode)[2];
+    $('#modenote').textContent = MODES.find((m) => m[0] === mode)[2].replace('{n}', dayNo());
     store.set('lunhui.mode', mode);
   }
   $('#modes').addEventListener('click', (e) => { const b = e.target.closest('[data-mode]'); if (b) { mode = b.dataset.mode; updateMode(); } });
@@ -16329,6 +22759,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   // ---------- reveal ----------
   let revealTimer = null;
   function reveal() {
+    if (!playOK) { const b = $('#go'); if (b && b.offsetParent) { b.disabled = true; b.textContent = T('loadingPlay'); } return playReady.then(() => { if (b) { b.disabled = false; b.textContent = T('go'); } reveal(); }); }
     const final = draw(mode);
     show('reveal');
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -16349,19 +22780,19 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
 
   // ---------- life state ----------
   let L = null;
-  function birth(id) {
-    const sp = SP[id];
+  function birth(id, pre = null) {
+    const sp = SP[id]; plantLife = sp.kingdom === 'plant';
     const b = sp.birth || {};
     const flags = new Set();
     const stats = { health: 70, food: 60, safety: 50, offspring: 0, ...(sp.init || {}) };
     let risk = 1;
-    const sex = b.sex ? wpick(b.sex, (x) => x[1]) : null;
+    const sex = b.sex ? (pre && b.sex[pre.sex - 1]) || wpick(b.sex, (x) => x[1]) : null;
     if (sex) { if (sex._flag) flags.add(sex._flag); if (sex[2]) applyEff(sex[2], stats, flags); }
     const rolls = {}, rollVals = [], rollIdx = [], riskParts = [];
     (b.rolls || []).forEach((r, ri) => {
       const offered = r.options.filter((_, oi) => ((window.ROLL_RULES || {})[id] || []).every(([x, y, a, ok]) => x !== ri || y !== oi || ok.includes(rollIdx[a])));
       if (!offered.length) { rollIdx.push(-1); return; }
-      const opt = wpick(offered, (x) => x[1]); rollIdx.push(r.options.indexOf(opt));
+      const want = pre && r.options[pre.rolls[ri]], opt = want && offered.includes(want) ? want : wpick(offered, (x) => x[1]); rollIdx.push(r.options.indexOf(opt));
       // relative risk within what was actually possible, so variants do not shift the species' average
       const mean = offered.reduce((t, x) => t + x[1] * ((x[2] && x[2].risk) || 1), 0) / offered.reduce((t, x) => t + x[1], 0), rr = ((opt[2] && opt[2].risk) || 1) / mean;
       rolls[r.label] = opt[0]; rollVals.push(opt[0]); if (Math.abs(rr - 1) > 0.005) riskParts.push([`${r.label}${EN ? ': ' : '：'}${opt[0]}`, rr]);
@@ -16369,16 +22800,16 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       if (opt[2]) applyEff(opt[2], stats, flags);
     });
     // individual variation every animal gets: constitution and temperament (also set flags species content can use)
-    const con = wpick(TRAITS.con, (x) => x.w), tem = wpick(TRAITS.tem, (x) => x.w);
+    const con = (pre && TRAITS.con[pre.con]) || wpick(TRAITS.con, (x) => x.w), tem = (pre && TRAITS.tem[pre.tem]) || wpick(TRAITS.tem, (x) => x.w);
     [con, tem].forEach((t) => { flags.add(t.id); if (t.health) stats.health = clamp(stats.health + t.health, 0, 100); if (t.risk) { risk *= t.risk; riskParts.push([traitName(t), t.risk]); } });
     const no = `${'ABCDEFGH'[Math.floor(rand() * 8)]}${String(Math.floor(rand() * 1e4)).padStart(4, '0')}`;
     L = {
-      sp, id, no, mode, traits: { con, tem }, sex: sex ? sex[0] : null, sexFlag: sex ? sex._flag : null, rolls, rollVals, rollIdx, riskParts, why: null, lastData: 0, usedData: new Set(), flags, stats, risk,
+      sp, id, no, mode, traits: { con, tem }, sex: sex ? sex[0] : null, sexFlag: sex ? sex._flag : null, rolls, rollVals, rollIdx, riskParts, why: null, lastData: 0, usedData: new Set(), flags, stats, risk, miles: [], notes: [], placeAt: {},
       age: 0, cal: 0, ticks: 0, mods: [], log: [], map: [], fired: new Set(), once: new Set(), firstStage: {},
       choices: [], dead: false, cause: null, paused: false, speed: store.get('lunhui.speed', 1), auto: false, ff: false,
       sibsN: b.siblings || 1, stageId: null, escapes: 0, lastCrisis: -99, seen: {}, lastSeen: {}, usedText: new Set(), idleBag: [], idleRefills: 0, quietFrom: null, act: 'instinct', actTicks: {}, stepMode: store.get('lunhui.step', false), mateCd: 0, saves: 0, saveLogs: 0, lastChoice: 0, moved: false, encUsed: new Set(), quips: new Set(), lastQuip: -9, streak: 0, diedQuiet: false, t: 0, seed: Math.floor(rand() * 1e6) + 1,
     };
-    L.goals = makeGoals(sp);
+    L.goals = makeGoals(sp); L.hz = { base: 0, born: 0, mine: 0 }; L.joy = []; L.low = null; L.cohort = makeCohort(id); L.same = !!pre;
     renderBirth();
     show('birth');
   }
@@ -16421,14 +22852,14 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   const latin = (sp) => (window.BIO && window.BIO[sp.id] && window.BIO[sp.id].sci) || (String(sp.sci || '').match(/[A-Z][a-z]+(?: [a-z]+)?/) || [''])[0];
   // ---------- three goals per life ----------
   function makeGoals(sp) {
-    const out = [{ k: 'half', ok: () => S(sp, L.age) <= 0.5 }], last = sp.stages[sp.stages.length - 1];
-    if (sp.maturity && sp.maturity < sp.maxAge * 0.95) out.push({ k: 'adult', ok: () => L.age >= sp.maturity });
-    else { const mid = sp.stages[Math.max(1, sp.stages.length - 2)] || last; out.push({ k: 'stage', v: { s: mid.name }, ok: () => L.age >= mid.from }); }
-    out.push(canBreed(sp) ? { k: 'kids', ok: () => L.stats.offspring > 0 } : { k: 'stage', v: { s: last.name }, ok: () => L.age >= last.from });
+    const out = [{ k: 'half', ok: () => S(sp, L.age) <= 0.5, at: invS(sp, 0.5) }], last = sp.stages[sp.stages.length - 1];
+    if (sp.maturity && sp.maturity < sp.maxAge * 0.95) out.push({ k: 'adult', ok: () => L.age >= sp.maturity, at: sp.maturity });
+    else { const mid = sp.stages[Math.max(1, sp.stages.length - 2)] || last; out.push({ k: 'stage', v: { s: mid.name }, ok: () => L.age >= mid.from, at: mid.from }); }
+    out.push(canBreed(sp) ? { k: 'kids', ok: () => L.stats.offspring > 0 } : { k: 'stage', v: { s: last.name }, ok: () => L.age >= last.from, at: last.from });
     return out.map((g) => ({ ...g, t: T(`goal.${g.k}`, g.v), done: false }));
   }
   const STAR = (on) => `<svg class="star${on ? ' on' : ''}" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.5l-5.9 3.1 1.2-6.5L2.5 9.5l6.6-.9z"/></svg>`;
-  const goalsHTML = () => L.goals.map((g) => `<div class="goal${g.done ? ' on' : ''}">${STAR(g.done)}<span>${esc(g.t)}</span></div>`).join('');
+  const goalsHTML = () => L.goals.map((g) => `<div class="goal${g.done ? ' on' : ''}">${STAR(g.done)}<span>${esc(g.t)}${!g.done && g.at != null && L && L.stageId && !L.dead && g.at > L.age ? `<small class="muted"> · ${T('goalLeft', { d: dur(g.at - L.age) })}</small>` : ''}</span></div>`).join('');
   const starRow = (n) => `<span class="stars">${[0, 1, 2].map((i) => STAR(i < n)).join('')}</span>`;
   const starCount = () => L.goals.filter((g) => g.done).length;
   function checkGoals() {
@@ -16459,7 +22890,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       ...Object.entries(L.rolls),
       [T('fCon'), traitName(L.traits.con)],
       [T('fTem'), traitName(L.traits.tem)],
-      [T('fKind'), KIND[sp.kind] || KIND.wild],
+      [T('fKind'), (T('kind')[sp.kind] || T('kind').wild)],
       [T('fAlive'), `<span class="mono">${cnNum(o.pop)}</span>`],
       [T('fOdds'), `<span class="mono">${oneIn(pReal)}</span>`],
       [T('fMature'), `<span class="mono">${pct(pMat)}</span>`],
@@ -16484,6 +22915,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
           <div class="specname"><div><h2>${esc(sp.name)}</h2><div class="sci">${esc(latin(sp))}</div>${sp.taxon ? `<div class="small muted">${esc(EN ? sp.taxon : sp.taxon.replace(/（[A-Za-z ]+）/g, ''))}</div>` : ''}</div></div>
           <p style="font-size:16.5px">${esc(fill(sp.birth.intro))}</p>
           <div class="whatis"><b>${esc(T('whatIs', { art: art(sp.name), sp: lc(sp.name) }))}</b><p>${esc(about(sp.id))}</p>${sp.note ? `<p class="small muted">${esc(sp.note)}</p>` : ''}<button class="linkbtn" type="button" data-sp="${sp.id}">${T('bio.open')}</button></div>
+          <label class="nick"><span>${T('nick.label')}</span><input id="nick" maxlength="12" autocomplete="off" placeholder="${esc(T('nick.ph'))}"></label>
           <div class="goalbox"><b>${T('goalTitle')}</b><div class="goals">${goalsHTML()}</div></div>
           <div class="row"><button class="btn-primary" id="begin" type="button">${T('begin')}</button><button class="btn" id="reroll" type="button">${T('reroll')}</button></div>
           <div class="fields">${fields.map(([k, v]) => `<div class="field"><span class="eyebrow">${esc(k)}</span><div class="v">${String(v).startsWith('<') ? v : esc(v)}</div></div>`).join('')}</div>
@@ -16493,7 +22925,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
           <p class="small muted">${esc(T('protectNote'))}</p>
         </div>
       </div>`;
-    $('#begin').onclick = startLife;
+    $('#begin').onclick = () => { L.nick = ($('#nick').value || '').trim(); startLife(); };
+    $('#nick').onkeydown = (e) => { if (e.key === 'Enter') $('#begin').click(); };
     $('#reroll').onclick = reveal;
     $('#begin').focus();
   }
@@ -16503,10 +22936,10 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   function startLife() {
     show('life');
     $('#lf-log').innerHTML = ''; $('#floats').innerHTML = ''; L.lastStats = { ...L.stats }; G.sfx('born');
-    { const p = photo(L.sp), im = $('#scene'); im.src = photoUrl(L.sp); im.alt = L.sp.name; im.hidden = !p; im.style.objectPosition = p ? p.focus : ''; $('#lf-credit').innerHTML = credit(L.sp); }
+    L.shownStage = null;
     addLog(fill(L.sp.birth.intro), 'stage');
     renderControls();
-    renderLife();
+    renderLife(); renderCohort();
     renderActs();
     if (L.sp.opening) openDecision({ ...L.sp.opening, id: '__opening', eyebrow: T('openingEyebrow') });
     else schedule();
@@ -16533,7 +22966,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   const activeMult = () => multParts().reduce((m, p) => m * p[1], 1);
   function findDecision(st) {
     for (const d of L.sp.decisions || []) {
-      if (L.fired.has(d.id)) continue;
+      if (L.fired.has(d.id) || d._off || (d._stages && !d._stages.includes(st.id))) continue;
       if (!needOk(d.need, L.flags)) continue;
       const trig = (d.stage ? st.id === d.stage : d.at != null) && (d.at == null || L.age >= d.at);
       if (!trig) continue;
@@ -16553,8 +22986,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const sp = L.sp;
     let st = stageAt(sp, L.age);
     if (st.id !== L.stageId) {
-      if (L.stageId) addLog(T('enterStage', { s: st.name }), 'stage');
-      L.stageId = st.id;
+      const first = !L.stageId; L.stageId = st.id;
+      if (!first) { addLog(T('enterStage', { s: st.name }), 'stage'); { const m = MD(); if (m && m.stages && m.stages[st.id]) feel(m.stages[st.id]); } mile('s', sp.stages.indexOf(st)); if (!L.auto) return openStage(st); }
     }
     const d = findDecision(st);
     if (d) { openDecision(d); return; }
@@ -16579,7 +23012,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     }
     const quiet = isQuietStage(st);
     const escShare = quiet ? 0 : escapableShare(st);
-    const p0 = hazard(dt);
+    const p0 = hazard(dt), hz = -Math.log(1 - Math.min(p0, 0.995)); L.hz.base += hz; L.hz.born += hz * L.riskParts.reduce((m, x) => m * x[1], 1); L.hz.mine += hz * activeMult();
     let p = 1 - Math.pow(1 - p0, activeMult());
     // Crisis moments let you dodge some deaths, so the base rate is raised to keep the survival curve true on average.
     if (escShare > 0) { const o = escapeOdds(); p = Math.min(0.97, p / (1 - ((o.pf + o.ph) / 2) * escShare)); }
@@ -16597,7 +23030,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       }
       spare();
     }
-    L.age += dt; L.cal += dt; L.ticks++;
+    L.age += dt; L.cal += dt; L.ticks++; cohortTick();
+    { const k = L.stats.health + L.stats.food * 0.4 + L.stats.safety * 0.3; if (!st._quiet && L.ticks > 2 && (!L.low || k < L.low.k)) L.low = { k, cal: L.cal, h: Math.round(L.stats.health), f: Math.round(L.stats.food), s: Math.round(L.stats.safety), st: st.id }; }
 
     // metabolism
     // Routine foraging pulls food back toward normal; events and choices push it to extremes.
@@ -16622,7 +23056,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     // Anti-repetition: each event at most `max` times (default 2, once = 1), with a cooldown,
     // and less likely each time it has already happened. Idle lines come from a shuffled bag.
     const evs = (sp.events || []).map((e, i) => ({ e, i })).filter(({ e, i }) => {
-      if (!inStage(e, st) || !needOk(e.need, L.flags)) return false;
+      if (e._bad || !inStage(e, st) || !needOk(e.need, L.flags)) return false;
+      if (e._early && stagePart(st) > 0.35) return false;
       if (e.act && ![].concat(e.act).includes(L.act)) return false;
       if (L.usedText.has(e.text)) return false;
       const n = L.seen[i] || 0, max = e.max ?? 1;
@@ -16636,6 +23071,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       L.broods = (L.broods || 0) + 1;
       const line = fill(mt, { n: n.toLocaleString('en-US') });
       logged = logOnce(L.broods > 1 ? T('nthBrood', { k: L.broods, line }) : line, 'choice');
+      feelOne('kids', 'loving');
     } else if (evs.length && rand() < Math.min(0.9, 0.5 * A.ev)) {
       const { e, i } = wpick(evs, (x) => (x.e.w ?? 1) / (1 + 2 * (L.seen[x.i] || 0)));
       L.seen[i] = (L.seen[i] || 0) + 1; L.lastSeen[i] = L.ticks; L.usedText.add(e.text);
@@ -16643,6 +23079,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       const n = applyEff(e.eff, L.stats, L.flags);
       if (e.set) L.flags.add(e.set);
       logged = logOnce(fill(e.text, { n: n ?? '' }), e.eff && Object.values(e.eff).some((v) => (Array.isArray(v) ? v[1] : v) < -9) ? 'bad' : '', e.fact, e);
+    } else if (moodTick(st)) { logged = true;
     } else if (A.text && A.text.some((t) => !L.usedText.has(t)) && rand() < 0.3) {
       const pool = A.text.filter((t) => !L.usedText.has(t));  // shared with events and idle lines
       const t = pool[Math.floor(rand() * pool.length)];
@@ -16657,11 +23094,74 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     if (!logged && L.quietFrom == null) L.quietFrom = L.cal - dt;
     showData(st);
     L.map.push({ h: L.stats.health, f: L.stats.food });
+    if (L.stats.offspring && !L.miles.some((m) => m[0] === 'k')) mile('k');
     renderLife();
     renderActs();
     schedule();
   }
 
+  // moments kept for the look back and the share card: type, one or two indexes, calendar age
+  function mile(k, a = 0, b = 0) { L.miles.push([k, a, b, L.cal]); }
+  function addNote(text, q) {
+    const t = String(text || '').trim().slice(0, 300); if (!t) return;
+    L.notes.push({ c: L.cal, s: stageAt(L.sp, L.age).id, q: q || '', t }); addLog(t, 'note');
+  }
+  const noteBox = (q) => `<label class="notebox"><span>${esc(q)}</span><textarea id="note" rows="2" maxlength="300" placeholder="${esc(T('note.ph'))}"></textarea></label>`;
+  // a new stage of life: what it looks like now, what is known about it, and room for a thought
+  function openStage(st) {
+    const sp = L.sp, p = stagePhoto(sp, st), f = (sp._ev.facts || []).find((x, i) => !L.usedData.has(i) && (x.stages || []).includes(st.id) && !(x.flags || []).length && !(x.acts || []).length);
+    if (f) L.usedData.add(sp._ev.facts.indexOf(f));
+    const q = T('note.stage', { s: st.name }); L.ff = false; renderControls(); renderLife();
+    G.sfx('star'); $('#dlg').className = 'dlg stagedlg'; $('#dlg').onclick = null;
+    $('#dlg').innerHTML = `${p ? `<figure class="hero-ph"><img src="${p.url}" alt="${esc(st.name)}" style="object-position:${p.focus || ''}"><figcaption>${creditOf(p)}</figcaption></figure>` : ''}
+      <div class="head"><span class="eyebrow" style="color:var(--accent)">${T('newStage')}</span><span class="eyebrow">${dur(L.cal)}</span></div>
+      <h2 id="dlg-title">${esc(st.name)}</h2>${stageCap(p) ? `<p class="small muted">${esc(stageCap(p))}</p>` : ''}
+      ${MD() && MD().stages && MD().stages[st.id] ? `<p class="moodline">${esc(moodTx(MD().stages[st.id]))}</p>` : ''}
+      <p class="small muted">${T('stageReached', { p: pct(S(sp, st.from)) })}</p>
+      ${f ? `<div class="fact">${badge(f.basis)} ${esc(txt(f))} ${link(sp, f.ref)}</div>` : ''}${noteBox(q)}
+      <div class="opts"><button class="opt" type="button" id="dlg-go"><span class="k">→</span><span class="tt">${T('continue')}</span></button></div>`;
+    $('#overlay').hidden = false; $('#dlg-go').focus();
+    $('#dlg-go').onclick = () => { addNote($('#note').value, q); $('#overlay').hidden = true; schedule(); };
+  }
+  // ---------- moods (imagined, not science) ----------
+  const MD = () => (window.MOOD || {})[L.id] || null;
+  const JOY = { happy: 1.6, loving: 1.5, proud: 1.4, free: 1.5, cosy: 1.1, curious: 0.7 };
+  const moodTx = (o) => (EN ? straight(o.en) : o.zh);
+  function feel(o, mood) {   // says a mood line once
+    if (!o) return false; const t = moodTx(o); if (!t || L.usedText.has(t)) return false;
+    L.usedText.add(t); addLog(t, 'mood'); L.mood = mood || o.mood || L.mood; L.moodAt = L.ticks;
+    if (JOY[L.mood]) L.joy.push({ t, cal: L.cal, st: L.stageId, k: JOY[L.mood] * 60 + L.stats.health + L.stats.food * 0.4 + L.stats.safety * 0.3 }); return true;
+  }
+  const feelOne = (key, mood) => { const m = MD(), a = ((m && m[key]) || []).filter((o) => !L.usedText.has(moodTx(o))); return a.length ? feel(a[Math.floor(rand() * a.length)], mood) : false; };
+  // what it feels right now: a recent mood, or what its body says
+  function moodNow() {
+    const st = L.stats; if (L.dead) return null;
+    if (st.health < 25) return 'hurt'; if (st.food < 20) return 'hungry'; if (st.safety < 18) return 'afraid';
+    if (L.mood && L.ticks - (L.moodAt ?? -99) < 8) return L.mood;
+    return st.health > 75 && st.food > 60 ? 'content' : st.health < 45 ? 'tired' : 'calm';
+  }
+  function moodTick(st) {
+    const m = MD(); if (!m || st._quiet) return false;
+    if (L.stats.food < 22 && rand() < 0.3 && feelOne('hungry', 'hungry')) return true;
+    if (L.stats.food > 88 && rand() < 0.15 && feelOne('full', 'happy')) return true;
+    if (st.id === L.sp.stages[L.sp.stages.length - 1].id && rand() < 0.06 && feelOne('old', 'calm')) return true;
+    if (sibsAlive() <= 1 && L.sibsN > 1 && rand() < 0.04 && feelOne('lonely', 'lonely')) return true;
+    if (rand() > 0.42) return false;
+    const a = m.lines.filter((x) => x.act === L.act && x.stages.includes(st.id) && !L.usedText.has(moodTx(x)));
+    return a.length ? feel(a[Math.floor(rand() * a.length)]) : false;
+  }
+  const placesNow = () => { const m = MD(), st = stageAt(L.sp, L.age); return m && !st._quiet ? m.places.map((p, i) => ({ p, i })).filter(({ p }) => p.stages.includes(st.id)) : []; };
+  function renderPlaces() {
+    const box = $('#lf-places'), list = !L.dead ? placesNow() : []; box.hidden = !list.length; if (!list.length) return;
+    box.innerHTML = `<span class="small muted">${T('whereTo')}</span>${list.map(({ p, i }) => `<button type="button" class="btn" data-place="${i}" ${L.ticks - (L.placeAt[i] ?? -99) < 3 ? 'disabled' : ''}>${esc((EN ? p.en : p.zh).name)}</button>`).join('')}`;
+  }
+  function goPlace(i) {
+    const p = MD().places[i], x = EN ? p.en : p.zh, left = x.lines.map(straight2).filter((t) => !L.usedText.has(t));
+    L.placeAt[i] = L.ticks; applyEff(p.eff, L.stats, L.flags); L.mods.push({ mult: p.risk || 1, until: L.cal + UNIT[L.unit || stageAt(L.sp, L.age).unit] * 3, label: T('wentTo', { p: x.name }) });
+    if (left.length) feel({ zh: left[0], en: left[0] }, p.mood); else { L.mood = p.mood; L.moodAt = L.ticks; }
+    G.sfx('pick'); renderLife(); renderPlaces();
+  }
+  const straight2 = (t) => (EN ? straight(t) : t);
   // While living: a sourced fact about what is happening now, at most once each.
   function showData(st) {
     if (L.ticks - L.lastData < 6) return;
@@ -16681,14 +23181,14 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   }
   // Small choices any animal can face; each at most once per life.
   function nextEncounter() {
-    const all = T('enc').map((e, i) => i).filter((i) => !L.encUsed.has(i) && !(L.id === 'human' && (i === 5 || gentle())));
+    const list = (L.sp._ch && L.sp._ch.encounters) || [], st = stageAt(L.sp, L.age);
+    const all = list.map((e, i) => i).filter((i) => !L.encUsed.has(i) && list[i].stages.includes(st.id) && needOk(list[i].need, L.flags));
     if (!all.length) return null;
-    const i = all[Math.floor(rand() * all.length)], e = T('enc')[i];
-    L.encUsed.add(i);
-    return { id: `__enc${i}`, eyebrow: T('encounter'), title: e[0], body: e[1],
-      options: [e[2], e[3]].map(([t, hint, eff, risk, result]) => ({ t, hint, eff, risk, riskDays: UNIT[L.unit || stageAt(L.sp, L.age).unit] * 6, result })) };
+    const i = all[Math.floor(rand() * all.length)]; L.encUsed.add(i);
+    const d = { ...encOf(list[i], `__enc${i}`), eyebrow: T('encounter') };
+    d.options.forEach((o) => { o.riskDays = UNIT[L.unit || st.unit] * 6; });
+    return d;
   }
-  const gentle = () => L.id === 'human' && L.age < 18 * 365;   // encounters are written for animals and adults
 
   // Chance of surviving a crisis by fleeing (depends on health) or freezing (depends on safety).
   function escapeOdds() {
@@ -16729,14 +23229,14 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const sp = L.sp, st = stageAt(sp, L.age);
     const causes = sp.causes || [];
     let c = null;
-    if (causeId === 'starve') c = causes.find((x) => x.id === sp._starve) || { id: 'starve', ...T('starve') };
+    if (causeId === 'starve') c = causes.find((x) => x.id === sp._starve && inStage(x, st)) || { id: 'starve', ...T('starve') };
     else if (causeId === 'old') c = causes.find((x) => x.id === 'old') || { id: 'old', ...T('oldAge') };
-    else if (causeId) c = causes.find((x) => x.id === causeId);
+    else if (causeId) { c = causes.find((x) => x.id === causeId); if (c && !inStage(c, st)) c = null; }   // never a cause that does not belong to this stage
     if (!c) {
       const tb = causeTable(sp, st, L.flags), old = causes.find((x) => x.id === 'old');
       if (old && !(tb.anchor && 'old' in tb.anchor.shares) && (st.id === 'old' || L.age > sp.maxAge * 0.8) && rand() < 0.5) c = old;
       else if (tb.list.length) { const o = escapeOdds(), e = (o.pf + o.ph) / 2; c = wpick(tb.list, (x) => (isEscapable(x.c) && !st._quiet ? x.w / (1 - e) : x.w)).c; }
-      else c = causes[0] || { ...T('death') };
+      else c = { id: 'unknown', short: T('deathAt', { s: st.name }), text: T('deathAtText', { s: st.name }) };
     }
     return c;
   }
@@ -16765,9 +23265,11 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     return best || [1, 1];
   }
   function actionDef(k) {
-    const base = ACTIONS[k] || ACTIONS.instinct;
+    const [pn, pd] = plantLife ? T(`actions.${k}`) || [] : [];
+    const sa = L.sp._ch && ((L.sp._ch.stageActions || {})[stageAt(L.sp, L.age).id] || {})[k];
+    const base = { ...(ACTIONS[k] || ACTIONS.instinct), ...(pn ? { name: pn, desc: pd } : {}) };
     const o = (L.sp.actions && L.sp.actions[k]) || {};
-    const a = { ...base, ...(typeof o === 'object' ? o : {}) };
+    const a = { ...base, ...(typeof o === 'object' ? o : {}), ...(sa ? { name: (EN ? sa.en : sa.zh)[0], desc: (EN ? sa.en : sa.zh)[1], text: null } : {}) };
     const m = L.traits && L.traits.tem.mods && L.traits.tem.mods[k];
     if (m) Object.entries(m).forEach(([key, d]) => { a[key] = Math.max(0.05, (a[key] ?? (key === 'ev' ? 1 : 0)) + d); });
     return a;
@@ -16776,9 +23278,10 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const st = stageAt(L.sp, L.age);
     if (isQuietStage(st)) return [];
     return ACT_KEYS.filter((k) => {
-      const o = L.sp.actions && L.sp.actions[k];
+      const o = L.sp.actions && L.sp.actions[k], ch = L.sp._ch;
       if (o === false) return false;
-      if (o && o.stages && !o.stages.includes(st.id)) return false;
+      if (ch && k !== 'instinct') { if (((ch.stageActions || {})[st.id] || {})[k]) return k !== 'mate' || canBreed(L.sp); if (!((ch.actions[k] || {}).stages || []).includes(st.id)) return false; }
+      else if (o && o.stages && !o.stages.includes(st.id)) return false;
       if (o && o.need && !needOk(o.need, L.flags)) return false;
       if (k === 'mate') return canBreed(L.sp) && L.age >= (L.sp.maturity || 0);
       return true;
@@ -16827,19 +23330,48 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     };
   }
   // A crisis is settled by stopping the marker: the green part is as wide as the odds.
+  // A crisis is settled by the species' own small game; how hard it is follows the odds.
+  const miniText = (kind) => ({ btn: T(`mini.${kind}.btn`), go: T('mini.seq.go'), away: T('mini.freeze.away'), soon: T('mini.freeze.soon'), look: T('mini.freeze.look') });
+  let meCache = {}; function meURL() { const st = stageAt(L.sp, L.age).id, k = `${L.id}.${window.PIX.kindOf(L.id, st) || ''}`; if (!meCache[k]) { const c = document.createElement('canvas'); c.width = 160; c.height = 136; window.PIX.toon(c.getContext('2d'), 8, 8, 4, L.id, st, { ow: 0.6, rim: 0.8 }); meCache[k] = c.toDataURL(); } return meCache[k]; }
+  function runGame(kind, title, how, p, head, done) {
+    const K = ['hold', 'mash', 'dodge', 'freeze', 'seq', 'tap', 'balance'].includes(kind) ? kind : 'timing', rule = T(K === 'timing' ? 'timing.body' : `mini.${K}.how`, { p: pct(p) });
+    $('#dlg').className = `dlg${head ? ' crisis' : ''}`; $('#dlg').onclick = null;
+    $('#dlg').innerHTML = `<div class="head"><span class="eyebrow" style="color:var(--${head ? 'bad' : 'accent'})">${esc(head || T('mini.self'))}</span></div><h2 id="dlg-title">${esc(title)}</h2>${how ? `<p>${esc(how)}</p>` : ''}<p class="small muted">${rule}</p><div class="opts"><button class="opt" type="button" id="dlg-start"><span class="k">▶</span><span class="tt">${T('mini.start')}</span></button></div><div class="tzone" id="tzone"></div>`;
+    $('#overlay').hidden = false; L.inGame = true; $('#dlg-start').focus();
+    $('#dlg-start').onclick = () => { $('#dlg-start').closest('.opts').remove(); $('#tzone').style.setProperty('--me', `url(${meURL()})`); G.play(K, $('#tzone'), p, K === 'timing' ? { btn: T('timing.btn') } : miniText(K), (ok) => { L.inGame = false; done(ok); }); };
+  }
   function runTiming(d, opt) {
-    const p = 1 - opt.kill;
-    $('#dlg').innerHTML = `<div class="head"><span class="eyebrow" style="color:var(--bad)">${esc(opt.t)}</span></div><h2 id="dlg-title">${T('timing.title')}</h2><p>${T('timing.body', { p: pct(p) })}</p><div class="tzone" id="tzone"></div>`;
-    L.stopTiming = G.timing($('#tzone'), p, T('timing.btn'), (ok) => { L.stopTiming = null; choose(d, opt, true, ok); });
+    const m = (window.MINI || {})[L.id], g = m && m.c && m.c[0] !== 'timing' ? m.c : null;
+    runGame(g ? g[0] : 'timing', g ? (EN ? g[2] : g[1]) : T('timing.title'), '', 1 - opt.kill, opt.t, (ok) => choose(d, opt, true, ok));
+  }
+  // things the player can do with their own hands, now and then
+  const playsNow = () => { const m = (window.MINI || {})[L.id], st = stageAt(L.sp, L.age); if (!m || st._quiet || L.dead) return []; const acts = availableActions(); return m.p.map((x, i) => ({ x, i })).filter(({ x }) => acts.includes(x[1]) && (!x[2] || x[2].includes(st.id))); };
+  function renderPlays() {
+    const list = playsNow(), box = $('#lf-plays'), wait = 6 - (L.ticks - (L.playAt ?? -99)); box.hidden = !list.length; if (!list.length) return;
+    box.innerHTML = list.map(({ x, i }) => `<button type="button" class="btn play" data-play="${i}" ${wait > 0 ? 'disabled' : ''}>🎮 ${esc(EN ? x[5] : x[3])}</button>`).join('') + (wait > 0 ? `<span class="small muted">${T('mini.wait', { n: wait })}</span>` : '');
+  }
+  function startPlay(i) {
+    const x = window.MINI[L.id].p[i], was = L.paused; clearTimeout(timer); L.paused = true; L.playAt = L.ticks;
+    const p = clamp(0.35 + L.stats.health / 400, 0.35, 0.6);
+    runGame(x[0], EN ? x[5] : x[3], EN ? x[6] : x[4], p, '', (ok) => {
+      const gain = { forage: { food: 14 }, hide: { safety: 14 }, rest: { health: 10 }, explore: { safety: 4, food: 8 }, mate: { health: 2 }, instinct: { health: 6, safety: 6 } }[x[1]];
+      if (ok) applyEff(gain, L.stats, L.flags); else applyEff({ food: -3 }, L.stats, L.flags);
+      if (ok && x[1] === 'mate' && availableActions().includes('mate') && L.ticks >= L.mateCd) { const n = val(broodOf(L.sp)); L.stats.offspring += n; L.mateCd = L.ticks + 6; if (!L.miles.some((q) => q[0] === 'k')) mile('k'); feelOne('kids', 'loving'); }
+      L.wins = (L.wins || 0) + (ok ? 1 : 0); L.mood = ok ? 'proud' : 'tired'; L.moodAt = L.ticks;
+      addLog(T(ok ? 'mini.won' : 'mini.lost', { g: EN ? x[5] : x[3] }), ok ? 'choice' : 'idle'); $('#overlay').hidden = true; $('#dlg').className = 'dlg'; L.paused = was; renderLife(); renderActs(); renderControls(); schedule();
+    });
   }
   function decisionEvidence(d) {
+    if (d._src) return srcLine(L.sp, d._src);
+    if (d.crisis && d.options[0].causeObj) { const c = d.options[0].causeObj; if (c._src) return srcLine(L.sp, c._src); const n = causeEvidence(L.sp.id, c); return n ? `<div class="fact">${badge(n.basis)} ${esc(txt(n))} ${link(L.sp, n.ref)}</div>` : ''; }
     if (d.fact) return `<div class="fact">${esc(d.fact)} ${link(L.sp, d.ref)}</div>`;
     const id = d.id === '__opening' ? 'opening' : d.id, f = (L.sp._ev.facts || []).find((x) => (x.decisions || []).includes(id));
     return f ? `<div class="fact">${badge(f.basis)} ${esc(txt(f))} ${link(L.sp, f.ref)}</div>` : '';
   }
   function choose(d, opt, interactive = false, fate = null) {
     if (opt.eff) opt = { ...opt, eff: Object.fromEntries(Object.entries(opt.eff).map(([k, v]) => [k, k === 'set' ? v : val(v)])) };
-    L.choices.push(`${d.title} → ${opt.t}`); L.lastChoice = L.ticks;
+    L.choices.push(`${d.title} → ${opt.t}`); L.lastChoice = L.ticks; const kids0 = L.stats.offspring;
+    { const di = d.id === '__opening' ? 35 : (L.sp.decisions || []).findIndex((x) => x.id === d.id); if (di >= 0 && di < 36) mile('d', di, (d.options || []).findIndex((x) => x.t === opt.t)); const ei = /^__enc(\d+)$/.exec(d.id); if (ei && +ei[1] < 36) mile('e', +ei[1], (d.options || []).findIndex((x) => x.t === opt.t)); }
     if (opt.act) L.act = opt.act;
     applyEff(opt.eff, L.stats, L.flags);
     if (opt.set) (typeof opt.set === 'string' ? [opt.set] : Object.keys(opt.set)).forEach((f) => L.flags.add(f));
@@ -16852,14 +23384,18 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     }
     if (opt.kill && (fate === null ? rand() < opt.kill : !fate)) {
       if (opt.crisis && L.why) L.why.crisis = { t: opt.t, p: 1 - opt.kill }; else L.why = { kind: 'choice', t: `${d.title}${EN ? ': ' : '：'}${opt.t}`, p: opt.kill, age: L.age, stage: stageAt(L.sp, L.age) };
-      if (L.choices.length > MIN_CHOICES - 1) return die(opt.causeObj || opt.cause || null);
+      if (L.choices.length > MIN_CHOICES - 1) return die(opt.causeObj || (opt.cause ? pickCause(opt.cause) : null));
       // protected: hurt instead of dead
       L.saves++; opt = { ...opt, eff: { health: -20 }, risk: 0, escaped: false, result: T('hurtInstead'), fixed: true };
       applyEff(opt.eff, L.stats, L.flags); L.stats.health = Math.max(L.stats.health, 20);
     }
-    if (opt.escaped) L.escapes++;
+    if (opt.escaped) { L.escapes++; L.felt = 'relief'; if (d.crisis) mile('c', (L.sp.causes || []).findIndex((x) => x.id === (opt.causeObj || {}).id)); }
+    else if (opt.crisis || opt.fixed) L.felt = 'hurt';
+    if (!opt.escaped && (opt.crisis || opt.fixed)) mile('h', Math.max(0, (L.sp.causes || []).findIndex((x) => x.id === (opt.causeObj || {}).id)));
     if (opt.stage) { const s = L.sp.stages.find((x) => x.id === opt.stage); if (s) L.age = Math.max(L.age, s.from); }
     if (opt.result && !L.usedText.has(opt.result)) { L.usedText.add(opt.result); addLog(fill(opt.result), ''); }
+    if (L.felt) { feelOne(L.felt, L.felt === 'relief' ? 'calm' : 'afraid'); L.felt = null; }
+    if (!kids0 && L.stats.offspring) mile('k');
     renderLife();
     if (interactive) return showResult(d, opt);
     $('#overlay').hidden = true;
@@ -16876,14 +23412,17 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       ${opt.result ? `<p>${esc(fill(opt.result))}</p>` : ''}
       ${chips || riskNote ? `<div class="row">${chips}${riskNote}</div>` : ''}
       ${opt.risk || (opt.kill && !opt.crisis) ? `<p class="small muted">${badge('rule')} ${[opt.risk ? T('why.ruleRisk', { x: opt.risk.toFixed(2) }) : '', opt.kill && !opt.crisis ? T('why.ruleKill', { p: pct(opt.kill) }) : ''].filter(Boolean).join(EN ? '; ' : '；')}</p>` : ''}
+      ${d.crisis && L.log.length && L.log[L.log.length - 1].cls === 'mood' ? `<p class="moodline">${esc(L.log[L.log.length - 1].text)}</p>` : ''}
+      ${d.crisis ? noteBox(T('note.crisis')) : ''}
       <div class="opts"><button class="opt" type="button" id="dlg-go"><span class="k">→</span><span class="tt">${T('continue')}</span></button></div>`;
     $('#dlg').className = 'dlg'; $('#dlg-go').focus();
-    $('#dlg-go').onclick = () => { $('#overlay').hidden = true; schedule(); };
+    $('#dlg-go').onclick = () => { if ($('#note')) addNote($('#note').value, T('note.crisis')); $('#overlay').hidden = true; schedule(); };
   }
   document.addEventListener('keydown', (e) => {
+    if (e.target.closest && e.target.closest('textarea,input,select')) return;
     if (!$('#bio').hidden) { if (e.key === 'Escape') closeBio(); return; }
     if (!$('#overlay').hidden) {
-      if (L && L.stopTiming) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!e.repeat) L.stopTiming(); } return; }
+      if (L && L.inGame) return;
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { const os = [...$('#dlg').querySelectorAll('.opt')], i = os.indexOf(document.activeElement); if (os.length) os[(i + (e.key === 'ArrowDown' ? 1 : os.length - 1) + os.length) % os.length].focus(); e.preventDefault(); return; }
       const b = $('#dlg').querySelector(`.opt[data-i="${+e.key - 1}"]`);
       if (b) { b.click(); e.preventDefault(); }
@@ -16916,14 +23455,15 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     while (log.children.length > 300) log.lastChild.remove();
   }
   function renderControls() {
-    const sp = [1, 2, 4, 8, 16];
+    const on = L.moreCtl;
     $('#controls').innerHTML =
       `<button class="btn" type="button" data-c="pause">${L.paused ? T('resume') : T('pause')}</button>` +
-      sp.map((s) => `<button class="btn" type="button" data-c="speed" data-v="${s}" aria-pressed="${L.speed === s && !L.ff}">${s}×</button>`).join('') +
+      `<button class="btn" type="button" data-c="speed">${T('speed', { x: L.speed })}</button>` +
       `<button class="btn" type="button" data-c="ff" aria-pressed="${L.ff}">${T('ff')}</button>` +
-      `<button class="btn" type="button" data-c="stepmode" aria-pressed="${L.stepMode}" title="${T('stepModeTip')}">${T('stepMode')}</button>` +
+      (on ? `<button class="btn" type="button" data-c="stepmode" aria-pressed="${L.stepMode}" title="${T('stepModeTip')}">${T('stepMode')}</button>` +
       `<button class="btn" type="button" data-c="auto" aria-pressed="${L.auto}">${T('auto')}</button>` +
-      `<button class="btn" type="button" data-c="quit">${T('quit')}</button>`;
+      `<button class="btn" type="button" data-c="quit">${T('quit')}</button>` : '') +
+      `<button class="btn" type="button" data-c="more" aria-expanded="${!!on}">${T(on ? 'lessCtl' : 'moreCtl')}</button>`;
   }
   function actHints(A) {
     const h = [];
@@ -16942,7 +23482,9 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     $('#lf-acts').innerHTML = acts.length
       ? acts.map((k, i) => { const A = actionDef(k); return `<button class="act" type="button" data-act="${k}" aria-pressed="${L.act === k}"><span class="k">${i + 1}</span><b>${esc(A.name)}</b><span class="hints">${actHints(A)}</span></button>`; }).join('')
       : `<p class="muted">${esc(T('cantAct', { s: st.name }))}</p>`;
+    renderPlaces(); renderPlays();
     $('#lf-act-desc').textContent = acts.length ? actionDef(L.act).desc : '';
+    if ($('#guide')) $('#guide').hidden = !!store.get('lunhui.guided', false);
     const next = $('#lf-next');
     next.hidden = !L.stepMode || L.dead;
     next.textContent = T('stepBtn', { u: UNITNAME[L.unit || st.unit] });
@@ -16951,6 +23493,11 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const b = e.target.closest('[data-act]'); if (!b || !L || L.dead) return;
     setAct(b.dataset.act);
   });
+  if ($('#guide-x')) $('#guide-x').addEventListener('click', () => { store.set('lunhui.guided', true); $('#guide').hidden = true; });
+  $('#lf-plays').addEventListener('click', (e) => { const b = e.target.closest('[data-play]'); if (b && L && !L.dead && $('#overlay').hidden) startPlay(+b.dataset.play); });
+  $('#lf-places').addEventListener('click', (e) => { const b = e.target.closest('[data-place]'); if (b && L && !L.dead && $('#overlay').hidden) goPlace(+b.dataset.place); });
+  $('#note-add').addEventListener('click', () => { const b = $('#note-any'); addNote(b.value, ''); b.value = ''; });
+  $('#lf-strip').addEventListener('click', (e) => { const b = e.target.closest('[data-stage]'); if (b && L) openBio(L.id, b.dataset.stage); });
   $('#lf-next').addEventListener('click', () => { if (L && !L.dead && $('#overlay').hidden) step(); });
   function setAct(k) {
     if (L.act === k) return;
@@ -16965,7 +23512,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const b = e.target.closest('[data-c]'); if (!b || !L) return;
     const c = b.dataset.c;
     if (c === 'pause') return togglePause();
-    if (c === 'speed') { L.speed = +b.dataset.v; L.ff = false; store.set('lunhui.speed', L.speed); }
+    if (c === 'more') { L.moreCtl = !L.moreCtl; return renderControls(); }
+    if (c === 'speed') { L.speed = { 1: 2, 2: 4, 4: 8, 8: 16 }[L.speed] || 1; L.ff = false; store.set('lunhui.speed', L.speed); }
     if (c === 'ff') { L.ff = !L.ff; L.paused = false; }
     if (c === 'auto') L.auto = !L.auto;
     if (c === 'stepmode') { L.stepMode = !L.stepMode; store.set('lunhui.step', L.stepMode); L.ff = false; L.paused = false; renderActs(); }
@@ -16990,7 +23538,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     $('#lf-sub').textContent = T('sub', { sp: sp.name, st: st.name, u: UNITNAME[unit], y: BIRTH_YEAR + Math.floor(L.cal / 365), bio });
     $('#lf-prog').style.width = `${clamp(L.age / sp.maxAge, 0, 1) * 100}%`;
     $('#lf-id').innerHTML = `
-      <button type="button" class="top" data-sp="${sp.id}"><span class="em">${icon(sp, 56)}</span><div><h3>${esc(sp.name)}</h3><div class="small muted">${T('no', { n: L.no })}</div><span class="morelink">${T('bio.open')}</span></div></button>
+      <button type="button" class="top" data-sp="${sp.id}"><span class="em">${icon(sp, 56)}</span><div><h3>${esc(L.nick || sp.name)}</h3><div class="small muted">${L.nick ? esc(sp.name) : T('no', { n: L.no })}</div><span class="morelink">${T('bio.open')}</span></div></button>
       <dl class="kv">
         ${L.sex ? `<dt>${T('fSex')}</dt><dd>${esc(L.sex)}</dd>` : ''}
         ${Object.entries(L.rolls).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join('')}
@@ -16999,7 +23547,9 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
         <dt>${T('fStage')}</dt><dd>${esc(st.name)}</dd>
         <dt>${T('fKids')}</dt><dd class="mono">${L.stats.offspring.toLocaleString('en-US')}</dd>
       </dl>`;
+    if (L.shownStage !== st.id) { L.shownStage = st.id; const p = stagePhoto(sp, st), im = $('#scene'); im.hidden = !p; if (p) { im.src = p.url; im.alt = `${sp.name} · ${st.name}`; im.style.objectPosition = p.focus || ''; } $('#lf-credit').innerHTML = creditOf(p); $('#lf-strip').innerHTML = sp.stages.map((x, i) => { const q = stagePhoto(sp, x), at = sp.stages.indexOf(st); return `<button type="button" class="stg${i === at ? ' on' : i > at ? ' later' : ''}" data-stage="${x.id}"><img loading="lazy" src="${q ? q.url : ''}" alt="" style="object-position:${(q && q.focus) || ''}"><span>${esc(x.name.replace(/[（(].*$/, ''))}</span></button>`; }).join(''); }
     const s = L.stats;
+    { const m = MD() && moodNow(), el = $('#lf-mood'); el.hidden = !m; if (m) el.textContent = T('mood', { m: T(`moods.${m}`) }); }
     checkGoals(); feedback(); $('#lf-goals').innerHTML = goalsHTML();
     $('#stage').classList.toggle('night', isNight()); $('#stage').classList.toggle('dead', L.dead);
     $('#lf-stats').innerHTML =
@@ -17029,19 +23579,67 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       <h2 id="dlg-title">${T('lived', { d: dur(L.cal) })}</h2>
       <p class="cause">${esc(L.cause.short)}</p>
       <p>${esc(fill(L.cause.text))}</p>
+      ${noteBox(T('note.final'))}
       <div class="opts"><button class="opt" type="button" id="to-death"><span class="k">→</span><span class="tt">${T('toRecord')}</span></button></div>`;
     $('#overlay').hidden = false;
     $('#to-death').focus();
-    $('#to-death').onclick = () => { $('#overlay').hidden = true; renderDeath(); show('death'); };
+    $('#to-death').onclick = () => { addNote($('#note').value, T('note.final')); keepNotes(); $('#overlay').hidden = true; renderDeath(); show('death'); };
   }
-  function sampleOther() {
-    const o = wpick(ODDS, (x) => x.pop);
-    const sp = SP[o.id];
-    const age = invS(sp, rand());
-    const st = stageAt(sp, age);
-    const ok = (sp.causes || []).filter((x) => (x.w ?? 1) > 0 && inStage(x, st));
-    const c = age >= sp.maxAge * 0.98 ? (sp.causes || []).find((x) => x.id === 'old') : (ok.length ? wpick(ok, (x) => x.w ?? 1) : null);
-    return { sp, age, cause: c ? c.short : T('death.short') };
+  function keepNotes() { const lives = store.get('lunhui.lives', []); if (lives[0] && lives[0].code === codeOf(L.life)) { lives[0].notes = L.notes; store.set('lunhui.lives', lives); } }
+  // four others born at the same moment: one drawn by living numbers, three by kind, so they are not all microscopic
+  function makeCohort(id) {
+    const used = new Set([id]), out = [], one = (o) => { used.add(o.id); const sp = SP[o.id], age = Math.max(invS(sp, rand()), 0.02), st = stageAt(sp, age), ok = (sp.causes || []).filter((x) => (x.w ?? 1) > 0 && x.id !== 'old' && inStage(x, st)), old = age >= sp.maxAge * 0.98, c = old ? (sp.causes || []).find((x) => x.id === 'old') : ok.length ? wpick(ok, (x) => x.w ?? 1) : (sp.causes || []).find((x) => x.id === 'old'); out.push({ id: o.id, age, st: st.id, cid: c ? c.id : '', cause: c ? c.short : T('death.short') }); };
+    one(wpick(ODDS.filter((o) => !used.has(o.id)), (x) => x.pop));
+    ['vert', 'any', 'plant'].forEach((g) => { const pool = ODDS.filter((o) => !used.has(o.id) && (g === 'plant' ? o.group === 'plant' : o.group !== 'plant' && (g === 'any' || o.group !== 'invert'))); one(pool[Math.floor(rand() * pool.length)]); });
+    return out;
+  }
+  function cohortTick() {
+    const c = (L.cohort || []).filter((x) => !x.told && x.age <= L.cal).sort((a, b) => a.age - b.age)[0]; if (!c) return; c.told = true;
+    addLog(T('cohort.died', { art: art(SP[c.id].name), Art: art(SP[c.id].name) === 'an' ? 'An' : 'A', mw: mw(c.id), sp: EN ? lc(SP[c.id].name) : SP[c.id].name, d: dur(c.age), c: c.cause }), 'cohort'); renderCohort();
+  }
+  function renderCohort() {
+    const b = $('#lf-cohort'); if (!b || !L) return;
+    b.innerHTML = `<div class="eyebrow">${T('cohort.title')}</div><div class="coh">${L.cohort.map((c) => { const gone = c.age <= L.cal; return `<button type="button" class="${gone ? 'gone' : ''}" data-sp="${c.id}" title="${esc(SP[c.id].name)}">${icon(SP[c.id], 40)}<span>${esc(SP[c.id].name)}</span><small>${gone ? dur(c.age) : T('cohort.alive')}</small></button>`; }).join('')}</div>`;
+  }
+  function cohortPanel(d) {
+    const rows = [{ me: true, id: L.id, age: L.cal, cause: causeOf(d) }, ...L.cohort].sort((a, b) => b.age - a.age), mx = Math.log10(1 + rows[0].age * 24), rank = rows.findIndex((x) => x.me) + 1;
+    return `<div class="panel cohort"><h3>${T('cohort.five')}</h3><p class="muted">${T('cohort.rank', { n: rank })}</p><ol class="cohlist">${rows.map((x) => `<li class="${x.me ? 'me' : ''}"><button type="button" data-sp="${x.id}">${icon(SP[x.id], 44)}</button><div><b>${esc(SP[x.id].name)}${x.me ? ` <em>${T('cohort.you')}</em>` : ''}</b><span class="bar"><i style="width:${Math.max(2, Math.log10(1 + x.age * 24) / mx * 100).toFixed(1)}%"></i></span><span class="small muted">${dur(x.age)} · ${esc(x.cause)}${window.ASK.byPeople(x.id, x.me ? L.cause.id : x.cid) ? ` · ${T('cohort.people')}` : ''}</span></div></li>`).join('')}</ol><p class="small muted">${T('cohort.note')}</p></div>`;
+  }
+  // how much was settled at birth, and how much by what was chosen
+  function fatePanel() {
+    const { base, born, mine } = L.hz; if (!(base > 0.005)) return '';
+    const a = Math.exp(-base), b = Math.exp(-born), c = Math.exp(-mine), w1 = Math.abs(born - base), w2 = Math.abs(mine - born), big = Math.max(w1, w2) / base < 0.06 ? 'even' : w1 > w2 * 1.35 ? 'birth' : w2 > w1 * 1.35 ? 'choice' : 'even';
+    const row = (l, v, cls) => `<div class="fr ${cls}"><span>${l}</span><span class="bar"><i style="width:${Math.max(1, v * 100).toFixed(1)}%"></i></span><b class="mono">${pct(v)}</b></div>`;
+    return `<div class="panel fate"><h3>${T('fate.title')}</h3><p class="muted">${T('fate.lead', { d: dur(L.cal) })}</p>${row(T('fate.kind'), a, '')}${row(T('fate.born'), b, '')}${row(T('fate.mine'), c, 'on')}<p>${T(`fate.${big}`, { up: T(mine <= born ? 'fate.safer' : 'fate.riskier') })} ${L.escapes ? T('fate.skill', { n: L.escapes }) : ''} ${badge('rule')}</p><div class="row"><button class="btn" type="button" id="d-same">${T('same.again')}</button><span class="small muted">${T('same.hint')}</span></div></div>`;
+  }
+  function momentPanel() {
+    const best = L.joy.slice().sort((x, y) => y.k - x.k)[0], lo = L.low, nm = (id) => (L.sp.stages.find((x) => x.id === id) || {}).name || '';
+    if (!best && !lo) return '';
+    return `<div class="panel moments">${best ? `<div><span class="eyebrow">${T('moment.best')} · ${dur(best.cal)} · ${esc(nm(best.st))}</span><p class="say">${esc(best.t)}</p></div>` : ''}${lo ? `<div><span class="eyebrow">${T('moment.low')} · ${dur(lo.cal)} · ${esc(nm(lo.st))}</span><p>${T(lo.h <= lo.f && lo.h <= lo.s ? 'moment.lowH' : lo.f <= lo.s ? 'moment.lowF' : 'moment.lowS', { n: lo.h <= lo.f && lo.h <= lo.s ? lo.h : lo.f <= lo.s ? lo.f : lo.s })}</p></div>` : ''}</div>`;
+  }
+  const asksAll = () => store.get('lunhui.asks', []);
+  function askPanel() {
+    const k = window.ASK.key(L.id, L.age >= (L.sp.maturity || 0)), [q, opts] = window.ASK.q(k, EN);
+    const bt = (key, list) => list.map((t, i) => `<button type="button" class="btn" data-ask="${key}" data-v="${i}" aria-pressed="false">${esc(t)}</button>`).join('');
+    return `<div class="panel askp"><h3>${T('ask.title')}</h3><p class="q">${esc(q)}</p><div class="row" id="ask-q">${bt(k, opts)}</div><p class="q">${T('ask.again')}</p><div class="row" id="ask-a">${bt('again', [T('ask.yes'), T('ask.no'), T('ask.unsure')])}</div><div class="row"><button class="btn" type="button" id="ask-send">${T('ask.send')}</button><span class="small muted" id="ask-out" aria-live="polite"></span></div><p class="mirror">${T(L.id === 'human' ? 'ask.mirrorHuman' : 'ask.mirror', { n: cnNum(TOTAL / oddsOf('human').pop) })}</p></div>`;
+  }
+  function wireAsk(root, d) {
+    root.querySelectorAll('[data-ask]').forEach((b) => { b.onclick = () => {
+      const key = b.dataset.ask, v = +b.dataset.v, all = asksAll().filter((x) => !(x.c === codeOf(d) && x.k === key)); all.unshift({ k: key, v, id: d.id, c: codeOf(d), at: Date.now() }); store.set('lunhui.asks', all.slice(0, 400));
+      root.querySelectorAll(`[data-ask="${key}"]`).forEach((x) => x.setAttribute('aria-pressed', x === b)); if (key === 'again') { d.again = v; const box = root.querySelector('#sharetext'); if (box) box.textContent = shareText(d); }
+      const same = all.filter((x) => x.k === 'again'), yes = same.filter((x) => x.v === 0).length; root.querySelector('#ask-out').textContent = same.length ? T('ask.tally', { n: same.length, y: yes }) : T('ask.saved');
+    }; });
+  }
+  function wireSend(root, d) {
+    const b = root.querySelector('#ask-send'); if (!b) return; const k = window.ASK.key(L.id, L.age >= (L.sp.maturity || 0)), [q, opts] = window.ASK.q(k, EN);
+    b.onclick = async () => { const on = root.querySelector('#ask-q [aria-pressed="true"]'), t = T('ask.sendText', { art: art(SP[d.id].name), mw: mw(d.id), sp: lc(SP[d.id].name), q, o: opts.join(EN ? ' / ' : ' / '), mine: on ? T('ask.mine', { a: on.textContent }) : '', url: window.SOCIAL.url(window.SOCIAL.encode({ ...d, miles: [] })) }); try { if (navigator.share && /Mobi/.test(navigator.userAgent)) await navigator.share({ text: t }); else { await navigator.clipboard.writeText(t); root.querySelector('#ask-out').textContent = T('copied'); } } catch (e) { root.querySelector('#ask-out').textContent = t; } };
+  }
+  // everything lived so far, counted once
+  function ledger() {
+    const lives = store.get('lunhui.lives', []); if (!lives.length) return '';
+    const days = lives.reduce((t, l) => t + (l.cal || 0), 0), young = lives.filter((l) => SP[l.id] && l.cal < (SP[l.id].maturity || 0)).length, ppl = lives.filter((l) => { const d = l.code && window.SOCIAL.decode(l.code, Object.keys(SP)); const c = d && causeObj(d); return c && window.ASK.byPeople(l.id, c.id); }).length, hum = lives.filter((l) => l.id === 'human').length, ag = asksAll().filter((x) => x.k === 'again'), longest = lives.slice().sort((a, b) => b.cal - a.cal)[0];
+    const whole = (x) => `${Math.round(x * 100)}%`, it = (v, l) => `<div class="lg"><b>${v}</b><span>${l}</span></div>`;
+    return `<div class="panel ledger"><h3>${T('ledger.title')}</h3><div class="lgs">${it(lives.length, T('ledger.lives'))}${it(dur(days), T('ledger.time'))}${it(whole(young / lives.length), T('ledger.young'))}${it(whole(ppl / lives.length), T('ledger.people'))}${it(hum, T('ledger.human'))}${longest && SP[longest.id] ? it(dur(longest.cal), T('ledger.longest', { sp: esc(SP[longest.id].name) })) : ''}${ag.length ? it(whole(ag.filter((x) => x.v === 0).length / ag.length), T('ledger.again')) : ''}</div><p class="small muted">${T('ledger.mirror', { n: cnNum(TOTAL / oddsOf('human').pop), k: lives.length })}</p></div>`;
   }
   function curveSVG(sp, age0) {
     const age = age0 ?? 0;
@@ -17101,6 +23699,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     if (row && w.kind !== 'choice') out.push(`<p>${esc(T('why.share', { s: st.name, p: pct(row.w) }))}</p>`);
     if (row && row.given) out.push(evLine(sp, tb.anchor));
     else { const n = sp._ev.causeNotes && sp._ev.causeNotes[c.id]; if (n) out.push(evLine(sp, n)); out.push(`<p class="evline">${badge('est')} ${T(n ? 'why.noShareButReal' : 'why.noShare')}</p>`); }
+    if (c._src && !(row && row.given)) out.push(srcLine(sp, c._src));
     const used = new Set([m, tb.anchor]);
     const rel = (sp._ev.facts || []).map((f) => ({ f, k: ((f.causes || []).includes(c.id) ? 4 : 0) + ((f.flags || []).some((x) => L.flags.has(x)) ? 2 : 0) + ((f.stages || []).includes(st.id) ? 1 : 0) })).filter((x) => x.k && !used.has(x.f) && (!(x.f.flags || []).length || x.f.flags.some((q) => L.flags.has(q)))).sort((a, b) => b.k - a.k).slice(0, 4);
     if (rel.length) out.push(`<h4>${T('why.related')}</h4>${rel.map((x) => evLine(sp, x.f)).join('')}`);
@@ -17126,8 +23725,48 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     const i = (L.sp.causes || []).findIndex((x) => x.id === L.cause.id), n = L.map.length, cells = Math.min(10, n), strip = [];
     for (let k = 0; k < cells; k++) { const c = L.map[Math.floor((k + 0.5) * n / cells)]; strip.push(c.skip ? 'z' : c.h >= 66 ? 'g' : c.h >= 33 ? 'y' : 'r'); }
     return { id: L.id, cal: L.cal, cause: i >= 0 ? i.toString(36) : { starve: 'zs', old: 'zo' }[L.cause.id] || 'zd', off: L.stats.offspring, esc: L.escapes,
-      con: TRAITS.con.indexOf(L.traits.con), tem: TRAITS.tem.indexOf(L.traits.tem), strip: strip.join(''), rolls: L.rollIdx.slice(0, 6), awards: [starCount()], ch: L.choices.length };
+      sex: L.sex ? Math.max(0, ((L.sp.birth || {}).sex || []).findIndex((x) => x[0] === L.sex)) + 1 : 0, con: TRAITS.con.indexOf(L.traits.con), tem: TRAITS.tem.indexOf(L.traits.tem), strip: strip.join(''), rolls: L.rollIdx.slice(0, 6), awards: [starCount()], ch: L.choices.length, miles: pickMiles() };
   }
+  // at most eight moments, spread over the life
+  function pickMiles() {
+    const m = L.miles.slice(), by = (k) => m.filter((x) => x[0] === k), out = new Set(), take = (a, n) => a.slice(0, n).forEach((x) => out.add(x));
+    take(by('k'), 1); take(by('c'), 2); take(by('h'), 1); const ds = by('d'); take(ds.filter((x) => x[1] === 35), 1); const rest = ds.filter((x) => x[1] !== 35); if (rest.length) { out.add(rest[0]); out.add(rest[Math.floor(rest.length / 2)]); out.add(rest[rest.length - 1]); }
+    const es = by('e'); if (out.size < 5 && es.length) { out.add(es[0]); out.add(es[es.length - 1]); }
+    const ss = by('s'); for (let i = 0; i < ss.length && out.size < 8; i++) out.add(ss[i]);
+    return m.filter((x) => out.has(x)).slice(0, 8);
+  }
+  function mileText(id, [k, a, b]) {
+    const sp = SP[id];
+    if (k === 's') return sp.stages[a] ? T('mile.s', { s: sp.stages[a].name }) : '';
+    if (k === 'c' || k === 'h') { const c = (sp.causes || [])[a]; const pl = sp.kingdom === 'plant' ? 'p' : ''; return c ? T(`mile.${k}${pl}`, { c: EN ? c.short.charAt(0).toLowerCase() + c.short.slice(1) : c.short }) : ''; }
+    if (k === 'k') return T('mile.k');
+    if (k === 'e') { const e = ((sp._ch || {}).encounters || [])[a]; if (!e) return ''; const x = EN ? straight(e.en) : e.zh; return `${x.title}${SEP}${x[b ? 'b' : 'a'][0]}`; }
+    const d = a === 35 ? sp.opening : (sp.decisions || [])[a]; return d && d.options[b] ? `${d.title}${SEP}${d.options[b].t}` : '';
+  }
+  function summary(d) {
+    const sp = SP[d.id], st = stageAt(sp, Math.min(d.cal, sp.maxAge)), ms = d.miles || [], get = (k) => ms.filter((m) => m[0] === k), q = (x) => (EN ? `"${x}"` : `「${x}」`);
+    const one = T(d.off ? 'sum.oneKids' : 'sum.one', { art: art(sp.name), Art: art(sp.name) === 'an' ? 'An' : 'A', mw: mw(sp.id), sp: EN ? lc(sp.name) : sp.name, d: dur(d.cal), n: cnNum(d.off), st: st.name });
+    const parts = [], opt = (m) => { const t = mileText(d.id, m), i = t.lastIndexOf(SEP); return i < 0 ? null : [t.slice(0, i), t.slice(i + SEP.length)]; };
+    const op = get('d').find((m) => m[1] === 35), o1 = op && opt(op); if (o1) parts.push(T('sum.start', { t: q(o1[1]) }));
+    const cs = [...new Set(get('c').map((m) => ((sp.causes || [])[m[1]] || {}).short).filter(Boolean))]; if (d.esc) parts.push(cs.length ? T(sp.kingdom === 'plant' ? 'sum.escP' : 'sum.esc', { n: d.esc, c: q(cs[0]) }) : T('sum.escN', { n: d.esc }));
+    if (get('h').length) { const c = (sp.causes || [])[get('h')[0][1]]; if (c) parts.push(T('sum.hurt', { c: q(c.short) })); }
+    const mid = get('d').filter((m) => m[1] !== 35).concat(get('e')); const o2 = mid.length && opt(mid[mid.length - 1]); if (o2) parts.push(T('sum.chose', { w: q(o2[0]), t: q(o2[1]) }));
+    parts.push(T('sum.end', { c: causeOf(d) }));
+    let two = parts.join(EN ? ', ' : '，'); if (EN) two = two.charAt(0).toUpperCase() + two.slice(1);
+    return [(d.nick ? d.nick + (EN ? ': ' : '，') : '') + (d.nick && EN ? one.charAt(0).toLowerCase() + one.slice(1) : one), two + (EN ? '.' : '。')];
+  }
+  const milesOf = (d) => (d.miles || []).map((m) => ({ c: m[3], k: m[0], a: m[1], t: mileText(d.id, m) })).filter((x) => x.t);
+  // the look back: stages with their photographs, moments, and the player's own words, in order
+  function recapHTML(d, notes) {
+    const sp = SP[d.id], items = [{ c: 0, k: 's', a: 0, t: T('mile.born') }, ...milesOf(d)], all = items.concat((notes || []).map((n) => ({ c: n.c, note: n }))).sort((x, y) => x.c - y.c || (x.note ? 1 : -1));
+    return all.map((x) => {
+      const when = `<span class="t">${x.c < 1 / 24 ? T('bio.birth') : dur(x.c)}</span>`;
+      if (x.note) return `<li class="rnote">${when}<blockquote>${x.note.q ? `<small>${esc(x.note.q)}</small>` : ''}${esc(x.note.t)}</blockquote></li>`;
+      const st = x.k === 's' ? sp.stages[x.a] : null, p = st && stagePhoto(sp, st);
+      return `<li class="r${x.k}">${when}<div>${p ? `<figure><img loading="lazy" src="${p.url}" alt="${esc(st.name)}" style="object-position:${p.focus || ''};max-width:100%;height:auto"><figcaption>${creditOf(p)}</figcaption></figure>` : ''}<p>${esc(x.t)}</p>${p && stageCap(p) ? `<p class="small muted">${esc(stageCap(p))}</p>` : ''}</div></li>`;
+    }).join('') + `<li class="rend"><span class="t">${dur(d.cal)}</span><div><p>${esc(T('mile.end', { c: causeOf(d) }))}</p></div></li>`;
+  }
+  const recapPanel = (d, notes, mine) => `<div class="panel recap"><div class="row" style="justify-content:space-between"><h3>${T('recap')}</h3><span class="eyebrow">${T('recapSub')}</span></div><p class="sum">${summary(d).map(esc).join('<br>')}</p><ol class="recaplist" id="recaplist">${recapHTML(d, notes)}</ol>${mine ? `<label class="notebox"><span>${T('note.after')}</span><textarea id="note-after" rows="2" maxlength="300" placeholder="${esc(T('note.ph'))}"></textarea></label><div class="row"><button class="btn" type="button" id="note-after-add">${T('note.add')}</button><span class="small muted">${T('note.local')}</span></div>` : ''}</div>`;
   function causeOf(d) {
     const g = { zs: 'starve', zo: 'oldAge', zd: 'death' }[d.cause];
     if (g) return T(`${g}.short`);
@@ -17146,40 +23785,48 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
   const causeObj = (d) => (SP[d.id].causes || [])[parseInt(d.cause, 36)] && !/^z/.test(d.cause) ? SP[d.id].causes[parseInt(d.cause, 36)] : null;
   function cardData(d) {
     const sp = SP[d.id], o = oddsOf(d.id), e = causeEvidence(d.id, causeObj(d)), r = e && sp._ev.refs[e.ref];
-    return { name: sp.name, about: about(d.id), lived: T('lived', { d: dur(d.cal) }).replace(/^你/, ''), cause: `${T('fCause')}${EN ? ': ' : '：'}${causeOf(d)}`,
-      stat: T('outlived', { p: pct(1 - S(sp, Math.min(d.cal, sp.maxAge))) }).replace(/我的?/, ''), statNote: T('outlivedNote'), evidence: e ? txt(e) : '', evidenceSrc: r ? cite(r) : '', evidenceLabel: T('evData'),
-      strip: d.strip, odds: T('odds', { p: oneIn(o.pop / TOTAL) }), head: T('deathHead'), lead: T('cardLead'),
-      photo: photoUrl(sp), focus: photo(sp) ? photo(sp).focus : '', credit: photo(sp) ? T('photoBy', { a: photo(sp).artist, l: licName(photo(sp).lic) }) : '', foot: T('title'), en: EN, stars: d.awards && d.awards.length ? d.awards[0] : null, url: window.SOCIAL.url(codeOf(d)) };
+    const share = o.pop / TOTAL, tier = share >= 1e-6 ? 'common' : share >= 1e-9 ? 'uncommon' : share >= 1e-11 ? 'rare' : share >= 1e-14 ? 'epic' : 'legend', order = ODDS.findIndex((x) => x.id === d.id) + 1;
+    const sx = d.sex ? ((sp.birth.sex || [])[d.sex - 1] || [])[0] : '', st = stageAt(sp, Math.min(d.cal, sp.maxAge)), p0 = stagePhoto(sp, st);
+    return { id: d.id, stage: st.id, name: sp.name, latin: d.nick ? `${d.nick} · ${latin(sp)}` : latin(sp), tier, tierName: T(`tier.${tier}`), no: `${String(order).padStart(3, '0')} / ${String(ODDS.length).padStart(3, '0')}`, livedLabel: T('cardLived'), lived: dur(d.cal), sexLabel: T('fSexCard'), sex: sx || T('sexNone'),
+      sum: summary(d), note: d.note || '', stars: d.awards && d.awards.length ? d.awards[0] : null, photo: p0 ? p0.url : '', focus: p0 ? p0.focus : '', credit: p0 ? T('photoBy', { a: p0.artist, l: licName(p0.lic) }) : '', memeLine: T('face.memeLine', { sp: EN ? art(sp.name) + ' ' + lc(sp.name) : sp.name }), serial: d.day ? T('daily.tag', { n: d.day }) : d.nth ? T('face.serial', { n: d.nth }) : '', ownPhoto: !!(p0 && p0.own && (st._quiet || p0.url && sp.stages.indexOf(st) < sp.stages.length - 2)), asset: ASSET, en: EN, url: window.SOCIAL.url(window.SOCIAL.encode({ ...d, miles: [] })) };   // the code on the card stays short enough to scan
   }
   function shareText(d) {
     const sp = SP[d.id], strip = [...d.strip].map((c) => ({ g: '🟩', y: '🟨', r: '🟥', z: '💤' }[c])).join('') + '⬛';
     const e = causeEvidence(d.id, causeObj(d)), r = e && sp._ev.refs[e.ref];
-    return T('share', { art: art(sp.name), mw: mw(d.id), sp: lc(sp.name), d: dur(d.cal), c: causeOf(d), strip, data: dataLine(d) + (e ? `\n${txt(e)}${EN ? ` (${cite(r)})` : `（${cite(r)}）`}` : ''), url: window.SOCIAL.url(codeOf(d)) });
+    return (d.day ? T('daily.tag', { n: d.day }) + '\n' : '') + T('share', { art: art(sp.name), mw: mw(d.id), sp: lc(sp.name), d: dur(d.cal), c: causeOf(d), strip, data: summary(d).join('\n') + (d.cohort ? '\n' + T('cohort.share', { list: d.cohort.map((c) => `${SP[c.id].name} ${dur(c.age)}`).join(EN ? ', ' : '、') }) : '') + (d.again === 0 || d.again === 1 ? '\n' + T(d.again === 0 ? 'ask.shareYes' : 'ask.shareNo') : '') + '\n' + dataLine(d) + (e ? `\n${txt(e)}${EN ? ` (${cite(r)})` : `（${cite(r)}）`}` : ''), url: window.SOCIAL.url(codeOf(d)) });
   }
+  // X posts are short: what it was, how long, how it ended
+  const shareShort = (d) => T('shareShort', { art: art(SP[d.id].name), mw: mw(d.id), sp: lc(SP[d.id].name), d: dur(d.cal), c: causeOf(d), url: window.SOCIAL.url(window.SOCIAL.encode({ ...d, miles: [] })) });
   function sharePanel(d, cardOnly = false) {
     const tx = shareText(d);
     return `<div class="panel sharepanel${cardOnly ? ' cardonly' : ''}">
       ${cardOnly ? '' : `<h3>${T('shareTitle')}</h3>`}
       <div class="sharegrid">
-        <div class="cardimg" id="cardimg"></div>
+        <div><div class="cardimg" id="cardimg"></div><div class="faces" role="group" aria-label="${T('face.label')}">${window.CARD.faces.map((f) => `<button type="button" class="btn" data-face="${f}" aria-pressed="false">${T(`face.${f}`)}</button>`).join('')}</div></div>
         <div class="sharecol">
           <div class="row">
             ${window.SOCIAL.canSysShare() ? `<button class="btn-primary sm" type="button" data-s="sys">${T('sysShare')}</button>` : ''}
             <button class="${window.SOCIAL.canSysShare() ? 'btn' : 'btn-primary sm'}" type="button" data-s="img">${T('saveImg')}</button>
             <button class="btn" type="button" data-s="text">${T('copy')}</button>
             <button class="btn" type="button" data-s="link">${T('copyLink')}</button>
-            <a class="btn" target="_blank" rel="noopener" href="${esc(window.SOCIAL.x(tx))}">${T('toX')}</a>
+            <a class="btn" target="_blank" rel="noopener" href="${esc(window.SOCIAL.x(shareShort(d)))}">${T('toX')}</a>
             <a class="btn" target="_blank" rel="noopener" href="${esc(window.SOCIAL.weibo(tx))}">${T('toWeibo')}</a>
           </div>
+          
           <p class="small" id="sharemsg" aria-live="polite"></p>
           <div class="sharebox" id="sharetext">${esc(tx)}</div>
         </div>
       </div></div>`;
   }
-  function wireShare(root, d) {
+  function wireShare(root, d, notes = []) {
     let cv = null;
     const msg = (t) => { const m = root.querySelector('#sharemsg'); if (m) m.textContent = t; };
-    const made = window.SOCIAL.card(cardData(d)).then((c) => { cv = c; const im = new Image(); im.alt = T('shareCardMade'); im.src = c.toDataURL('image/png'); root.querySelector('#cardimg').replaceChildren(im); return c; });
+    let face = store.get('lunhui.face', 'cover'); if (!window.CARD.faces.includes(face)) face = 'cover';
+    const box = root.querySelector('#cardimg'), tabs = [...root.querySelectorAll('[data-face]')], done = {};
+    const build = async () => { const f = face; tabs.forEach((b) => b.setAttribute('aria-pressed', b.dataset.face === f)); box.classList.add('busy'); const c = done[f] || (done[f] = await window.CARD.card(cardData(d), f)); if (f !== face) return c; cv = c; const im = new Image(); im.alt = T('shareCardMade'); im.src = c.toDataURL('image/jpeg', 0.9); box.replaceChildren(im); box.classList.remove('busy'); return c; };
+    const turn = (f) => { face = f; store.set('lunhui.face', f); cv = null; made = build(); };
+    tabs.forEach((b) => { b.onclick = () => turn(b.dataset.face); }); box.onclick = () => turn(window.CARD.faces[(window.CARD.faces.indexOf(face) + 1) % window.CARD.faces.length]);
+    let made = build();
     const copy = (t, ok) => { const fb = () => { const r = document.createRange(); r.selectNodeContents(root.querySelector('#sharetext')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); msg(T('selected')); }; try { navigator.clipboard.writeText(t).then(() => msg(ok), fb); } catch (e) { fb(); } };
     root.querySelector('.sharepanel').addEventListener('click', async (e) => {
       const b = e.target.closest('[data-s]'); if (!b) return;
@@ -17187,7 +23834,7 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       if (k === 'text') return copy(shareText(d), T('copied'));
       if (k === 'link') return copy(window.SOCIAL.url(codeOf(d)), T('linkCopied'));
       if (!cv) cv = await made;
-      if (k === 'img') { const r = await window.SOCIAL.saveImage(cv, `${T('title')}-${SP[d.id].name}.png`).catch(() => 'hold'); msg(r === 'saved' ? T('imgSaved') : r === 'hold' ? T('imgHold') : ''); }
+      if (k === 'img') { const r = await window.SOCIAL.saveImage(cv, `${T('title')}-${SP[d.id].name}.jpg`).catch(() => 'hold'); msg(r === 'saved' ? T('imgSaved') : r === 'hold' ? T('imgHold') : ''); }
       if (k === 'sys') window.SOCIAL.sysShare(cv, shareText(d), window.SOCIAL.url(codeOf(d))).catch(() => {});
     });
   }
@@ -17201,36 +23848,42 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
     openLife(d, mine);
     return true;
   }
-  function openLife(d, mine) {
+  const sameBirth = (d) => { challenge = d; birth(d.id, d); };
+  function openLife(d, mine, notes = []) {
     $('#v-friend').innerHTML = `
       <div style="display:grid;gap:6px;text-align:center"><div class="eyebrow">${T(mine ? 'myLife' : 'friendHead')}</div><h2 style="font-size:30px">${esc(SP[d.id].name)}</h2><p class="muted">${esc(about(d.id))}</p><button class="linkbtn" type="button" data-sp="${d.id}">${T('bio.open')}</button></div>
-      ${mine ? '' : `<div class="row" style="justify-content:center"><button class="btn-primary" type="button" id="f-go">${T('friendGo')}</button><button class="btn" type="button" id="f-home">${T('friendHome')}</button></div>`}
+      ${mine ? '' : `<div class="row" style="justify-content:center"><button class="btn-primary" type="button" id="f-same">${T('same.friend')}</button><button class="btn" type="button" id="f-go">${T('friendGo')}</button><button class="btn" type="button" id="f-home">${T('friendHome')}</button></div>`}
+      ${mine || (d.miles || []).length ? recapPanel(d, notes, false) : ''}
       ${sharePanel(d, !mine)}`;
-    if (!mine) { $('#f-go').onclick = () => reveal(); $('#f-home').onclick = () => { renderHome(); show('home'); }; }
-    wireShare($('#v-friend'), d); show('friend');
+    if (!mine) { $('#f-same').onclick = () => sameBirth(d); $('#f-go').onclick = () => reveal(); $('#f-home').onclick = () => { renderHome(); show('home'); }; }
+    wireShare($('#v-friend'), d, notes); show('friend');
   }
   function versus(d) {
-    if (!challenge) return '';
+    if (!challenge || (challenge.mine && !L.same)) return '';
     const a = d, b = challenge, pop = (x) => oddsOf(x.id).pop;
     const row = (l, x, y) => `<tr><td>${l}</td><td class="mono">${x}</td><td class="mono">${y}</td></tr>`;
-    return `<div class="panel"><h3>${T('vsTitle')}</h3><table class="compare"><thead><tr><th></th><th class="mono">${T('vsYou')} · ${esc(SP[a.id].name)}</th><th class="mono">${T('vsThem')} · ${esc(SP[b.id].name)}</th></tr></thead><tbody>
-      ${row(T('vsLived'), dur(a.cal), dur(b.cal))}${row(T('vsKids'), a.off.toLocaleString('en-US'), b.off.toLocaleString('en-US'))}${row(T('vsRare'), oneIn(pop(a) / TOTAL), oneIn(pop(b) / TOTAL))}</tbody></table></div>`;
+    return `<div class="panel"><h3>${T(b.mine ? 'vsTitleMine' : 'vsTitle')}</h3><table class="compare"><thead><tr><th></th><th class="mono">${T('vsYou')} · ${esc(SP[a.id].name)}</th><th class="mono">${T(b.mine ? 'vsMine' : 'vsThem')} · ${esc(SP[b.id].name)}</th></tr></thead><tbody>
+      ${row(T('vsLived'), dur(a.cal), dur(b.cal))}${row(T('vsKids'), a.off.toLocaleString('en-US'), b.off.toLocaleString('en-US'))}${a.id === b.id ? row(T('vsEnd'), esc(causeOf(a)), esc(causeOf(b))) : row(T('vsRare'), oneIn(pop(a) / TOTAL), oneIn(pop(b) / TOTAL))}</tbody></table></div>`;
   }
   function renderDeath() {
     const sp = L.sp, o = oddsOf(sp.id), hum = SP.human;
     const longer = S(sp, L.age);
     const mat = sp.maturity || 0;
     const reached = L.age >= mat;
-    const others = [0, 1, 2, 3].map(sampleOther);
     const humanLine = hum && hum !== sp ? `<p>${T('humanSame', { d: dur(L.cal), p: pct(S(hum, L.cal)) })}</p>` : '';
-    const d = L.life;
+    const d = L.life; d.nth = store.get('lunhui.lives', []).length; d.cohort = L.cohort; d.nick = L.nick || ''; if (L.mode === 'daily') d.day = dayNo();
     $('#v-death').innerHTML = `
-      <div class="panel over"><div class="overhead">${icon(sp, 96)}<div><span class="eyebrow">${T('over')}</span><h2>${esc(sp.name)}</h2><p>${T('lived', { d: dur(L.cal) }).replace(/^你/, '')}</p><p class="cause">${esc(L.cause.short)}</p></div></div>
+      ${sharePanel(d)}
+      <div class="panel over"><div class="overhead">${icon(sp, 96)}<div><span class="eyebrow">${T('over')}</span><h2>${d.nick ? `${esc(d.nick)} <small>${esc(sp.name)}</small>` : esc(sp.name)}</h2><p>${T('lived', { d: dur(L.cal) }).replace(/^你/, '')}</p><p class="cause">${esc(L.cause.short)}</p></div></div>
         <div class="goals">${goalsHTML()}</div>
         <div class="row"><button class="btn-primary" type="button" data-again="${L.mode}">${T('again')}</button><button class="btn" type="button" data-sp="${sp.id}">${T('bio.about', { sp: esc(EN ? lc(sp.name) : sp.name) })}</button><button class="btn" type="button" id="d-book">${T('navBook')}</button><button class="btn" type="button" id="d-home">${T('home')}</button></div></div>
-      ${whyPanel()}
-      ${sharePanel(d)}
+      ${momentPanel()}
+      ${cohortPanel(d)}
       ${versus(d)}
+      ${fatePanel()}
+      ${recapPanel(d, L.notes, true)}
+      ${askPanel()}
+      ${whyPanel()}
       <details class="more"><summary>${T('moreLife')}</summary>
       <div class="card deathcard">
         <div class="card-head"><span>${T('deathHead')}</span><span>${T('no', { n: L.no })}</span></div>
@@ -17271,11 +23924,6 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
 
       ${L.choices.length ? `<div class="panel"><h3>${T('yourChoices')}</h3><div class="companions">${L.choices.map((c) => `<div class="comp"><span class="em mono small">·</span><span>${esc(c)}</span></div>`).join('')}</div></div>` : ''}
 
-      <div class="panel">
-        <div class="row" style="justify-content:space-between"><h3>${T('sameSecond')}</h3><span class="eyebrow">${T('byRealOdds')}</span></div>
-        <div class="companions">${others.map((x) => `<div class="comp"><span class="em">${icon(x.sp, 30)}</span><span>${T('companion', { art: art(x.sp.name), Art: art(x.sp.name) === 'an' ? 'An' : 'A', mw: mw(x.sp.id), sp: esc(lc(x.sp.name)), d: dur(x.age), c: esc(x.cause) })}</span></div>`).join('')}</div>
-      </div>
-
       </details>
 
       ${sp.epitaph ? `<p style="font-family:var(--font-display);font-size:22px;text-align:center;padding-block:10px">${esc(sp.epitaph)}</p>` : ''}
@@ -17288,16 +23936,23 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
 
 `;
     $('#v-death').querySelectorAll('[data-again]').forEach((b) => { b.onclick = () => { mode = b.dataset.again; store.set('lunhui.mode', mode); reveal(); }; });
+    if ($('#d-same')) $('#d-same').onclick = () => sameBirth({ ...d, mine: true });
     $('#d-book').onclick = renderBook;
     $('#d-home').onclick = () => { renderHome(); show('home'); };
-    wireShare($('#v-death'), d);
+    wireShare($('#v-death'), d, L.notes); wireAsk($('#v-death'), d); wireSend($('#v-death'), d);
+    $('#note-after-add').onclick = () => { addNote($('#note-after').value, T('note.after')); keepNotes(); $('#note-after').value = ''; $('#recaplist').innerHTML = recapHTML(d, L.notes); };
   }
 
   // ---------- book ----------
   function saveLife() {
     const lives = store.get('lunhui.lives', []);
-    lives.unshift({ id: L.id, cal: L.cal, cause: L.cause.short, off: L.stats.offspring, at: Date.now(), roll: Object.values(L.rolls)[0] || '', code: codeOf(L.life), st: starCount() });
+    lives.unshift({ id: L.id, cal: L.cal, cause: L.cause.short, off: L.stats.offspring, at: Date.now(), roll: Object.values(L.rolls)[0] || '', code: codeOf(L.life), st: starCount(), nick: L.nick || '' });
     store.set('lunhui.lives', lives.slice(0, 200));
+  }
+  // the drawn characters in the book: a silhouette until that life has been lived
+  function paintToons(root) {
+    const one = (c) => { const g = c.getContext('2d'), u = 6, x = (c.width - window.PIX.W * u) / 2, y = (c.height - window.PIX.H * u) / 2; window.PIX.toon(g, x, y, u, c.dataset.toon, null, { ow: 0.6 }); if (c.dataset.lock === '1') { g.globalCompositeOperation = 'source-in'; g.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--line') || '#ccc'; g.fillRect(0, 0, c.width, c.height); } };
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { io.unobserve(e.target); one(e.target); } }), { rootMargin: '300px' }); root.querySelectorAll('canvas[data-toon]').forEach((c) => io.observe(c));
   }
   function renderBook() {
     const lives = store.get('lunhui.lives', []);
@@ -17308,25 +23963,26 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
         <h2 style="font-size:34px">${T('navBook')}</h2>
         <p class="muted">${T('bookIntro', { n: lives.length, got, all: ODDS.length })}</p>
       </div>
-      <div class="book">${ODDS.map((o) => { const s = SP[o.id]; const n = count[o.id] || 0; return `<button type="button" class="bk ${n ? '' : 'locked'}" ${n ? `data-sp="${o.id}"` : 'disabled'}><span class="em">${icon(s, 96)}</span><b>${n ? esc(s.name) : '???'}</b><span class="od">${oneIn(o.pop / TOTAL)}</span><span class="od">${n ? T('livedN', { n }) : T('notYet')}</span>${n ? starRow(best[o.id]) : ''}</button>`; }).join('')}</div>
+      ${ledger()}
+      ${['', 'plant'].map((grp) => `<h3 class="grp">${T(grp ? 'group.plant' : 'group.animal')}</h3><div class="book">${ODDS.filter((o) => (o.group === 'plant') === !!grp).map((o) => { const s = SP[o.id]; const n = count[o.id] || 0; return `<button type="button" class="bk ${n ? '' : 'locked'}" ${n ? `data-sp="${o.id}"` : 'disabled'}><canvas class="tn" data-toon="${o.id}" data-lock="${n ? 0 : 1}" width="240" height="208" aria-hidden="true"></canvas><b>${n ? esc(s.name) : '???'}</b><span class="od">${oneIn(o.pop / TOTAL)}</span><span class="od">${n ? T('livedN', { n }) : T('notYet')}</span>${n ? starRow(best[o.id]) : ''}</button>`; }).join('')}</div>`).join('')}
       <div class="panel">
         <h3>${T('pastLives')}</h3>
-        <div class="pastlives">${lives.length ? lives.slice(0, 60).map((l) => { const s = SP[l.id]; if (!s) return ''; return `<div class="pl"><span>${icon(s, 30)}</span><span>${esc(s.name)}${l.roll ? ` · <span class="muted">${esc(l.roll)}</span>` : ''}<br><span class="small muted">${T('livedFor', { d: dur(l.cal) })} · ${esc(l.cause)}${l.off ? ` · ${T('kidsN', { n: l.off.toLocaleString('en-US') })}` : ''}</span></span><span class="mono small muted">${l.code ? `<button class="btn" type="button" data-life="${esc(l.code)}">${T('bookShare')}</button> ` : ''}${new Date(l.at).toLocaleDateString(EN ? 'en-US' : 'zh-CN')}</span></div>`; }).join('') : `<p class="muted">${T('noLives')}</p>`}</div>
+        <div class="pastlives">${lives.length ? lives.slice(0, 60).map((l) => { const s = SP[l.id]; if (!s) return ''; return `<div class="pl"><span>${icon(s, 30)}</span><span>${l.nick ? `<b>${esc(l.nick)}</b> · ` : ''}${esc(s.name)}${l.roll ? ` · <span class="muted">${esc(l.roll)}</span>` : ''}<br><span class="small muted">${T('livedFor', { d: dur(l.cal) })} · ${esc(l.cause)}${l.off ? ` · ${T('kidsN', { n: l.off.toLocaleString('en-US') })}` : ''}</span></span><span class="mono small muted">${l.code ? `<button class="btn" type="button" data-life="${esc(l.code)}">${T(l.notes && l.notes.length ? 'bookRecapN' : 'bookRecap', { n: (l.notes || []).length })}</button> ` : ''}${new Date(l.at).toLocaleDateString(EN ? 'en-US' : 'zh-CN')}</span></div>`; }).join('') : `<p class="muted">${T('noLives')}</p>`}</div>
       </div>`;
-    $('#v-book').onclick = (e) => { const b = e.target.closest('[data-life]'); if (!b) return; const d = window.SOCIAL.decode(b.dataset.life, Object.keys(SP)); if (d) openLife(d, true); };
-    show('book');
+    $('#v-book').onclick = (e) => { const b = e.target.closest('[data-life]'); if (!b) return; const d = window.SOCIAL.decode(b.dataset.life, Object.keys(SP)); const rec = store.get('lunhui.lives', []).find((l) => l.code === b.dataset.life) || {}; if (d) { d.nick = rec.nick || ''; openLife(d, true, rec.notes || []); } };
+    show('book'); paintToons($('#v-book'));
   }
 
   // ---------- species introduction ----------
   let bioResume = false, bioBack = null;
-  function openBio(id) {
+  function openBio(id, stageId) {
     const sp = SP[id], b = (window.BIO || {})[id], o = oddsOf(id), p = photo(sp); if (!sp) return;
     if ($('#bio').hidden) { bioBack = document.activeElement; bioResume = !!(L && !L.dead && !L.paused && !$('#v-life').hidden); if (bioResume) { L.paused = true; clearTimeout(timer); } }
     const facts = [[T('bio.latin'), `<i>${esc(latin(sp))}</i>`], sp.size && [T('fSize'), esc(sp.size)], [T('fMax'), dur(sp.maxAge)], [T('fAlive'), `${cnNum(o.pop)} <span class="conf ${o.conf}">${T('conf')[o.conf]}</span>`], sp.maturity && sp.maturity < sp.maxAge ? [T('bio.mature'), dur(sp.maturity)] : null].filter(Boolean);
     const lin = b && b.lineage ? Object.entries(b.lineage).map(([r, [zh, la]]) => `<span><small>${T(`bio.rank.${r}`)}</small>${esc(EN ? la : zh)}</span>`).join('') : (sp.taxon ? `<span>${esc(sp.taxon)}</span>` : '');
-    const secs = b ? Object.entries(b.sections).map(([k, x]) => `<section><h3>${T(`bio.sec.${k}`)}</h3><p>${esc(EN ? x.en : x.zh)}</p><p class="bsrc">${x.refs.map((r) => b.refs[r] && `<a class="src" target="_blank" rel="noopener" href="${esc(b.refs[r].url)}">${esc(EN ? b.refs[r].source : (SRCZH[b.refs[r].source] || b.refs[r].source))} ↗</a>`).filter(Boolean).join(' ')}</p></section>`).join('') : `<p>${esc(about(id))}</p>`;
+    const secs = b ? Object.entries(b.sections).map(([k, x]) => `<section><h3>${(sp.kingdom === 'plant' && T(`bio.sec2.${k}`)) || T(`bio.sec.${k}`)}</h3><p>${esc(EN ? x.en : x.zh)}</p><p class="bsrc">${x.refs.map((r) => b.refs[r] && `<a class="src" target="_blank" rel="noopener" href="${esc(b.refs[r].url)}">${esc(EN ? b.refs[r].source : (SRCZH[b.refs[r].source] || b.refs[r].source))} ↗</a>`).filter(Boolean).join(' ')}</p></section>`).join('') : `<p>${esc(about(id))}</p>`;
     const cs = (sp.causes || []).filter((c) => (c.w ?? 1) > 0), tot = cs.reduce((t, c) => t + (c.w ?? 1), 0);
-    const life = `<section><h3>${T('bio.stages')}</h3><ol class="stagebar">${sp.stages.map((s, i) => `<li><b>${esc(s.name)}</b><small>${s.from ? T('bio.from', { d: dur(s.from) }) : T('bio.birth')}</small></li>`).join('')}</ol></section>
+    const life = `<section><h3>${T('bio.stages')}</h3><div class="gallery"><figure class="gmain"><img id="g-img" alt=""><figcaption id="g-cr"></figcaption></figure><div class="gcap"><b id="g-name"></b> <span id="g-when" class="muted"></span><p id="g-note" class="small muted"></p></div><div class="strip" id="g-strip">${sp.stages.map((x) => { const q = stagePhoto(sp, x); return `<button type="button" class="stg" data-g="${x.id}"><img loading="lazy" src="${q ? q.url : ''}" alt="" style="object-position:${(q && q.focus) || ''}"><span>${esc(x.name.replace(/[（(].*$/, ''))}</span></button>`; }).join('')}</div></div></section>
       <section><h3>${T('curveTitle')}</h3>${curveSVG(sp, null)}<p class="small muted">${T('src.curveKey')}</p>${(sp._ev.survival || []).map((a) => evLine(sp, a)).join('')}</section>
       <section><h3>${T('bio.causes')}</h3><ul class="parts">${cs.slice().sort((x, y) => (y.w ?? 1) - (x.w ?? 1)).slice(0, 6).map((c) => `<li><span>${esc(c.short)}</span></li>`).join('')}</ul><p class="small muted">${T('bio.causesNote')}</p>${Object.values(sp._ev.causeNotes || {}).slice(0, 4).map((a) => evLine(sp, a)).join('')}</section>
       ${(sp._ev.facts || []).length ? `<section><h3>${T('bio.research')}</h3>${sp._ev.facts.slice(0, 8).map((a) => evLine(sp, a)).join('')}</section>` : ''}`;
@@ -17337,14 +23993,19 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
       <dl class="kv biofacts">${facts.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${v}</dd>`).join('')}</dl>
       ${secs}${life}
       <div class="row"><button type="button" class="btn-primary sm" data-be="${id}">${T('bio.be')}</button><button type="button" class="btn" data-src="${id}">${T('why.allSources')}</button></div></div></article>`;
-    $('#bio').hidden = false; $('#bio').scrollTop = 0; document.body.classList.add('noscroll'); $('#bio .bioclose').focus();
+    const pickG = (sid) => { const st = sp.stages.find((x) => x.id === sid) || sp.stages[0], q = stagePhoto(sp, st), i = sp.stages.indexOf(st), nx = sp.stages[i + 1];
+      $('#g-img').src = q ? q.url : ''; $('#g-img').alt = st.name; $('#g-img').style.objectPosition = (q && q.focus) || ''; $('#g-cr').innerHTML = creditOf(q); $('#g-name').textContent = st.name;
+      $('#g-when').textContent = `${st.from ? T('bio.from', { d: dur(st.from) }) : T('bio.birth')}${nx ? T('bio.to', { d: dur(nx.from) }) : ''} · ${T('stageReached', { p: pct(S(sp, st.from)) })}`; $('#g-note').textContent = stageCap(q);
+      $('#g-strip').querySelectorAll('.stg').forEach((x) => x.classList.toggle('on', x.dataset.g === st.id)); };
+    $('#g-strip').onclick = (e) => { const b = e.target.closest('[data-g]'); if (b) pickG(b.dataset.g); };
+    pickG(stageId || (sp.stages.find((x, i) => !sp.stages[i + 1] || sp.stages[i + 1].from > (sp.maturity || 0)) || sp.stages[0]).id);
+    $('#bio').hidden = false; $('#bio').scrollTop = 0; if (stageId) requestAnimationFrame(() => $('.gallery').scrollIntoView({ block: 'center' })); document.body.classList.add('noscroll'); $('#bio .bioclose').focus();
   }
   function closeBio() {
     if ($('#bio').hidden) return; $('#bio').hidden = true; document.body.classList.remove('noscroll');
     if (bioResume && L && !L.dead) { L.paused = false; renderControls(); schedule(); } bioResume = false;
     if (bioBack && bioBack.focus) bioBack.focus();
   }
-  const SRCZH = { Wikipedia: '维基百科', 'Animal Diversity Web': '动物多样性网', NOAA: '美国国家海洋和大气管理局', 'NOAA Fisheries': '美国国家海洋渔业局', FAO: '联合国粮农组织', IUCN: '世界自然保护联盟', BTO: '英国鸟类学信托', 'British Trust for Ornithology': '英国鸟类学信托', 'Cornell Lab of Ornithology': '康奈尔鸟类学实验室', AmphibiaWeb: '两栖动物网', FishBase: '鱼类数据库', WHO: '世界卫生组织' };
   document.addEventListener('click', (e) => {
     const s = e.target.closest('[data-sp]'); if (s) { e.preventDefault(); return openBio(s.dataset.sp); }
     if (e.target.closest('.bioclose') || e.target === $('#bio')) return closeBio();
@@ -17389,8 +24050,8 @@ window.BIO = {"ant":{"sci":"Tetramorium caespitum","lineage":{"phylum":["节肢�
 
   renderHome();
   show('home');
-  readHash();
-  window.addEventListener('hashchange', readHash);
+  if (location.hash.length > 1) playReady.then(readHash);
+  window.addEventListener('hashchange', () => playReady.then(readHash));
   }
   boot();
 })();
